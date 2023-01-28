@@ -1,6 +1,7 @@
 import { BsArrowDown, BsArrowUp } from "react-icons/bs"
 
-const StatsCard = () => {
+const StatsCard = ({ userData }) => {
+    console.log(userData);
   return (
     <>
     <div className="container mx-auto p-0">
@@ -12,7 +13,7 @@ const StatsCard = () => {
                 </div>
                 <h2 className="font-bold text-[30px] text-gray20">Status</h2>
             </div>
-            <p className="pt-4 pb-4 font-normal text-sm">Your status is <span className="font-bold">active</span></p>
+                      <p className="pt-4 pb-4 font-normal text-sm">Your status is <span className="font-bold">{userData?.status}</span></p>
         </div>
         <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
             <div className="flex gap-[10px]">
@@ -39,7 +40,7 @@ const StatsCard = () => {
                 <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                     <BsArrowUp className="absolute text-btngreen font-semibold"/>
                 </div>
-                <h2 className="font-bold text-[30px] text-gray20">+124.97k</h2>
+                <h2 className="font-bold text-[30px] text-gray20">{userData?.total_interactions || 0}</h2>
             </div>
             <p className="pt-4 pb-4 font-normal text-sm">Total Interactions</p>
         </div>

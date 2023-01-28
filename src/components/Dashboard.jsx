@@ -21,6 +21,7 @@ export default function Dashboard() {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [FilterModal, setFilterModal] = useState(false);
+  const [user, setUser] = useState(null)
 
   let { id } = useParams();
 
@@ -28,6 +29,7 @@ export default function Dashboard() {
     const getData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return navigate("/login")
+      // setUser(user)
       // console.log(user);
       // console.log("🚀 ~ file: Dashboard.jsx:31 ~ getData ~ user", user)
       const { data, error } = await supabase
@@ -53,8 +55,9 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto px-6">
       <StatsSection
+        user={user}
         user_id={data?.[0]?.id}
-        username={data?.[0]?.username}
+        username={data?.[0]?.username} 
         avatar={data?.[0]?.profile_pic_url}
         isVerified={data?.[0]?.is_verified}
         name={data?.[0]?.full_name}
@@ -66,7 +69,7 @@ export default function Dashboard() {
         setFilterModal2={setFilterModalCallback}
         filterModal2={FilterModal}
       />
-      <StatsCard />
+      <StatsCard userData={data?.[0]} />
       <ChartSection
         data={data}
         isPrivate={false}
