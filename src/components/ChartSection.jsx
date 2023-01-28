@@ -4,8 +4,9 @@ import { FaDollarSign, FaFire, FaHeart, FaComment } from 'react-icons/fa'
 import { numFormatter, getRateDiff } from '../helpers';  */
 import GrowthChart from './GrowthChart';
 
-const ChartSection = ({ isPrivate ,data }
+const ChartSection = ({ isPrivate, data }
 ) => {
+  console.log(data);
   return (
     <div className="rounded-lg">
       {isPrivate ? <h4 style={{ textAlign: 'center' }}><i className="fas fa-lock" /> This account is private</h4> :

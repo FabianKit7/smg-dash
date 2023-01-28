@@ -61,7 +61,7 @@ export default function Subscriptions() {
       const { data: { user } } = await supabase.auth.getUser()
       // console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
 
-    const data = await supabase
+    await supabase
       .from("users")
       .update({ username,
         followers: userResults?.data[0].follower_count ,
