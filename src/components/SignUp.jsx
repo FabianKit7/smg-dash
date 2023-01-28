@@ -5,12 +5,12 @@ import sproutyLogo from "../images/sprouty.svg"
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
-  console.log("🚀 ~ file: SignUp.jsx:7 ~ SignUp ~ loading", loading)
+  // console.log("🚀 ~ file: SignUp.jsx:7 ~ SignUp ~ loading", loading)
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
-  console.log("🚀 ~ file: SignUp.jsx:8 ~ SignUp ~ email", email);
+  // console.log("🚀 ~ file: SignUp.jsx:8 ~ SignUp ~ email", email);
   const [password, setPassword] = useState("");
-  console.log("🚀 ~ file: SignUp.jsx:9 ~ SignUp ~ password", password);
+  // console.log("🚀 ~ file: SignUp.jsx:9 ~ SignUp ~ password", password);
 
 
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ export default function SignUp() {
             // finish_time: '', //"2023-01-27 17:51:16.819373"
             // total_interactions: 0,
           });
-        console.log("🚀 ~ file: SignUp.jsx:29 ~ handleLogin ~ error", error)
+        // console.log("🚀 ~ file: SignUp.jsx:29 ~ handleLogin ~ error", error)
         navigate("/search")
       }
 

@@ -59,7 +59,7 @@ export default function Subscriptions() {
 
     if (userResults.data[0].name === "INVALID_USERNAME") return setError(true);
       const { data: { user } } = await supabase.auth.getUser()
-      console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
+      // console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
 
     const data = await supabase
       .from("users")
@@ -72,10 +72,11 @@ export default function Subscriptions() {
         start_time : getStartingDay(),
         posts : userResults?.data[0].media_count
       }).eq('user_id', user.id);
-      console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+      // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
 
     setLoading(false);
-    navigate(`/dashboard/${user.id}`);
+    // navigate(`/dashboard/${user.id}`);
+    window.location = `/dashboard/${user.id}`;
   };
 
   return (
