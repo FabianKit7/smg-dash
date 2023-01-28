@@ -31,6 +31,8 @@ export default function Nav() {
     getData();
   }, []);
 
+  // console.log(data);
+
   return (
     <nav className="bg-white shadow-nav py-2">
       <div
@@ -58,32 +60,45 @@ export default function Nav() {
             <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}>{data.full_name}</p>
             {isOpen && (
               <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[7%]">
-                <li className={`py-2 px-6 ${activeLink === "Profile" ? "bg-activelink" : ""}`}
+                <Link className="font-normal text-sm" to={"/dashboard/" + data.user_id}
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setActiveLink("Profile");
                   }}
                 >
-                  <Link className="font-normal text-sm" to={"/dashboard/" + data.user_id}>
+                  <li className={`py-2 px-6 ${activeLink === "Profile" ? "bg-activelink" : ""}`}>
                     Profile
-                  </Link>
-                </li>
-                <li className={`py-2 px-6 ${activeLink === "Settings" ? "bg-activelink" : ""}`}
+                  </li>
+                </Link>
+
+                <Link className="font-normal text-sm" to={"/settings"}
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setActiveLink("Settings");
                   }}
                 >
-                  <Link className="font-normal text-sm" to={"/settings"}>
+                  <li className={`py-2 px-6 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
                     Settings
-                  </Link>
-                </li>
+                  </li>
+                </Link>
+
+                {data?.admin && <Link className="font-normal text-sm" to={"/admin"}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    setActiveLink("Admin");
+                  }}
+                >
+                  <li className={`py-2 px-6 ${activeLink === "Admin" ? "bg-activelink" : ""}`}>
+                    Admin
+                  </li>
+                </Link>}
+
                 <li className="py-2 px-6 cursor-pointer" onClick={async () => {
                   setIsOpen(!isOpen);
                   await supabase.auth.signOut();
-                  window.onbeforeunload = function() {
+                  window.onbeforeunload = function () {
                     localStorage.clear();
-                 }
+                  }
                   window.location.pathname = "/login";
                 }}>
                   <p className="font-normal text-sm" >

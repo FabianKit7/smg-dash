@@ -1,7 +1,7 @@
 import { BsArrowDown, BsArrowUp } from "react-icons/bs"
 
 const StatsCard = ({ userData }) => {
-    console.log(userData);
+    // console.log(userData);
   return (
     <>
     <div className="container mx-auto p-0">
