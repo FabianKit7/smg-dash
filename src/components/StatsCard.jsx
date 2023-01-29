@@ -4,7 +4,7 @@ const StatsCard = ({ userData }) => {
     // console.log(userData);
 
     function nFormatter(num, digits = 1) {
-        console.log(digits);
+        // console.log(digits);
         const lookup = [
             { value: 1, symbol: "" },
             { value: 1e3, symbol: "k" },

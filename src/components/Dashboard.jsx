@@ -29,7 +29,7 @@ export default function Dashboard() {
     const getData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return navigate("/login")
-      // setUser(user)
+      setUser(user)
       // console.log(user);
       // console.log("🚀 ~ file: Dashboard.jsx:31 ~ getData ~ user", user)
       const { data, error } = await supabase
@@ -51,12 +51,13 @@ export default function Dashboard() {
   }, [setFilterModal]);
 
   if (error) return <Error value={id} />;
-
+  
   return (
     <div className="container mx-auto px-6">
       <StatsSection
         user={user}
         user_id={data?.[0]?.id}
+        userId={data?.[0]?.user_id}
         username={data?.[0]?.username} 
         avatar={data?.[0]?.profile_pic_url}
         isVerified={data?.[0]?.is_verified}

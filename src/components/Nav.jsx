@@ -80,7 +80,7 @@ export default function Nav() {
                   <li className={`py-2 px-6 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
                     Settings
                   </li>
-                </Link>
+                </Link> 
 
                 {data?.admin && <Link className="font-normal text-sm" to={"/admin"}
                   onClick={() => {

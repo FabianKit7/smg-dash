@@ -9,9 +9,9 @@ import { supabase } from '../supabaseClient';
 
 Modal.setAppElement('#root');
 
-const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, user_id }) => {
+const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
-  const [mode, setMode] = useState('');
+  const [mode, setMode] = useState('auto');
   // const [user, setUser] = useState(null)
 
   const toggleValue = (newValue) => {
@@ -23,26 +23,25 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, user_id }) => {
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('user_id', user?.id).order('created_at', { ascending: false })
-      // console.log("🚀 ~ file: Dashboard.jsx:34 ~ getData ~ data", data)
-      // setUser(data)
+        .eq('user_id', userId).order('created_at', { ascending: false })
       setMode(data?.[0]?.userMode || 'auto');
       error && console.log(error);
     }
-    if (user && user?.id && user_id){
-      console.log(user_id);
+    if (userId){
       fetch();
     }
-  }, [user, user_id, modalIsOpen])
+  }, [user, userId, modalIsOpen])
 
   const handleSave = async () => {
     const { data, error } = await supabase
       .from('users')
       .update({ instagramPassword, userMode: mode })
-      .eq('id', user_id);
-    console.log(data, error && error);
+      .eq('user_id', userId);
+    error && console.log(data, error && error);
     setIsOpen(!modalIsOpen);
   }
+
+  // console.log(mode);
 
   return (
     <Modal
@@ -69,7 +68,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, user_id }) => {
               setInstagramPassword(e.target.value)
             }}
           />
-          <div className={`mt-7 rounded-[10px] border-[0.4px] border-solid flex ${mode === "auto" ? "flex-col md:flex-row gap-7 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "auto" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("auto")}>
+
+          <div className={`cursor-pointer mt-7 rounded-[10px] border-[0.4px] border-solid flex ${mode === "auto" ? "flex-col md:flex-row gap-7 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "auto" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("auto")}>
             <img className={mode !== "auto" ? "w-[30px] h-[30px]" : "w-[85px] h-[85px] m-auto md:mt-[3%] md:m-0"} src={flashImg} alt="" />
             <div className="text-gray20">
               <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Auto Mode</h1>
@@ -78,7 +78,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, user_id }) => {
               )}
             </div>
           </div>
-          <div className={`rounded-[10px] border-[0.4px] border-solid flex ${mode === "follow" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "follow" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("follow")}>
+
+          <div className={`cursor-pointer rounded-[10px] border-[0.4px] border-solid flex ${mode === "follow" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "follow" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("follow")}>
             <BsPersonPlus className={mode !== "follow" ? "align-middle text-3xl" : "text-[85px] m-auto md:mt-[4%] md:m-0"} />
             <div className="text-gray20">
               <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Follow Mode</h1>
@@ -93,7 +94,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, user_id }) => {
               )}
             </div>
           </div>
-          <div className={`rounded-[10px] border-[0.4px] border-solid flex ${mode === "unfollow" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "unfollow" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("unfollow")}>
+          <div className={`cursor-pointer rounded-[10px] border-[0.4px] border-solid flex ${mode === "unfollow" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "unfollow" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("unfollow")}>
             <BsPersonDash className={mode !== "unfollow" ? "align-middle text-3xl" : "text-[85px] m-auto md:mt-[2%] md:m-0"} />
             <div className="text-gray20">
               <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Unfollow Mode</h1>
@@ -108,7 +109,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, user_id }) => {
               )}
             </div>
           </div>
-          <div className={`rounded-[10px] border-[0.4px] border-solid flex ${mode === "off" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "off" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("off")}>
+          <div className={`cursor-pointer rounded-[10px] border-[0.4px] border-solid flex ${mode === "off" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "off" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("off")}>
             <IoPowerOutline className={mode !== "off" ? "align-middle text-3xl" : "text-[85px] m-auto md:mt-[3%] md:m-0"} />
             <div className="text-gray20">
               <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Turn Off</h1>

@@ -32,35 +32,7 @@ export default function SignUp() {
           .insert({
             user_id: data.user.id,
             full_name: fullName, 
-            username: data?.user?.username || '',
-            
-            
-            
-            // status: 'pending', // active, pending
-            // userMode: 'auto', // auto, folloew, unfolloew, off
-            // instagramPassword: '',
-            // targetingFilter: {
-            //   "followersMin": 1,
-            //   "followersMax": 20000,
-            //   "followingMin": 1,
-            //   "followingMax": 10000,
-            //   "mediaMin": 1,
-            //   "mediaMax": 1000,
-            //   "privacy": "All",
-            //   "gender": "All",
-            //   "lang": "All",
-            //   "margicFilter": false
-            // },
-            // "privacy": 'All', // All, Public, Private
-            // "gender": 'All', // All, Male, Female
-            // "lang": 'All', // All, English, French
-            // profile: {
-            //   "posts": 223,
-            //   "followers": 17200,
-            //   "following": 665
-            // },
-            // finish_time: '', //"2023-01-27 17:51:16.819373"
-            // total_interactions: 0,
+            username: data?.user?.username || ''
           });
         // console.log("🚀 ~ file: SignUp.jsx:29 ~ handleLogin ~ error", error)
         navigate("/search")

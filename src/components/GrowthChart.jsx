@@ -1,61 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { getThDayNameFromDate, numFormatter } from "../helpers";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dropdown from "react-bootstrap/Dropdown";
+import { supabase } from "../supabaseClient";
 
-export default function GrowthChart({ data }) {
+export default function GrowthChart({ userDefaultData }) {
   const [dropDown, setDropDown] = useState("7 days");
   // const categories = data
   //   .map((account) => getThDayNameFromDate(account.created_at))
   //   .reverse();
-  
-  const userData = [
-    {date: '2023/1/1', count: 23, user_id: 3},
-    {date: '2023/1/2', count: 344, user_id: 3},
-    {date: '2023/1/3', count: 34, user_id: 3},
-    {date: '2023/1/4', count: 233, user_id: 3},
-    {date: '2023/1/5', count: 423, user_id: 3},
-    {date: '2023/1/6', count: 253, user_id: 3},
-    {date: '2023/1/7', count: 923, user_id: 3},
-    {date: '2023/1/8', count: 723, user_id: 3},
-    {date: '2023/1/9', count: 423, user_id: 3},
-    {date: '2023/1/10', count: 623, user_id: 3},
-    {date: '2023/1/11', count: 233, user_id: 3},
-    {date: '2023/1/12', count: 723, user_id: 3},
-    {date: '2023/1/13', count: 523, user_id: 3},
-    {date: '2023/1/14', count: 323, user_id: 3},
-    {date: '2023/1/15', count: 223, user_id: 3},
-    {date: '2023/1/16', count: 273, user_id: 3},
-    {date: '2023/1/17', count: 523, user_id: 3},
-    {date: '2023/1/18', count: 423, user_id: 3},
-    {date: '2023/1/19', count: 223, user_id: 3},
-    {date: '2023/1/20', count: 623, user_id: 3},
-    {date: '2023/1/21', count: 423, user_id: 3},
-    {date: '2023/1/22', count: 23, user_id: 3},
-    {date: '2023/1/23', count: 623, user_id: 3},
-    {date: '2023/1/24', count: 423, user_id: 3},
-    {date: '2023/1/25', count: 323, user_id: 3},
-    {date: '2023/1/26', count: 223, user_id: 3},
-    {date: '2023/1/27', count: 623, user_id: 3},
-    {date: '2023/1/28', count: 423, user_id: 3},
-    {date: '2023/1/29', count: 623, user_id: 3},
-    {date: '2023/1/30', count: 323, user_id: 3},
-    {date: '2023/1/31', count: 623, user_id: 3},
-  ]
+  const [sessionsData, setSessionsData] = useState([])
+
+  // console.log(userDefaultData?.[0]?.user_id);
+  useEffect(() => {
+    const fetch = async () => {
+      const { data, error } = await supabase
+        .from('sessions')
+        .select()
+        .eq('user_id', userDefaultData?.[0]?.user_id)
+        .order('created_at', { ascending: true })
+      error && console.log(error);
+      // console.log(data);
+      setSessionsData(data)
+    }
+    const id = userDefaultData?.[0]?.user_id;
+    if(id){
+      fetch()
+    }
+  }, [userDefaultData])
+
   const followersData = []
   const categories = []
   const dl = dropDown.split(' ')
-  userData.slice(-parseInt(dl[0])).forEach(items => {
-    categories.push(items.date);
-    followersData.push(items.count);
+  sessionsData?.slice(-parseInt(dl[0])).forEach(items => {
+    const day = new Date(items.created_at).getDate()
+    const month = new Date(items.created_at).getMonth()+1
+    const year = new Date(items.created_at).getFullYear()
+    categories.push(`${year}/${month}/${day}`);
+    followersData.push(items.total_followed);
   })
+  // userData.slice(-parseInt(dl[0])).forEach(items => {
+  //   categories.push(items.date);
+  //   followersData.push(items.count);
+  // })
 
   // const followersData = data?.map((account) => account?.followers).reverse();
   // console.log(followersData);
 
-  
+
 
   const options = {
     dataLabels: {

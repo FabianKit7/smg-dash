@@ -37,7 +37,12 @@ export default function Login() {
       
       if (error) throw error
     } catch (error) {
-      alert(error.error_description || error.message)
+      console.log(error);
+      if (error?.message === `Cannot read properties of null (reading 'id')`){
+        alert('User not found please try again or register')
+      }else{
+        alert('An error occurred, please try again')
+      }
     } finally {
     //   setLoading(false)
     }

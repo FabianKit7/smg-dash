@@ -75,6 +75,7 @@ export default function Subscriptions() {
   }, [])
 
   const handleOnClick = async () => {
+    // console.log('yo');
     setLoading(true);
 
     if (userResults.data[0].name === "INVALID_USERNAME") return setError(true);
@@ -246,6 +247,7 @@ export default function Subscriptions() {
                 {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Card / Debit Card"}  </span>
                 </button>}
+
                 {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
                   <span>Card / Debit Card</span>
                 </button>}

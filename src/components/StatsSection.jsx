@@ -7,7 +7,7 @@ import ModalNew from "./ModalNew"
 import TargetingFilterModal from "./TargetingFilterModal"
 
  
-const StatsSection = ({ user, avatar, username, isVerified, name, bio, url, user_id, currMediaCount, currFollowers, currFollowing}) => {
+const StatsSection = ({ user, avatar, username, isVerified, name, bio, url, user_id, userId, currMediaCount, currFollowers, currFollowing}) => {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [FilterModal, setFilterModal] = useState(false);
 
@@ -60,15 +60,16 @@ const StatsSection = ({ user, avatar, username, isVerified, name, bio, url, user
               setIsOpen={setIsOpen}
               avatar={avatar}
               user={user}
-              user_id={user_id}
+              userId={userId}
               />
 
               <TargetingFilterModal
                 show={FilterModal}
                 onHide={() => setFilterModal(false)}
                 setFilterModal={setFilterModal}
+                filtermodal={FilterModal}
                 user={user}
-                user_id={user_id}
+                user_id={userId}
               />
             </div>
           </div>

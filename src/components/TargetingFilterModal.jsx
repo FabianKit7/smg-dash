@@ -28,49 +28,31 @@ export default function TargetingFilterModal(props, { min, max }) {
   const [lang, setLang] = useState('All');
   // console.log("🚀 ~ file: CenterModal.jsx:11 ~ CenterModal ~ value", value);
 
-  const { setFilterModal, user, user_id } = props;
+  const { setFilterModal, filtermodal, user, user_id } = props;
 
   const setFilterModalCallback = useCallback(() => {
     setFilterModal(false);
   }, [setFilterModal]);
 
   const handleSaveAndClose = () => {
-
-    // Save the values to supabase
-    // Code to save to supabase goes here
-
-    // console.log("followerMinValue: ", followerMinValue);
-    // console.log("followerMaxValue: ", followerMaxValue);
-    // console.log("followingMinValue: ", followingMinValue);
-    // console.log("followingMaxValue: ", followingMaxValue);
-    // console.log("mediaMinValue: ", mediaMinValue);
-    // console.log("mediaMaxValue: ", mediaMaxValue);
-
-    // localStorage.setItem('followerMinValue', followerMinValue.toString());
-    // localStorage.setItem('followerMaxValue', followerMaxValue.toString());
-    // localStorage.setItem('followingMinValue', followingMinValue.toString());
-    // localStorage.setItem('followingMaxValue', followingMaxValue.toString());
-    // localStorage.setItem('mediaMinValue', mediaMinValue.toString());
-    // localStorage.setItem('mediaMaxValue', mediaMaxValue.toString());
-    // setFilterModalCallback()
-    // console.log(user, user_id)
     if (user_id) {
       handleSave()
     }
-
   }
 
+  
   useEffect(() => {
     const fetch = async () => {
       const { data, error } = await supabase
-        .from('users')
-        .select()
-        .eq('user_id', user_id).order('created_at', { ascending: false })
-      // console.log("🚀 ~ file: Dashboard.jsx:34 ~ getData ~ data", data)
-      // setUser(data)
-      setPrivacy(data?.[0]?.privacy || 'All');
-      setGender(data?.[0]?.gender || 'All');
-      setLang(data?.[0]?.lang || 'All');
+      .from('users')
+      .select()
+      .eq('user_id', user_id).order('created_at', { ascending: false })
+
+      // console.log(data?.[0]?.targetingFilter);
+
+      setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
+      setGender(data?.[0]?.targetingFilter.gender || 'All');
+      setLang(data?.[0]?.targetingFilter.lang || 'All');
       setFollowerMinValue(data?.[0]?.targetingFilter.followersMin || 1);
       setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax || 20000);
       setFollowingMinValue(data?.[0]?.targetingFilter.followingMin || 1);
@@ -83,7 +65,7 @@ export default function TargetingFilterModal(props, { min, max }) {
       // console.log(user_id);
       fetch();
     }
-  }, [user, user_id])
+  }, [user, user_id, filtermodal])
 
   const handleSave = async () => {
     const targetingFilter = {
@@ -103,9 +85,9 @@ export default function TargetingFilterModal(props, { min, max }) {
       .from('users')
       // .update({ targetingFilter: JSON.stringify(targetingFilter) })
       .update({ targetingFilter })
-      .eq('id', user_id)
-      .select('*');
-    console.log(data, error && error);
+      .eq('user_id', user_id)
+    // .select('*');
+    // console.log(data, error && error);
     // console.log(error && error);
     setFilterModalCallback()
   }
@@ -208,10 +190,6 @@ export default function TargetingFilterModal(props, { min, max }) {
                     setPrivacy(e.target.value);
                   }}
                 >
-                  {/* <option>Open this select menu</option> */}
-                  {/* <option selected={privacy === "All"} value="All">All</option>
-                  <option selected={privacy === "All"} value="Public">Public</option>
-                  <option selected={privacy === "Private"} value="Private">Private</option> */}
                   <option value="All">All</option>
                   <option value="Public">Public</option>
                   <option value="Private">Private</option>
@@ -226,10 +204,9 @@ export default function TargetingFilterModal(props, { min, max }) {
                     setGender(e.target.value);
                   }}
                 >
-                  {/* <option>Open this select menu</option> */}
-                  <option selected={gender === "All"} value="All">All</option>
-                  <option selected={gender === "Male"} value="Male">Male</option>
-                  <option selected={gender === "Female"} value="Female">Female</option>
+                  <option value="All">All</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                 </Form.Select>
               </div>
 
@@ -242,9 +219,9 @@ export default function TargetingFilterModal(props, { min, max }) {
                   }}
                 >
                   {/* <option>Open this select menu</option> */}
-                  <option selected={lang === "All"} value="All">All</option>
-                  <option selected={lang === "English"} value="English">English</option>
-                  <option selected={lang === "French"} value="French">French</option>
+                  <option value="All">All</option>
+                  <option value="English">English</option>
+                  <option value="French">French</option>
                 </Form.Select>
               </div>
 

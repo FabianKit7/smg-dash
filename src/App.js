@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Home from "./components/Home";
 import Settings from "./components/Settings/Settings";
+import Admin from "./components/Admin/Admin";
 import Nav from "./components/Nav";
 
 const pathname = window.location.pathname;
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" exact element={<Login />} />
         <Route path="/signUp" exact element={<SignUp />} />
         <Route path="/settings" exact element={<Settings />} />
+        <Route path="/admin" exact element={<Admin />} />
         <Route
           path="/subscriptions/:username"
           exact

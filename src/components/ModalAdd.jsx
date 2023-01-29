@@ -38,7 +38,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
           res.error
         );
-        console.log(res);
+        // console.log(res);
 
       setAccountName("");
       setSelectedAccountName("");
