@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import sproutyLogo from "../images/sprouty.svg"
 
@@ -7,7 +7,16 @@ export default function Login() {
 //   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getData = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) return navigate(`/dashboard/${user?.id}`)
+    };
+
+    getData();
+  }, [navigate]);
 
   const handleLogin = async () => {
 

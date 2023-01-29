@@ -17,7 +17,8 @@ function App() {
       {pathname === "/login" || pathname === "/signUp" ? "" : <Nav />}
       {/* <Nav /> */}
       <Routes>
-        <Route index element={<Home />} />
+        {/* <Route index element={<Home />} /> */}
+        <Route index element={<Login />} />
         <Route path="/search" element={<Search />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/signUp" exact element={<SignUp />} />
