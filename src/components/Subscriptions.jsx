@@ -75,7 +75,7 @@ export default function Subscriptions() {
   }, [])
 
   const handleOnClick = async () => {
-    // setLoading(true);
+    setLoading(true);
 
     if (userResults.data[0].name === "INVALID_USERNAME") return setError(true);
     const { data: { user } } = await supabase.auth.getUser()
@@ -86,23 +86,23 @@ export default function Subscriptions() {
         console.log('chargebee token', data.token)
       });
 
-    // await supabase
-    //   .from("users")
-    //   .update({
-    //     username,
-    //     followers: userResults?.data[0].follower_count,
-    //     following: userResults?.data[0].following_count,
-    //     profile_pic_url: userResults?.data[0]?.profile_pic_url,
-    //     is_verified: userResults?.data[0]?.is_verified,
-    //     biography: userResults?.data[0]?.biography,
-    //     start_time: getStartingDay(),
-    //     posts: userResults?.data[0].media_count
-    //   }).eq('user_id', user.id);
+    await supabase
+       .from("users")
+       .update({
+         username,
+         followers: userResults?.data[0].follower_count,
+         following: userResults?.data[0].following_count,
+         profile_pic_url: userResults?.data[0]?.profile_pic_url,
+         is_verified: userResults?.data[0]?.is_verified,
+         biography: userResults?.data[0]?.biography,
+         start_time: getStartingDay(),
+         posts: userResults?.data[0].media_count
+       }).eq('user_id', user.id);
     // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
 
-    // setLoading(false);
+     setLoading(false);
     // navigate(`/dashboard/${user.id}`);
-    // window.location = `/dashboard/${user.id}`;
+     window.location = `/dashboard/${user.id}`;
   };
 
 
