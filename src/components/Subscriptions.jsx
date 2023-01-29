@@ -61,7 +61,7 @@ export default function Subscriptions() {
   const cardRef = useRef();
 
   useEffect(() => {
-    if (!window?.Chargebee?.getInstance()){
+    // if (!window?.Chargebee?.getInstance()){
       console.log('happening....');
       window.Chargebee.init({
         // site: 'http://localhost:3000', //"sproutysocial",
@@ -71,7 +71,7 @@ export default function Subscriptions() {
       const instance = window?.Chargebee?.getInstance()
       console.log(instance);
       setCbInstance(instance);
-    }
+    // }
   }, [])
 
   const handleOnClick = async () => {
