@@ -65,11 +65,11 @@ export default function Subscriptions() {
       console.log('happening....');
       window.Chargebee.init({
         // site: 'http://localhost:3000', //"sproutysocial",
-        site: "sproutysocial",
+        site: "Sprouty Social",
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE"
       })
       const instance = window?.Chargebee?.getInstance()
-      console.log(instance);
+      // console.log(instance);
       setCbInstance(instance);
     // }
   }, [])
