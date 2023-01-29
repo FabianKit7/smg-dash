@@ -1075,6 +1075,11 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@chargebee/chargebee-js-react-wrapper@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@chargebee/chargebee-js-react-wrapper/-/chargebee-js-react-wrapper-0.6.2.tgz#55326ca19ec4555f40a7d053fddc4d4109e35fe0"
+  integrity sha512-Rsr+49cTm+WzFuo4dBobsKbO4/MCGFBNEdGH5NrWQXsn60A1+DRHf6/MZQDmORNVHKJgoVrLV6UpWTf+prpA4g==
+
 "@csstools/normalize.css@*":
   version "12.0.0"
   resolved "https://registry.npmjs.org/@csstools/normalize.css/-/normalize.css-12.0.0.tgz"
