@@ -14,7 +14,7 @@ const pathname = window.location.pathname;
 function App() {
   return (
     <>
-      {pathname === "/login" || pathname === "/signUp" ? "" : <Nav />}
+      {pathname === "/" || pathname === "/login" || pathname === "/signUp" ? "" : <Nav />}
       {/* <Nav /> */}
       <Routes>
         {/* <Route index element={<Home />} /> */}
