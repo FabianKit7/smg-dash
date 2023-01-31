@@ -13,17 +13,17 @@ export default function GrowthChart({ userDefaultData }) {
   //   .reverse();
   const [sessionsData, setSessionsData] = useState([])
 
-  // console.log(userDefaultData?.[0]?.user_id);
+  // console.log(userDefaultData?.[0]?.username);
   useEffect(() => {
     const fetch = async () => {
       const { data, error } = await supabase
         .from('sessions')
         .select()
-        .eq('user_id', userDefaultData?.[0]?.user_id)
-        .order('created_at', { ascending: true })
+        .eq('username', userDefaultData?.[0]?.username)
       error && console.log(error);
-      // console.log(data);
-      setSessionsData(data)
+      const d = JSON.parse(data[0].data)
+      // console.log(d);
+      setSessionsData(d)
     }
     const id = userDefaultData?.[0]?.user_id;
     if(id){
@@ -35,16 +35,14 @@ export default function GrowthChart({ userDefaultData }) {
   const categories = []
   const dl = dropDown.split(' ')
   sessionsData?.slice(-parseInt(dl[0])).forEach(items => {
-    const day = new Date(items.created_at).getDate()
-    const month = new Date(items.created_at).getMonth()+1
-    const year = new Date(items.created_at).getFullYear()
+    const day = new Date(items.finish_time).getDate()
+    const month = new Date(items.finish_time).getMonth()+1
+    const year = new Date(items.finish_time).getFullYear()
     categories.push(`${year}/${month}/${day}`);
-    followersData.push(items.total_followed);
+    followersData.push(items.profile.followers);
   })
-  // userData.slice(-parseInt(dl[0])).forEach(items => {
-  //   categories.push(items.date);
-  //   followersData.push(items.count);
-  // })
+
+  
 
   // const followersData = data?.map((account) => account?.followers).reverse();
   // console.log(followersData);

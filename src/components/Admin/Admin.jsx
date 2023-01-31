@@ -5,6 +5,7 @@ import { supabase } from "../../supabaseClient";
 
 export default function Admin() {
   const [files, setFiles] = useState([]);
+  const [username, setUsername] = useState('')
   const [Loading, setLoading] = useState(false);
   const [reading, setReading] = useState(false)
 
@@ -14,7 +15,9 @@ export default function Admin() {
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = e => {
       // console.log("e.target.result", e.target.result);
-      setFiles(JSON.parse(e.target.result));
+      const data = JSON.parse(e.target.result)
+      setUsername(data[0].args.username);
+      setFiles(e.target.result);
     };
     setReading(false)
   };
@@ -22,29 +25,38 @@ export default function Admin() {
   const handleUploadSessionFile = async () => {
     setLoading(true);
     // console.log(files);
-    await files.reduce(async (ref, data) => {
-      await ref;
-      const { error } = await supabase
-        .from("sessions")
-        .insert({
-          user_id: data.id,
-          start_time: data.start_time,
-          finish_time: data.finish_time,
-          total_interactions: data.total_interactions,
-          successful_interactions: data.successful_interactions,
-          total_followed: data.total_followed,
-          total_likes: data.total_likes,
-          total_comments: data.total_comments,
-          total_pm: data.total_pm,
-          total_watched: data.total_watched,
-          total_unfollowed: data.total_unfollowed,
-          total_scraped: data.total_scraped,
-        })
-      error && console.log(error)
-    }, Promise.resolve());
-
+    // await files.reduce(async (ref, data) => {
+    //   await ref;
+    //   const { error } = await supabase
+    //     .from("sessions")
+    //     .upsert({
+    //       username: data.args.username,
+    //       start_time: data.start_time,
+    //       finish_time: data.finish_time,
+    //       total_interactions: data.total_interactions,
+    //       successful_interactions: data.successful_interactions,
+    //       total_followed: data.total_followed,
+    //       total_likes: data.total_likes,
+    //       total_comments: data.total_comments,
+    //       total_pm: data.total_pm,
+    //       total_watched: data.total_watched,
+    //       total_unfollowed: data.total_unfollowed,
+    //       total_scraped: data.total_scraped,
+    //       profile: data.profile
+    //     })
+    //   error && console.log(error)
+    // }, Promise.resolve());
+    
+    const { error } = await supabase
+      .from("sessions")
+      .upsert({
+        username: username,
+        data: files
+      })
+    error && console.log(error);
+    
     alert('Upload successfull!');
-    document.getElementById('input').value ='';
+    document.getElementById('input').value = '';
     setFiles([])
     setLoading(false);
   }
@@ -59,7 +71,7 @@ export default function Admin() {
           {reading && (<Spinner animation="border" />)}
         </div>
 
-        <button className="bg-secondaryblue w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold"
+        <button className={`${files.length > 0 ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
           onClick={handleUploadSessionFile}
         >
           {Loading ? "Loading " : "Upload"}

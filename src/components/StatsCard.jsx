@@ -54,6 +54,11 @@ const StatsCard = ({ userData }) => {
                             <h2 className="font-bold text-[30px] text-gray20">Status</h2>
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Your status is <span className="font-bold">{userData?.status}</span></p>
+                        <p className="font-normal text-sm opacity-40">
+                            {userData?.status === 'pending' && 'Please input your password in order to allow us to log in.'}
+                            {userData?.status === 'paused' && 'Please contact support or renew your plan'}
+                            {userData?.status === 'active' && 'Your status is Active.'}
+                        </p>
                     </div>
                     <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">

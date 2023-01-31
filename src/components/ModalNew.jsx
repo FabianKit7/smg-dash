@@ -25,6 +25,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
         .select()
         .eq('user_id', userId).order('created_at', { ascending: false })
       setMode(data?.[0]?.userMode || 'auto');
+      setInstagramPassword(data?.[0]?.instagramPassword)
       error && console.log(error);
     }
     if (userId){
@@ -33,12 +34,18 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
   }, [user, userId, modalIsOpen])
 
   const handleSave = async () => {
+    var d = { instagramPassword, userMode: mode }
+    if (instagramPassword){
+     d = {...d, status: 'active'}
+    }
+
     const { data, error } = await supabase
       .from('users')
-      .update({ instagramPassword, userMode: mode })
+      .update(d)
       .eq('user_id', userId);
     error && console.log(data, error && error);
-    setIsOpen(!modalIsOpen);
+    window.location.reload()
+    // setIsOpen(!modalIsOpen);
   }
 
   // console.log(mode);
