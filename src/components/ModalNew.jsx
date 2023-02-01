@@ -25,7 +25,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
         .select()
         .eq('user_id', userId).order('created_at', { ascending: false })
       setMode(data?.[0]?.userMode || 'auto');
-      setInstagramPassword(data?.[0]?.instagramPassword)
+      setInstagramPassword(data?.[0]?.instagramPassword);
       error && console.log(error);
     }
     if (userId){

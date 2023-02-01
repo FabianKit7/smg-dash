@@ -2,9 +2,12 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Col, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { IoClose } from 'react-icons/io5';
-import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
-import "../../src/modalsettings.css"
+import MultiRangeSlider, { ChangeResult } from "multi-range-slider-react";
+import { FaMagic } from "react-icons/fa"
+import "../modalsettings.css"
+import "../MultiRangeSlider.css"
 import { supabase } from "../supabaseClient";
+
 
 export default function TargetingFilterModal(props, { min, max }) {
   // const stored = {
@@ -15,81 +18,40 @@ export default function TargetingFilterModal(props, { min, max }) {
   //   mediaMin: parseInt(localStorage.getItem('mediaMinValue'), 10) || 1,
   //   mediaMax: parseInt(localStorage.getItem('mediaMaxValue'), 10) || 1000,
   // }
+  const { setFilterModal, filtermodal, user, user_id,
+    followerMinValueD, followerMaxValueD, followingMinValueD, followingMaxValueD, mediaMinValueD, mediaMaxValueD, margicD, privacyD, genderD, langD } = props;
 
-  const [followerMinValue, setFollowerMinValue] = useState(0);
-  const [followerMaxValue, setFollowerMaxValue] = useState(0);
-  const [followingMinValue, setFollowingMinValue] = useState(0);
-  const [followingMaxValue, setFollowingMaxValue] = useState(0);
-  const [mediaMinValue, setMediaMinValue] = useState(0);
-  const [mediaMaxValue, setMediaMaxValue] = useState(0);
-  const [margic, setMargic] = useState(true);
-  const [privacy, setPrivacy] = useState('All');
-  const [gender, setGender] = useState('All');
-  const [lang, setLang] = useState('All');
-  // console.log("🚀 ~ file: CenterModal.jsx:11 ~ CenterModal ~ value", value);
+  const [followerMinValue, setFollowerMinValue] = useState(followerMinValueD);
+  const [followerMaxValue, setFollowerMaxValue] = useState(followerMaxValueD);
+  const [followingMinValue, setFollowingMinValue] = useState(followingMinValueD);
+  const [followingMaxValue, setFollowingMaxValue] = useState(followingMaxValueD);
+  const [mediaMinValue, setMediaMinValue] = useState(mediaMinValueD);
+  const [mediaMaxValue, setMediaMaxValue] = useState(mediaMaxValueD);
+  const [margic, setMargic] = useState(margicD || true);
+  const [privacy, setPrivacy] = useState(privacyD || 'All');
+  const [gender, setGender] = useState(genderD || 'All');
+  const [lang, setLang] = useState(langD || 'All');
 
-  const { setFilterModal, filtermodal, user, user_id } = props;
-
-  const setFilterModalCallback = useCallback(() => {
-    setFilterModal(false);
-  }, [setFilterModal]);
-
-  const handleSaveAndClose = () => {
-    if (user_id) {
-      handleSave()
-    }
-  }
-
-  
-  useEffect(() => {
-    const fetch = async () => {
-      const { data, error } = await supabase
-      .from('users')
-      .select()
-      .eq('user_id', user_id).order('created_at', { ascending: false })
-
-      // console.log(data?.[0]?.targetingFilter);
-
-      setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
-      setGender(data?.[0]?.targetingFilter.gender || 'All');
-      setLang(data?.[0]?.targetingFilter.lang || 'All');
-      setFollowerMinValue(data?.[0]?.targetingFilter.followersMin || 1);
-      setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax || 20000);
-      setFollowingMinValue(data?.[0]?.targetingFilter.followingMin || 1);
-      setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax || 7500);
-      setMediaMinValue(data?.[0]?.targetingFilter.mediaMin || 1);
-      setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax || 1000);
-      error && console.log(error);
-    }
-    if (user && user?.id && user_id) {
-      // console.log(user_id);
-      fetch();
-    }
-  }, [user, user_id, filtermodal])
-
-  const handleSave = async () => {
+  const handleSaveAndClose = async () => {
     const targetingFilter = {
-      "followersMin": 1 || followerMinValue,
-      "followersMax": 20000 || followerMaxValue,
-      "followingMin": 1 || followingMaxValue,
-      "followingMax": 7500 || followingMaxValue,
-      "mediaMin": 1 || mediaMinValue,
-      "mediaMax": 1000 || mediaMaxValue,
+      "followersMin": followerMinValue,
+      "followersMax": followerMaxValue,
+      "followingMin": followingMinValue,
+      "followingMax": followingMaxValue,
+      "mediaMin": mediaMinValue,
+      "mediaMax": mediaMaxValue,
       "privacy": privacy,
       "gender": gender,
       "lang": lang,
       "margicFilter": margic
     }
-    // console.log(JSON.stringify(targetingFilter));
-    const { data, error } = await supabase
+    
+    const { error } = await supabase
       .from('users')
-      // .update({ targetingFilter: JSON.stringify(targetingFilter) })
       .update({ targetingFilter })
       .eq('user_id', user_id)
-    // .select('*');
-    // console.log(data, error && error);
-    // console.log(error && error);
-    setFilterModalCallback()
+    error && console.log(error);
+    setFilterModal(false);
   }
 
   return (
@@ -109,7 +71,7 @@ export default function TargetingFilterModal(props, { min, max }) {
         <div className="flex justify-end">
           <IoClose
             className="text-[30px] text-[#8c8c8c]"
-            onClick={setFilterModalCallback}
+            onClick={() => setFilterModal(false)}
           />
         </div>
       </Modal.Header>
@@ -117,65 +79,77 @@ export default function TargetingFilterModal(props, { min, max }) {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-12 p-3">
             <div className="flex flex-col justify-content-between">
-              <div className="flex flex-col gap-2 w-[80%]">
+              <div className="flex flex-col w-[80%] relative">
                 <label className="font-semibold text-base">Followers</label>
-                <MultiRangeSlider
-                  margic={margic}
-                  setMargic={setMargic}
-                  className="range mb-2"
-                  title="followers"
-                  min={followerMinValue}
-                  max={followerMinValue}
-                  onChange={({ min, max }) => {
-                    setFollowerMinValue(min);
-                    setFollowerMaxValue(max);
-                    if (min > followerMinValue && max < followerMaxValue) {
-                      console.log(min);
-                      setMargic(false);
-                    }
-                  }}
-                />
+                <div className="mrslider relative">
+                  <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
+                    <FaMagic className="text-white" />
+                  </div>
+                  <MultiRangeSlider
+                    min={1}
+                    max={20000}
+                    minValue={followerMinValue}
+                    maxValue={followerMaxValue}
+                    // step={100}
+                    // onInput={(e) => { }}
+                    onChange={(e) => {
+                      setFollowerMinValue(e.minValue);
+                      setFollowerMaxValue(e.maxValue);
+                    }}
+                    label={true}
+                    ruler={false}
+                  />
+
+                </div>
               </div>
-              <div className="flex flex-col gap-2 w-[80%] mt-4">
+
+              <div className="flex flex-col w-[80%]">
                 <label className="font-semibold text-base mt-4">Following</label>
-                <MultiRangeSlider
-                  margic={margic}
-                  setMargic={setMargic}
-                  className="range mb-2"
-                  title="followers"
-                  min={followingMinValue}
-                  max={followingMinValue}
-                  onChange={({ min, max }) => {
-                    setFollowingMinValue(min);
-                    setFollowingMaxValue(max);
-                    if (min > followingMinValue && max < followingMaxValue) {
-                      console.log(min);
-                      setMargic(false);
-                    }
-                  }}
-                />
+                <div className="mrslider relative">
+                  <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
+                    <FaMagic className="text-white" />
+                  </div>
+                  <MultiRangeSlider
+                    min={1}
+                    max={7500}
+                    minValue={followingMinValue}
+                    maxValue={followingMaxValue}
+                    // step={100}
+                    // onInput={(e) => { }}
+                    onChange={(e) => {
+                      setFollowingMinValue(e.minValue);
+                      setFollowingMaxValue(e.maxValue);
+                    }}
+                    label={true}
+                    ruler={false}
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-2 w-[80%] mt-4 mb-3">
+              <div className="flex flex-col w-[80%]">
                 <label className="font-semibold text-base mt-4">Media</label>
-                <MultiRangeSlider
-                  margic={margic}
-                  setMargic={setMargic}
-                  className="range mb-2"
-                  title="followers"
-                  min={mediaMinValue}
-                  max={mediaMaxValue}
-                  onChange={({ min, max }) => {
-                    setMediaMinValue(min);
-                    setMediaMaxValue(max);
-                    if (min > mediaMinValue && max < mediaMaxValue) {
-                      console.log(min);
-                      setMargic(false);
-                    }
-                  }}
-                />
+                <div className="mrslider relative">
+                  <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
+                    <FaMagic className="text-white" />
+                  </div>
+                  <MultiRangeSlider
+                    min={1}
+                    max={1000}
+                    minValue={mediaMinValue}
+                    maxValue={mediaMaxValue}
+                    // step={100}
+                    // onInput={(e) => { }}
+                    onChange={(e) => {
+                      setMediaMinValue(e.minValue);
+                      setMediaMaxValue(e.maxValue);
+                    }}
+                    label={true}
+                    ruler={false}
+                  />
+                </div>
               </div>
+
               <button
-                className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
+                className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} w-full mt-5 rounded-[10px] py-4 text-base text-white font-bold`}
                 onClick={() => { setMargic(!margic) }}
               >Magic Filters: {margic ? 'ON' : 'OFF'}</button>
             </div>

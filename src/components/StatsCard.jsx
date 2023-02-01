@@ -1,8 +1,68 @@
+import { useEffect, useState } from "react";
 import { BsArrowDown, BsArrowUp } from "react-icons/bs"
 
-const StatsCard = ({ userData }) => {
+const StatsCard = ({ userData, sessionsData }) => {
     // console.log(userData);
+    const [_7daysGrowth, set_7daysGrowth] = useState(0)
+    const [_7daysGrowthPercent, set_7daysGrowthPercent] = useState(0)
+    const [_30daysGrowth, set_30daysGrowth] = useState(0)
+    const [_30daysGrowthPercent, set_30daysGrowthPercent] = useState(0)
+    const total_interactions = sessionsData[0]?.total_interactions
+    // console.log(sessionsData[0]);
+    const data = sessionsData.reverse();
+    const last7days = data.slice(0, 7)
+    const last7days_prev = data.slice(8, 15)
+    const last30days = data.slice(0, 30)
+    const last30days_prev = data.slice(31, 61)
 
+    useEffect(() => {
+        var last7daysSum = 0
+        var prev_last7daysSum = 0
+        var last30daysSum = 0
+        var prev_last30daysSum = 0
+        last7days.forEach(item => {
+            last7daysSum += item.profile.followers;
+        });
+        last7days_prev.forEach(item => {
+            prev_last7daysSum += item.profile.followers;
+        });
+        last30days.forEach(item => {
+            last30daysSum += item.profile.followers;
+        });
+        last30days_prev.forEach(item => {
+            prev_last30daysSum += item.profile.followers;
+        });
+
+        const minMax = (arr) => {
+            let arr1 = [];
+            if (arr) {
+                arr1.push(Math.min(...arr));
+                arr1.push(Math.max(...arr));
+                return arr1
+            }
+            return null;
+        };
+        const percentInc = (current, prev) => {
+            const minMaxValues = minMax([current, prev]);
+            if (minMaxValues) {
+                const a = minMaxValues[0];
+                const b = minMaxValues[1];
+
+                return `${prev > current ? '-' : '+'}${((a / b) * 100).toFixed(2)}`
+            }
+            return 0;
+        }
+
+        set_7daysGrowthPercent(percentInc(last7daysSum, prev_last7daysSum))
+        set_30daysGrowthPercent(percentInc(last30daysSum, prev_last30daysSum))
+
+        set_7daysGrowth(last7daysSum - prev_last7daysSum)
+        set_30daysGrowth(last30daysSum - prev_last30daysSum)
+
+    }, [last30days, last30days_prev, last7days, last7days_prev])
+
+
+    // console.log(last7daysSum);
     function nFormatter(num, digits = 1) {
         // console.log(digits);
         const lookup = [
@@ -19,27 +79,6 @@ const StatsCard = ({ userData }) => {
             return num >= item.value;
         });
         return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
-    }
-
-    const minMax = (arr) => {
-        let arr1 = [];
-        if (arr) {
-            arr1.push(Math.min(...arr));
-            arr1.push(Math.max(...arr));
-            return arr1
-        }
-        return null;
-    };
-
-    const percentInc = (current, prev) => {
-        const minMaxValues = minMax([current, prev]);
-        if (minMaxValues) {
-            const a = minMaxValues[0];
-            const b = minMaxValues[1];
-
-            return `${prev > current ? '-' : '+'}${((a / b) * 100).toFixed(2)}`
-        }
-        return 0;
     }
 
     return (
@@ -62,46 +101,54 @@ const StatsCard = ({ userData }) => {
                     </div>
                     <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
-                            {userData?.last_7_days_followers > 0 && userData?.last_7_days_followers_prev > 0 && <>{userData?.last_7_days_followers > userData?.last_7_days_followers_prev ?
-                                <><div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
+                            {_7daysGrowth >= 0 ?
+                                <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                     <BsArrowUp className="absolute text-btngreen font-semibold" />
-                                </div> <h2 className="font-bold text-[30px] text-gray20">+</h2></>
-                                : <>
-                                    <div className="rounded-[50%] bg-bgiconred p-3 relative w-10 h-10">
-                                        <BsArrowDown className="absolute text-btnred font-semibold" />
-                                    </div> <h2 className="font-bold text-[30px] text-gray20">-</h2></>
-                            }</>}
-                            <h2 className="font-bold text-[30px] text-gray20">{nFormatter(userData?.last_7_days_followers) || 'NAN'}</h2>
+                                </div>
+                                :
+                                <div className="rounded-[50%] bg-bgiconred p-3 relative w-10 h-10">
+                                    <BsArrowDown className="absolute text-btnred font-semibold" />
+                                </div>
+                            }
+
+                            {_7daysGrowth >= 0 ?
+                                <h2 className="font-bold text-[30px] text-gray20">+</h2>
+                                :
+                                <h2 className="font-bold text-[30px] text-gray20">-</h2>
+                            }
+                            <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_7daysGrowth)) || 'NAN'}</h2>
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Last <span className="font-bold">7 days</span> Follower Growth</p>
-                        <p className="font-normal text-sm opacity-40"><span className="font-bold">
-                            {percentInc(userData?.last_7_days_followers, userData?.last_7_days_followers_prev)}
-                        </span>% increase from last week</p>
+                        <p className="font-normal text-sm opacity-40"><span className="font-bold">{_7daysGrowthPercent}</span>% increase from last week</p>
                     </div>
                     <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
-                            {userData?.last_30_days_followers > 0 && userData?.last_30_days_followers_prev > 0 && <>{userData?.last_30_days_followers > userData?.last_30_days_followers_prev ?
-                                <><div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
+                            {_30daysGrowth >= 0 ?
+                                <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                     <BsArrowUp className="absolute text-btngreen font-semibold" />
-                                </div> <h2 className="font-bold text-[30px] text-gray20">+</h2></>
-                                : <>
-                                    <div className="rounded-[50%] bg-bgiconred p-3 relative w-10 h-10">
-                                        <BsArrowDown className="absolute text-btnred font-semibold" />
-                                    </div> <h2 className="font-bold text-[30px] text-gray20">-</h2></>
-                            }</>}
-                            <h2 className="font-bold text-[30px] text-gray20">{nFormatter(userData?.last_30_days_followers) || 'NAN'}</h2>
+                                </div>
+                                :
+                                <div className="rounded-[50%] bg-bgiconred p-3 relative w-10 h-10">
+                                    <BsArrowDown className="absolute text-btnred font-semibold" />
+                                </div>
+                            }
+
+                            {_30daysGrowth >= 0 ?
+                                <h2 className="font-bold text-[30px] text-gray20">+</h2>
+                                :
+                                <h2 className="font-bold text-[30px] text-gray20">-</h2>
+                            }
+                            <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_30daysGrowth)) || 'NAN'}</h2>
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Last <span className="font-bold">30 days</span> Follower Growth</p>
-                        <p className="font-normal text-sm opacity-40"><span className="font-bold">
-                            {percentInc(userData?.last_30_days_followers, userData?.last_30_days_followers_prev)}
-                        </span>% increase from last week</p>
+                        <p className="font-normal text-sm opacity-40"><span className="font-bold">{_30daysGrowthPercent}</span>% increase from last week</p>
                     </div>
                     <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
                             <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                 <BsArrowUp className="absolute text-btngreen font-semibold" />
                             </div>
-                            <h2 className="font-bold text-[30px] text-gray20">{nFormatter(userData?.total_interactions) || 0}</h2>
+                            <h2 className="font-bold text-[30px] text-gray20">{total_interactions ? nFormatter(total_interactions) : 0}</h2>
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Total Interactions</p>
                     </div>

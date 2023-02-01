@@ -1,36 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Chart from "react-apexcharts";
-import { getThDayNameFromDate, numFormatter } from "../helpers";
+import { numFormatter } from "../helpers";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dropdown from "react-bootstrap/Dropdown";
-import { supabase } from "../supabaseClient";
 
-export default function GrowthChart({ userDefaultData }) {
+export default function GrowthChart({ userDefaultData, sessionsData }) {
   const [dropDown, setDropDown] = useState("7 days");
-  // const categories = data
-  //   .map((account) => getThDayNameFromDate(account.created_at))
-  //   .reverse();
-  const [sessionsData, setSessionsData] = useState([])
-
-  // console.log(userDefaultData?.[0]?.username);
-  useEffect(() => {
-    const fetch = async () => {
-      const { data, error } = await supabase
-        .from('sessions')
-        .select()
-        .eq('username', userDefaultData?.[0]?.username)
-      error && console.log(error);
-      const d = JSON.parse(data[0].data)
-      // console.log(d);
-      setSessionsData(d)
-    }
-    const id = userDefaultData?.[0]?.user_id;
-    if(id){
-      fetch()
-    }
-  }, [userDefaultData])
-
   const followersData = []
   const categories = []
   const dl = dropDown.split(' ')
@@ -42,18 +18,12 @@ export default function GrowthChart({ userDefaultData }) {
     followersData.push(items.profile.followers);
   })
 
-  
-
-  // const followersData = data?.map((account) => account?.followers).reverse();
-  // console.log(followersData);
-
-
-
   const options = {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#0087fe"],
+    // colors: ["#0087fe"],
+    colors: ["rgb(2,161,253)"],
     fill: {
       type: "gradient",
       gradient: {
