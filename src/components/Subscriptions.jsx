@@ -7,8 +7,23 @@ import { TbRefresh, TbChecks } from "react-icons/tb";
 import { RiPaypalFill } from "react-icons/ri";
 import { CardComponent, CardNumber, CardExpiry, CardCVV, Provider } from "@chargebee/chargebee-js-react-wrapper";
 import { FaCaretLeft } from "react-icons/fa";
+import axios from 'axios'
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+const urlEncode = function (data) {
+  var str = [];
+  for (var p in data) {
+    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+    }
+  }
+  return str.join("&");
+}
 
 export default function Subscriptions() {
+  const baseUrl = process.env.NODE_ENV === 'production' ? 'sproutysocialbn.render.app' : "http://localhost:8000"
+  console.log('baseUrl', baseUrl);
   let { username } = useParams();
   const [userResults, setUserResults] = useState(null);
   const [error, setError] = useState(false);
@@ -62,19 +77,23 @@ export default function Subscriptions() {
 
   useEffect(() => {
     // if (!window?.Chargebee?.getInstance()){
-    console.log('happening....');
-    window.Chargebee.init({
-      // site: 'http://localhost:3000', //"sproutysocial",
-      site: "sproutysocial",
-      publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
-      // site: "honeycomics-v3-test",
-      // publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
-    })
-    const instance = window?.Chargebee?.getInstance()
-    // console.log(instance);
-    setCbInstance(instance);
-    // }
-  }, [])
+    const fetch = async () => {
+      // console.log('happening....');
+      window.Chargebee.init({
+        site: "sproutysocial",
+        publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
+      })
+      const instance = window?.Chargebee?.getInstance()
+      // console.log(instance);
+      setCbInstance(instance);
+      const { data: { user } } = await supabase.auth.getUser()
+      instance.setPortalSession(async () => {
+        // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
+        return await axios.post(`${baseUrl}/api/generate_portal_session`, urlEncode({ customer_id: user.id })).then((response) => response.data);
+      });
+    }
+    fetch()
+  }, [baseUrl])
 
   const handleOnClick = async () => {
     // console.log('yo');
@@ -84,13 +103,28 @@ export default function Subscriptions() {
     const { data: { user } } = await supabase.auth.getUser()
     // console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
 
+    await cbInstance.openCheckout({
+      async hostedPage() {
+        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`, urlEncode({ plan_id: "Monthly-Plan", customer_id: user.id })).then((response) => response.data)
+      },
+      success(hostedPageId) {
+        console.log(hostedPageId);
+      },
+      close() {
+        console.log("checkout new closed");
+      },
+      step(step) {
+        console.log("checkout", step);
+      }
+    })
+
     cardRef?.current?.tokenize()
-      .then( async (data) => {
+      .then(async (data) => {
         console.log('chargebee token', data.token)
         await supabase
           .from("users")
           .update({
-            chargeBeeToken: data.token,
+            // chargeBeeToken: data.token,
             username,
             followers: userResults?.data[0].follower_count,
             following: userResults?.data[0].following_count,
@@ -101,10 +135,11 @@ export default function Subscriptions() {
             posts: userResults?.data[0].media_count
           }).eq('user_id', user.id);
         // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-    
+
         setLoading(false);
         // navigate(`/dashboard/${user.id}`);
-        window.location = `/dashboard/${user.id}`;
+        // window.location = `/dashboard/${user.id}`;
+        console.log('done');
       });
 
   };
