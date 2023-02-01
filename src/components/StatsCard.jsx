@@ -9,13 +9,14 @@ const StatsCard = ({ userData, sessionsData }) => {
     const [_30daysGrowthPercent, set_30daysGrowthPercent] = useState(0)
     const total_interactions = sessionsData[0]?.total_interactions
     // console.log(sessionsData[0]);
-    const data = sessionsData.reverse();
-    const last7days = data.slice(0, 7)
-    const last7days_prev = data.slice(8, 15)
-    const last30days = data.slice(0, 30)
-    const last30days_prev = data.slice(31, 61)
 
     useEffect(() => {
+        const data = sessionsData.reverse();
+        const last7days = data.slice(0, 7)
+        const last7days_prev = data.slice(8, 15)
+        const last30days = data.slice(0, 30)
+        const last30days_prev = data.slice(31, 61)
+        
         var last7daysSum = 0
         var prev_last7daysSum = 0
         var last30daysSum = 0
@@ -59,7 +60,7 @@ const StatsCard = ({ userData, sessionsData }) => {
         set_7daysGrowth(last7daysSum - prev_last7daysSum)
         set_30daysGrowth(last30daysSum - prev_last30daysSum)
 
-    }, [last30days, last30days_prev, last7days, last7days_prev])
+    }, [sessionsData])
 
 
     // console.log(last7daysSum);
