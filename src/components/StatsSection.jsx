@@ -49,11 +49,10 @@ const StatsSection = ({ user, avatar, username, isVerified, name,
       setLang(data?.[0]?.targetingFilter.lang || 'All');
       error && console.log(error);
     }
-    if (user && user?.id && user_id) {
-      // console.log(user_id);
+    if (userId) {
       fetch();
     }
-  }, [user, user_id, filterModal, userId])
+  }, [filterModal, userId])
 
   return (
     <div className="shadow-stats mt-8 md:mt-[84px] md:py-7 md:px-16">
@@ -110,16 +109,16 @@ const StatsSection = ({ user, avatar, username, isVerified, name,
               filtermodal={filterModal}
               user={user}
               user_id={userId}
-              followerMinValueD={followerMinValue}
-              followerMaxValueD={followerMaxValue}
-              followingMinValueD={followingMinValue}
-              followingMaxValueD={followingMaxValue}
-              mediaMinValueD={mediaMinValue}
-              mediaMaxValueD={mediaMaxValue}
-              margicD={margic}
-              privacyD={privacy}
-              genderD={gender}
-              langD={lang}
+              followerMinValued={followerMinValue}
+              followerMaxValued={followerMaxValue}
+              followingMinValued={followingMinValue}
+              followingMaxValued={followingMaxValue}
+              mediaMinValued={mediaMinValue}
+              mediaMaxValued={mediaMaxValue}
+              margicd={margic}
+              privacyd={privacy}
+              genderd={gender}
+              langd={lang}
             />
           </div>
         </div>

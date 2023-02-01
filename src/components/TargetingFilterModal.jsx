@@ -19,18 +19,44 @@ export default function TargetingFilterModal(props, { min, max }) {
   //   mediaMax: parseInt(localStorage.getItem('mediaMaxValue'), 10) || 1000,
   // }
   const { setFilterModal, filtermodal, user, user_id,
-    followerMinValueD, followerMaxValueD, followingMinValueD, followingMaxValueD, mediaMinValueD, mediaMaxValueD, margicD, privacyD, genderD, langD } = props;
+    followerMinValued, followerMaxValued, followingMinValued, followingMaxValued, mediaMinValued, mediaMaxValued, margicd, privacyd, genderd, langd } = props;
 
-  const [followerMinValue, setFollowerMinValue] = useState(followerMinValueD);
-  const [followerMaxValue, setFollowerMaxValue] = useState(followerMaxValueD);
-  const [followingMinValue, setFollowingMinValue] = useState(followingMinValueD);
-  const [followingMaxValue, setFollowingMaxValue] = useState(followingMaxValueD);
-  const [mediaMinValue, setMediaMinValue] = useState(mediaMinValueD);
-  const [mediaMaxValue, setMediaMaxValue] = useState(mediaMaxValueD);
-  const [margic, setMargic] = useState(margicD || true);
-  const [privacy, setPrivacy] = useState(privacyD || 'All');
-  const [gender, setGender] = useState(genderD || 'All');
-  const [lang, setLang] = useState(langD || 'All');
+  const [followerMinValue, setFollowerMinValue] = useState(followerMinValued);
+  const [followerMaxValue, setFollowerMaxValue] = useState(followerMaxValued);
+  const [followingMinValue, setFollowingMinValue] = useState(followingMinValued);
+  const [followingMaxValue, setFollowingMaxValue] = useState(followingMaxValued);
+  const [mediaMinValue, setMediaMinValue] = useState(mediaMinValued);
+  const [mediaMaxValue, setMediaMaxValue] = useState(mediaMaxValued);
+  const [margic, setMargic] = useState(margicd || true);
+  const [privacy, setPrivacy] = useState(privacyd || 'All');
+  const [gender, setGender] = useState(genderd || 'All');
+  const [lang, setLang] = useState(langd || 'All');
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { data, error } = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', user_id).order('created_at', { ascending: false })
+
+      setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
+      setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
+      setFollowingMinValue(data?.[0]?.targetingFilter.followingMin);
+      setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
+      setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
+      setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
+
+      setMargic(data?.[0]?.targetingFilter.margicFilter || true);
+      setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
+      setGender(data?.[0]?.targetingFilter.gender || 'All');
+      setLang(data?.[0]?.targetingFilter.lang || 'All');
+      error && console.log(error);
+    }
+    if (user_id) {
+      // console.log(user_id);
+      fetch();
+    }
+  }, [user_id, filtermodal])
 
   const handleSaveAndClose = async () => {
     const targetingFilter = {
