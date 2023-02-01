@@ -62,48 +62,51 @@ export default function Subscriptions() {
 
   useEffect(() => {
     // if (!window?.Chargebee?.getInstance()){
-      console.log('happening....');
-      window.Chargebee.init({
-        // site: 'http://localhost:3000', //"sproutysocial",
-        site: "Sprouty Social",
-        publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE"
-      })
-      const instance = window?.Chargebee?.getInstance()
-      // console.log(instance);
-      setCbInstance(instance);
+    console.log('happening....');
+    window.Chargebee.init({
+      // site: 'http://localhost:3000', //"sproutysocial",
+      site: "sproutysocial",
+      publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
+      // site: "honeycomics-v3-test",
+      // publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
+    })
+    const instance = window?.Chargebee?.getInstance()
+    // console.log(instance);
+    setCbInstance(instance);
     // }
   }, [])
 
   const handleOnClick = async () => {
     // console.log('yo');
-    setLoading(true);
+    // setLoading(true);
 
     if (userResults.data[0].name === "INVALID_USERNAME") return setError(true);
     const { data: { user } } = await supabase.auth.getUser()
     // console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
 
     cardRef?.current?.tokenize()
-      .then((data) => {
+      .then( async (data) => {
         console.log('chargebee token', data.token)
+        await supabase
+          .from("users")
+          .update({
+            chargeBeeToken: data.token,
+            username,
+            followers: userResults?.data[0].follower_count,
+            following: userResults?.data[0].following_count,
+            profile_pic_url: userResults?.data[0]?.profile_pic_url,
+            is_verified: userResults?.data[0]?.is_verified,
+            biography: userResults?.data[0]?.biography,
+            start_time: getStartingDay(),
+            posts: userResults?.data[0].media_count
+          }).eq('user_id', user.id);
+        // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+    
+        setLoading(false);
+        // navigate(`/dashboard/${user.id}`);
+        window.location = `/dashboard/${user.id}`;
       });
 
-    await supabase
-       .from("users")
-       .update({
-         username,
-         followers: userResults?.data[0].follower_count,
-         following: userResults?.data[0].following_count,
-         profile_pic_url: userResults?.data[0]?.profile_pic_url,
-         is_verified: userResults?.data[0]?.is_verified,
-         biography: userResults?.data[0]?.biography,
-         start_time: getStartingDay(),
-         posts: userResults?.data[0].media_count
-       }).eq('user_id', user.id);
-    // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-
-     setLoading(false);
-    // navigate(`/dashboard/${user.id}`);
-     window.location = `/dashboard/${user.id}`;
   };
 
 
@@ -144,28 +147,38 @@ export default function Subscriptions() {
 
   const onSubmit = (e) => {
     if (e) e.preventDefault()
-    if (this.cardRef) {
+    if (cardRef) {
       // Call tokenize method on card element
-      this.cardRef.current.tokenize().then((data) => {
+      cardRef.current.tokenize().then((data) => {
         console.log('chargebee token', data.token)
       });
     }
   }
 
-  const onChange = (status) => {
-    let errors = {
-      ...this.state.errors,
-      [status.field]: status.error
-    };
-    let errMessages = Object.values(errors).filter(message => !!message);
-    this.setState({
-      errors,
-      errorMessage: errMessages.pop() || '',
-    })
-  }
+  // const onChange = (status) => {
+  //   // console.log(status);
+  //   // let errors = {
+  //   //   [status.field]: status.error
+  //   // };
+  //   // let errMessages = Object.values(errors).filter(message => !!message);
+  //   // var a = ({
+  //   //   errors,
+  //   //   errorMessage: errMessages.pop() || '',
+  //   // })
+  //   // console.log(a);
+  // }
 
   const onReady = (el) => {
+    console.log('ready');
     el.focus();
+  }
+
+  const onFocus = (el) => {
+    // el.focus();
+  }
+
+  const onBlur = (el) => {
+    // el.focus();
   }
 
   return (
@@ -204,7 +217,7 @@ export default function Subscriptions() {
               {/* Payment method */}
               <div className="shadow-subs px-7 py-6 rounded-[10px]">
                 <h3 className="font-bold text-[20px] text-gray20 pb-2 flex items-center gap-2">
-                  {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false) } />}
+                  {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false)} />}
                   Payment method</h3>
                 <p className="font-bold text-sm opacity-40 pb-5">
                   You may cancel during your free trial and won't be billed,
@@ -213,36 +226,40 @@ export default function Subscriptions() {
                 {/* <CardComponent ref={cardRef} onChange={(e) => onChange(e)} /> */}
                 {/* <CardComponent ref={cardRef} onChange={(e) => onChange(e)} /> */}
                 <>
-                  {showCardComponent && <Provider cbInstance={cbInstance}>
-                    <CardComponent ref={cardRef} className="fieldset field"
+                  {showCardComponent &&
+                    // <Provider cbInstance={cbInstance}>
+                    <CardComponent
+                      ref={cardRef}
+                      className="fieldset field"
+                      // onChange={(e) => onChange(e)}
                       styles={styles}
                       // classes={classes}
                       locale={'en'}
                       placeholder={'placeholder'}
                       fonts={fonts}
+                      onSubmit={onSubmit}
+                      onReady={onReady}
                     >
                       <div className="ex1-field mb-5">
-                        {/* Card number component */}
-                        <CardNumber className="ex1-input" />
+                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} />
                         <label className="ex1-label">Card Number</label><i className="ex1-bar"></i>
                       </div>
 
                       <div className="ex1-fields">
                         <div className="ex1-field mb-5">
-                          {/* Card expiry component */}
-                          <CardExpiry className="ex1-input" />
+                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} />
                           <label className="ex1-label">Expiry</label><i className="ex1-bar"></i>
                         </div>
 
                         <div className="ex1-field">
-                          {/* Card cvv component */}
-                          <CardCVV className="ex1-input" />
+                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} />
                           <label className="ex1-label">CVC</label><i className="ex1-bar"></i>
                         </div>
 
                       </div>
                     </CardComponent>
-                  </Provider>}
+                    // </Provider>
+                  }
                 </>
                 {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Card / Debit Card"}  </span>

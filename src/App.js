@@ -9,10 +9,18 @@ import Home from "./components/Home";
 import Settings from "./components/Settings/Settings";
 import Admin from "./components/Admin/Admin";
 import Nav from "./components/Nav";
+import { useEffect } from "react";
 
 const pathname = window.location.pathname;
 
 function App() {
+  useEffect(() => {
+    window.Chargebee.init({
+      site: "honeycomics-v3-test",
+      publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
+    })
+  }, [])
+
   return (
     <>
       {pathname === "/" || pathname === "/login" || pathname === "/signUp" ? "" : <Nav />}
