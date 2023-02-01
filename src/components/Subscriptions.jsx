@@ -1,11 +1,10 @@
 import Axios from "axios";
-import React, { useState, useEffect, useCallback, createRef, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { RxCaretRight } from "react-icons/rx";
 import { TbRefresh, TbChecks } from "react-icons/tb";
-import { RiPaypalFill } from "react-icons/ri";
-import { CardComponent, CardNumber, CardExpiry, CardCVV, Provider } from "@chargebee/chargebee-js-react-wrapper";
+import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import { FaCaretLeft } from "react-icons/fa";
 import axios from 'axios'
 
@@ -22,8 +21,9 @@ const urlEncode = function (data) {
 }
 
 export default function Subscriptions() {
-  const baseUrl = process.env.NODE_ENV === 'production' ? 'sproutysocialbn.render.app' : "http://localhost:8000"
-  console.log('baseUrl', baseUrl);
+  // const baseUrl = "http://localhost:8000"
+  const baseUrl = 'https://sproutysocial-api.onrender.com'
+  // console.log('baseUrl', baseUrl);
   let { username } = useParams();
   const [userResults, setUserResults] = useState(null);
   const [error, setError] = useState(false);
@@ -105,26 +105,28 @@ export default function Subscriptions() {
 
     await cbInstance.openCheckout({
       async hostedPage() {
-        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`, urlEncode({ plan_id: "Monthly-Plan", customer_id: user.id })).then((response) => response.data)
-      },
-      success(hostedPageId) {
-        console.log(hostedPageId);
-      },
-      close() {
-        console.log("checkout new closed");
-      },
-      step(step) {
-        console.log("checkout", step);
-      }
-    })
+        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`, 
+        urlEncode({ plan_id: "Monthly-Plan-USD-Monthly", customer_id: user.id }))
+        .then((response) => response.data)
 
-    cardRef?.current?.tokenize()
-      .then(async (data) => {
-        console.log('chargebee token', data.token)
+        // const response = await axios.post(
+        //   'https://sproutysociall.chargebee.com/api/v2/hosted_pages/checkout_new_for_items',
+        //   'subscription_items[item_price_id][0]=Monthly-Plan-USD-Monthly&subscription_items[quantity][0]=1&subscription_items[item_price_price][0]=9995&subscription_items[currency_code][0]=USD',
+        //   {
+        //     headers: {
+        //       'Content-Type': 'application/x-www-form-urlencoded'
+        //     },
+        //     auth: {
+        //       api_key: 'live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE'
+        //     }
+        //   }
+        // );
+      },
+      async success(hostedPageId) {
+        console.log(hostedPageId);
         await supabase
           .from("users")
           .update({
-            // chargeBeeToken: data.token,
             username,
             followers: userResults?.data[0].follower_count,
             following: userResults?.data[0].following_count,
@@ -135,11 +137,24 @@ export default function Subscriptions() {
             posts: userResults?.data[0].media_count
           }).eq('user_id', user.id);
         // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-
+    
         setLoading(false);
         // navigate(`/dashboard/${user.id}`);
-        // window.location = `/dashboard/${user.id}`;
-        console.log('done');
+        window.location = `/dashboard/${user.id}`;
+      },
+      async close() {
+        // console.log('done');
+        console.log("checkout new closed");
+
+      },
+      step(step) {
+        console.log("checkout", step);
+      }
+    })
+
+    cardRef?.current?.tokenize()
+      .then(async (data) => {
+        console.log('chargebee token', data.token)
       });
 
   };
