@@ -1,16 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import axios from 'axios'
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+const urlEncode = function (data) {
+  var str = [];
+  for (var p in data) {
+    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+    }
+  }
+  return str.join("&");
+}
 
 export default function Settings() {
-
+  const baseUrl = "http://localhost:8000"
+  // const baseUrl = 'https://sproutysocial-api.onrender.com'
   const [supaData, setData] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [error, setError] = useState(false);
   const [loading, setloading] = useState(false);
-  error && console.log("🚀 ~ file: Settings.jsx:12 ~ Settings ~ error", error)
+  const [cbInstance, setCbInstance] = useState()
+
+  useEffect(() => {
+    // if (!window?.Chargebee?.getInstance()){
+    const fetch = async () => {
+      // console.log('happening....');
+      window.Chargebee.init({
+        site: "sproutysocial",
+        publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
+      })
+      const instance = window?.Chargebee?.getInstance()
+      // console.log(instance);
+      setCbInstance(instance);
+      const { data: { user } } = await supabase.auth.getUser()
+      instance.setPortalSession(async () => {
+        // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
+        return await axios.post(`${baseUrl}/api/generate_portal_session`, urlEncode({ customer_id: user?.id })).then((response) => response.data);
+      });
+    }
+    fetch()
+  }, [baseUrl])
 
   useEffect(() => {
     const getData = async () => {
@@ -57,25 +91,33 @@ export default function Settings() {
   };
 
   const renewSubscription = async () => {
+    // const { data: { user } } = await supabase.auth.getUser();
+
+    // await supabase
+    //   .from('users')
+    //   .update({ onTrail: false, subscribed: true })
+    //   .eq('user_id', user.id)
 
   }
 
   const cancelSubscription = async () => {
     if (window.confirm("Are you sure you want to cancel your subscription")) {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      await supabase
-        .from('users')
-        .update({ onTrail: false })
-        .eq('user_id', user.id)
-
-      // cancel subscription on chargebee
-      console.log("Subscription cancelled!")
-      return;
+      let a = await axios.post(`${baseUrl}/api/cancel_for_items`,
+        urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
+        .then((response) => response.data)
+        console.log(a);
+      // if (a.subscription?.status === 'cancelled') {
+      //   const { data: { user } } = await supabase.auth.getUser();
+      //   await supabase
+      //     .from('users')
+      //     .update({ onTrail: false, subscribed: false })
+      //     .eq('user_id', user.id)
+      //     alert('you have successfully cancelled the subscription');
+      //     window.location = '/'
+      // }
+    }else{
+      console.log("aborted!")
     }
-    console.log("aborted!")
-    return;
   }
 
   return (

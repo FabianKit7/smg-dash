@@ -21,16 +21,16 @@ const urlEncode = function (data) {
 }
 
 export default function Subscriptions() {
-  // const baseUrl = "http://localhost:8000"
-  const baseUrl = 'https://sproutysocial-api.onrender.com'
+  const baseUrl = "http://localhost:8000"
+  // const baseUrl = 'https://sproutysocial-api.onrender.com'
   let { username } = useParams();
   const [userResults, setUserResults] = useState(null);
   const [error, setError] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [showCardComponent, setShowCardComponent] = useState(false);
   const [cbInstance, setCbInstance] = useState()
-  error && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", error)
-  username && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", username)
+  // error && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", error)
+  // username && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", username)
 
   const navigate = useNavigate();
 
@@ -104,9 +104,9 @@ export default function Subscriptions() {
 
     await cbInstance.openCheckout({
       async hostedPage() {
-        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`, 
-        urlEncode({ plan_id: "Monthly-Plan-USD-Monthly" }))
-        .then((response) => response.data)
+        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
+          urlEncode({ plan_id: "Monthly-Plan-USD-Monthly" }))
+          .then((response) => response.data)
 
         // const response = await axios.post(
         //   'https://sproutysociall.chargebee.com/api/v2/hosted_pages/checkout_new_for_items',
@@ -123,20 +123,37 @@ export default function Subscriptions() {
       },
       async success(hostedPageId) {
         console.log(hostedPageId);
+        let customer = await axios.post(`${baseUrl}/api/customer_list`,
+          urlEncode({ email: user?.email }))
+          .then((response) => response.data)
+
+        let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
+          urlEncode({ customer_id: customer?.id }))
+          .then((response) => response.data)
+
+        let data = {
+          chargebee_subscription: JSON.stringify(subscription),
+          chargebee_subscription_id: subscription?.id,
+          chargebee_customer: JSON.stringify(customer),
+          chargebee_customer_id: customer?.id,
+
+          username,
+          followers: userResults?.data[0].follower_count,
+          following: userResults?.data[0].following_count,
+          profile_pic_url: userResults?.data[0]?.profile_pic_url,
+          is_verified: userResults?.data[0]?.is_verified,
+          biography: userResults?.data[0]?.biography,
+          start_time: getStartingDay(),
+          posts: userResults?.data[0].media_count,
+          subscribed: true,
+          subscription_id: ''
+        }
+        console.log(data);
         await supabase
           .from("users")
-          .update({
-            username,
-            followers: userResults?.data[0].follower_count,
-            following: userResults?.data[0].following_count,
-            profile_pic_url: userResults?.data[0]?.profile_pic_url,
-            is_verified: userResults?.data[0]?.is_verified,
-            biography: userResults?.data[0]?.biography,
-            start_time: getStartingDay(),
-            posts: userResults?.data[0].media_count
-          }).eq('user_id', user.id);
+          .update(data).eq('user_id', user.id);
         // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-    
+
         setLoading(false);
         // navigate(`/dashboard/${user.id}`);
         window.location = `/dashboard/${user.id}`;
@@ -310,18 +327,17 @@ export default function Subscriptions() {
                     // </Provider>
                   }
                 </>
-                {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
+                {/* {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Card / Debit Card"}  </span>
                 </button>}
 
                 {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
                   <span>Card / Debit Card</span>
-                </button>}
+                </button>} */}
 
-                {/* <button className="bg-[#FFC439] w-full py-4 pl-[30px] rounded-[10px] text-base text-white font-bold relative" onClick={() => handleOnClick()}>
-                  <RiPaypalFill className="text-[#003087] text-2xl absolute top-[25%] left-[36%] md:left-[44%] lg:left-[41%]" />
-                  {Loading ? "Loading" : "Paypal"}
-                </button> */}
+                <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
+                  <span> {Loading ? "Loading " : "Card / Debit Card"}  </span>
+                </button>
               </div>
             </div>
 
