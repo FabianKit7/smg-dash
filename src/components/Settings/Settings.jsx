@@ -16,8 +16,8 @@ const urlEncode = function (data) {
 }
 
 export default function Settings() {
-  const baseUrl = "http://localhost:8000"
-  // const baseUrl = 'https://sproutysocial-api.onrender.com'
+  // const baseUrl = "http://localhost:8000"
+  const baseUrl = 'https://sproutysocial-api.onrender.com'
   const [supaData, setData] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -106,15 +106,15 @@ export default function Settings() {
         urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
         .then((response) => response.data)
         console.log(a);
-      // if (a.subscription?.status === 'cancelled') {
-      //   const { data: { user } } = await supabase.auth.getUser();
-      //   await supabase
-      //     .from('users')
-      //     .update({ onTrail: false, subscribed: false })
-      //     .eq('user_id', user.id)
-      //     alert('you have successfully cancelled the subscription');
-      //     window.location = '/'
-      // }
+      if (a.subscription?.status === 'cancelled') {
+        const { data: { user } } = await supabase.auth.getUser();
+        await supabase
+          .from('users')
+          .update({ onTrail: false, subscribed: false })
+          .eq('user_id', user.id)
+          alert('you have successfully cancelled the subscription');
+          window.location = '/'
+      }
     }else{
       console.log("aborted!")
     }
