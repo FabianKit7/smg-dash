@@ -95,8 +95,8 @@ export default function Subscriptions() {
   }, [baseUrl])
 
   const handleOnClick = async () => {
-    // console.log('yo');
     // setLoading(true);
+    // console.log('you');
 
     if (userResults.data[0].name === "INVALID_USERNAME") console.log("INVALID_USERNAME");
     const { data: { user } } = await supabase.auth.getUser()
