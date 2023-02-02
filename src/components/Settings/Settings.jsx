@@ -16,8 +16,8 @@ const urlEncode = function (data) {
 }
 
 export default function Settings() {
-  // const baseUrl = "http://localhost:8000"
-  const baseUrl = 'https://sproutysocial-api.onrender.com'
+  const baseUrl = "http://localhost:8000"
+  // const baseUrl = 'https://sproutysocial-api.onrender.com'
   const [supaData, setData] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -91,6 +91,46 @@ export default function Settings() {
   };
 
   const renewSubscription = async () => {
+    await cbInstance.openCheckout({
+      async hostedPage() {
+        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
+          urlEncode({ plan_id: "Monthly-Plan-USD-Monthly" }))
+          .then((response) => response.data)
+      },
+      async success(hostedPageId) {
+        console.log(hostedPageId);
+        let customer = await axios.post(`${baseUrl}/api/customer_list`,
+          urlEncode({ email: supaData?.email }))
+          .then((response) => response.data)
+
+        let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
+          urlEncode({ customer_id: customer?.id }))
+          .then((response) => response.data)
+
+        let data = {
+          chargebee_subscription: JSON.stringify(subscription),
+          chargebee_subscription_id: subscription?.id,
+          chargebee_customer: JSON.stringify(customer),
+          chargebee_customer_id: customer?.id,
+          subscribed: true,
+        }
+        console.log(data);
+        const { data: { user } } = await supabase.auth.getUser();
+        await supabase
+          .from("users")
+          .update(data).eq('user_id', user.id);
+        // navigate(`/dashboard/${user.id}`);
+        window.location = `/dashboard/${user.id}`;
+      },
+      async close() {
+        // console.log('done');
+        console.log("checkout new closed");
+
+      },
+      step(step) {
+        console.log("checkout", step);
+      }
+    })
     // const { data: { user } } = await supabase.auth.getUser();
 
     // await supabase

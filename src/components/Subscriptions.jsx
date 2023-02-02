@@ -146,7 +146,6 @@ export default function Subscriptions() {
           start_time: getStartingDay(),
           posts: userResults?.data[0].media_count,
           subscribed: true,
-          subscription_id: ''
         }
         console.log(data);
         await supabase
