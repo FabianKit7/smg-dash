@@ -16,13 +16,13 @@ const urlEncode = function (data) {
 }
 
 export default function Settings() {
-  const baseUrl = "http://localhost:8000"
-  // const baseUrl = 'https://sproutysocial-api.onrender.com'
+  // const baseUrl = "http://localhost:8000"
+  const baseUrl = 'https://sproutysocial-api.onrender.com'
   const [supaData, setData] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
   const [loading, setloading] = useState(false);
   const [cbInstance, setCbInstance] = useState()
 
@@ -58,7 +58,7 @@ export default function Settings() {
         .select()
         .eq("user_id", user.id);
       setData(data[0]);
-      setError(error);
+      console.log(error);
     };
 
     getData();
@@ -160,6 +160,8 @@ export default function Settings() {
     }
   }
 
+  // console.log(supaData)
+
   return (
     <div className="container m-auto mt-9 px-6">
       <div className="grid justify-center items-center bg-white mb-5">
@@ -203,8 +205,8 @@ export default function Settings() {
             <div className="px-4 py-5">
               <h3 className="font-bold text-xl text-gray20 pb-2">Subscription Settings</h3>
               <p className="font-bold text-sm opacity-40 pb-9">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
-              <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">Renew</button>
-              <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">Cancel</button>
+              {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">Renew</button>:
+              <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">Cancel</button>}
             </div>
           </div>
         </div>

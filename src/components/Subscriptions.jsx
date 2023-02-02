@@ -25,7 +25,7 @@ export default function Subscriptions() {
   const baseUrl = 'https://sproutysocial-api.onrender.com'
   let { username } = useParams();
   const [userResults, setUserResults] = useState(null);
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [showCardComponent, setShowCardComponent] = useState(false);
   const [cbInstance, setCbInstance] = useState()
@@ -98,7 +98,7 @@ export default function Subscriptions() {
     // console.log('yo');
     // setLoading(true);
 
-    if (userResults.data[0].name === "INVALID_USERNAME") return setError(true);
+    if (userResults.data[0].name === "INVALID_USERNAME") console.log("INVALID_USERNAME");
     const { data: { user } } = await supabase.auth.getUser()
     // console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
 
