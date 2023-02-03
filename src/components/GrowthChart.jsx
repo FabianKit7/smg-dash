@@ -23,7 +23,7 @@ export default function GrowthChart({ userDefaultData, sessionsData }) {
       enabled: false,
     },
     // colors: ["#0087fe"],
-    colors: ["#E2FBD7"],
+    colors: ["#7ea5ff"],
     fill: {
       type: "gradient",
       gradient: {
