@@ -55,7 +55,7 @@ export default function Dashboard() {
         .eq('username', data?.[0]?.username)
       resData.error && console.log(resData.error);
       const d = JSON.parse(resData.data[0].data)
-      // console.log(d);
+      console.log(d);
       setSessionsData(d)
     }
     const username = data?.[0]?.username;

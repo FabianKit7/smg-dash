@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { numFormatter } from "../helpers";
 import "bootstrap";
@@ -7,23 +7,37 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 export default function GrowthChart({ userDefaultData, sessionsData }) {
   const [dropDown, setDropDown] = useState("7 days");
-  const followersData = []
-  const categories = []
-  const dl = dropDown.split(' ')
-  sessionsData?.slice(-parseInt(dl[0])).forEach(items => {
-    const day = new Date(items.finish_time).getDate()
-    const month = new Date(items.finish_time).getMonth()+1
-    const year = new Date(items.finish_time).getFullYear()
-    categories.push(`${year}/${month}/${day}`);
-    followersData.push(items.profile.followers);
-  })
+  const [followersData, setFollowersData] = useState([])
+  const [categories, setCategories] = useState([])
+  useEffect(() => {
+    let followersData = []
+    let categories = []
+    const dl = dropDown.split(' ')
+    sessionsData?.slice(-parseInt(dl[0])).forEach(items => {
+      // console.log(items);
+      // const day = new Date(items.finish_time).getDate()
+      // const month = new Date(items.finish_time).getMonth()+1
+      // const year = new Date(items.finish_time).getFullYear()
+      const day = new Date(items.start_time).getDate()
+      const month = new Date(items.start_time).getMonth()+1
+      const year = new Date(items.start_time).getFullYear()
+      categories.push(`${year}/${month}/${day}`);
+      followersData.push(items.profile.followers);
+    })
+    setCategories(categories);
+    setFollowersData(followersData)
+    // console.log(categories);
+    // console.log(followersData);
+
+  }, [dropDown, sessionsData])
+  
 
   const options = {
     dataLabels: {
       enabled: false,
     },
     // colors: ["#0087fe"],
-    colors: ["#7ea5ff", "#0087fe"],
+    colors: ["#7ea5ff"],
     fill: {
       type: "gradient",
       gradient: {
