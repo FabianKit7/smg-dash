@@ -26,12 +26,12 @@ export default function Settings() {
   const [loading, setloading] = useState(false);
   const [cbInstance, setCbInstance] = useState()
 
+  // chargebee initialization
   useEffect(() => {
-    // if (!window?.Chargebee?.getInstance()){
     const fetch = async () => {
-      // console.log('happening....');
       window.Chargebee.init({
         site: "sproutysocial",
+        domain: 'app.sproutysocial.com',
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
       })
       const instance = window?.Chargebee?.getInstance()

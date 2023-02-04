@@ -74,16 +74,15 @@ export default function Subscriptions() {
 
   const cardRef = useRef();
 
+  // chargebee init
   useEffect(() => {
-    // if (!window?.Chargebee?.getInstance()){
     const fetch = async () => {
-      // console.log('happening....');
       window.Chargebee.init({
         site: "sproutysocial",
+        domain: 'app.sproutysocial.com',
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
       })
       const instance = window?.Chargebee?.getInstance()
-      // console.log(instance);
       setCbInstance(instance);
       const { data: { user } } = await supabase.auth.getUser()
       instance.setPortalSession(async () => {
