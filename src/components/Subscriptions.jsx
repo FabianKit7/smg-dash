@@ -50,8 +50,7 @@ export default function Subscriptions() {
         d.shift();
       }
     }
-  }, [])
-  
+  }, [])  
 
   const getStartingDay = () => {
     var today = new Date();
