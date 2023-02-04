@@ -74,7 +74,7 @@ export default function Subscriptions() {
 
   const cardRef = useRef();
 
-  // chargebee init
+  // chargebee initiallization
   useEffect(() => {
     const fetch = async () => {
       window.Chargebee.init({
