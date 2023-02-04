@@ -83,7 +83,7 @@ export default function Subscriptions() {
     } catch (error) {
       console.log(error)
     }
-  }, [username]);
+  }, [navigate, username]);
 
   useEffect(() => {
     getData();
@@ -101,6 +101,7 @@ export default function Subscriptions() {
       window.Chargebee.init({
         site: "sproutysocial",
         // domain: 'app.sproutysocial.com',
+        iframeOnly: true,
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
       })
       const instance = window?.Chargebee?.getInstance()

@@ -50,6 +50,7 @@ export default function Settings() {
       window.Chargebee.init({
         site: "sproutysocial",
         // domain: 'app.sproutysocial.com',
+        iframeOnly: true,
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
       })
       const instance = window?.Chargebee?.getInstance()
