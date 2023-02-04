@@ -4,7 +4,7 @@ import { supabase } from "../supabaseClient";
 import sproutyLogo from "../images/sprouty.svg"
 
 export default function Login() {
-//   const [loading, setLoading] = useState(false);
+  //   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,32 +19,23 @@ export default function Login() {
   }, [navigate]);
 
   const handleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
-    try {
-    //   setLoading(true)
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-  if(data) {
-    // navigate(`/dashboard/${data.user.id}`)
-    window.location = `/dashboard/${data.user.id}`;
-  }
-
-      console.log("🚀 ~ file: Login.jsx:19 ~ handleLogin ~ data", data)
-      
-      if (error) throw error
-    } catch (error) {
-      console.log(error);
-      if (error?.message === `Cannot read properties of null (reading 'id')`){
-        alert('User not found please try again or register')
-      }else{
-        alert('An error occurred, please try again')
-      }
-    } finally {
-    //   setLoading(false)
+    if (data.user) {
+      window.location = `/dashboard/${data.user?.id}`;
+    }
+    if (error) console.log(error.message);
+    if (error.message === 'Invalid login credentials') {
+      alert(`${error.message} please check your credentials and try again`);
+      return;
+    }
+    if (error?.message === `Cannot read properties of null (reading 'id')`) {
+      alert('User not found please try again or register')
+    } else {
+      alert('An error occurred, please try again')
     }
   }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteUserDetails } from "../helpers";
-import { supabase } from "../supabaseClient";
+import { supabase, supabaseAdmin } from "../supabaseClient";
 import Blacklist from "./Blacklist";
 import ChartSection from "./ChartSection";
 import StatsCard from "./StatsCard";
@@ -35,16 +35,15 @@ export default function Dashboard() {
         .from('users')
         .select()
         .eq('user_id', user.id).order('created_at', { ascending: false })
+        
       if(user && !data[0].username){
-        // console.log(data[0].username)
-        const { data: user, error } = await supabase.auth.api.deleteUser(
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoZWdwcHZscXJvdG5wZWpzaXljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3Mjc2MzMzMywiZXhwIjoxOTg4MzM5MzMzfQ.3c2HtQvnQ8F8m5viFZWFS04hYYDUog0Lvl10YIvdY6A'
-        )
-        if(error) alert(error)
+        const { data: delUser, error: delUserError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
+        console.log(delUser);
+        if(delUserError) alert(delUserError.message)
         if(user){
           await deleteUserDetails(user.id)
         }
-        alert('Please re-register your account')
+        alert('Your registration was not complete. Please re-register your account')
         await supabase.auth.signOut();
         window.location.pathname = "/login";
       }

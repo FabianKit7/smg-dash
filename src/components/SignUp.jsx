@@ -17,34 +17,30 @@ export default function SignUp() {
 
 
   const handleLogin = async () => {
-    try {
-      setLoading(true);
+    setLoading(true);
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error){
+      console.log(error.message);
+      alert(error.message);
 
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+    } 
 
-      if (data) {
-        console.log(data?.user?.username);
-        const { error } = await supabase
-          .from("users")
-          .insert({
-            user_id: data.user.id,
-            full_name: fullName, 
-            username: data?.user?.username || ''
-          });
-        // console.log("🚀 ~ file: SignUp.jsx:29 ~ handleLogin ~ error", error)
-        navigate("/search")
-      }
-
-
-      if (error) throw error;
-    } catch (error) {
-      alert(error.error_description || error.message);
-    } finally {
-      setLoading(false);
+    if (data) {
+      console.log(data?.user?.username);
+      const { error } = await supabase
+        .from("users")
+        .insert({
+          user_id: data.user.id,
+          full_name: fullName, 
+          username: data?.user?.username || ''
+        });
+      if (error) console.log(error);
+      navigate("/search")
     }
+    setLoading(false);
   };
 
   return (

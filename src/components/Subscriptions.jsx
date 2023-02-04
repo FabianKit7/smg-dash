@@ -188,11 +188,6 @@ export default function Subscriptions() {
       }
     })
 
-    // cardRef?.current?.tokenize()
-    //   .then(async (data) => {
-    //     console.log('chargebee token', data.token)
-    //   });
-
   };
 
 

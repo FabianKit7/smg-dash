@@ -7,9 +7,6 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import { searchAccount } from "../helpers";
 import { Spinner } from "react-bootstrap";
 
-
-
-
 export default function Search() {
   const [accountName, setAccountName] = useState("");
   const [selectAccountName, setSelectedAccountName] = useState("");
@@ -99,6 +96,7 @@ export default function Search() {
               onChange={(selected) => {
                 setSelectedAccountName(selected[0]?.username);
               }}
+
               labelKey="username"
               inputProps={
                 { className: 'w-full bg-inputbkgrd rounded py-[25px] font-semibold' }
