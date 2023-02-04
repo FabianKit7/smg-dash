@@ -43,13 +43,13 @@ export default function Settings() {
       }
     }
   }, [])
-  
+
   // chargebee initialization
   useEffect(() => {
     const fetch = async () => {
       window.Chargebee.init({
         site: "sproutysocial",
-        domain: 'app.sproutysocial.com',
+        // domain: 'app.sproutysocial.com',
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
       })
       const instance = window?.Chargebee?.getInstance()

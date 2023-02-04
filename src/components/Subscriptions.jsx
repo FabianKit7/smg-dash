@@ -48,6 +48,7 @@ export default function Subscriptions() {
           p.pop();
         };
         d.shift();
+        console.log('done');
       }
     }
   }, [])  
@@ -64,6 +65,8 @@ export default function Subscriptions() {
   };
 
   const getData = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if(!user) navigate('/');
     const options = {
       method: "GET",
       url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",

@@ -60,7 +60,8 @@ export default function Search() {
         return setError(true);
         // setData(userResults.data);
         if(userResults) {
-          navigate(`/subscriptions/${selectAccountName || accountName}`);
+          // navigate(`/subscriptions/${selectAccountName || accountName}`);
+          window.location = `/subscriptions/${selectAccountName || accountName}`;
         }
       }
     }
