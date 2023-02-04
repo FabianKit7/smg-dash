@@ -356,7 +356,7 @@ export default function Subscriptions() {
                 </button>} */}
 
                 <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Card / Debit Card"}  </span>
+                  <span> {Loading ? "Loading " : "Pay with Card"}  </span>
                 </button>
               </div>
             </div>

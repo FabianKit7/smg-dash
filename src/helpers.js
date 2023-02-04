@@ -192,6 +192,50 @@ export const deleteAccount = async (from, id) => {
   }
 }
 
+export const deleteUserDetails = async (user_id) => {
+    await deleteUserBlacklist(user_id);
+    await deleteUser(user_id);
+    await deleteUserTargeting(user_id);
+    await deleteUserWhitelist(user_id);
+    return 'success'
+}
+
+export const deleteUser = async (user_id) => {
+    const { data, error } = await supabase
+      .from("users")
+      .delete()
+      .match({ user_id: user_id })
+    console.log(data, error)
+    return data
+}
+
+export const deleteUserBlacklist = async (user_id) => {
+    const { data, error } = await supabase
+      .from("blacklist")
+      .delete()
+      .match({ user_id: user_id })
+    console.log(data, error)
+    return data
+}
+
+export const deleteUserTargeting = async (user_id) => {
+    const { data, error } = await supabase
+      .from("targeting")
+      .delete()
+      .match({ user_id: user_id })
+    console.log(data, error)
+    return data
+}
+
+export const deleteUserWhitelist = async (user_id) => {
+    const { data, error } = await supabase
+      .from("whitelist")
+      .delete()
+      .match({ user_id: user_id })
+    console.log(data, error)
+    return data
+}
+
 // const growthDifference = (current, previous) => {
 //   let percentage = Math.round(100 - ((current/previous) * 100))
 //   if (current < previous) {

@@ -158,7 +158,7 @@ export default function Settings() {
     //   .eq('user_id', user.id)
 
   }
-
+   
   const cancelSubscription = async () => {
     if (window.confirm("Are you sure you want to cancel your subscription")) {
       let a = await axios.post(`${baseUrl}/api/cancel_for_items`,

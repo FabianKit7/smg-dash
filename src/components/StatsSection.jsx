@@ -9,7 +9,7 @@ import { supabase } from "../supabaseClient";
 import { useEffect } from "react"
 
 
-const StatsSection = ({ user, avatar, username, isVerified, name,
+const StatsSection = ({ user, userData, avatar, username, isVerified, name,
   bio, url, user_id, userId, currMediaCount, currFollowers, currFollowing }) => {
   const [followerMinValue, setFollowerMinValue] = useState(1);
   const [followerMaxValue, setFollowerMaxValue] = useState(20000);
@@ -63,8 +63,9 @@ const StatsSection = ({ user, avatar, username, isVerified, name,
           <div className="m-auto lg:ml-8">
             <h4 className="font-semibold text-[22px] text-gray20 text-center md:text-start">{name}</h4>
             <div className="flex gap-[2px]">
-              <p className="font-normal text-sm text-gray20 m-auto md:mx-0 text-center md:text-start">{username}
-                <FaCheckCircle className="fas fa-check-circle fa-lg ml-2 text-primary" style={{ visibility: isVerified ? 'visible' : 'hidden' }} />
+              <p className="font-normal text-sm text-gray20 m-auto md:mx-0 text-center md:text-start flex items-center">
+                {username}
+                <FaCheckCircle className="fas fa-check-circle fa-lg ml-1 text-primary" style={{ visibility: isVerified ? 'visible' : 'hidden' }} />
               </p>
             </div>
             <div className="w-[300px] font-normal opacity-50 text-sm md:mb-4 text-center md:text-start">{bio}</div>
@@ -91,7 +92,10 @@ const StatsSection = ({ user, avatar, username, isVerified, name,
             </div>
           </div>
           <div className="flex gap-6 justify-center lg:justify-end md:justify-start">
-            <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={profileImg} alt="" onClick={() => { setIsOpen(!modalIsOpen) }} />
+            <div className="relative">
+              {userData?.status === 'pending' && <div className="absolute -top-1 -left-1 h-3 w-3 rounded-full bg-red-600 z-10"></div>}
+              <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={profileImg} alt="" onClick={() => { setIsOpen(!modalIsOpen) }} />
+            </div>
             <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />
 
             <ModalNew

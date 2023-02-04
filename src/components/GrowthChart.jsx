@@ -5,7 +5,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dropdown from "react-bootstrap/Dropdown";
 
-export default function GrowthChart({ userDefaultData, sessionsData }) {
+export default function GrowthChart({ sessionsData }) {
   const [dropDown, setDropDown] = useState("7 days");
   const [followersData, setFollowersData] = useState([])
   const [categories, setCategories] = useState([])

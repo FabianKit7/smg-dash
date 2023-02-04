@@ -7,15 +7,16 @@ const StatsCard = ({ userData, sessionsData }) => {
     const [_7daysGrowthPercent, set_7daysGrowthPercent] = useState(0)
     const [_30daysGrowth, set_30daysGrowth] = useState(0)
     const [_30daysGrowthPercent, set_30daysGrowthPercent] = useState(0)
-    const total_interactions = sessionsData[0]?.total_interactions
-    // console.log(sessionsData[0]);
+    const [total_interactions, setTotal_interactions] = useState(0)
 
+    // const data = sessionsData //.reverse();
+    // console.log({sessionsData});
+    // console.log({data});
     useEffect(() => {
-        const data = sessionsData.reverse();
-        const last7days = data.slice(0, 7)
-        const last7days_prev = data.slice(8, 15)
-        const last30days = data.slice(0, 30)
-        const last30days_prev = data.slice(31, 61)
+        const last7days = sessionsData.slice(0, 7)
+        const last7days_prev = sessionsData.slice(8, 15)
+        const last30days = sessionsData.slice(0, 30)
+        const last30days_prev = sessionsData.slice(31, 61)
         
         var last7daysSum = 0
         var prev_last7daysSum = 0
@@ -60,8 +61,13 @@ const StatsCard = ({ userData, sessionsData }) => {
         set_7daysGrowth(last7daysSum - prev_last7daysSum)
         set_30daysGrowth(last30daysSum - prev_last30daysSum)
 
+        var count = 0;
+        for (let i = 0; i < sessionsData.length; i++) {
+            count += parseInt(sessionsData[i].total_interactions)
+        }
+        // setTotal_interactions(sessionsData[0]?.total_interactions)
+        setTotal_interactions(count)
     }, [sessionsData])
-
 
     // console.log(last7daysSum);
     function nFormatter(num, digits = 1) {
@@ -95,7 +101,7 @@ const StatsCard = ({ userData, sessionsData }) => {
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Your status is <span className="font-bold">{userData?.status}</span></p>
                         <p className="font-normal text-sm opacity-40">
-                            {userData?.status === 'pending' && 'Please input your password in order to allow us to log in.'}
+                            {userData?.status === 'pending' && <span>Please <span className="text-red-600">input your password</span> in order to allow us to log in.</span>}
                             {userData?.status === 'paused' && 'Please contact support or renew your plan'}
                             {userData?.status === 'active' && 'Your status is Active.'}
                         </p>
@@ -149,7 +155,7 @@ const StatsCard = ({ userData, sessionsData }) => {
                             <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                 <BsArrowUp className="absolute text-btngreen font-semibold" />
                             </div>
-                            <h2 className="font-bold text-[30px] text-gray20">{total_interactions ? nFormatter(total_interactions) : 0}</h2>
+                            <h2 className="font-bold text-[30px] text-gray20">{nFormatter(total_interactions)}</h2>
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Total Interactions</p>
                     </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { deleteUserDetails } from "../helpers";
 import { supabase } from "../supabaseClient";
 import Blacklist from "./Blacklist";
 import ChartSection from "./ChartSection";
@@ -30,14 +31,24 @@ export default function Dashboard() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return navigate("/login")
       setUser(user)
-      // console.log(user);
-      // console.log("🚀 ~ file: Dashboard.jsx:31 ~ getData ~ user", user)
       const { data, error } = await supabase
         .from('users')
         .select()
         .eq('user_id', user.id).order('created_at', { ascending: false })
-      // console.log("🚀 ~ file: Dashboard.jsx:34 ~ getData ~ data", data)
-      setData(data)
+      if(user && !data[0].username){
+        // console.log(data[0].username)
+        const { data: user, error } = await supabase.auth.api.deleteUser(
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoZWdwcHZscXJvdG5wZWpzaXljIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3Mjc2MzMzMywiZXhwIjoxOTg4MzM5MzMzfQ.3c2HtQvnQ8F8m5viFZWFS04hYYDUog0Lvl10YIvdY6A'
+        )
+        if(error) alert(error)
+        if(user){
+          await deleteUserDetails(user.id)
+        }
+        alert('Please re-register your account')
+        await supabase.auth.signOut();
+        window.location.pathname = "/login";
+      }
+      setData(data[0])
       setError(error)
     };
 
@@ -46,25 +57,24 @@ export default function Dashboard() {
 
   const [sessionsData, setSessionsData] = useState([])
 
-  // console.log(userDefaultData?.[0]?.username);
+  // console.log(userDefaultdata?.username);
+  // sessions
   useEffect(() => {
     const fetch = async () => {
       const resData = await supabase
         .from('sessions')
         .select()
-        .eq('username', data?.[0]?.username)
+        .eq('username', data?.username)
       resData.error && console.log(resData.error);
       const d = JSON.parse(resData.data[0].data)
-      console.log(d);
+      // console.log(d);
       setSessionsData(d)
     }
-    const username = data?.[0]?.username;
+    const username = data?.username;
     if (username) {
       fetch()
     }
   }, [data])
-
-  // console.log({data});
 
   const setFilterModalCallback = useCallback(() => {
     setFilterModal(false);
@@ -76,31 +86,30 @@ export default function Dashboard() {
     <div className="container mx-auto px-6">
       <StatsSection
         user={user}
-        user_id={data?.[0]?.id}
-        userId={data?.[0]?.user_id}
-        username={data?.[0]?.username}
-        avatar={data?.[0]?.profile_pic_url}
-        isVerified={data?.[0]?.is_verified}
-        name={data?.[0]?.full_name}
-        bio={data?.[0]?.biography}
-        url={`https://www.instagram.com/${data?.[0]?.username}`}
-        currMediaCount={data?.[0]?.posts}
-        currFollowers={data?.[0]?.followers}
-        currFollowing={data?.[0]?.following}
+        userData={data}
+        user_id={data?.id}
+        userId={data?.user_id}
+        username={data?.username}
+        avatar={data?.profile_pic_url}
+        isVerified={data?.is_verified}
+        name={data?.full_name}
+        bio={data?.biography}
+        url={`https://www.instagram.com/${data?.username}`}
+        currMediaCount={data?.posts}
+        currFollowers={data?.followers}
+        currFollowing={data?.following}
         setFilterModal2={setFilterModalCallback}
         filterModal2={FilterModal}
       />
-      <StatsCard userData={data?.[0]} sessionsData={sessionsData} />
+      <StatsCard userData={data} sessionsData={sessionsData} />
       <ChartSection
-        data={data}
         sessionsData={sessionsData}
         isPrivate={false}
-
       />
       <Targeting
         userId={id}
-        avatar={data?.[0]?.profile_pic_url}
-        username={data?.[0]?.username}
+        avatar={data?.profile_pic_url}
+        username={data?.username}
       />
       <Blacklist userId={id} />
       <Whitelist userId={id} />

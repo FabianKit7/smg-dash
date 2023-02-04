@@ -2,16 +2,19 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { IoClose, IoPowerOutline } from 'react-icons/io5';
 import { BsPersonPlus, BsPersonDash } from "react-icons/bs"
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai"
 import avatarImg from "../images/avatar.svg";
 import flashImg from "../images/flash.svg"
 import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';
+import { FaLock } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
 const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState('auto');
+  const [showPassword, setShowPassword] = useState(true)
   // const [user, setUser] = useState(null)
 
   const toggleValue = (newValue) => {
@@ -28,15 +31,15 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
       setInstagramPassword(data?.[0]?.instagramPassword);
       error && console.log(error);
     }
-    if (userId){
+    if (userId) {
       fetch();
     }
   }, [user, userId, modalIsOpen])
 
   const handleSave = async () => {
     var d = { instagramPassword, userMode: mode }
-    if (instagramPassword){
-     d = {...d, status: 'active'}
+    if (instagramPassword) {
+      d = { ...d, status: 'active' }
     }
 
     const { data, error } = await supabase
@@ -49,6 +52,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
   }
 
   // console.log(mode);
+
+
 
   return (
     <Modal
@@ -69,12 +74,24 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
         <div className="flex flex-col justify-center items-center">
           <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
           <h2 className='font-bold text-gray20 text-base mb-1'>@instagram</h2>
-          <input className='bg-[#f8f8f8] text-center rounded-[10px] w-full md:w-[403px] placeholder:text-center py-5 md:py-6' type="text" placeholder='Instagram Password'
-            value={instagramPassword}
-            onChange={(e) => {
-              setInstagramPassword(e.target.value)
-            }}
-          />
+          <div className="relative">
+            <input className='bg-[#f8f8f8] text-center rounded-[10px] w-full md:w-[403px] placeholder:text-center py-5 md:py-6'
+              type={showPassword ? "text" : "password"}
+              placeholder='Instagram Password'
+              value={instagramPassword}
+              onChange={(e) => {
+                setInstagramPassword(e.target.value)
+              }}
+            />
+            <div className="absolute top-[50%] right-5 -translate-y-[50%]">
+              {showPassword ? <AiOutlineEyeInvisible onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" /> :
+              <AiOutlineEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" />}
+            </div>
+          </div>
+
+          <p className="font-normal text-sm opacity-40 mt-1 flex items-center gap-1">
+            <span className="">Your password is 100% protected and encrypted.</span> <FaLock />
+          </p>
 
           <div className={`cursor-pointer mt-7 rounded-[10px] border-[0.4px] border-solid flex ${mode === "auto" ? "flex-col md:flex-row gap-7 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "auto" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("auto")}>
             <img className={mode !== "auto" ? "w-[30px] h-[30px]" : "w-[85px] h-[85px] m-auto md:mt-[3%] md:m-0"} src={flashImg} alt="" />

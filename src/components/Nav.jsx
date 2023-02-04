@@ -71,7 +71,7 @@ export default function Nav() {
                   </li>
                 </Link>
 
-                <Link className="font-normal text-sm" to={"/settings"}
+                <a className="font-normal text-sm" href="/settings"
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setActiveLink("Settings");
@@ -80,7 +80,7 @@ export default function Nav() {
                   <li className={`py-2 px-6 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
                     Settings
                   </li>
-                </Link> 
+                </a>
 
                 {data?.admin && <Link className="font-normal text-sm" to={"/admin"}
                   onClick={() => {
