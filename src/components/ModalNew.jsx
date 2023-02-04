@@ -14,7 +14,7 @@ Modal.setAppElement('#root');
 const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState('auto');
-  const [showPassword, setShowPassword] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
   // const [user, setUser] = useState(null)
 
   const toggleValue = (newValue) => {
