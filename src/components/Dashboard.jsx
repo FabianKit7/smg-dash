@@ -35,18 +35,19 @@ export default function Dashboard() {
         .from('users')
         .select()
         .eq('user_id', user.id).order('created_at', { ascending: false })
-        
-      if(user && !data[0].username){
+
+      console.log(data);
+      if (user && !data[0]?.username) {
         const { data: delUser, error: delUserError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
         console.log(delUser);
-        if(delUserError) alert(delUserError.message)
-        if(user){
-          await deleteUserDetails(user.id)
-        }
-        alert('Your registration was not complete. Please re-register your account')
-        await supabase.auth.signOut();
-        window.location.pathname = "/login";
+        if (delUserError) alert(delUserError.message)
       }
+      if (user) {
+        await deleteUserDetails(user.id)
+      }
+      alert('Your registration was not complete. Please re-register your account')
+      await supabase.auth.signOut();
+      window.location.pathname = "/login";
       setData(data[0])
       setError(error)
     };

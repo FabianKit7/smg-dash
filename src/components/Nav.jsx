@@ -42,12 +42,12 @@ export default function Nav() {
           <img src={sproutyLogo} alt="sprouty social" />
         </Link>
 
-        {data.full_name && <div className="flex justify-center items-center gap-[10px]">
+        {data?.full_name && <div className="flex justify-center items-center gap-[10px]">
           <CiDark className="text-[25px] mr-4" />
           <div className="img">
             <Link to="">
               <img
-                src={data.profile_pic_url}
+                src={data?.profile_pic_url}
                 className="rounded-circle"
                 height={32}
                 width={32}
@@ -57,10 +57,10 @@ export default function Nav() {
             </Link>
           </div>
           <div className="relative">
-            <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}>{data.full_name}</p>
+            <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}>{data?.full_name}</p>
             {isOpen && (
               <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[7%]">
-                <Link className="font-normal text-sm" to={"/dashboard/" + data.user_id}
+                <Link className="font-normal text-sm" to={"/dashboard/" + data?.user_id}
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setActiveLink("Profile");
