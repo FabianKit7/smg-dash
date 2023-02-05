@@ -20,20 +20,6 @@ export default function SearchBox() {
     };
   }, [isClickedOutside]);
 
-  // useEffect(() => {
-  //   setTimeout(async () => {
-  //     setLoadingSpinner(true)
-  //     // console.log(input);
-  //     const data = await searchAccount(input);
-  //     const users = data?.users;
-  //     if (users.length > 0) {
-  //       setSearchedAccounts(users)
-  //       setShowResultModal(true)
-  //     }
-  //     setLoadingSpinner(false)
-  //   }, 0);
-  // }, [input])
-
   const handleChange = async (query) => {
     setSearchedAccounts([]);
     setLoadingSpinner(true)
@@ -80,7 +66,7 @@ export default function SearchBox() {
       const userResults = await Axios.request(options);
       console.log(userResults.data[0].username);
       // if (!userResults.data[0].username) return setError(true);
-      // window.location = `/subscriptions/${userResults.data[0].username}`;
+      window.location = `/subscriptions/${userResults.data[0].username}`;
 
     } else {
       alert('choose your account');
