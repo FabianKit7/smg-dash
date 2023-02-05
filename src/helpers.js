@@ -149,7 +149,7 @@ export const searchAccount = async (username) => {
   }
 
   const request = await axios.request(options).catch(err => console.log(err))
-  return request.data[0]
+  return request?.data?.[0]
 }
 
 export const totalLikes = (name) => {

@@ -1,16 +1,24 @@
 import Axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
+import { useClickOutside } from "react-click-outside-hook";
 import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { searchAccount } from '../../helpers'
 
 export default function SearchBox() {
+  const [parentRef, isClickedOutside] = useClickOutside();
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [showResultModal, setShowResultModal] = useState(false)
   const [input, setInput] = useState('')
   const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selected, setSelected] = useState()
   const inputRef = useRef()
+
+  useEffect(() => {
+    if (isClickedOutside) {
+      setShowResultModal(false)
+    };
+  }, [isClickedOutside]);
 
   // useEffect(() => {
   //   setTimeout(async () => {
@@ -28,42 +36,34 @@ export default function SearchBox() {
 
   const handleChange = async (query) => {
     setSearchedAccounts([]);
-    // if (!query) {
-    //   return;
-    // }
     setLoadingSpinner(true)
     const data = await searchAccount(query);
     const users = data?.users;
     if (users?.length > 0) {
-      // console.log("Original Array: ");
-      // console.log(users);
-
-      // let reversed_array = [];
-      // for (let i = users.length - 1; i >= 0; i--) {
-      //   reversed_array.push(users[i]);
-      // }
-
-      // console.log("Reversed Array: ");
-      // console.log(reversed_array);
-      // setSearchedAccounts(reversed_array)
-
-      const obj = users.find(item => item.username === query);
-      console.log(obj);
-      const el = document.getElementById(obj?.username);
-      if (el) {
-        el.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "center"
-        });
-      }
-
       setSearchedAccounts(users)
       setShowResultModal(true)
     }
     setLoadingSpinner(false)
-
   }
+
+  // useEffect(() => {
+  //   const li = document.querySelectorAll('.accounts')
+  //   for (let i = 0; i < li.length; i++) {
+  //     var a = li[i].getElementsByTagName("p")[0];
+  //     var txtValue = a.textContent || a.innerText;
+  //     var x = txtValue.toLowerCase(), y = input.toLowerCase();
+  //     // console.log('x,y', x,y);
+  //     if (x.indexOf(y) > -1) {
+  //       console.log('hello', li[i]);
+  //       li[i].classList.add('flex')
+  //       li[i].classList.remove('hidden')
+  //     } else {
+  //       li[i].classList.remove('flex')
+  //       li[i].classList.add('hidden')
+  //     }
+  //   }
+  // }, [input, loadingSpinner])
+  
 
   const handleSubmit = async () => {
     if (selected) {
@@ -88,7 +88,7 @@ export default function SearchBox() {
   };
 
   return (<>
-    <div className="flex flex-col items-center w-[320px] relative">
+    <div className="flex flex-col items-center w-[320px] relative" ref={parentRef}>
       <div className="flex items-center border rounded-md shadow-md w-full py-3 px-4">
         <input
           type="text"
@@ -113,14 +113,11 @@ export default function SearchBox() {
       </div>
 
       {showResultModal && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
-        <div className="absolute -top-1 -left-1">
-          <TiTimes className='cursor-pointer' onClick={() => { setShowResultModal(false) }} size={25} />
-        </div>
-        {searchedAccounts.map((data) => {
+        {searchedAccounts.map((data, index) => {
           return (<>
             <div
-              key={data?.username}
-              className='w-full flex items-center cursor-pointer hover:bg-[#02a1fd]/20'
+              key={index}
+              className='accounts w-full flex items-center cursor-pointer hover:bg-[#02a1fd]/20'
               onClick={() => {
                 setSelected(data?.username);
                 setInput(data?.username)
@@ -138,7 +135,7 @@ export default function SearchBox() {
                 }}
               />
               <div className="flex flex-col" id={data.username}>
-                <span>{data.username}</span>
+                <p>{data.username}</p>
                 <span className="opacity-40">{data.full_name}</span>
               </div>
             </div>
