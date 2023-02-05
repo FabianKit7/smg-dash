@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from "../supabaseClient";
 import Modal from 'react-modal';
-import { Typeahead } from "react-bootstrap-typeahead"
+import { AsyncTypeahead, Typeahead } from "react-bootstrap-typeahead"
 import { IoClose } from 'react-icons/io5';
 import "../../src/modalsettings.css"
 import { Spinner } from 'react-bootstrap';
@@ -13,11 +13,11 @@ Modal.setAppElement('#root');
 
 const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle, userId, setAddSuccess, addSuccess }) => {
   const [accountName, setAccountName] = useState("");
+  const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [selectAccountName, setSelectedAccountName] = useState("");
   const [searchAccounts, setSearchAccounts] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  const [loadingSpinner, setLoadingSpinner] = useState(false);
 
 
     const add = async () => {
@@ -35,7 +35,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           res.error
         );
 
-      setAccountName("");
+      // setAccountName("");
       setSelectedAccountName("");
       setLoading(false);
       setAddSuccess(!addSuccess);
@@ -55,14 +55,37 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
   //   }
   // }, [from, accountName]);
 
-  const searchAccountFunc = async (text) => {
-    if (text) {
-      setLoadingSpinner(true)
-      const data = await searchAccount(text);
-      data?.data?.[0]?.users && setSearchAccounts(data.data[0].users);
-      setLoadingSpinner(false)
-    }
-  }
+  // const searchAccountFunc = async (text) => {
+  //   if (text) {
+  //     setLoadingSpinner(true)
+  //     const data = await searchAccount(text);
+  //     data?.data?.[0]?.users && setSearchAccounts(data.data[0].users);
+  //     setLoadingSpinner(false)
+  //   }
+  // }
+
+  const SEARCH_URI = 'https://api.github.com/search/users';
+  const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+
+  const handleSearch = async (query) => {
+    setIsLoading(true);
+    const data = await searchAccount(query);
+    data?.data?.[0]?.users && setSearchAccounts(data.data[0].users);
+    // console.log(data.data[0].users);
+    setIsLoading(false);
+    
+    // fetch(`${SEARCH_URI}?q=${query}+in:login&page=1&per_page=50`)
+    //   .then((resp) => resp.json())
+    //   .then(({ items }) => {
+    //     setOptions(items);
+    //     setIsLoading(false);
+    //   });
+  };
+
+  // Bypass client-side filtering by returning `true`. Results are already
+  // filtered by the search endpoint, so no need to do it again.
+  const filterBy = () => true;
 
   return (
     <Modal
@@ -84,7 +107,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           <h1 className='font-bold text-black text-[40px] text-center pb-3'>{title}</h1>
           <p className='font-bold text-sm opacity-40 text-center lg:px-[100px]'>{subtitle}</p>
           <div className="flex items-center justify-center w-full">
-              <Typeahead
+              {/* <Typeahead
                 className='w-full'
                 onInputChange={(text) => {
                   searchAccountFunc(text)
@@ -101,8 +124,41 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                 }
                 options={searchAccounts}
                 placeholder="Search Account"
-              />
-            {loadingSpinner && (<Spinner animation="border" />)}
+              /> */}
+            <AsyncTypeahead
+              // filterBy={filterBy}
+              id="async-example"
+              isLoading={isLoading}
+              // labelKey="login"
+              labelKey="username"
+              inputProps={
+                { className: 'w-full bg-inputbkgrd rounded py-[25px] font-semibold' }
+              }
+              className='w-full'
+              placeholder="Search Account..."
+              minLength={2}
+              onSearch={handleSearch}
+              onChange={(selected) => {
+                setSelectedAccountName(selected[0]?.username);
+              }}
+              // options={options}
+              options={searchAccounts}
+              // renderMenuItemChildren={(option) => (
+              //   <div className='min-w-[300px] flex'>
+              //     <img
+              //       alt={option.login}
+              //       src={option.avatar_url}
+              //       style={{
+              //         height: '24px',
+              //         marginRight: '10px',
+              //         width: '24px',
+              //       }}
+              //     />
+              //     <span>{option.login}</span>
+              //   </div>
+              // )}
+            />
+            {/* {loadingSpinner && (<Spinner animation="border" />)} */}
             <button className='bg-black w-32 md:w-40 py-[25px] font-semibold rounded text-white'
               onClick={() => add()}
             >{loading ? "Loading..." : "Add"}</button>
