@@ -91,6 +91,7 @@ export default function Search() {
               ref={ref}
               allowNew={true}
               id="async-example"
+              filterBy={['username']}
               isLoading={isLoading}
               labelKey="username"
               inputProps={
