@@ -1,4 +1,5 @@
 import axios from "axios"
+import _ from 'lodash';
 import { supabase } from "./supabaseClient"
 const craperAPI = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile"
 
@@ -137,7 +138,7 @@ export const getAccount = async (account) => {
 
   return userResults
 }
-export const searchAccount = async (username) => {
+export const searchAccount = _.memoize(async (username) => {
   const options = {
     method: "GET",
     url: craperAPI,
@@ -150,7 +151,7 @@ export const searchAccount = async (username) => {
 
   const request = await axios.request(options).catch(err => console.log(err))
   return request?.data?.[0]
-}
+})
 
 export const totalLikes = (name) => {
   const options = {

@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { useClickOutside } from "react-click-outside-hook";
+
 import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { searchAccount } from '../../helpers'
@@ -10,6 +11,7 @@ export default function SearchBox() {
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [showResultModal, setShowResultModal] = useState(false)
   const [input, setInput] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState(input)
   const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selected, setSelected] = useState()
   const inputRef = useRef()
@@ -20,36 +22,29 @@ export default function SearchBox() {
     };
   }, [isClickedOutside]);
 
-  const handleChange = async (query) => {
-    setSearchedAccounts([]);
-    setLoadingSpinner(true)
-    const data = await searchAccount(query);
-    const users = data?.users;
-    if (users?.length > 0) {
-      setSearchedAccounts(users)
-      setShowResultModal(true)
-    }
-    setLoadingSpinner(false)
-  }
+  useEffect(() => {
+    const timer = setTimeout(() => setInput(debouncedQuery), 1000);
+    return () => clearTimeout(timer)
+  }, [debouncedQuery]);
 
-  // useEffect(() => {
-  //   const li = document.querySelectorAll('.accounts')
-  //   for (let i = 0; i < li.length; i++) {
-  //     var a = li[i].getElementsByTagName("p")[0];
-  //     var txtValue = a.textContent || a.innerText;
-  //     var x = txtValue.toLowerCase(), y = input.toLowerCase();
-  //     // console.log('x,y', x,y);
-  //     if (x.indexOf(y) > -1) {
-  //       console.log('hello', li[i]);
-  //       li[i].classList.add('flex')
-  //       li[i].classList.remove('hidden')
-  //     } else {
-  //       li[i].classList.remove('flex')
-  //       li[i].classList.add('hidden')
-  //     }
-  //   }
-  // }, [input, loadingSpinner])
-  
+  useEffect(() => {
+    const fetch = async () => {
+      console.log('now');
+      setLoadingSpinner(true)
+      const data = await searchAccount(input);
+      const users = data?.users;
+      if (users?.length > 0) {
+        // const filtered = users.filter(user => {
+        //   return ((user?.username)?.toLowerCase())?.startwith(input?.toLowerCase())
+        // })
+        // console.log(filtered);
+        setSearchedAccounts(users)
+        setShowResultModal(true)
+      }
+      setLoadingSpinner(false)
+    }
+    fetch()
+  }, [input]) 
 
   const handleSubmit = async () => {
     if (selected) {
@@ -80,15 +75,12 @@ export default function SearchBox() {
           type="text"
           className="w-full outline-none"
           placeholder="@username"
-          value={input}
+          value={debouncedQuery}
           ref={inputRef}
           onChange={(e) => {
-            handleChange(e.target.value);
-            setInput(e.target.value)
+            setDebouncedQuery(e.target.value);
           }}
           onFocus={(e) => {
-            // handleChange(e.target.value);
-            // setInput(e.target.value)
             setShowResultModal(true)
           }}
         />
