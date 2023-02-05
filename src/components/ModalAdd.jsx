@@ -12,8 +12,6 @@ import { getAccount, searchAccount } from '../helpers';
 Modal.setAppElement('#root');
 
 const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle, userId, setAddSuccess, addSuccess }) => {
-
-  const [whitelistAccounts, setWhitelistAccounts] = useState([]);
   const [accountName, setAccountName] = useState("");
   const [selectAccountName, setSelectedAccountName] = useState("");
   const [searchAccounts, setSearchAccounts] = useState([]);
@@ -23,11 +21,9 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
 
 
     const add = async () => {
-      // console.log(selectAccountName);
         if (selectAccountName) {
         setLoading(true);
         const theAccount = await getAccount(selectAccountName);
-        // console.log(theAccount);
         const res = await supabase.from(from).insert({
           account: selectAccountName,
           followers: theAccount.data[0].follower_count,
@@ -38,7 +34,6 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
           res.error
         );
-        // console.log(res);
 
       setAccountName("");
       setSelectedAccountName("");
@@ -48,17 +43,26 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
     }
   };
 
-  useEffect(() => {
-    if (accountName) {
+  // useEffect(() => {
+  //   if (accountName) {
+  //     setLoadingSpinner(true)
+  //     const getData = async () => {
+  //       const data = await searchAccount(accountName);
+  //       data?.data?.[0]?.users && setSearchAccounts(data.data[0].users);
+  //       setLoadingSpinner(false)
+  //     };
+  //     getData();
+  //   }
+  // }, [from, accountName]);
+
+  const searchAccountFunc = async (text) => {
+    if (text) {
       setLoadingSpinner(true)
-      const getData = async () => {
-        const data = await searchAccount(accountName);
-        data?.data?.[0]?.users && setSearchAccounts(data.data[0].users);
-        setLoadingSpinner(false)
-      };
-      getData();
+      const data = await searchAccount(text);
+      data?.data?.[0]?.users && setSearchAccounts(data.data[0].users);
+      setLoadingSpinner(false)
     }
-  }, [from, accountName]);
+  }
 
   return (
     <Modal
@@ -81,8 +85,12 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           <p className='font-bold text-sm opacity-40 text-center lg:px-[100px]'>{subtitle}</p>
           <div className="flex items-center justify-center w-full">
               <Typeahead
-              className='w-full'
-                onInputChange={(text) => setAccountName(text)}
+                className='w-full'
+                onInputChange={(text) => {
+                  searchAccountFunc(text)
+                  // setAccountName(text)
+                }}
+                onkeyDown={(e) => console.log(e)}
                 id="pk"
                 onChange={(selected) => {
                   setSelectedAccountName(selected[0]?.username);
@@ -91,7 +99,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                 inputProps={
                   { className: 'w-full bg-inputbkgrd rounded py-[25px] font-semibold' }
                 }
-              options={searchAccounts}
+                options={searchAccounts}
                 placeholder="Search Account"
               />
             {loadingSpinner && (<Spinner animation="border" />)}
