@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCaretRight } from "react-icons/rx"
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { searchAccount } from "../helpers";
@@ -38,17 +38,28 @@ export default function Search() {
   };
 
   const [isLoading, setIsLoading] = useState(false);
+  const [inputText,setInputText] = useState('username')
 
   const handleSearch = async (query) => {
+    setInputText(query)
     setIsLoading(true);
     const data = await searchAccount(query);
-    data?.data?.[0]?.users && setOptions(data.data[0].users);
+    const user = data?.data?.[0]?.users;
+    if(user.length>0){
+      // console.log(user.length);
+      // console.log('data.data[0].users', user[0].username);
+      setOptions(data.data[0].users);
+    }
     setIsLoading(false);
   };
 
-
-
-
+  // const val = ref?.current?.getInput()?.value
+  // console.log(val);
+  // val && setInputText(val)
+  // useEffect(() => {
+  // }, [])
+  
+  // console.log(options);
 
   return (
     <div className="container mx-auto px-6">
@@ -64,7 +75,6 @@ export default function Search() {
           </div>
           <p className="text-gray20 opacity-40 text-sm font-bold">Enter Dashboard</p>
         </div>
-
 
         <div className="grid justify-center items-center">
           <h1 className='font-bold text-black text-[40px] text-center pb-3'>Search your account</h1>
@@ -90,8 +100,10 @@ export default function Search() {
             <AsyncTypeahead
               ref={ref}
               allowNew={true}
+              useCache={false}
               id="async-example"
-              filterBy={['username']}
+              // filterBy={[inputText]}
+              filterBy={() => true}
               isLoading={isLoading}
               labelKey="username"
               inputProps={
@@ -99,12 +111,26 @@ export default function Search() {
               }
               className='w-full'
               placeholder="Search Account..."
-              minLength={2}
+              // minLength={2}
               onSearch={handleSearch}
-              useCache={false}
-              onChange={(selected) => {
-                setSelectedAccountName(selected[0]?.username);
-              }}
+              // onFocus={() => {
+              //   handleSearch(ref.current.getInput().value)
+              // }}
+              // onBlur={() => {
+              //   handleSearch(ref.current.getInput().value)
+              // }}
+              // onInputChange={() => {
+              //   handleSearch(ref.current.getInput().value)
+              // }}
+              // onKeyDown={() => {
+              //   handleSearch(ref.current.getInput().value)
+              // }}
+              // onKeyPress={() => {
+              //   handleSearch(ref.current.getInput().value)
+              // }}
+              // onChange={(selected) => {
+              //   setSelectedAccountName(selected[0]?.username);
+              // }}
               options={options}
               renderMenuItemChildren={(option) => {
                 // console.log(option);
