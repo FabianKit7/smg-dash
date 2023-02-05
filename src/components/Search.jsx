@@ -16,7 +16,7 @@ export default function Search() {
     // console.log(input.value);
     if (selectAccountName || input?.value) {
       if (e === "Enter") {
-        const params = { ig: selectAccountName || input.value, response_type: "short", corsEnabled: "true" };
+        const params = { ig: selectAccountName || input.value, response_type: "short", corsEnabled: "false" };
         console.log(params);
         const options = {
           method: "GET",
@@ -40,7 +40,6 @@ export default function Search() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async (query) => {
-    // setSearchAccounts('');
     setIsLoading(true);
     const data = await searchAccount(query);
     data?.data?.[0]?.users && setOptions(data.data[0].users);
@@ -90,6 +89,7 @@ export default function Search() {
 
             <AsyncTypeahead
               ref={ref}
+              allowNew={true}
               id="async-example"
               isLoading={isLoading}
               labelKey="username"
@@ -100,10 +100,32 @@ export default function Search() {
               placeholder="Search Account..."
               minLength={2}
               onSearch={handleSearch}
+              useCache={false}
               onChange={(selected) => {
                 setSelectedAccountName(selected[0]?.username);
               }}
               options={options}
+              renderMenuItemChildren={(option) => {
+                console.log(option);
+                return (
+                  <div className='min-w-[300px] flex'>
+                    <img
+                      alt=''
+                      src={option.profile_pic_url}
+                      style={{
+                        height: '40px',
+                        marginRight: '10px',
+                        width: '40px',
+                        borderRadius: '9999px'
+                      }}
+                    />
+                    <div className="flex flex-col">
+                      <span>{option.username}</span>
+                      <span className="opacity-40">{option.full_name}</span>
+                    </div>
+                  </div>
+                )
+              }}
             />
             {/* <input className='w-full bg-inputbkgrd rounded-[10px] py-[25px] pl-7 font-semibold' placeholder='@username' type="text" value={value} onChange={({ target }) => setValue(target.value)} onKeyPress={(e) => onSubmit(e.nativeEvent.code)} /> */}
             <button className='absolute top-[38%] right-[2.5%] bg-primaryblue w-40 py-4 font-semibold rounded-[10px] text-white cursor-pointer' onClick={() => onSubmit("Enter")}>Select Account</button>
