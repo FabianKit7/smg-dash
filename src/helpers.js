@@ -138,16 +138,6 @@ export const getAccount = async (account) => {
   return userResults
 }
 export const searchAccount = async (username) => {
-  // console.log({username});
-  // const options = {
-  //   method: 'GET',
-  //   url: `https://instagram-profile1.p.rapidapi.com/searchuser/${username}`,
-  //   headers: {
-  //     'X-RapidAPI-Key': '019c5aa355msh5056f6d15f2383bp1da51bjsn918a55ff5806',
-  //     'X-RapidAPI-Host': 'instagram-profile1.p.rapidapi.com'
-  //   }
-  // };
-
   const options = {
     method: "GET",
     url: craperAPI,
@@ -159,8 +149,7 @@ export const searchAccount = async (username) => {
   }
 
   const request = await axios.request(options).catch(err => console.log(err))
-
-  return request
+  return request.data[0]
 }
 
 export const totalLikes = (name) => {
