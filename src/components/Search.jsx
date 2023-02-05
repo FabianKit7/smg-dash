@@ -106,7 +106,7 @@ export default function Search() {
               }}
               options={options}
               renderMenuItemChildren={(option) => {
-                console.log(option);
+                // console.log(option);
                 return (
                   <div className='min-w-[300px] flex'>
                     <img
