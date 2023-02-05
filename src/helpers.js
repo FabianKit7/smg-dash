@@ -1,5 +1,6 @@
 import axios from "axios"
 import { supabase } from "./supabaseClient"
+const craperAPI = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile"
 
 export const numFormatter = (num = 0) => {
   if (num > 999 && num <= 999949) {
@@ -124,7 +125,7 @@ export const countDays = (day) => {
 export const getAccount = async (account) => {
   const options = {
     method: "GET",
-    url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
+    url: craperAPI,
     params: { ig: account, response_type: "short", corsEnabled: "true" },
     headers: {
       "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
@@ -137,10 +138,11 @@ export const getAccount = async (account) => {
   return userResults
 }
 export const searchAccount = async (username) => {
+  console.log({username});
   const options = {
     method: "GET",
-    url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
-    params: { ig: username, response_type: "search", corsEnabled: "true" },
+    url: craperAPI,
+    params: { ig: username, response_type: "search", corsEnabled: "false" },
     headers: {
       "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
       "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
@@ -155,7 +157,7 @@ export const searchAccount = async (username) => {
 export const totalLikes = (name) => {
   const options = {
     method: "GET",
-    url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
+    url: craperAPI,
     params: { ig: name, response_type: "feeds" },
     headers: {
       "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
