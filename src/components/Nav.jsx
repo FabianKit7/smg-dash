@@ -3,14 +3,21 @@ import { Link, Navigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import sproutyLogo from "../images/sprouty.svg";
 import { CiDark } from "react-icons/ci"
+import { useClickOutside } from "react-click-outside-hook";
 
 export default function Nav() {
+  const [parentRef, isClickedOutside] = useClickOutside();
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('');
   const [data, setData] = useState("");
-  // console.log("🚀 ~ file: Nav.jsx:12 ~ Nav ~ data", data);
   const [error, setError] = useState(false);
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
+
+  useEffect(() => {
+    if (isClickedOutside) {
+      setIsOpen(false)
+    };
+  }, [isClickedOutside]);
 
   useEffect(() => {
     const getData = async () => {
@@ -31,10 +38,8 @@ export default function Nav() {
     getData();
   }, []);
 
-  // console.log(data);
-
   return (
-    <nav className="bg-white shadow-nav py-2">
+    <nav className="bg-white shadow-nav py-2" ref={parentRef}>
       <div
         className="container mx-auto px-6 flex justify-between"
       >

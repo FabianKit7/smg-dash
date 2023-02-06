@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react"
 import { FaCheckCircle } from "react-icons/fa"
+import { RiUserSettingsFill } from "react-icons/ri"
 import { numFormatter } from "../helpers"
 import profileImg from "../images/profile.svg"
 import settingsImg from "../images/settings.svg"
@@ -42,7 +43,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
       setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
       setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
-      
+
       setMargic(data?.[0]?.targetingFilter.margicFilter || true);
       setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
       setGender(data?.[0]?.targetingFilter.gender || 'All');
@@ -54,7 +55,23 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
     }
   }, [filterModal, userId])
 
-  return (
+  return (<>
+    {userData?.status === 'pending' && <div className="flex justify-center mt-6">
+      <div className="w-[320px] md:w-[350px] rounded-md">
+        <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 rounded-t-md">
+          <RiUserSettingsFill />
+          Connect Your Account
+        </div>
+        <div className="bg-[#ffebf0] px-4 py-3 rounded-b-md text-sm">
+          <p className="">Your account is currently not connected to our
+            growth system. To get started, please connect your
+            account now.</p>
+          <button className="mt-3 bg-[#ff2c55] text-white rounded-md py-3 text-center w-full"
+            onClick={() => setIsOpen(true)}
+          >Connect Account</button>
+        </div>
+      </div>
+    </div>}
     <div className="shadow-stats mt-8 md:mt-[84px] md:py-7 md:px-16">
       <div className="lg:flex md:grid md:grid-cols-1 md:gap-8 justify-between p-6 md:px-3 md:py-4">
         {/* Image Col */}
@@ -128,7 +145,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         </div>
       </div>
     </div>
-  )
+  </>)
 }
 
 

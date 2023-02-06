@@ -172,7 +172,7 @@ export default function Settings() {
           .catch((error) => {
             console.log(error);
           })
-        console.log(a);
+        // console.log(a);
         // if (a.subscription?.status === 'cancelled') {
         if (a.status === 'valid') {
           const { data: { user } } = await supabase.auth.getUser();
@@ -191,8 +191,6 @@ export default function Settings() {
       console.log("aborted!")
     }
   }
-
-  console.log(supaData)
 
   return (
     <div className="container m-auto mt-9 px-6">
