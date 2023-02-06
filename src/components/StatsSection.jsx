@@ -93,7 +93,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
           </div>
           <div className="flex gap-6 justify-center lg:justify-end md:justify-start">
             <div className="relative">
-              {userData?.status === 'pending' && <div className="absolute -top-1 -left-1 h-3 w-3 rounded-full bg-red-600 z-10"></div>}
+              {userData?.status === 'pending' && <div className="absolute -top-1 -left-1 h-3 w-3 rounded-full bg-red-600"></div>}
               <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={profileImg} alt="" onClick={() => { setIsOpen(!modalIsOpen) }} />
             </div>
             <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />

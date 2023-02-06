@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteUserDetails } from "../helpers";
-import { supabase, supabaseAdmin } from "../supabaseClient";
+import { supabase } from "../supabaseClient";
 import Blacklist from "./Blacklist";
 import ChartSection from "./ChartSection";
 import StatsCard from "./StatsCard";
@@ -36,7 +35,7 @@ export default function Dashboard() {
         .select()
         .eq('user_id', user.id).order('created_at', { ascending: false })
 
-      console.log(data);
+      // console.log(data);
       if (user && !data[0]?.username) {
         // const { data: delUser, error: delUserError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
         // console.log(delUser);

@@ -29,20 +29,22 @@ export default function SearchBox() {
 
   useEffect(() => {
     const fetch = async () => {
-      console.log('now');
       setLoadingSpinner(true)
       const data = await searchAccount(input);
       const users = data?.users;
       if (users?.length > 0) {
-        // const filtered = users.filter(user => {
-        //   return ((user?.username)?.toLowerCase())?.startwith(input?.toLowerCase())
-        // })
-        // console.log(filtered);
-        setSearchedAccounts(users)
+        const filtered = users?.filter(user => {
+          var x = (user?.username)?.toLowerCase()
+          var y = input?.toLowerCase()
+          return x?.startsWith(y)
+        })
+        console.log(filtered);
+        setSearchedAccounts(filtered)
         setShowResultModal(true)
       }
       setLoadingSpinner(false)
     }
+    setSearchedAccounts([])
     fetch()
   }, [input]) 
 
@@ -86,7 +88,7 @@ export default function SearchBox() {
         />
         <div className="relative flex items-center justify-center">
           <span className="absolute z-10">{loadingSpinner && (<Spinner animation="border" />)}</span>
-          {input && <TiTimes className='cursor-pointer' onClick={() => { setInput('') }} />}
+          {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
         </div>
       </div>
 
