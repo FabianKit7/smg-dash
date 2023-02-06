@@ -73,7 +73,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
         </div>
         <div className="flex flex-col justify-center items-center">
           <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
-          <h2 className='font-bold text-gray20 text-base mb-1'>@instagram</h2>
+          <h2 className='font-bold text-gray20 text-base mb-1'>@{user?.username}</h2>
           <div className="relative">
             <input className='bg-[#f8f8f8] text-center rounded-[10px] w-full md:w-[403px] placeholder:text-center py-5 md:py-6'
               type={showPassword ? "text" : "password"}

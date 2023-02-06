@@ -77,7 +77,7 @@ export default function Settings() {
         .select()
         .eq("user_id", user.id);
       setData(data[0]);
-      console.log(error);
+      error && console.log(error);
     };
 
     getData();
