@@ -11,11 +11,11 @@ import { FaLock } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
-const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
+const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState('auto');
   const [showPassword, setShowPassword] = useState(false)
-  // const [user, setUser] = useState(null)
+  const [user, setUser] = useState()
 
   const toggleValue = (newValue) => {
     setMode(mode === newValue ? '' : newValue);
@@ -27,6 +27,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
         .from('users')
         .select()
         .eq('user_id', userId).order('created_at', { ascending: false })
+      setUser(data[0])
       setMode(data?.[0]?.userMode || 'auto');
       setInstagramPassword(data?.[0]?.instagramPassword);
       error && console.log(error);
@@ -34,7 +35,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
     if (userId) {
       fetch();
     }
-  }, [user, userId, modalIsOpen])
+  }, [userId, modalIsOpen])
 
   const handleSave = async () => {
     var d = { instagramPassword, userMode: mode }
@@ -85,7 +86,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, user, userId }) => {
             />
             <div className="absolute top-[50%] right-5 -translate-y-[50%]">
               {showPassword ? <AiOutlineEyeInvisible onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" /> :
-              <AiOutlineEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" />}
+                <AiOutlineEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" />}
             </div>
           </div>
 
