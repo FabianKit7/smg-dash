@@ -24,6 +24,7 @@ export default function Settings() {
   const [newEmail, setNewEmail] = useState("");
   // const [error, setError] = useState(false);
   const [loading, setloading] = useState(false);
+  const [subLoading, setSubLoading] = useState(false);
   const [cbInstance, setCbInstance] = useState()
 
   // clearCookies
@@ -110,6 +111,7 @@ export default function Settings() {
   };
 
   const renewSubscription = async () => {
+    setSubLoading(true)
     await cbInstance.openCheckout({
       async hostedPage() {
         return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
@@ -150,6 +152,7 @@ export default function Settings() {
         console.log("checkout", step);
       }
     })
+    setSubLoading(false)
     // const { data: { user } } = await supabase.auth.getUser();
 
     // await supabase
@@ -161,10 +164,12 @@ export default function Settings() {
 
   const cancelSubscription = async () => {
     if (window.confirm("Are you sure you want to cancel your subscription")) {
+      setSubLoading(true)
       try {
         let a = await axios.post(`${baseUrl}/api/cancel_for_items`,
           urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
-          .then((response) => response.data).catch((error) => {
+          .then((response) => response?.data)
+          .catch((error) => {
             console.log(error);
           })
         console.log(a);
@@ -181,6 +186,7 @@ export default function Settings() {
       } catch (error) {
         console.log(error);
       }
+      setSubLoading(false)
     } else {
       console.log("aborted!")
     }
@@ -231,8 +237,8 @@ export default function Settings() {
             <div className="px-4 py-5">
               <h3 className="font-bold text-xl text-gray20 pb-2">Subscription Settings</h3>
               <p className="font-bold text-sm opacity-40 pb-9">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
-              {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">Renew</button> :
-                <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">Cancel</button>}
+              {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">{subLoading ? "Loading..." : "Renew"}</button> :
+                <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">{subLoading ? "Loading..." : "Cancel"}</button>}
             </div>
           </div>
         </div>
