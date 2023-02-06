@@ -158,28 +158,35 @@ export default function Settings() {
     //   .eq('user_id', user.id)
 
   }
-   
+
   const cancelSubscription = async () => {
     if (window.confirm("Are you sure you want to cancel your subscription")) {
-      let a = await axios.post(`${baseUrl}/api/cancel_for_items`,
-        urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
-        .then((response) => response.data)
+      try {
+        let a = await axios.post(`${baseUrl}/api/cancel_for_items`,
+          urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
+          .then((response) => response.data).catch((error) => {
+            console.log(error);
+          })
         console.log(a);
-      if (a.subscription?.status === 'cancelled') {
-        const { data: { user } } = await supabase.auth.getUser();
-        await supabase
-          .from('users')
-          .update({ onTrail: false, subscribed: false })
-          .eq('user_id', user.id)
+        // if (a.subscription?.status === 'cancelled') {
+        if (a.status === 'valid') {
+          const { data: { user } } = await supabase.auth.getUser();
+          await supabase
+            .from('users')
+            .update({ onTrail: false, subscribed: false })
+            .eq('user_id', user.id)
           alert('you have successfully cancelled the subscription');
           window.location = '/'
+        }
+      } catch (error) {
+        console.log(error);
       }
-    }else{
+    } else {
       console.log("aborted!")
     }
   }
 
-  // console.log(supaData)
+  console.log(supaData)
 
   return (
     <div className="container m-auto mt-9 px-6">
@@ -224,8 +231,8 @@ export default function Settings() {
             <div className="px-4 py-5">
               <h3 className="font-bold text-xl text-gray20 pb-2">Subscription Settings</h3>
               <p className="font-bold text-sm opacity-40 pb-9">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
-              {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">Renew</button>:
-              <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">Cancel</button>}
+              {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">Renew</button> :
+                <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">Cancel</button>}
             </div>
           </div>
         </div>
