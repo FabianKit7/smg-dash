@@ -45,7 +45,11 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
   const [debouncedQuery, setDebouncedQuery] = useState(input)
   
   useEffect(() => {
-    const timer = setTimeout(() => setInput(debouncedQuery), 1000);
+    var i = debouncedQuery;
+    if (debouncedQuery.startsWith('@')) {
+      i = debouncedQuery.substring(1)
+    }
+    const timer = setTimeout(() => setInput(i), 1000);
     return () => clearTimeout(timer)
   }, [debouncedQuery]);
 

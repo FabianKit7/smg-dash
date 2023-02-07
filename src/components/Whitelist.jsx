@@ -96,7 +96,7 @@ export default function Whitelist({ userId }) {
         {/* nav */}
         <div className="flex justify-between px-8 pt-8">
           <div className="flex items-center gap-3">
-            <h3 className="font-bold text-[32px]">Whitelists</h3>
+            <h3 className="font-bold text-[32px]">Whitelist</h3>
             <div className="bg-gray20 rounded w-8 h-8 flex justify-center items-center">
               <h2 className="text-white">{whitelistAccounts.length}</h2>
             </div>

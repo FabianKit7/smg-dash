@@ -75,8 +75,9 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
         <div className="flex flex-col justify-center items-center">
           <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
           <h2 className='font-bold text-gray20 text-base mb-1'>@{user?.username}</h2>
-          <div className="relative">
-            <input className='bg-[#f8f8f8] text-center rounded-[10px] w-full md:w-[403px] placeholder:text-center py-5 md:py-6'
+          <div className="relative w-full md:w-[403px] flex justify-center">
+            <input 
+            className='bg-[#f8f8f8] text-center rounded-[10px] w-full placeholder:text-center py-5 md:py-6'
               type={showPassword ? "text" : "password"}
               placeholder='Instagram Password'
               value={instagramPassword}
@@ -99,7 +100,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
             <div className="text-gray20">
               <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Auto Mode</h1>
               {mode === "auto" && (
-                <p className='font-normal text-sm w-full text-center md:text-start'>This setting will follow and unfollow relevant users using the targets you have selected. We will automatically unfollow users after 3 days to keep your following number low and healthy. We will never unfollow anyone that you manually followed yourself.</p>
+                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start'>This setting will follow and unfollow relevant users using the targets you have selected. We will automatically unfollow users after 3 days to keep your following number low and healthy. We will never unfollow anyone that you manually followed yourself.</p>
               )}
             </div>
           </div>
@@ -109,7 +110,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
             <div className="text-gray20">
               <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Follow Mode</h1>
               {mode === "follow" && (
-                <p className='font-normal text-sm w-full md:w-[384px] text-center md:text-start'>In ‘Follow Mode,’ your account will continue following
+                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start'>In ‘Follow Mode,’ your account will continue following
                   users until it reaches Instagram's maximum ‘Following’
                   limit (which is 7500). From there, interactions on our end
                   will stop and you will have to manually change your

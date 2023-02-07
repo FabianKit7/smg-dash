@@ -10,6 +10,7 @@ module.exports = {
         automode: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         targeting: "0px 4px 53px rgba(0, 0, 0, 0.1)",
         subs: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+        subs2: "0 0 2px rgba(0, 0, 0, 0.25)",
         filter: "0px 0px 5px rgba(0, 0, 0, 0.25)",
       },
       colors: {

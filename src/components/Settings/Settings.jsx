@@ -180,7 +180,7 @@ export default function Settings() {
             .from('users')
             .update({ onTrail: false, subscribed: false })
             .eq('user_id', user.id)
-          alert('you have successfully cancelled the subscription');
+          alert('Your subscription has been successfully canceled.');
           window.location = '/'
         }
       } catch (error) {
@@ -231,7 +231,7 @@ export default function Settings() {
             <button className="bg-secondaryblue font-bold text-base text-white rounded-[10px] py-3 w-full" onClick={() => onUpdate()} > {loading ? "Loading..." : "Save Changes"}</button>
           </div>
 
-          <div className="shadow-subs w-full mb-8 mt-10 rounded-[10px]">
+          <div className="shadow-subs2 w-full mb-8 mt-10 rounded-[10px]">
             <div className="px-4 py-5">
               <h3 className="font-bold text-xl text-gray20 pb-2">Subscription Settings</h3>
               <p className="font-bold text-sm opacity-40 pb-9">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
