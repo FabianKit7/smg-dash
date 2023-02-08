@@ -17,8 +17,8 @@ const urlEncode = function (data) {
 
 export default function Settings() {
   // const baseUrl = "http://localhost:8000"
-  // const baseUrl = 'https://sproutysocial-api.onrender.com'
-  const baseUrl = 'https://sproutysocial-api.up.railway.app'
+  const baseUrl = 'https://sproutysocial-api.onrender.com'
+  // const baseUrl = 'https://sproutysocial-api.up.railway.app'
   const [supaData, setData] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
