@@ -126,7 +126,9 @@ export default function Subscriptions() {
     await cbInstance.openCheckout({
       async hostedPage() {
         return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
-          urlEncode({ plan_id: "Monthly-Plan-USD-Monthly" }))
+          urlEncode({ 
+            plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+           }))
           .then((response) => response.data)
 
         // const response = await axios.post(
