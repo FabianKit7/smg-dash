@@ -117,7 +117,7 @@ export default function Settings() {
       async hostedPage() {
         return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
           urlEncode({
-            plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+            plan_id: "Monthly-Plan-USD-Monthly" //"Free-Trial-USD-Monthly"
           }))
           .then((response) => response.data)
       },
