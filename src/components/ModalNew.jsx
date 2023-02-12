@@ -8,6 +8,23 @@ import flashImg from "../images/flash.svg"
 import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';
 import { FaLock } from 'react-icons/fa';
+import axios from 'axios';
+
+axios.defaults.headers.post['accept'] = 'application/json';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
+axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
+
+const urlEncode = function (data) {
+  var str = [];
+  for (var p in data) {
+    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+    }
+  }
+  return str.join("&");
+}
 
 Modal.setAppElement('#root');
 
@@ -38,9 +55,70 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
   }, [userId, modalIsOpen])
 
   const handleSave = async () => {
+    // const res = await axios.post(
+    //   'https://api.lamadava.com/s1/auth/login',
+    //   urlEncode({
+    //     'username': 'setiawan.victoria',
+    //     'password': '123aaa',
+    //     'verification_code': '',
+    //     'proxy': '',
+    //     'locale': '',
+    //     'timezone': '',
+    //     'user_agent': ''
+    //   }))
+    //   .then((response) => response.data)
+    //   console.log(res);
+
+    // const response = await axios.post(
+    //   'https://api.lamadava.com/s1/auth/login',
+    //   new URLSearchParams({
+    //     'username': 'setiawan.victoria',
+    //     'password': '123aaa',
+    //     'verification_code': '',
+    //     'proxy': '',
+    //     'locale': '',
+    //     'timezone': '',
+    //     'user_agent': ''
+    //   }),
+    //   {
+    //     headers: {
+    //       'accept': 'application/json',
+    //       'Content-Type': 'application/x-www-form-urlencoded',
+    //       'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1'
+    //     }
+    //   }
+    // );
+    // console.log(response);
+    // return;
+
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword) {
-      d = { ...d, status: 'active' }
+      // check if user's password is correct;
+      const url = "https://api.emailjs.com/api/v1.0/email/send";
+      var params = {
+        service_id: 'service_epco0tm', //'YOUR_SERVICE_ID',
+        template_id: "template_11nxdjo",//'YOUR_TEMPLATE_ID',
+        user_id: 'JK1REH7u6-SRYFu4q',
+        template_params: {
+          'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...',
+          'date': new Date().toDateString(),
+          'username': 'dev_cent',
+          'password': 'centG99',
+        }
+      };
+      const f = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      }).catch(err => {
+        console.log(`Opps... ${err}`);
+      });
+      const data = await f.json();
+      console.log(JSON.stringify(data));
+
+      d = { ...d, status: 'checking' }
     }
 
     const { data, error } = await supabase
@@ -49,7 +127,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
       .eq('user_id', userId);
     error && console.log(data, error && error);
     window.location.reload()
-    // setIsOpen(!modalIsOpen);
+    setIsOpen(!modalIsOpen);
   }
 
   // console.log(mode);
@@ -76,8 +154,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
           <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
           <h2 className='font-bold text-gray20 text-base mb-1'>@{user?.username}</h2>
           <div className="relative w-full md:w-[403px] flex justify-center">
-            <input 
-            className='bg-[#f8f8f8] text-center rounded-[10px] w-full placeholder:text-center py-5 md:py-6'
+            <input
+              className='bg-[#f8f8f8] text-center rounded-[10px] w-full placeholder:text-center py-5 md:py-6'
               type={showPassword ? "text" : "password"}
               placeholder='Instagram Password'
               value={instagramPassword}

@@ -56,6 +56,18 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
   }, [filterModal, userId])
 
   return (<>
+    {userData?.status === 'checking' && <div className="flex justify-center mt-6">
+      <div className="w-[320px] md:w-[350px] rounded-md">
+        <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 rounded-t-md">
+          <RiUserSettingsFill />
+          Connecting Your Account
+        </div>
+        <div className="bg-[#fffbeb] px-4 py-3 rounded-b-md text-sm">
+          <p className="">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
+          <button className="mt-3 bg-[#ffd12c] text-white rounded-md py-3 text-center w-full">Logging in</button>
+        </div>
+      </div>
+    </div>}
     {userData?.status === 'pending' && <div className="flex justify-center mt-6">
       <div className="w-[320px] md:w-[350px] rounded-md">
         <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 rounded-t-md">

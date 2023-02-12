@@ -101,6 +101,7 @@ const StatsCard = ({ userData, sessionsData }) => {
                         </div>
                         <p className="pt-4 pb-4 font-normal text-sm">Your status is <span className="font-bold">{userData?.status}</span></p>
                         <p className="font-normal text-sm opacity-40">
+                            {userData?.status === 'checking' && <span>We're checking your password right now</span>}
                             {userData?.status === 'pending' && <span>Please <span className="text-red-600">input your password</span> in order to allow us to log in.</span>}
                             {userData?.status === 'paused' && 'Please contact support or renew your plan'}
                             {userData?.status === 'active' && 'Your status is Active.'}
