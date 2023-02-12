@@ -181,7 +181,7 @@ export default function Settings() {
           const { data: { user } } = await supabase.auth.getUser();
           await supabase
             .from('users')
-            .update({ onTrail: false, subscribed: false })
+            .update({ onTrail: false, subscribed: false, status: 'cancelled' })
             .eq('user_id', user.id)
           alert('Your subscription has been successfully canceled.');
           window.location = '/'
