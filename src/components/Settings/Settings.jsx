@@ -29,7 +29,7 @@ export default function Settings() {
   const [loading, setloading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
   const [cbInstance, setCbInstance] = useState()
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   // clearCookies
   useEffect(() => {
