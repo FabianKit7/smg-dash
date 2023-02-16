@@ -29,7 +29,7 @@ export default function Settings() {
   const [loading, setloading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
   const [cbInstance, setCbInstance] = useState()
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   // clearCookies
   useEffect(() => {
@@ -261,7 +261,7 @@ export default function Settings() {
         }} />
         <h1 className="text-lg font-bold text-center">Submit your cancellation request</h1>
         <p className="text-center">
-          All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
+          All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
         </p>
         <br />
         <p className="text-center">
