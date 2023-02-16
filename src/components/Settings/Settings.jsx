@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
 import axios from 'axios'
+import { FaTimesCircle } from "react-icons/fa";
+import { BsFillEnvelopeFill } from "react-icons/bs";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -27,6 +29,7 @@ export default function Settings() {
   const [loading, setloading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
   const [cbInstance, setCbInstance] = useState()
+  const [showModal, setShowModal] = useState(false);
 
   // clearCookies
   useEffect(() => {
@@ -195,7 +198,7 @@ export default function Settings() {
     }
   }
 
-  return (
+  return (<>
     <div className="container m-auto mt-9 px-6">
       <div className="grid justify-center items-center bg-white mb-5">
         <div className="flex justify-center items-center py-3">
@@ -239,11 +242,36 @@ export default function Settings() {
               <h3 className="font-bold text-xl text-gray20 pb-2">Subscription Settings</h3>
               <p className="font-bold text-sm opacity-40 pb-9">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
               {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">{subLoading ? "Loading..." : "Renew"}</button> :
-                <button onClick={cancelSubscription} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">{subLoading ? "Loading..." : "Cancel"}</button>}
+                <button
+                  onClick={() => {
+                    // cancelSubscription()
+                    setShowModal(true)
+                  }} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">{subLoading ? "Loading..." : "Cancel"}</button>}
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+
+    {showModal && <div className="fixed top-0 left-0 w-full h-screen bg-black/40 grid place-items-center">
+      <div className="bg-white to-black py-7 pt-12 px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px]">
+        <FaTimesCircle className="absolute top-3 right-3 flex flex-col items-center" 
+        onClick={() => {
+          setShowModal(false)
+        }} />
+        <h1 className="text-lg font-bold text-center">Submit your cancellation request</h1>
+        <p className="text-center">
+          All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
+        </p>
+        <br />
+        <p className="text-center">
+          Our expert account managers are always on standby and ready to help. If you are not getting results, or need help, schedule a time to speak with our expert team who can help you reach your full instagram growth potential.
+        </p>
+        <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-[fit-content] py-3 px-5 bg-blue-500 text-white flex justify-center items-center gap-3">
+          <BsFillEnvelopeFill />
+          Send an email
+        </a>
+      </div>
+    </div>}
+  </>);
 }
