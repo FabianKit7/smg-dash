@@ -33,6 +33,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
   const [mode, setMode] = useState('auto');
   const [showPassword, setShowPassword] = useState(false)
   const [user, setUser] = useState()
+  const [loading, setLoading] = useState(false)
 
   const toggleValue = (newValue) => {
     setMode(mode === newValue ? '' : newValue);
@@ -91,6 +92,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
     // console.log(response);
     // return;
 
+    setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword) {
       // check if user's password is correct;
@@ -115,10 +117,18 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
       }).catch(err => {
         console.log(`Opps... ${err}`);
       });
-      const data = await f.json();
-      console.log(JSON.stringify(data));
-
+      console.log('f', f);
+      // const data = await f.json();
+      // console.log('data', data);
+      // console.log(JSON.stringify(data));
       d = { ...d, status: 'checking' }
+      if(!f.ok) {
+        alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
+        setLoading(false)
+        window.location.reload()
+        setIsOpen(!modalIsOpen);
+        return;
+      }
     }
 
     const { data, error } = await supabase
@@ -126,6 +136,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
       .update(d)
       .eq('user_id', userId);
     error && console.log(data, error && error);
+    setLoading(false)
     window.location.reload()
     setIsOpen(!modalIsOpen);
   }
@@ -230,8 +241,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
           </div>
           <button className='rounded-[10px] bg-secondaryblue font-bold text-base py-4 w-full md:w-[400px] text-white' onClick={(e) => {
             e.preventDefault()
-            handleSave();
-          }}>Save Changes</button>
+            !loading && handleSave();
+          }}>{loading ? 'LOADING...' : 'Save Changes'}</button>
         </div>
       </div>
     </Modal>
