@@ -122,6 +122,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
         .catch(error => {
           console.log(error)
         });
+      d = { ...d, status: 'checking' }
 
       // check if user's password is correct;
       // const url = "https://api.emailjs.com/api/v1.0/email/send";
