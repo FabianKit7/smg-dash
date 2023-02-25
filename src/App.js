@@ -10,6 +10,8 @@ import Settings from "./components/Settings/Settings";
 import Admin from "./components/Admin/Admin";
 import Nav from "./components/Nav";
 import { useEffect } from "react";
+import DashboardApp from "./dashboard";
+import Edit from "./dashboard/edit";
 
 const pathname = window.location.pathname;
 
@@ -23,7 +25,7 @@ function App() {
 
   return (
     <>
-      {pathname === "/" || pathname === "/login" || pathname === "/signUp" ? "" : <Nav />}
+      {pathname === "/" || pathname === "/login" || pathname === "/signUp" || pathname === "/dashboard" || pathname.startsWith("/dashboard/edit/")  ? "" : <Nav />}
       {/* <Nav /> */}
       <Routes>
         {/* <Route index element={<Home />} /> */}
@@ -39,6 +41,8 @@ function App() {
           element={<Subscriptions />}
         />
         <Route path="/dashboard/:id" exact element={<Dashboard />} />
+        <Route path="/dashboard" exact element={<DashboardApp />} />
+        <Route path="/dashboard/edit/:id" exact element={<Edit />} />
       </Routes>
     </>
   );

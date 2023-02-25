@@ -8,13 +8,16 @@ import { BrowserRouter } from "react-router-dom";
 /* import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css"; */
 import "./index.css";
+import { ThemeProvider } from "@material-tailwind/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   // <React.StrictMode>
     <BrowserRouter>
+    <ThemeProvider>
       <App />
+    </ThemeProvider>
     </BrowserRouter>
   // </React.StrictMode>
 );
