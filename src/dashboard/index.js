@@ -156,11 +156,17 @@ export default function DashboardApp() {
         <div className="flex-1 bg-white py-10 px-3">
           <img src="/sprouty.svg" alt="" className="mx-auto" />
           <div className="flex flex-col gap-9 lg:gap-4 mt-10 font-semibold">
-            <div className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 bg-[#F8F8F8] hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg">
+            <Link to="/dashboard" className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 bg-[#F8F8F8] hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg">
               <AiOutlineDashboard size={30} className="w-[24px] md:w-[30px]" />
               <span className="hidden md:block text-md">Dashboard</span>
-            </div>
-            <div className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg">
+            </Link>
+            <div className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg" onClick={async () => {
+              await supabase.auth.signOut();
+              window.onbeforeunload = function () {
+                localStorage.clear();
+              }
+              window.location.pathname = "/login";
+            }}>
               <BiLogOutCircle size={30} className="w-[24px] md:w-[30px]" />
               <span className="hidden md:block text-md">Logout</span>
             </div>

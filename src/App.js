@@ -25,7 +25,13 @@ function App() {
 
   return (
     <>
-      {pathname === "/" || pathname === "/login" || pathname === "/signUp" || pathname === "/dashboard" || pathname.startsWith("/dashboard/edit/")  ? "" : <Nav />}
+      {pathname === "/" ||
+        pathname === "/login" ||
+        pathname === "/signUp" ||
+        pathname === "/dashboard" ||
+        pathname === "/dashboard/" ||
+        pathname.startsWith("/dashboard/edit/")
+        ? "" : <Nav />}
       {/* <Nav /> */}
       <Routes>
         {/* <Route index element={<Home />} /> */}
