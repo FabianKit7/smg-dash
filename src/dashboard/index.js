@@ -142,7 +142,7 @@ export default function DashboardApp() {
         const second = await supabase
           .from('users')
           .select()
-          .like('email', `%${searchTerm}%`)
+          .like('email', `%${searchTerm.toLowerCase()}%`)
 
         // error && console.log(error);
         second.error && console.log(second.error);
@@ -227,7 +227,7 @@ export default function DashboardApp() {
 
           <div className="bg-white text-[#626262]">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <div className="py-4 bg-white dark:bg-gray-900 flex justify-between  px-4">
+              <div className="py-4 bg-white dark:bg-gray-900 flex justify-between gap-4  px-4">
                 <div className="flex gap-4 items-center">
                   <div className="">
                     <label htmlFor="table-search" className="sr-only">Search</label>
@@ -235,7 +235,7 @@ export default function DashboardApp() {
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
                       </div>
-                      <input type="text" id="table-search" className="w-80 block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by email"
+                      <input type="text" id="table-search" className="w-40 md:w-60 lg:w-80 block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by email"
                         onChange={(e) => {
                           setSearchTerm(e.target.value)
                         }}
@@ -260,7 +260,7 @@ export default function DashboardApp() {
                   setSortByStatus("All")
                 }}>
                   <FaTrash />
-                  <span>Clear filters</span>
+                  <span>Clear&nbsp;filters</span>
                 </div>
 
               </div>
@@ -526,12 +526,12 @@ export default function DashboardApp() {
           </div>
         </div>
       </div>
-      {showChargebee && <Chargebee key={selectedUser.username} user={selectedUser} setShowChargebee={setShowChargebee} />}
+      {showChargebee && <Chargebee key={selectedUser.id} k={selectedUser.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
     </div>
   );
 }
 
-const Chargebee = ({ key, user, setShowChargebee }) => {
+const Chargebee = ({ k, user, setShowChargebee }) => {
   const [customer, setCustomer] = useState('')
   const [subscription, setsubscription] = useState()
   const [currentUser, setCurrentUser] = useState()
@@ -547,12 +547,12 @@ const Chargebee = ({ key, user, setShowChargebee }) => {
       error && console.log(error)
 
       // console.log(currentUser?.email);
-      if (currentUser?.email) {
+      if (user?.email) {
         let customer = await axios.post(`${baseUrl}/api/customer_list`,
-          urlEncode({ email: currentUser?.email }))
+          urlEncode({ email: user?.email }))
           .then((response) => response.data)
-        console.log(currentUser?.email)
-        console.log(customer)
+        // console.log(user?.email)
+        // console.log(customer)
         setCustomer(customer)
 
         if (customer?.id) {
@@ -576,7 +576,7 @@ const Chargebee = ({ key, user, setShowChargebee }) => {
   }, [isClickedOutside, setShowChargebee]);
 
   return (
-    <div key={key} className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
+    <div key={k} className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
       <div className="bg-white w-[400px] py-4 rounded-xl" ref={parentRef}>
         <div className="py-2 px-6 border-b flex justify-between">
           <div className="font-bold text-lg">User Chargebee details</div>

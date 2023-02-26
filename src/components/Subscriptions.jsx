@@ -124,15 +124,31 @@ export default function Subscriptions() {
     if (userResults.data[0].name === "INVALID_USERNAME") {
       console.log("INVALID_USERNAME")
       alert('An error has occurred, please try again')
+      setLoading(false);
       return;
     };
     const { data: { user } } = await supabase.auth.getUser()
 
 
     if (cardRef) {
-      const token = await cardRef.current.tokenize().then((data) => {
+      // cardRef.current.tokenize().then(data => {
+      //   console.log(data);
+      //   // return data.token
+      // }).catch(err => {
+      //   console.log(err);
+      // });
+      const token = await cardRef.current.tokenize().then(data => {
         return data.token
+      }).catch(err => {
+        console.log(err);
+        setLoading(false);
+        return;
       });
+
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
       const create_customer_data = {
         allow_direct_debit: true,
@@ -156,7 +172,7 @@ export default function Subscriptions() {
         let subscriptionResult = await axios.post(`${baseUrl}/api/create_subscription_for_customer`,
           urlEncode(create_subscription_for_customer_data))
           .then((response) => response.data)
-        console.log(subscriptionResult);
+        // console.log(subscriptionResult);
         if (subscriptionResult.message === 'success') {
           let data = {
             chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
@@ -175,7 +191,7 @@ export default function Subscriptions() {
             posts: userResults?.data[0].media_count,
             subscribed: true,
           }
-          console.log(data);
+          // console.log(data);
           await supabase
             .from("users")
             .update(data).eq('user_id', user.id);
@@ -184,14 +200,15 @@ export default function Subscriptions() {
           setLoading(false);
           // navigate(`/dashboard/${user.id}`);
           window.location = `/dashboard/${user.id}`;
+        } else {
+          console.log('Error creating subscription:', subscriptionResult.error);
+          alert('An error occurred, please try again or contact support')
         }
+      } else {
+        console.log('Error creating customer:', customer.error);
+        alert('An error occurred, please try again or contact support')
       }
     }
-
-
-
-
-
 
     // await cbInstance.openCheckout({
     //   async hostedPage() {
@@ -260,6 +277,7 @@ export default function Subscriptions() {
     //   }
     // })
 
+    setLoading(false);
   };
 
 
@@ -384,7 +402,7 @@ export default function Subscriptions() {
                     <CardComponent
                       ref={cardRef}
                       className="fieldset field"
-                      onChange={(e) => { console.log(e) }}
+                      onChange={(e) => {}}
                       styles={styles}
                       // classes={classes}
                       locale={'en'}
@@ -394,18 +412,18 @@ export default function Subscriptions() {
                       onReady={onReady}
                     >
                       <div className="ex1-field mb-5" id='num'>
-                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { console.log(e) }} />
+                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => {}} />
                         <label className="ex1-label">Card Number</label><i className="ex1-bar"></i>
                       </div>
 
                       <div className="ex1-fields">
                         <div className="ex1-field mb-5">
-                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { console.log(e) }} />
+                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => {}} />
                           <label className="ex1-label">Expiry</label><i className="ex1-bar"></i>
                         </div>
 
                         <div className="ex1-field">
-                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { console.log(e) }} />
+                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => {}} />
                           <label className="ex1-label">CVC</label><i className="ex1-bar"></i>
                         </div>
 

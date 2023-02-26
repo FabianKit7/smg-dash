@@ -45,7 +45,7 @@ export default function Dashboard() {
         // }
         // alert('Your registration was not complete. Please re-register your account')
         // await supabase.auth.signOut();
-        // window.location.pathname = "/login";        
+        // window.location.pathname = "/login";
         window.location.pathname = `/search`;
       }
       setData(data[0])
