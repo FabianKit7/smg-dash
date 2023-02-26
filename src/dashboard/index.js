@@ -266,7 +266,7 @@ export default function DashboardApp() {
               </div>
 
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-6 py-3">
                       <div className="flex gap-1 items-center">
@@ -454,7 +454,7 @@ export default function DashboardApp() {
                     sessionData && console.log(sessionData);
                     if (username) {
                       return (
-                        <tr key={user.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200">
+                        <tr key={user.id} className={`${(index + 1) % 2 === 0 ? 'bg-white' : 'bg-[#F8F8F8]'} border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200`}>
                           <td
                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[250px] overflow-x-auto"
                             id={`email_${index}`}
