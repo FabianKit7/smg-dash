@@ -34,7 +34,7 @@ export default function DashboardApp() {
   useEffect(() => {
     const fetch = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return navigate("/login")
+      if (!user) return navigate("/dashboard/login")
       // console.log(user);
 
       const { data, error } = await supabase

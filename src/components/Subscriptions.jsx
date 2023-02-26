@@ -326,18 +326,42 @@ export default function Subscriptions() {
     }
   }
 
-  // const onChange = (status) => {
-  //   // console.log(status);
-  //   // let errors = {
-  //   //   [status.field]: status.error
-  //   // };
-  //   // let errMessages = Object.values(errors).filter(message => !!message);
-  //   // var a = ({
-  //   //   errors,
-  //   //   errorMessage: errMessages.pop() || '',
-  //   // })
-  //   // console.log(a);
+  // const [errors, setErrors] = useState({})
+  // const [errorMessages, setErrorMessages] = useState('')
+
+  // const onChange = (event) => {
+  //   console.log(event);
+
+  //   // const errors = this.state.errors;
+  //   let errorMessage = '';
+
+  //   if (event.error) {
+  //     // If error is present, setState and display the error
+  //     errors[event.field] = event.error
+  //     errorMessage = event.error.message
+  //   } else {
+  //     errors[event.field] = null
+  //     // If there's no error, check for existing error
+  //     const _errors = Object.values(errors).filter(val => val)
+
+  //     // The errorObject holds a message and code
+  //     // Custom error messages can be displayed based on the error code
+  //     const errorObj = _errors.pop();
+
+  //     // Display existing message
+  //     if (errorObj) errorMessage = errorObj.message
+  //     else errorMessage = ''
+  //   }
+  //   setErrors(errors)
+  //   setErrorMessages(errorMessage)
   // }
+
+  // useEffect(() => {
+  //   if(errorMessages){
+  //     alert(errorMessages)
+  //   }
+  // }, [errorMessages])
+  
 
   const onReady = (el) => {
     // console.log('ready');
@@ -402,7 +426,7 @@ export default function Subscriptions() {
                     <CardComponent
                       ref={cardRef}
                       className="fieldset field"
-                      onChange={(e) => {}}
+                      onChange={() => {}}
                       styles={styles}
                       // classes={classes}
                       locale={'en'}

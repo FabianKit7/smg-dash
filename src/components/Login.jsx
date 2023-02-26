@@ -29,7 +29,7 @@ export default function Login() {
     }
     if (error) console.log(error.message);
     if (error.message === 'Invalid login credentials') {
-      alert(`${error.message} please check your credentials and try again`);
+      alert(`${error.message}, please check your credentials and try again`);
       return;
     }
     if (error?.message === `Cannot read properties of null (reading 'id')`) {

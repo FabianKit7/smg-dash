@@ -12,6 +12,7 @@ import Nav from "./components/Nav";
 import { useEffect } from "react";
 import DashboardApp from "./dashboard";
 import Edit from "./dashboard/edit";
+import AdminLogin from "./dashboard/adminLogin";
 
 const pathname = window.location.pathname;
 
@@ -30,6 +31,7 @@ function App() {
         pathname === "/signUp" ||
         pathname === "/dashboard" ||
         pathname === "/dashboard/" ||
+        pathname === "/dashboard/login" ||
         pathname.startsWith("/dashboard/edit/")
         ? "" : <Nav />}
       {/* <Nav /> */}
@@ -49,6 +51,7 @@ function App() {
         <Route path="/dashboard/:id" exact element={<Dashboard />} />
         <Route path="/dashboard" exact element={<DashboardApp />} />
         <Route path="/dashboard/edit/:id" exact element={<Edit />} />
+        <Route path="/dashboard/login" exact element={<AdminLogin />} />
       </Routes>
     </>
   );
