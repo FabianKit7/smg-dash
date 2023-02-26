@@ -287,7 +287,7 @@ export default function Subscriptions() {
   // Style customizations
   const styles = {
     base: {
-      color: '#fff',
+      color: '#000',
       fontWeight: 600,
       fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
       fontSize: '16px',
@@ -306,7 +306,7 @@ export default function Subscriptions() {
       },
     },
     invalid: {
-      color: '#fff',
+      color: '#f00',
       ':focus': {
         color: '#FA755A',
       },
