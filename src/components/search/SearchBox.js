@@ -42,7 +42,7 @@ export default function SearchBox() {
           var y = input?.toLowerCase()
           return x?.startsWith(y)
         })
-        console.log(filtered);
+        // console.log(filtered);
         setSearchedAccounts(filtered)
         setShowResultModal(true)
       }

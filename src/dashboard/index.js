@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase, supabaseAdmin } from "../supabaseClient";
 import { AiOutlineDashboard, AiOutlineSetting, AiOutlineSortAscending } from 'react-icons/ai'
 import { BiLogOutCircle, BiUserCircle } from 'react-icons/bi'
-import { FaTimes, FaUserCheck, FaUserClock, FaUserTimes } from 'react-icons/fa'
+import { FaTimes, FaTrash, FaUserCheck, FaUserClock, FaUserTimes } from 'react-icons/fa'
 import Datepicker from 'flowbite-datepicker/Datepicker';
 import axios from 'axios';
 import { useClickOutside } from 'react-click-outside-hook';
@@ -42,16 +42,16 @@ export default function DashboardApp() {
         .select()
         .eq('user_id', user.id).order('created_at', { ascending: false })
 
-        error && console.console.log(error);
-        console.log(data[0]);
-        setUser(data[0]);
-        if(!data[0]?.admin){
-          alert("You are not allowed to access this page.")
-        }
+      error && console.console.log(error);
+      // console.log(data[0]);
+      setUser(data[0]);
+      if (!data[0]?.admin) {
+        alert("You are not allowed to access this page.")
+      }
     }
     fetch()
   }, [navigate])
-  
+
 
   useEffect(() => {
     const datepickerEl = document.getElementById('datepickerId');
@@ -133,20 +133,28 @@ export default function DashboardApp() {
   }
 
   useEffect(() => {
-    if(searchTerm){
+    if (searchTerm) {
       setTimeout(async () => {
-        const { data, error } = await supabase
+        // const { data, error } = await supabase
+        //   .from('users')
+        //   .select()
+        //   .like('username', `%${searchTerm}%`)
+        const second = await supabase
           .from('users')
           .select()
-          .like('username', `%${searchTerm}%`)
+          .like('email', `%${searchTerm}%`)
 
-        error && console.log(error);
-        if(data){
-          setUsers(data)
-        }else{
-          setUsers(originalUsers)
-        }
-      }, 1000);
+        // error && console.log(error);
+        second.error && console.log(second.error);
+        // if(error) return;
+        if (second.error) return;
+
+        setUsers([...second.data])
+        // if (data) {
+        // } else {
+        //   setUsers(originalUsers)
+        // }
+      }, 500);
     }
   }, [originalUsers, searchTerm])
 
@@ -219,28 +227,40 @@ export default function DashboardApp() {
 
           <div className="bg-white text-[#626262]">
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <div className="py-4 bg-white dark:bg-gray-900 flex gap-4 items-center px-4">
-                <div className="">
-                  <label htmlFor="table-search" className="sr-only">Search</label>
-                  <div className="relative mt-1">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
+              <div className="py-4 bg-white dark:bg-gray-900 flex justify-between  px-4">
+                <div className="flex gap-4 items-center">
+                  <div className="">
+                    <label htmlFor="table-search" className="sr-only">Search</label>
+                    <div className="relative mt-1">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
+                      </div>
+                      <input type="text" id="table-search" className="w-80 block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by email"
+                        onChange={(e) => {
+                          setSearchTerm(e.target.value)
+                        }}
+                      />
                     </div>
-                    <input type="text" id="table-search" className="w-80 block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items" 
-                    onChange={(e) => {
-                      setSearchTerm(e.target.value)
-                    }}
-                    />
+                  </div>
+
+                  <div className="relative max-w-sm">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
+                    </div>
+                    <input datepicker datepicker-title="Date added" id='datepickerId' type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date added" onChange={(e) => {
+                      // console.log(e.target.value);
+                    }} />
                   </div>
                 </div>
 
-                <div className="relative max-w-sm">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
-                  </div>
-                  <input datepicker datepicker-title="Date added" id='datepickerId' type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date added" onChange={(e) => {
-                    // console.log(e.target.value);
-                  }} />
+                <div className="py-1 px-4 rounded-md bg-gray-50 text-red-700 flex items-center gap-2 cursor-pointer" onClick={() => {
+                  document.getElementById("datepickerId").value = ''
+                  document.getElementById("table-search").value = ''
+                  setUsers(originalUsers)
+                  setSortByStatus("All")
+                }}>
+                  <FaTrash />
+                  <span>Clear filters</span>
                 </div>
 
               </div>
@@ -248,6 +268,11 @@ export default function DashboardApp() {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
+                    <th scope="col" className="px-6 py-3">
+                      <div className="flex gap-1 items-center">
+                        Email
+                      </div>
+                    </th>
                     <th scope="col" className="px-6 py-3">
                       <div className="flex gap-1 items-center">
                         Users
@@ -298,6 +323,8 @@ export default function DashboardApp() {
                         {showStatusOptions && <div className="z-50 absolute top-12 -left-4 py-3 w-[130px] px-4 bg-white text-gray-600 shadow-2xl flex flex-col gap-6">
                           <div className="hover:text-gray-400 cursor-pointer"
                             onClick={() => {
+                              document.getElementById("datepickerId").value = ''
+                              document.getElementById("table-search").value = ''
                               setUsers(originalUsers)
                               setSortByStatus("All")
                               setShowStatusOptions(false)
@@ -367,13 +394,14 @@ export default function DashboardApp() {
                       </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      <span className="sr-only">ddEdit</span>
+                      <span className="sr-only">Edit</span>
                     </th>
                   </tr>
                 </thead>
 
                 <tbody className=''>
-                  {users && users.map((user) => {
+                  {users && users.map((user, index) => {
+                    // console.log(user);
                     const username = user?.username;
                     var sessionData = '';
                     const fetch = async () => {
@@ -385,8 +413,12 @@ export default function DashboardApp() {
                       if (resData?.data[0]?.data) {
                         const d = JSON.parse(resData?.data[0]?.data)
                         // console.log(d[0]);
-                        document.querySelector(`#followers_${username}`).textContent = d[0].profile.followers
-                        document.querySelector(`#following_${username}`).textContent = d[0].profile.following
+                        const followers = document.querySelector(`#followers_${index}`)
+                        const following = document.querySelector(`#following_${index}`)
+                        if (followers && following) {
+                          followers.textContent = d[0].profile.followers
+                          following.textContent = d[0].profile.following
+                        }
                         sessionData = d[0]
                       }
                     }
@@ -407,7 +439,7 @@ export default function DashboardApp() {
                         error
                       );
                       // console.log(data);
-                      const targeting = document.querySelector(`#targeting_${username}`)
+                      const targeting = document.querySelector(`#targeting_${index}`)
                       if (targeting) {
                         targeting.textContent = data?.length
                       }
@@ -417,20 +449,21 @@ export default function DashboardApp() {
 
                     getTargetingAccounts();
 
+                    // console.log(user.profile);
+
                     sessionData && console.log(sessionData);
                     if (username) {
                       return (
                         <tr key={user.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200">
-                          <th
-                            scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                          >
-                            {username}
-                          </th>
+                          <td
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[250px] overflow-x-auto"
+                            id={`email_${index}`}
+                          >{user.email}</td>
+                          <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">@{username}</td>
                           <td className="px-6 py-4">{user.status}</td>
-                          <td className="px-6 py-4" id={`followers_${username}`}>{user.profile.followers}</td>
-                          <td className="px-6 py-4" id={`following_${username}`}>{user.profile.following}</td>
-                          <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${username}`}>0</td>
+                          <td className="px-6 py-4" id={`followers_${index}`}>{user.followers}</td>
+                          <td className="px-6 py-4" id={`following_${index}`}>{user.following}</td>
+                          <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}`}>0</td>
                           <td className="px-6 py-4">{user.userMode}</td>
                           <td className="px-6 py-4">
                             <BiUserCircle size={24} className="ml-5" onClick={() => {
@@ -505,27 +538,36 @@ const Chargebee = ({ key, user, setShowChargebee }) => {
   const [parentRef, isClickedOutside] = useClickOutside();
 
   const baseUrl = 'https://sproutysocial-api.up.railway.app'
+  // console.log(user);
   useEffect(() => {
     const fetch = async () => {
       const { data, error } = await supabaseAdmin.auth.admin.getUserById(user.user_id)
-      setCurrentUser(data.user)
+      // console.log(data?.user);
+      data?.user && setCurrentUser(data?.user)
       error && console.log(error)
 
-      let customer = await axios.post(`${baseUrl}/api/customer_list`,
-        urlEncode({ email: user?.email }))
-        .then((response) => response.data)
-      setCustomer(customer)
-
-      if (customer) {
-        let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
-          urlEncode({ customer_id: customer?.id }))
+      // console.log(currentUser?.email);
+      if (currentUser?.email) {
+        let customer = await axios.post(`${baseUrl}/api/customer_list`,
+          urlEncode({ email: currentUser?.email }))
           .then((response) => response.data)
-        setsubscription(subscription)
+        console.log(currentUser?.email)
+        console.log(customer)
+        setCustomer(customer)
+
+        if (customer?.id) {
+          let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
+            urlEncode({ customer_id: customer?.id }))
+            .then((response) => response.data)
+          // console.log(subscription)
+          setsubscription(subscription)
+        }
       }
 
     }
     fetch()
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (isClickedOutside) {

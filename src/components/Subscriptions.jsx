@@ -23,12 +23,14 @@ const urlEncode = function (data) {
 export default function Subscriptions() {
   // const baseUrl = "http://localhost:8000" //
   const baseUrl = 'https://sproutysocial-api.onrender.com'
+
+
   // const baseUrl = 'https://sproutysocial-api.up.railway.app'
   let { username } = useParams();
   const [userResults, setUserResults] = useState(null);
   // const [error, setError] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const [showCardComponent, setShowCardComponent] = useState(false);
+  const [showCardComponent, setShowCardComponent] = useState(true);
   const [cbInstance, setCbInstance] = useState()
   // error && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", error)
   // username && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", username)
@@ -49,10 +51,10 @@ export default function Subscriptions() {
           p.pop();
         };
         d.shift();
-        console.log('done');
+        // console.log('done');
       }
     }
-  }, [])  
+  }, [])
 
   const getStartingDay = () => {
     var today = new Date();
@@ -67,7 +69,7 @@ export default function Subscriptions() {
 
   const getData = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
-    if(!user) navigate('/');
+    if (!user) navigate('/');
     const options = {
       method: "GET",
       url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
@@ -117,79 +119,146 @@ export default function Subscriptions() {
   }, [baseUrl])
 
   const handleOnClick = async () => {
-    // setLoading(true);
-    // console.log('you');
+    setLoading(true);
 
-    if (userResults.data[0].name === "INVALID_USERNAME") console.log("INVALID_USERNAME");
+    if (userResults.data[0].name === "INVALID_USERNAME") {
+      console.log("INVALID_USERNAME")
+      alert('An error has occurred, please try again')
+      return;
+    };
     const { data: { user } } = await supabase.auth.getUser()
-    // console.log("🚀 ~ file: subscriptions.jsx:46 ~ handelOnClick ~ user", user)
 
-    await cbInstance.openCheckout({
-      async hostedPage() {
-        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
-          urlEncode({ 
-            plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-           }))
-          .then((response) => response.data)
 
-        // const response = await axios.post(
-        //   'https://sproutysociall.chargebee.com/api/v2/hosted_pages/checkout_new_for_items',
-        //   'subscription_items[item_price_id][0]=Monthly-Plan-USD-Monthly&subscription_items[quantity][0]=1&subscription_items[item_price_price][0]=9995&subscription_items[currency_code][0]=USD',
-        //   {
-        //     headers: {
-        //       'Content-Type': 'application/x-www-form-urlencoded'
-        //     },
-        //     auth: {
-        //       api_key: 'live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE'
-        //     }
-        //   }
-        // );
-      },
-      async success(hostedPageId) {
-        console.log(hostedPageId);
-        let customer = await axios.post(`${baseUrl}/api/customer_list`,
-          urlEncode({ email: user?.email }))
-          .then((response) => response.data)
+    if (cardRef) {
+      const token = await cardRef.current.tokenize().then((data) => {
+        return data.token
+      });
 
-        let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
-          urlEncode({ customer_id: customer?.id }))
-          .then((response) => response.data)
-
-        let data = {
-          chargebee_subscription: JSON.stringify(subscription),
-          chargebee_subscription_id: subscription?.id,
-          chargebee_customer: JSON.stringify(customer),
-          chargebee_customer_id: customer?.id,
-
-          username,
-          followers: userResults?.data[0].follower_count,
-          following: userResults?.data[0].following_count,
-          profile_pic_url: userResults?.data[0]?.profile_pic_url,
-          is_verified: userResults?.data[0]?.is_verified,
-          biography: userResults?.data[0]?.biography,
-          start_time: getStartingDay(),
-          posts: userResults?.data[0].media_count,
-          subscribed: true,
-        }
-        console.log(data);
-        await supabase
-          .from("users")
-          .update(data).eq('user_id', user.id);
-        // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-
-        setLoading(false);
-        // navigate(`/dashboard/${user.id}`);
-        window.location = `/dashboard/${user.id}`;
-      },
-      async close() {
-        // console.log('done');
-        console.log("checkout new closed");
-
-      },
-      step(step) {
-        console.log("checkout", step);
+      const create_customer_data = {
+        allow_direct_debit: true,
+        first_name: userResults.data[0].full_name,
+        last_name: '',
+        email: user.email,
+        token_id: token
       }
-    })
+      // console.log(create_customer_data);
+
+      let customer = await axios.post(`${baseUrl}/api/create_customer`,
+        urlEncode(create_customer_data))
+        .then((response) => response.data)
+      // console.log(customer);
+
+      if (customer.message === 'success') {
+        const create_subscription_for_customer_data = {
+          customer_id: customer?.customer?.id,
+          plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+        }
+        let subscriptionResult = await axios.post(`${baseUrl}/api/create_subscription_for_customer`,
+          urlEncode(create_subscription_for_customer_data))
+          .then((response) => response.data)
+        console.log(subscriptionResult);
+        if (subscriptionResult.message === 'success') {
+          let data = {
+            chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
+            chargebee_subscription_id: subscriptionResult.subscription?.id,
+            chargebee_customer: JSON.stringify(customer.customer),
+            chargebee_customer_id: customer?.customer?.id,
+
+            username,
+            email: user.email,
+            followers: userResults?.data[0].follower_count,
+            following: userResults?.data[0].following_count,
+            profile_pic_url: userResults?.data[0]?.profile_pic_url,
+            is_verified: userResults?.data[0]?.is_verified,
+            biography: userResults?.data[0]?.biography,
+            start_time: getStartingDay(),
+            posts: userResults?.data[0].media_count,
+            subscribed: true,
+          }
+          console.log(data);
+          await supabase
+            .from("users")
+            .update(data).eq('user_id', user.id);
+          // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+
+          setLoading(false);
+          // navigate(`/dashboard/${user.id}`);
+          window.location = `/dashboard/${user.id}`;
+        }
+      }
+    }
+
+
+
+
+
+
+    // await cbInstance.openCheckout({
+    //   async hostedPage() {
+    //     return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
+    //       urlEncode({ 
+    //         plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+    //        }))
+    //       .then((response) => response.data)
+
+    //     // const response = await axios.post(
+    //     //   'https://sproutysociall.chargebee.com/api/v2/hosted_pages/checkout_new_for_items',
+    //     //   'subscription_items[item_price_id][0]=Monthly-Plan-USD-Monthly&subscription_items[quantity][0]=1&subscription_items[item_price_price][0]=9995&subscription_items[currency_code][0]=USD',
+    //     //   {
+    //     //     headers: {
+    //     //       'Content-Type': 'application/x-www-form-urlencoded'
+    //     //     },
+    //     //     auth: {
+    //     //       api_key: 'live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE'
+    //     //     }
+    //     //   }
+    //     // );
+    //   },
+    //   async success(hostedPageId) {
+    //     console.log(hostedPageId);
+    //     let customer = await axios.post(`${baseUrl}/api/customer_list`,
+    //       urlEncode({ email: user?.email }))
+    //       .then((response) => response.data)
+
+    //     let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
+    //       urlEncode({ customer_id: customer?.id }))
+    //       .then((response) => response.data)
+
+    //     let data = {
+    //       chargebee_subscription: JSON.stringify(subscription),
+    //       chargebee_subscription_id: subscription?.id,
+    //       chargebee_customer: JSON.stringify(customer),
+    //       chargebee_customer_id: customer?.id,
+
+    //       username,
+    //       followers: userResults?.data[0].follower_count,
+    //       following: userResults?.data[0].following_count,
+    //       profile_pic_url: userResults?.data[0]?.profile_pic_url,
+    //       is_verified: userResults?.data[0]?.is_verified,
+    //       biography: userResults?.data[0]?.biography,
+    //       start_time: getStartingDay(),
+    //       posts: userResults?.data[0].media_count,
+    //       subscribed: true,
+    //     }
+    //     console.log(data);
+    //     await supabase
+    //       .from("users")
+    //       .update(data).eq('user_id', user.id);
+    //     // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+
+    //     setLoading(false);
+    //     // navigate(`/dashboard/${user.id}`);
+    //     window.location = `/dashboard/${user.id}`;
+    //   },
+    //   async close() {
+    //     // console.log('done');
+    //     console.log("checkout new closed");
+
+    //   },
+    //   step(step) {
+    //     console.log("checkout", step);
+    //   }
+    // })
 
   };
 
@@ -253,7 +322,7 @@ export default function Subscriptions() {
   // }
 
   const onReady = (el) => {
-    console.log('ready');
+    // console.log('ready');
     el.focus();
   }
 
@@ -301,7 +370,7 @@ export default function Subscriptions() {
               {/* Payment method */}
               <div className="shadow-subs px-7 py-6 rounded-[10px]">
                 <h3 className="font-bold text-[20px] text-gray20 pb-2 flex items-center gap-2">
-                  {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false)} />}
+                  {/* {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false)} />} */}
                   Payment method</h3>
                 <p className="font-bold text-sm opacity-40 pb-5">
                   You may cancel during your free trial and won't be billed,
@@ -315,7 +384,7 @@ export default function Subscriptions() {
                     <CardComponent
                       ref={cardRef}
                       className="fieldset field"
-                      // onChange={(e) => onChange(e)}
+                      onChange={(e) => { console.log(e) }}
                       styles={styles}
                       // classes={classes}
                       locale={'en'}
@@ -324,19 +393,19 @@ export default function Subscriptions() {
                       onSubmit={onSubmit}
                       onReady={onReady}
                     >
-                      <div className="ex1-field mb-5">
-                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} />
+                      <div className="ex1-field mb-5" id='num'>
+                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { console.log(e) }} />
                         <label className="ex1-label">Card Number</label><i className="ex1-bar"></i>
                       </div>
 
                       <div className="ex1-fields">
                         <div className="ex1-field mb-5">
-                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} />
+                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { console.log(e) }} />
                           <label className="ex1-label">Expiry</label><i className="ex1-bar"></i>
                         </div>
 
                         <div className="ex1-field">
-                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} />
+                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { console.log(e) }} />
                           <label className="ex1-label">CVC</label><i className="ex1-bar"></i>
                         </div>
 
@@ -345,17 +414,17 @@ export default function Subscriptions() {
                     // </Provider>
                   }
                 </>
-                {/* {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Card / Debit Card"}  </span>
+                {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
+                  <span> {Loading ? "Loading " : "Pay with Card"}  </span>
                 </button>}
 
-                {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
+                {/* {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
                   <span>Card / Debit Card</span>
                 </button>} */}
 
-                <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
+                {/* <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Pay with Card"}  </span>
-                </button>
+                </button> */}
               </div>
             </div>
 

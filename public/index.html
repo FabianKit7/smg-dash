@@ -30,7 +30,7 @@
     -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/datepicker.min.js"></script>
-    <script src="https://js.chargebee.com/v2/chargebee.js"></script>
+    <!-- <script src="https://js.chargebee.com/v2/chargebee.js"></script> -->
     <!-- <script>
       Chargebee.init({
         // site: 'Sprouty social', // 'your-site'
@@ -56,5 +56,15 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <script src="https://js.chargebee.com/v2/chargebee.js"></script>
+    <script>
+      Chargebee.init({
+        site: "sproutysocial",
+        // domain: 'app.sproutysocial.com',
+        // iframeOnly: true,
+        publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
+      })
+    </script>
   </body>
 </html>
