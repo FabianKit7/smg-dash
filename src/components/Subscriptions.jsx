@@ -386,7 +386,7 @@ export default function Subscriptions() {
             <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
               <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
             </div>
-            <p className="text-[#1b89ff] opacity-40 text-sm font-bold">Complete Setup</p>
+            <p className="text-[#1b89ff] text-sm font-bold">Complete Setup</p>
             <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
               <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
             </div>
@@ -396,7 +396,7 @@ export default function Subscriptions() {
           <div className="grid lg:grid-cols-2 sm:grid-cols-1 justify-center gap-8 mb-12">
             <div>
               {/* instagram name */}
-              <div className="shadow-subs flex justify-between items-center mb-10 py-6 px-7 rounded-[10px]">
+              <div className="shadow-subs flex justify-between flex-wrap items-center mb-10 py-6 px-7 rounded-[10px]">
                 <div className="flex gap-[14px]">
                   <img className="rounded-[50%]" width={90} height={90} src={userResults?.data[0]?.profile_pic_url} alt="" />
                   <div className="text-gray20 pt-4">
@@ -456,7 +456,7 @@ export default function Subscriptions() {
                     // </Provider>
                   }
                 </>
-                {showCardComponent && <button className="font-MontserratSemiBold text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4"
+                {showCardComponent && <button className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4"
                   style={{
                     backgroundColor: '#ef5f3c',
                     color: 'white',
