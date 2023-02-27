@@ -5,6 +5,7 @@ import { useClickOutside } from "react-click-outside-hook";
 import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { searchAccount } from '../../helpers'
+import { supabase } from '../../supabaseClient';
 
 export default function SearchBox() {
   const [parentRef, isClickedOutside] = useClickOutside();
