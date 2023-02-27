@@ -457,7 +457,7 @@ export default function Subscriptions() {
                   }
                 </>
                 {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Pay with Card"}  </span>
+                  <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
                 </button>}
 
                 {/* {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
@@ -465,7 +465,7 @@ export default function Subscriptions() {
                 </button>} */}
 
                 {/* <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Pay with Card"}  </span>
+                  <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
                 </button> */}
               </div>
             </div>
