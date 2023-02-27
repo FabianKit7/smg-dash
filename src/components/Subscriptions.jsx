@@ -386,7 +386,7 @@ export default function Subscriptions() {
             <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
               <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
             </div>
-            <p className="text-primaryblue opacity-40 text-sm font-bold">Complete Setup</p>
+            <p className="text-[#1b89ff] opacity-40 text-sm font-bold">Complete Setup</p>
             <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
               <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
             </div>
@@ -400,7 +400,7 @@ export default function Subscriptions() {
                 <div className="flex gap-[14px]">
                   <img className="rounded-[50%]" width={90} height={90} src={userResults?.data[0]?.profile_pic_url} alt="" />
                   <div className="text-gray20 pt-4">
-                    <p className="font-bold text-lg font-MontserratBold text-black">@{username}</p>
+                    <p className="font-bold text-md md:text-lg font-MontserratBold text-black">@{username}</p>
                     <p className="font-medium text-sm font-MontserratSemiBold text-[#333]">{userResults?.data[0].full_name}</p>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function Subscriptions() {
                 <h3 className="font-bold font-MontserratBold text-[20px] text-black pb-2 flex items-center gap-2">
                   {/* {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false)} />} */}
                   Payment method</h3>
-                <p className="font-[500] text-sm font-MontserratSemiBold text-[#333] pb-5">
+                <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] pb-5">
                   You may cancel during your free trial and won't be billed,
                   no risk.
                 </p>
@@ -480,69 +480,69 @@ export default function Subscriptions() {
             </div>
 
             <div className="shadow-subs px-7 py-6 rounded-[10px] font-MontserratRegular">
-              <p className="bg-bgicongreen rounded-[70px] text-btngreen font-bold text-sm py-[6px] px-4 w-36">7-Day Free Trial</p>
+              <p className="bg-bgicongreen rounded-[70px] text-btngreen font-bold text-xs md:text-sm py-[6px] px-4 w-36">7-Day Free Trial</p>
               <h3 className="font-bold text-[20px] mt-4 mb-3 font-MontserratBold">Start Your 7-Day Trial</h3>
-              <p className="font-bold text-sm text-[#333] mb-4">
+              <p className="font-bold text-xs md:text-sm text-[#333] mb-4">
                 It's time to get the real exposure you've been waiting for. After
                 signing up, you will be introduced to your personal account manager
                 and start growing in under 2 minutes.
               </p>
               <h2 className="font-bold text-[40px] font-MADEOKINESANSPERSONALUSE">Free</h2>
-              <p className="text-sm text-[#333] font-normal">Then $24.99 per week, billed monthly.</p>
+              <p className="text-xs md:text-sm text-[#333] font-normal">Then $24.99 per week, billed monthly.</p>
               <ul className="pt-8">
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Grow ~1-10k Real Monthly Followers</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Grow ~1-10k Real Monthly Followers</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Target Followers Relevant To You</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Target Followers Relevant To You</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Detailed Analytics & Results Tracking</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Detailed Analytics & Results Tracking</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Automated 24/7 Growth, Set & Forget</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Automated 24/7 Growth, Set & Forget</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">No Fakes Or Bots, 100% Real People</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">No Fakes Or Bots, 100% Real People</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Personal Account Manager</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Personal Account Manager</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Boost Likes, Comments & DMs</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Boost Likes, Comments & DMs</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Safest Instagram Growth Service</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Safest Instagram Growth Service</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm text-[#333]">Access Dashboard On All Devices</p>
+                  <p className="font-bold text-xs md:text-sm text-[#333]">Access Dashboard On All Devices</p>
                 </li>
               </ul>
             </div>

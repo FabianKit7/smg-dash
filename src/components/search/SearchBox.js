@@ -135,7 +135,7 @@ export default function SearchBox() {
         })}
       </div>}
 
-      <button className='w-32 mt-4 md:w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white'
+      <button className='mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white'
         style={{
           backgroundColor: '#ef5f3c',
           color: 'white',

@@ -64,7 +64,7 @@ export default function Nav() {
             </Link>
           </div>
           <div className="relative">
-            <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}>{data?.full_name}</p>
+            <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}><span className="hidden md:inline">{data?.full_name}</span></p>
             {isOpen && (
               <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[7%]">
                 <Link className="font-normal text-sm" to={"/dashboard/" + data?.user_id}
