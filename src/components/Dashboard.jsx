@@ -36,7 +36,7 @@ export default function Dashboard() {
         .eq('user_id', user.id).order('created_at', { ascending: false })
 
       // console.log(data);
-      if (user && !data[0]?.username) {
+      if (user && !data[0]?.subscribed) {
         // const { data: delUser, error: delUserError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
         // console.log(delUser);
         // if (delUserError) alert(delUserError.message)

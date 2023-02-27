@@ -67,6 +67,11 @@ export default function SearchBox() {
       const userResults = await Axios.request(options);
       console.log(userResults.data[0].username);
       // if (!userResults.data[0].username) return setError(true);
+      await supabase
+        .from("users")
+        .update({
+          username: userResults.data[0].username,
+        }).eq('user_id', userResults.data[0].id);
       window.location = `/subscriptions/${userResults.data[0].username}`;
 
     } else {
