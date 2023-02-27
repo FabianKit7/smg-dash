@@ -44,7 +44,9 @@ export default function Nav() {
         className="container mx-auto px-6 flex justify-between"
       >
         <Link to="/" className="navbar-brand" href="#">
-          <img src={sproutyLogo} alt="sprouty social" />
+          {/* <img src={sproutyLogo} alt="sprouty social" /> */}
+          <div className="font-MADEOKINESANSPERSONALUSE text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
+
         </Link>
 
         {data?.full_name && <div className="flex justify-center items-center gap-[10px]">

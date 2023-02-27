@@ -135,7 +135,12 @@ export default function SearchBox() {
         })}
       </div>}
 
-      <button className='bg-black w-32 mt-4 md:w-40 py-[15px] rounded-lg font-semibold text-white'
+      <button className='w-32 mt-4 md:w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white'
+        style={{
+          backgroundColor: '#ef5f3c',
+          color: 'white',
+          boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+        }}
         onClick={() => handleSubmit()}
       >Select Account</button>
     </div>

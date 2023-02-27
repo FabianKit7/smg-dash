@@ -28,7 +28,9 @@ function App() {
     <>
       {pathname === "/" ||
         pathname === "/login" ||
+        pathname === "/login/" ||
         pathname === "/signUp" ||
+        pathname === "/signUp/" ||
         pathname === "/dashboard" ||
         pathname === "/dashboard/" ||
         pathname === "/dashboard/login" ||

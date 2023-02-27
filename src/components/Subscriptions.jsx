@@ -289,7 +289,7 @@ export default function Subscriptions() {
     base: {
       color: '#000',
       fontWeight: 600,
-      fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
+      fontFamily: 'Montserrat-Regular, Open Sans, Segoe UI, sans-serif',
       fontSize: '16px',
       fontSmoothing: 'antialiased',
 
@@ -361,7 +361,7 @@ export default function Subscriptions() {
   //     alert(errorMessages)
   //   }
   // }, [errorMessages])
-  
+
 
   const onReady = (el) => {
     // console.log('ready');
@@ -382,7 +382,7 @@ export default function Subscriptions() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col justify-center items-center mt-12 md:mt-20">
           <div className="flex items-center gap-4 md:gap-5 text-semibold mb-10 text-center">
-            <p className="opacity-40 text-sm font-bold">Select Your Account</p>
+            <p className="text-[#333] text-sm font-bold">Select Your Account</p>
             <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
               <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
             </div>
@@ -390,7 +390,7 @@ export default function Subscriptions() {
             <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
               <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
             </div>
-            <p className="text-gray20 opacity-40 text-sm font-bold">Enter Dashboard</p>
+            <p className="text-[#333] text-sm font-bold">Enter Dashboard</p>
           </div>
 
           <div className="grid lg:grid-cols-2 sm:grid-cols-1 justify-center gap-8 mb-12">
@@ -400,8 +400,8 @@ export default function Subscriptions() {
                 <div className="flex gap-[14px]">
                   <img className="rounded-[50%]" width={90} height={90} src={userResults?.data[0]?.profile_pic_url} alt="" />
                   <div className="text-gray20 pt-4">
-                    <p className="font-bold text-lg">@{username}</p>
-                    <p className="font-medium text-sm">{userResults?.data[0].full_name}</p>
+                    <p className="font-bold text-lg font-MontserratBold text-black">@{username}</p>
+                    <p className="font-medium text-sm font-MontserratSemiBold text-[#333]">{userResults?.data[0].full_name}</p>
                   </div>
                 </div>
                 <div className="rounded-[4px] bg-[#D9D9D9] p-3 relative w-10 h-10 cursor-pointer">
@@ -411,10 +411,10 @@ export default function Subscriptions() {
 
               {/* Payment method */}
               <div className="shadow-subs px-7 py-6 rounded-[10px]">
-                <h3 className="font-bold text-[20px] text-gray20 pb-2 flex items-center gap-2">
+                <h3 className="font-bold font-MontserratBold text-[20px] text-black pb-2 flex items-center gap-2">
                   {/* {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false)} />} */}
                   Payment method</h3>
-                <p className="font-bold text-sm opacity-40 pb-5">
+                <p className="font-[500] text-sm font-MontserratSemiBold text-[#333] pb-5">
                   You may cancel during your free trial and won't be billed,
                   no risk.
                 </p>
@@ -426,7 +426,7 @@ export default function Subscriptions() {
                     <CardComponent
                       ref={cardRef}
                       className="fieldset field"
-                      onChange={() => {}}
+                      onChange={() => { }}
                       styles={styles}
                       // classes={classes}
                       locale={'en'}
@@ -436,19 +436,19 @@ export default function Subscriptions() {
                       onReady={onReady}
                     >
                       <div className="ex1-field mb-5" id='num'>
-                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => {}} />
-                        <label className="ex1-label">Card Number</label><i className="ex1-bar"></i>
+                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
+                        <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i>
                       </div>
 
                       <div className="ex1-fields">
                         <div className="ex1-field mb-5">
-                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => {}} />
-                          <label className="ex1-label">Expiry</label><i className="ex1-bar"></i>
+                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
+                          <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i>
                         </div>
 
                         <div className="ex1-field">
-                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => {}} />
-                          <label className="ex1-label">CVC</label><i className="ex1-bar"></i>
+                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
+                          <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i>
                         </div>
 
                       </div>
@@ -456,9 +456,18 @@ export default function Subscriptions() {
                     // </Provider>
                   }
                 </>
-                {showCardComponent && <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
+                {showCardComponent && <button className="font-MontserratSemiBold text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4"
+                  style={{
+                    backgroundColor: '#ef5f3c',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                  onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
                 </button>}
+                {/* {showCardComponent && <button className="bg-[#1b89ff] text-white font-MontserratSemiBold text-[16px] mt-5 w-full py-4 rounded-[10px] font-bold mb-4" onClick={() => handleOnClick()}>
+                  <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
+                </button>} */}
 
                 {/* {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
                   <span>Card / Debit Card</span>
@@ -470,70 +479,70 @@ export default function Subscriptions() {
               </div>
             </div>
 
-            <div className="shadow-subs px-7 py-6 rounded-[10px]">
+            <div className="shadow-subs px-7 py-6 rounded-[10px] font-MontserratRegular">
               <p className="bg-bgicongreen rounded-[70px] text-btngreen font-bold text-sm py-[6px] px-4 w-36">7-Day Free Trial</p>
-              <h3 className="font-bold text-[20px] mt-4 mb-3">Start Your 7-Day Trial</h3>
-              <p className="font-bold text-sm opacity-40 mb-4">
+              <h3 className="font-bold text-[20px] mt-4 mb-3 font-MontserratBold">Start Your 7-Day Trial</h3>
+              <p className="font-bold text-sm text-[#333] mb-4">
                 It's time to get the real exposure you've been waiting for. After
                 signing up, you will be introduced to your personal account manager
                 and start growing in under 2 minutes.
               </p>
-              <h2 className="font-bold text-[40px] ">Free</h2>
-              <p className="text-sm opacity-40 font-normal">Then $24.99 per week, billed monthly.</p>
+              <h2 className="font-bold text-[40px] font-MADEOKINESANSPERSONALUSE">Free</h2>
+              <p className="text-sm text-[#333] font-normal">Then $24.99 per week, billed monthly.</p>
               <ul className="pt-8">
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Grow ~1-10k Real Monthly Followers</p>
+                  <p className="font-bold text-sm text-[#333]">Grow ~1-10k Real Monthly Followers</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Target Followers Relevant To You</p>
+                  <p className="font-bold text-sm text-[#333]">Target Followers Relevant To You</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Detailed Analytics & Results Tracking</p>
+                  <p className="font-bold text-sm text-[#333]">Detailed Analytics & Results Tracking</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Automated 24/7 Growth, Set & Forget</p>
+                  <p className="font-bold text-sm text-[#333]">Automated 24/7 Growth, Set & Forget</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">No Fakes Or Bots, 100% Real People</p>
+                  <p className="font-bold text-sm text-[#333]">No Fakes Or Bots, 100% Real People</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Personal Account Manager</p>
+                  <p className="font-bold text-sm text-[#333]">Personal Account Manager</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Boost Likes, Comments & DMs</p>
+                  <p className="font-bold text-sm text-[#333]">Boost Likes, Comments & DMs</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Safest Instagram Growth Service</p>
+                  <p className="font-bold text-sm text-[#333]">Safest Instagram Growth Service</p>
                 </li>
                 <li className="flex gap-3 items-center mb-3">
                   <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
                     <TbChecks className="absolute text-btngreen font-semibold" />
                   </div>
-                  <p className="font-bold text-sm opacity-40">Access Dashboard On All Devices</p>
+                  <p className="font-bold text-sm text-[#333]">Access Dashboard On All Devices</p>
                 </li>
               </ul>
             </div>

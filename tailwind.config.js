@@ -27,6 +27,13 @@ module.exports = withMT({
         activelink: "#ECECEC",
       },
     },
+    fontFamily: {
+      MADEOKINESANSPERSONALUSE: 'MADEOKINESANSPERSONALUSE, sans-serif',
+      MontserratRegular: 'Montserrat-Regular, sans-serif',
+      MontserratLight: 'Montserrat-Light, sans-serif',
+      MontserratSemiBold: 'Montserrat-SemiBold, sans-serif',
+      MontserratBold: 'Montserrat-Bold, sans-serif',
+    }
   },
   plugins: [],
   important: true,
