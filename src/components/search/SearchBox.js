@@ -4,6 +4,7 @@ import { useClickOutside } from "react-click-outside-hook";
 
 import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
+import { FaUser } from 'react-icons/fa'
 import { searchAccount } from '../../helpers'
 import { supabase } from '../../supabaseClient';
 
@@ -54,8 +55,12 @@ export default function SearchBox() {
   }, [input]) 
 
   const handleSubmit = async () => {
+    var filteredSelected = selected;
+    if (filteredSelected.startsWith('@')) {
+      filteredSelected = filteredSelected.substring(1)
+    }
     if (selected) {
-      const params = { ig: selected, response_type: "short", corsEnabled: "false" };
+      const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false" };
       const options = {
         method: "GET",
         url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
@@ -65,9 +70,10 @@ export default function SearchBox() {
           "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
         },
       };
+      console.log(options);
       const userResults = await Axios.request(options);
-      console.log(userResults.data[0].username);
-      // if (!userResults.data[0].username) return setError(true);
+      console.log(userResults?.data[0]?.username);
+      if (!userResults?.data[0]?.username) return alert('Username not found!');
       const { data: { user } } = await supabase.auth.getUser()
 
       await supabase
@@ -105,6 +111,21 @@ export default function SearchBox() {
       </div>
 
       {showResultModal && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+        {debouncedQuery  && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer" 
+          onClick={() => {
+            setSelected(debouncedQuery);
+            setInput(debouncedQuery)
+            setShowResultModal(false);
+          }}
+          >
+          <div className="p-3 rounded-full bg-black">
+            <FaUser size={14} color="white" />
+          </div>
+          <div className="">
+            <div className="">{debouncedQuery}</div>
+            <div className="mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
+          </div>
+        </div>}
         {searchedAccounts.map((data, index) => {
           return (<>
             <div

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { RxCaretRight } from "react-icons/rx";
 import { TbRefresh, TbChecks } from "react-icons/tb";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import { FaCaretLeft } from "react-icons/fa";
 import axios from 'axios'
@@ -141,6 +142,8 @@ export default function Subscriptions() {
         return data.token
       }).catch(err => {
         console.log(err);
+        if (err === "Error: Could not mount master component") return alert("Please check your card")
+        alert("something is wrong, please try again")
         setLoading(false);
         return;
       });
@@ -168,6 +171,7 @@ export default function Subscriptions() {
         const create_subscription_for_customer_data = {
           customer_id: customer?.customer?.id,
           plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+          // plan_id: "Monthly-Plan-USD-Monthly"
         }
         let subscriptionResult = await axios.post(`${baseUrl}/api/create_subscription_for_customer`,
           urlEncode(create_subscription_for_customer_data))
@@ -456,15 +460,25 @@ export default function Subscriptions() {
                     // </Provider>
                   }
                 </>
-                {showCardComponent && <button className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4"
+                {showCardComponent && <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
                   style={{
                     backgroundColor: '#ef5f3c',
                     color: 'white',
                     boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                   }}
-                  onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
+                  onClick={() => {
+                    if(Loading) return alert('Please wait');
+                    handleOnClick()
+                  }}>
+                  <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
                 </button>}
+                {Loading && <div className="flex items-center py-3 gap-2 justify-center">
+                  <AiOutlineLoading3Quarters className="animate-spin"/>
+                <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
+                  We're processing your request, please wait...
+                </p>
+                </div>}                
+
                 {/* {showCardComponent && <button className="bg-[#1b89ff] text-white font-MontserratSemiBold text-[16px] mt-5 w-full py-4 rounded-[10px] font-bold mb-4" onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
                 </button>} */}
