@@ -55,52 +55,60 @@ export default function DashboardApp() {
 
 
   useEffect(() => {
-    const datepickerEl = document.getElementById('datepickerId');
-    if (!datepickerEl) return;
-    new Datepicker(datepickerEl, {
-      title: "Sort by date added",
-      // date: new Date(),
-      placement: 'bottom',
-      triggerType: 'click',
-      offsetSkidding: 0,
-      offsetDistance: 10,
-      delay: 300,
-      onHide: () => {
-        console.log('dropdown has been hidden');
-      },
-      onShow: () => {
-        console.log('dropdown has been shown');
-      },
-      onToggle: () => {
-        console.log('dropdown has been toggled');
+    if(user?.admin){
+      const datepickerEl = document.getElementById('datepickerId');
+      if (datepickerEl) {
+        new Datepicker(datepickerEl, {
+          title: "Sort by date added",
+          // date: new Date(),
+          placement: 'bottom',
+          triggerType: 'click',
+          offsetSkidding: 0,
+          offsetDistance: 10,
+          delay: 300,
+          onHide: () => {
+            console.log('dropdown has been hidden');
+          },
+          onShow: () => {
+            console.log('dropdown has been shown');
+          },
+          onToggle: () => {
+            console.log('dropdown has been toggled');
+          }
+        });
+  
+      } else {
+        console.log(datepickerEl);
       }
-    });
-  }, [])
+    }
+  }, [user])
 
 
   useEffect(() => {
-    if (originalUsers) {
+    if (user?.admin && originalUsers) {
       const sidenav = document.getElementById("datepickerId");
-      sidenav.addEventListener("changeDate", (event) => {
-        if (event?.target?.value) {
-          // var filtered = users.filter(user => new Date(user.created_at).getTime() === new Date(event.target.value).getTime())
-          var filtered = originalUsers?.filter(user => {
-            var d1 = new Date(user.created_at).getDate()
-            var m1 = new Date(user.created_at).getMonth() + 1
-            var y1 = new Date(user.created_at).getFullYear()
-            const a = (d1 + m1 + y1);
-            var d2 = new Date(event.target.value).getDate()
-            var m2 = new Date(event.target.value).getMonth() + 1
-            var y2 = new Date(event.target.value).getFullYear()
-            const b = (d2 + m2 + y2);
-            return a === b
-          })
-          setUsers(filtered)
-        }
-      });
+      if (sidenav) {
+        sidenav.addEventListener("changeDate", (event) => {
+          if (event?.target?.value) {
+            // var filtered = users.filter(user => new Date(user.created_at).getTime() === new Date(event.target.value).getTime())
+            var filtered = originalUsers?.filter(user => {
+              var d1 = new Date(user.created_at).getDate()
+              var m1 = new Date(user.created_at).getMonth() + 1
+              var y1 = new Date(user.created_at).getFullYear()
+              const a = (d1 + m1 + y1);
+              var d2 = new Date(event.target.value).getDate()
+              var m2 = new Date(event.target.value).getMonth() + 1
+              var y2 = new Date(event.target.value).getFullYear()
+              const b = (d2 + m2 + y2);
+              return a === b
+            })
+            setUsers(filtered)
+          }
+        });
+      }
       return sidenav.removeEventListener("changeDate", () => { })
     }
-  }, [originalUsers])
+  }, [originalUsers, user])
 
   useEffect(() => {
     const fetch = async () => {
@@ -160,7 +168,7 @@ export default function DashboardApp() {
     }
   }, [originalUsers, searchTerm])
 
-  if (user?.admin){
+  if (user?.admin) {
     return (
       <div className="bg-[#F8F8F8]">
         <div className="max-w-[1580px] mx-auto flex gap-2 md:gap-6 h-screen">
@@ -227,7 +235,7 @@ export default function DashboardApp() {
                 </div>
               </div>
             </div>
-  
+
             <div className="bg-white text-[#626262]">
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div className="py-4 bg-white dark:bg-gray-900 flex justify-between gap-4  px-4">
@@ -245,7 +253,7 @@ export default function DashboardApp() {
                         />
                       </div>
                     </div>
-  
+
                     <div className="relative max-w-sm">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
@@ -255,7 +263,7 @@ export default function DashboardApp() {
                       }} />
                     </div>
                   </div>
-  
+
                   <div className="py-1 px-4 rounded-md bg-gray-50 text-red-700 flex items-center gap-2 cursor-pointer" onClick={() => {
                     document.getElementById("datepickerId").value = ''
                     document.getElementById("table-search").value = ''
@@ -265,9 +273,9 @@ export default function DashboardApp() {
                     <FaTrash />
                     <span>Clear&nbsp;filters</span>
                   </div>
-  
+
                 </div>
-  
+
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -290,7 +298,7 @@ export default function DashboardApp() {
                               if (nameA < nameB) {
                                 return -1;
                               }
-  
+
                               // names must be equal
                               return 0;
                             });
@@ -401,7 +409,7 @@ export default function DashboardApp() {
                       </th>
                     </tr>
                   </thead>
-  
+
                   <tbody className=''>
                     {users && users.map((user, index) => {
                       // console.log(user);
@@ -425,11 +433,11 @@ export default function DashboardApp() {
                           sessionData = d[0]
                         }
                       }
-  
+
                       if (username) {
                         fetch()
                       }
-  
+
                       const getTargetingAccounts = async () => {
                         // console.log(user);
                         const { data, error } = await supabase
@@ -449,11 +457,11 @@ export default function DashboardApp() {
                         return data;
                         // setTargetingAccounts(data);
                       };
-  
+
                       getTargetingAccounts();
-  
+
                       // console.log(user.profile);
-  
+
                       sessionData && console.log(sessionData);
                       if (username) {
                         return (
@@ -489,7 +497,7 @@ export default function DashboardApp() {
                     })}
                   </tbody>
                 </table>
-  
+
                 {users?.length > 100 && <nav className="mb-10 px-4 flex items-center justify-between pt-4" aria-label="Table navigation">
                   <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span className="font-semibold text-gray-900 dark:text-white">1-20</span> of <span className="font-semibold text-gray-900 dark:text-white">{users?.length}</span></span>
                   <ul className="inline-flex items-center -space-x-px">
@@ -522,9 +530,9 @@ export default function DashboardApp() {
                     </li>
                   </ul>
                 </nav>}
-  
+
                 <br /><br /><br /><br /><br />
-  
+
               </div>
             </div>
           </div>
@@ -532,8 +540,8 @@ export default function DashboardApp() {
         {showChargebee && <Chargebee key={selectedUser.id} k={selectedUser.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
       </div>
     );
-  }else{
-    return(<></>)
+  } else {
+    return (<></>)
   }
 }
 
