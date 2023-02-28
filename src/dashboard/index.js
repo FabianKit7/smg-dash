@@ -130,7 +130,7 @@ export default function DashboardApp() {
       // console.log(filtered[0]);
     }
     fetch()
-  }, [])
+  }, [user])
 
   const filterByStatus = (status) => {
     document.getElementById("datepickerId").value = ''
