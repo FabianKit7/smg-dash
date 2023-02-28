@@ -56,6 +56,7 @@ export default function DashboardApp() {
 
   useEffect(() => {
     const datepickerEl = document.getElementById('datepickerId');
+    if (!datepickerEl) return;
     new Datepicker(datepickerEl, {
       title: "Sort by date added",
       // date: new Date(),
