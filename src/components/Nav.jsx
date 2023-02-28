@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import sproutyLogo from "../images/sprouty.svg";
+// import sproutyLogo from "../images/sprouty.svg";
 import { CiDark } from "react-icons/ci"
 import { useClickOutside } from "react-click-outside-hook";
 
@@ -24,7 +24,7 @@ export default function Nav() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) return Navigate("/login");
+      // if (!user) return Navigate("/login");
       // console.log("🚀 ~ file: Nav.jsx:31 ~ getData ~ user", user);
       const { data, error } = await supabase
         .from("users")
