@@ -170,6 +170,25 @@ export default function DashboardApp() {
     }
   }, [originalUsers, searchTerm])
 
+  const [showModes, setshowModes] = useState(false)
+  const [modeChgCaller, setModeChgCaller] = useState()
+  const changeMode = async (mode) => {
+    await supabase
+      .from("users")
+      .update({ userMode: mode }).eq('user_id', modeChgCaller);
+    window.location.reload();
+  }
+  const [showStatus, setshowStatus] = useState(false)
+  const [statusChgCaller, setStatusChgCaller] = useState()
+  const changeStatus = async (status) => {
+    const { data, error } = await supabase
+      .from("users")
+      // .select()
+      .update({ status }).eq('user_id', statusChgCaller);
+    console.log(data, error)
+    !error && window.location.reload();
+  }
+
   if (user?.admin) {
     return (
       <div className="bg-[#F8F8F8]">
@@ -366,11 +385,18 @@ export default function DashboardApp() {
                             >Checking</div>
                             <div className="hover:text-gray-400 cursor-pointer"
                               onClick={() => {
-                                setSortByStatus("Not-active")
-                                filterByStatus("Not-active")
+                                setSortByStatus("Twofactor")
+                                filterByStatus("Twofactor")
                                 setShowStatusOptions(false)
                               }}
-                            >Not-active</div>
+                            >Twofactor</div>
+                            <div className="hover:text-gray-400 cursor-pointer"
+                              onClick={() => {
+                                setSortByStatus("Incorrect")
+                                filterByStatus("Incorrect")
+                                setShowStatusOptions(false)
+                              }}
+                            >Incorrect</div>
                             <div className="hover:text-gray-400 cursor-pointer"
                               onClick={() => {
                                 setSortByStatus("Cancelled")
@@ -472,11 +498,47 @@ export default function DashboardApp() {
                               className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[250px] overflow-x-auto"
                             >{user.email}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[200px] overflow-x-auto">@{username}</td>
-                            <td className="px-6 py-4">{user.status}</td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center relative">
+                                {user.status}
+                                <a href="#" onClick={() => {
+                                  setshowStatus(!showStatus)
+                                  setStatusChgCaller(user?.user_id)
+                                }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-3 h-3 ml-1"
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    viewBox="0 0 320 512"
+                                  >
+                                    <path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z" />
+                                  </svg>
+                                </a>
+                              </div>
+                            </td>
                             <td className="px-6 py-4" id={`followers_${index}_${username}`}>{user.followers}</td>
                             <td className="px-6 py-4" id={`following_${index}_${username}`}>{user.following}</td>
                             <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${username}`}>0</td>
-                            <td className="px-6 py-4">{user.userMode}</td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center relative">
+                                {user.userMode}
+                                <a href="#" onClick={() => {
+                                  setshowModes(!showModes)
+                                  setModeChgCaller(user?.user_id)
+                                }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-3 h-3 ml-1"
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    viewBox="0 0 320 512"
+                                  >
+                                    <path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z" />
+                                  </svg>
+                                </a>
+                              </div>
+                            </td>
                             <td className="px-6 py-4">
                               <BiUserCircle size={24} className="ml-5" onClick={() => {
                                 setSelectedUser(user)
@@ -490,16 +552,18 @@ export default function DashboardApp() {
                                 <AiOutlineSetting size={24} className="text-blue-600" />
                               </Link>
                               <FaTrash size={20} className="text-red-700 cursor-pointer" onClick={async () => {
-                                if (window.confirm("Are you sure you want to delete this account?")) { 
+                                if (window.confirm("Are you sure you want to delete this account?")) {
                                   console.log(user?.user_id);
                                   // alert('processing...')
-                                  const { error } = await supabaseAdmin.auth.admin.deleteUser(user?.user_id)
+                                  await supabaseAdmin.auth.admin.deleteUser(user?.user_id)
                                   await deleteUserDetails(user?.user_id)
                                   // if(!error){
                                   // }else{
                                   //   console.log('An error occurred while deleting the account', error);
                                   //   alert('An error occurred while deleting the account')
                                   // }
+
+                                  window.location.reload()
                                 }
                               }} />
                             </td>
@@ -552,6 +616,29 @@ export default function DashboardApp() {
           </div>
         </div>
         {showChargebee && <Chargebee key={selectedUser.id} k={selectedUser.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
+
+        {showStatus && <div className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
+          <div className="z-50 py-3 w-[130px] px-4 bg-white text-gray-600 shadow-2xl flex flex-col gap-6 relative">
+            <FaTimes className='absolute top-0 right-0 cursor-pointer' onClick={() => setshowStatus(false)} />
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('active'); setStatusChgCaller(''); setshowStatus(false) }}>Active</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('pending'); setStatusChgCaller(''); setshowStatus(false) }}>Pending</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('checking'); setStatusChgCaller(''); setshowStatus(false) }}>Checking</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('twofactor'); setStatusChgCaller(''); setshowStatus(false) }}>Twofactor</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('incorrect'); setStatusChgCaller(''); setshowStatus(false) }}>Incorrect</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('cancelled'); setStatusChgCaller(''); setshowStatus(false) }}>Cancelled</div>
+          </div>
+        </div>}
+
+        {showModes && <div className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
+          <div className="z-50 py-3 w-[130px] px-4 bg-white text-gray-600 shadow-2xl flex flex-col gap-6 relative">
+            <FaTimes className='absolute top-0 right-0 cursor-pointer' onClick={() => setshowModes(false)} />
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('auto'); setModeChgCaller(''); setshowModes(false) }}>auto</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('follow'); setModeChgCaller(''); setshowModes(false) }}>follow</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('unfollow'); setModeChgCaller(''); setshowModes(false) }}>unfollow</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('pause'); setModeChgCaller(''); setshowModes(false) }}>pause</div>
+            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('off'); setModeChgCaller(''); setshowModes(false) }}>off</div>
+          </div>
+        </div>}
       </div>
     );
   } else {
