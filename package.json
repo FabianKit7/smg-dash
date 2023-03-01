@@ -13,6 +13,7 @@
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
+    "copy-to-clipboard": "^3.3.3",
     "flowbite-datepicker": "^1.2.2",
     "loadash": "^1.0.0",
     "multi-range-slider-react": "^2.0.2",

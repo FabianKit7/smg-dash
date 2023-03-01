@@ -8,6 +8,7 @@ import Datepicker from 'flowbite-datepicker/Datepicker';
 import axios from 'axios';
 import { useClickOutside } from 'react-click-outside-hook';
 import { Link, useNavigate } from 'react-router-dom';
+import copy from 'copy-to-clipboard';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const urlEncode = function (data) {
@@ -55,7 +56,7 @@ export default function DashboardApp() {
 
 
   useEffect(() => {
-    if(user?.admin){
+    if (user?.admin) {
       const datepickerEl = document.getElementById('datepickerId');
       if (datepickerEl) {
         new Datepicker(datepickerEl, {
@@ -76,7 +77,7 @@ export default function DashboardApp() {
             console.log('dropdown has been toggled');
           }
         });
-  
+
       } else {
         console.log(datepickerEl);
       }
@@ -589,42 +590,72 @@ const Chargebee = ({ k, user, setShowChargebee }) => {
     };
   }, [isClickedOutside, setShowChargebee]);
 
+  const [message, setMessage] = useState('')
+
   return (
     <div key={k} className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
-      <div className="bg-white w-[400px] py-4 rounded-xl" ref={parentRef}>
+      <div className="absolute top-3 right-3 text-green-400">{message}</div>
+      <div className="bg-white w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
         <div className="py-2 px-6 border-b flex justify-between">
           <div className="font-bold text-lg">User Chargebee details</div>
           <FaTimes className='cursor-pointer' onClick={() => setShowChargebee(false)} />
         </div>
         <div className="mt-4 flex flex-col gap-4 px-6">
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">USERNAME:</div>
             <div className="">{user?.username}</div>
           </div>
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">ACCOUNT STATUS:</div>
             <div className="">{user?.status}</div>
           </div>
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">SUBSCRIPTION STATUS:</div>
             <div className="">{subscription?.status}</div>
           </div>
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">NAME:</div>
             <div className="">{user?.full_name}</div>
           </div>
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">EMAIL:</div>
-            <div className="">{currentUser?.email}</div>
+            <div className="cursor-pointer" onClick={() => {
+              copy(currentUser?.email, {
+                debug: true,
+                message: 'Press #{key} to copy',
+              })
+              setMessage('copied')
+              setTimeout(() => {
+                setMessage('')
+              }, 1000);
+            }}>{currentUser?.email}</div>
           </div>
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">CUSTOMER_ID:</div>
             {/* <div className="">{d?.customer_id}</div> */}
-            <div className="">{customer?.id}</div>
+            <div className="cursor-pointer" onClick={() => {
+              copy(customer?.id, {
+                debug: true,
+                message: 'Press #{key} to copy',
+              })
+              setMessage('copied')
+              setTimeout(() => {
+                setMessage('')
+              }, 1000);
+            }}>{customer?.id}</div>
           </div>
-          <div className="flex justify-between border-b gap-10">
+          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">SUBSCRIPTION_ID:</div>
-            <div className="">{subscription?.id}</div>
+            <div className="cursor-pointer" onClick={() => {
+              copy(subscription?.id, {
+                debug: true,
+                message: 'Press #{key} to copy',
+              })
+              setMessage('copied')
+              setTimeout(() => {
+                setMessage('')
+              }, 1000);
+            }}>{subscription?.id}</div>
           </div>
         </div>
       </div>
