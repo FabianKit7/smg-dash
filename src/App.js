@@ -30,7 +30,8 @@ function App() {
         pathname === "/login" ||
         pathname === "/login/" ||
         pathname === "/signUp" ||
-        pathname === "/signUp/" ||
+        pathname === "/SignUp" ||
+        pathname === "/SignUp/" ||
         pathname === "/dashboard" ||
         pathname === "/dashboard/" ||
         pathname === "/dashboard/login" ||
