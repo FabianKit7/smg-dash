@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useClickOutside } from 'react-click-outside-hook';
 import { Link, useNavigate } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
+import { deleteUserDetails } from '../helpers';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const urlEncode = function (data) {
@@ -237,7 +238,7 @@ export default function DashboardApp() {
               </div>
             </div>
 
-            <div className="bg-white text-[#626262]">
+            <div className="bg-white text-[#626262] pr-5">
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div className="py-4 bg-white dark:bg-gray-900 flex justify-between gap-4  px-4">
                   <div className="flex gap-4 items-center">
@@ -277,7 +278,7 @@ export default function DashboardApp() {
 
                 </div>
 
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mr-2">
                   <thead className="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
@@ -425,8 +426,8 @@ export default function DashboardApp() {
                         if (resData?.data[0]?.data) {
                           const d = JSON.parse(resData?.data[0]?.data)
                           // console.log(d[0]);
-                          const followers = document.querySelector(`#followers_${index}`)
-                          const following = document.querySelector(`#following_${index}`)
+                          const followers = document.querySelector(`#followers_${index}_${username}`)
+                          const following = document.querySelector(`#following_${index}_${username}`)
                           if (followers && following) {
                             followers.textContent = d[0].profile.followers
                             following.textContent = d[0].profile.following
@@ -451,7 +452,7 @@ export default function DashboardApp() {
                           error
                         );
                         // console.log(data);
-                        const targeting = document.querySelector(`#targeting_${index}`)
+                        const targeting = document.querySelector(`#targeting_${index}_${username}`)
                         if (targeting) {
                           targeting.textContent = data?.length
                         }
@@ -469,13 +470,12 @@ export default function DashboardApp() {
                           <tr key={user.id} className={`${(index + 1) % 2 === 0 ? 'bg-white' : 'bg-[#F8F8F8]'} border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200`}>
                             <td
                               className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[250px] overflow-x-auto"
-                              id={`email_${index}`}
                             >{user.email}</td>
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">@{username}</td>
+                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[200px] overflow-x-auto">@{username}</td>
                             <td className="px-6 py-4">{user.status}</td>
-                            <td className="px-6 py-4" id={`followers_${index}`}>{user.followers}</td>
-                            <td className="px-6 py-4" id={`following_${index}`}>{user.following}</td>
-                            <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}`}>0</td>
+                            <td className="px-6 py-4" id={`followers_${index}_${username}`}>{user.followers}</td>
+                            <td className="px-6 py-4" id={`following_${index}_${username}`}>{user.following}</td>
+                            <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${username}`}>0</td>
                             <td className="px-6 py-4">{user.userMode}</td>
                             <td className="px-6 py-4">
                               <BiUserCircle size={24} className="ml-5" onClick={() => {
@@ -483,12 +483,25 @@ export default function DashboardApp() {
                                 setShowChargebee(true)
                               }} />
                             </td>
-                            <td className="px-6 py-4 text-right">
+                            <td className=" py-4 text-right flex items-center gap-4">
                               <Link to={`/dashboard/edit/${user?.user_id}`} target="_blank" rel="noopener noreferrer"
-                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                className="font-medium"
                               >
-                                <AiOutlineSetting size={24} />
+                                <AiOutlineSetting size={24} className="text-blue-600" />
                               </Link>
+                              <FaTrash size={20} className="text-red-700 cursor-pointer" onClick={async () => {
+                                if (window.confirm("Are you sure you want to delete this account?")) { 
+                                  console.log(user?.user_id);
+                                  // alert('processing...')
+                                  const { error } = await supabaseAdmin.auth.admin.deleteUser(user?.user_id)
+                                  await deleteUserDetails(user?.user_id)
+                                  // if(!error){
+                                  // }else{
+                                  //   console.log('An error occurred while deleting the account', error);
+                                  //   alert('An error occurred while deleting the account')
+                                  // }
+                                }
+                              }} />
                             </td>
                           </tr>
                         )

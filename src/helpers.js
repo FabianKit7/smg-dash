@@ -59,17 +59,15 @@ export const dateFormatter = (timeFrame) => {
   if (timeFrame === "Monthly") {
     // ex. Month ---  Mar
     currentDate = `${months[today.getMonth()].month}`
-    previousDate = `${
-      months[today.getMonth() - 1].month
-        ? months[today.getMonth() - 1].month
-        : "Dec"
-    }`
+    previousDate = `${months[today.getMonth() - 1].month
+      ? months[today.getMonth() - 1].month
+      : "Dec"
+      }`
   } else if (timeFrame === "Daily") {
     // ex. Day and Month ---  25 Mar
     currentDate = `${today.getDate()} ${months[today.getMonth()].month}`
-    previousDate = `${
-      today.getDate() - 1 ? today.getDate() - 1 : getPrevDay().days
-    } ${previousMonth ? previousMonth : months[today.getMonth()].month}`
+    previousDate = `${today.getDate() - 1 ? today.getDate() - 1 : getPrevDay().days
+      } ${previousMonth ? previousMonth : months[today.getMonth()].month}`
   }
 
   return [previousDate, currentDate]
@@ -194,47 +192,48 @@ export const deleteAccount = async (from, id) => {
 }
 
 export const deleteUserDetails = async (user_id) => {
-    await deleteUserBlacklist(user_id);
-    await deleteUser(user_id);
-    await deleteUserTargeting(user_id);
-    await deleteUserWhitelist(user_id);
-    return 'success'
+  // console.log(user_id);
+  await deleteUser(user_id);
+  await deleteUserBlacklist(user_id);
+  await deleteUserTargeting(user_id);
+  await deleteUserWhitelist(user_id);
+  return 'success'
 }
 
 export const deleteUser = async (user_id) => {
-    const { data, error } = await supabase
-      .from("users")
-      .delete()
-      .match({ user_id: user_id })
-    console.log(data, error)
-    return data
+  const { error } = await supabase
+    .from("users")
+    .delete()
+    .eq('user_id', user_id)
+  console.log(error)
+  // return data
 }
 
 export const deleteUserBlacklist = async (user_id) => {
-    const { data, error } = await supabase
-      .from("blacklist")
-      .delete()
-      .match({ user_id: user_id })
-    console.log(data, error)
-    return data
+  const { error } = await supabase
+    .from("blacklist")
+    .delete()
+    .eq('user_id', user_id)
+  console.log(error)
+  // return data
 }
 
 export const deleteUserTargeting = async (user_id) => {
-    const { data, error } = await supabase
-      .from("targeting")
-      .delete()
-      .match({ user_id: user_id })
-    console.log(data, error)
-    return data
+  const { error } = await supabase
+    .from("targeting")
+    .delete()
+    .eq('user_id', user_id)
+  console.log(error)
+  // return data
 }
 
 export const deleteUserWhitelist = async (user_id) => {
-    const { data, error } = await supabase
-      .from("whitelist")
-      .delete()
-      .match({ user_id: user_id })
-    console.log(data, error)
-    return data
+  const { error } = await supabase
+    .from("whitelist")
+    .delete()
+    .eq('user_id', user_id)
+  console.log(error)
+  // return data
 }
 
 // const growthDifference = (current, previous) => {
