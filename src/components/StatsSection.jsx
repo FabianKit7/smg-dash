@@ -55,7 +55,46 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
     }
   }, [filterModal, userId])
 
+  const [backupCode, setBackupCode] = useState('')
+  const storeBackupCode = async () => {
+    await supabase
+      .from("users")
+      .update({
+        backupcode: backupCode,
+        status: 'checking'
+      }).eq('user_id', userId);
+  }
+
   return (<>
+    {userData?.status === 'incorrect' && <div className="flex justify-center mt-6">
+      <div className="w-[320px] md:w-[350px] rounded-md">
+        <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 rounded-t-md">
+          <RiUserSettingsFill size={30} />
+          Your password is incorrect
+        </div>
+        <div className="bg-[#fcede0] px-4 py-3 rounded-b-md text-sm font-MontserratRegular">
+          <p className="">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
+
+          <button onClick={() => { setIsOpen(true) }} className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-MontserratRegular font-bold">change password</button>
+        </div>
+      </div>
+    </div>}
+    {userData?.status === 'twofactor' && <div className="flex justify-center mt-6">
+      <div className="w-[320px] md:w-[350px] rounded-md">
+        <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 rounded-t-md">
+          <RiUserSettingsFill size={30} />
+          Two-Factor Authentication Enabled
+        </div>
+        <div className="bg-[#fcede0] px-4 py-3 rounded-b-md text-sm font-MontserratRegular">
+          <p className="">Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code you can find under "Settings; Security; Two-factor authentication; Additional methods; Backup codes. If you don't find a backup code, you will need to turn off two-factor authentication before we can log in.</p>
+          <textarea name="" className="px-2 py-1 rounded-md mt-3 w-full resize-none" id="" rows="3"
+            value={backupCode}
+            onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
+
+          <button onClick={() => storeBackupCode} className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-MontserratRegular font-bold">confirm</button>
+        </div>
+      </div>
+    </div>}
     {userData?.status === 'checking' && <div className="flex justify-center mt-6">
       <div className="w-[320px] md:w-[350px] rounded-md">
         <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 rounded-t-md">
@@ -80,7 +119,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             account now.</p>
           <button className="mt-3 bg-[#ff2c55] text-white rounded-md py-3 text-center w-full"
             onClick={() => setIsOpen(true)}
-          >Connect Account</button>
+          >connect account</button>
         </div>
       </div>
     </div>}
