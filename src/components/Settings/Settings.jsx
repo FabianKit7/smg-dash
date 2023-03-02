@@ -204,8 +204,8 @@ export default function Settings() {
         <div className="flex justify-center items-center py-3">
           <img src={supaData.profile_pic_url} className="w-32 h-w-32 object-cover rounded-[50%] mb-10" alt="" />
         </div>
-        <h4 className="pb-4 text-gray20 font-bold text-[20px]">Account settings</h4>
-        <div className="py-2">
+        <h4 className="pb-4 text-gray20 font-bold text-[20px] font-MontserratBold">Account settings</h4>
+        <div className="py-2 font-MontserratRegular">
           <div className="form-outline mb-4">
             <input
               type="text"
@@ -234,19 +234,19 @@ export default function Settings() {
             />
           </div>
           <div className="py-3 pb-4 d-flex ">
-            <button className="bg-secondaryblue font-bold text-base text-white rounded-[10px] py-3 w-full" onClick={() => onUpdate()} > {loading ? "Loading..." : "Save Changes"}</button>
+            <button className="bg-secondaryblue font-MontserratBold font-bold text-base text-white rounded-[10px] py-3 w-full" onClick={() => onUpdate()} > {loading ? "Loading..." : "Save Changes"}</button>
           </div>
 
           <div className="shadow-subs2 w-full mb-8 mt-10 rounded-[10px]">
             <div className="px-4 py-5">
-              <h3 className="font-bold text-xl text-gray20 pb-2">Subscription Settings</h3>
-              <p className="font-bold text-sm opacity-40 pb-9">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
+              <h3 className="font-bold text-xl text-gray20 pb-2 font-MontserratSemiBold">Subscription Settings</h3>
+              <p className="font-bold text-sm text-[#333] pb-9 font-MontserratRegular">Here you can renew or cancel your subscription with ease. <br /> You can resubscribe at any time.</p>
               {!supaData.subscribed ? <button onClick={renewSubscription} className="text-btngreen w-full rounded-[10px] border-solid border-[0.4px] border-black py-3 mb-3">{subLoading ? "Loading..." : "Renew"}</button> :
                 <button
                   onClick={() => {
                     // cancelSubscription()
                     setShowModal(true)
-                  }} className="text-btnred w-full rounded-[10px] border-solid border-[0.4px] border-black py-3">{subLoading ? "Loading..." : "Cancel"}</button>}
+                  }} className="bg-red-700 text-white font-MontserratBold w-full rounded-[10px] border-solid border-[0.4px] py-3">{subLoading ? "Loading..." : "Cancel"}</button>}
             </div>
           </div>
         </div>
@@ -254,12 +254,12 @@ export default function Settings() {
     </div>
 
     {showModal && <div className="fixed top-0 left-0 w-full h-screen bg-black/40 grid place-items-center">
-      <div className="bg-white to-black py-7 pt-12 px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px]">
+      <div className="bg-white to-black py-7 pt-12 px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular">
         <FaTimesCircle className="absolute top-3 right-3 flex flex-col items-center" 
         onClick={() => {
           setShowModal(false)
         }} />
-        <h1 className="text-lg font-bold text-center">Submit your cancellation request</h1>
+        <h1 className="text-lg font-bold text-center font-MontserratSemiBold text-[#333]">Submit your cancellation request</h1>
         <p className="text-center">
           All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
         </p>
@@ -267,7 +267,7 @@ export default function Settings() {
         <p className="text-center">
           Our expert account managers are always on standby and ready to help. If you are not getting results, or need help, schedule a time to speak with our expert team who can help you reach your full instagram growth potential.
         </p>
-        <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-[fit-content] py-3 px-5 bg-blue-500 text-white flex justify-center items-center gap-3">
+        <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center gap-3">
           <BsFillEnvelopeFill />
           Send an email
         </a>

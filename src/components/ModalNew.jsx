@@ -242,7 +242,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
         </div>
         <div className="flex flex-col justify-center items-center">
           <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
-          <h2 className='font-bold text-gray20 text-base mb-1'>@{user?.username}</h2>
+          <h2 className='font-bold text-gray20 text-base mb-1 font-MontserratBold'>@{user?.username}</h2>
           <div className="relative w-full md:w-[403px] flex justify-center">
             <input
               className='bg-[#f8f8f8] text-center rounded-[10px] w-full placeholder:text-center py-5 md:py-6'
@@ -259,16 +259,16 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
             </div>
           </div>
 
-          <p className="font-normal text-sm opacity-40 mt-1 flex items-center gap-1">
+          <p className="font-normal text-sm font-MontserratLight opacity-90 mt-1 flex items-center gap-1">
             <span className="">Your password is 100% protected and encrypted.</span> <FaLock />
           </p>
 
           <div className={`cursor-pointer mt-7 rounded-[10px] border-[0.4px] border-solid flex ${mode === "auto" ? "flex-col md:flex-row gap-7 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "auto" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("auto")}>
             <img className={mode !== "auto" ? "w-[30px] h-[30px]" : "w-[85px] h-[85px] m-auto md:mt-[3%] md:m-0"} src={flashImg} alt="" />
             <div className="text-gray20">
-              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Auto Mode</h1>
+              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start font-MontserratSemiBold'>Auto Mode</h1>
               {mode === "auto" && (
-                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start'>This setting will follow and unfollow relevant users using the targets you have selected. We will automatically unfollow users after 3 days to keep your following number low and healthy. We will never unfollow anyone that you manually followed yourself.</p>
+                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start font-MontserratLight text-[#333]'>This setting will follow and unfollow relevant users using the targets you have selected. We will automatically unfollow users after 3 days to keep your following number low and healthy. We will never unfollow anyone that you manually followed yourself.</p>
               )}
             </div>
           </div>
@@ -276,9 +276,9 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           <div className={`cursor-pointer rounded-[10px] border-[0.4px] border-solid flex ${mode === "follow" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "follow" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("follow")}>
             <BsPersonPlus className={mode !== "follow" ? "align-middle text-3xl" : "text-[85px] m-auto md:mt-[4%] md:m-0"} />
             <div className="text-gray20">
-              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Follow Mode</h1>
+              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start font-MontserratSemiBold'>Follow Mode</h1>
               {mode === "follow" && (
-                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start'>In ‘Follow Mode,’ your account will continue following
+                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start font-MontserratLight text-[#333]'>In ‘Follow Mode,’ your account will continue following
                   users until it reaches Instagram's maximum ‘Following’
                   limit (which is 7500). From there, interactions on our end
                   will stop and you will have to manually change your
@@ -291,9 +291,9 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           <div className={`cursor-pointer rounded-[10px] border-[0.4px] border-solid flex ${mode === "unfollow" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "unfollow" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("unfollow")}>
             <BsPersonDash className={mode !== "unfollow" ? "align-middle text-3xl" : "text-[85px] m-auto md:mt-[2%] md:m-0"} />
             <div className="text-gray20">
-              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Unfollow Mode</h1>
+              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start font-MontserratSemiBold'>Unfollow Mode</h1>
               {mode === "unfollow" && (
-                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start'>
+                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start font-MontserratLight text-[#333]'>
                   In ‘Unfollow Mode,’ your account will unfollow all of the
                   users we automatically followed for you. This will not
                   unfollow users that you personally followed, before or
@@ -306,9 +306,9 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           <div className={`cursor-pointer rounded-[10px] border-[0.4px] border-solid flex ${mode === "off" ? "flex-col md:flex-row gap-5 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "off" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("off")}>
             <IoPowerOutline className={mode !== "off" ? "align-middle text-3xl" : "text-[85px] m-auto md:mt-[3%] md:m-0"} />
             <div className="text-gray20">
-              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start'>Turn Off</h1>
+              <h1 className='font-semibold text-[22px] pb-1 text-center md:text-start font-MontserratSemiBold'>Turn Off</h1>
               {mode === "off" && (
-                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start'>
+                <p className='font-normal text-sm w-full md:w-[484px] text-center md:text-start font-MontserratLight text-[#333]'>
                   Turning on this setting will pause all interactions on
                   your account and you will not experience growth. Your
                   subscription will remain active, even if you turn
@@ -318,7 +318,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
               )}
             </div>
           </div>
-          <button className='rounded-[10px] bg-secondaryblue font-bold text-base py-4 w-full md:w-[400px] text-white' onClick={(e) => {
+          <button className='rounded-[10px] bg-secondaryblue font-MontserratSemiBold font-bold text-base py-4 w-full md:w-[400px] text-white' onClick={(e) => {
             e.preventDefault()
             !loading && handleSave();
           }}>{loading ? 'LOADING...' : 'Save Changes'}</button>

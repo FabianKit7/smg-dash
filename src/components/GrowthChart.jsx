@@ -77,29 +77,30 @@ export default function GrowthChart({ sessionsData }) {
 
   return (
     <div>
-      <h1 className="font-bold text-[20px] pb-5">Followers</h1>
+      {/* <h1 className="font-bold text-[20px] pb-5">Followers</h1> */}
       <div className="rounded-md text-gray20 shadow-stats w-full">
         <div className="card-body pt-3 pb-0 px-3 d-flex flex-column">
-          <div className="flex justify-end">
+          <div className="flex justify-between px-6 py-4">
+            <h1 className="font-bold text-[28px] font-MontserratBold">Followers</h1>
 
             <div className="rounded-md">
               <Dropdown>
                 <Dropdown.Toggle
                   variant=""
-                  className="btn btn-outline-secondary btn-sm dropdown-toggle"
+                  className="btn btn-outline-secondary btn-sm dropdown-toggle font-MontserratRegular text-[#333]"
                   id="dropdown-basic"
                 >
                   {dropDown}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setDropDown("7 Days")}>
+                  <Dropdown.Item onClick={() => setDropDown("7 Days")} className="font-MontserratRegular text-[#333]">
                     7 Days
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setDropDown("14 Days")}>
+                  <Dropdown.Item onClick={() => setDropDown("14 Days")} className="font-MontserratRegular text-[#333]">
                     14 Days
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setDropDown("30 Days")}>
+                  <Dropdown.Item onClick={() => setDropDown("30 Days")} className="font-MontserratRegular text-[#333]">
                     30 Days
                   </Dropdown.Item>
                 </Dropdown.Menu>

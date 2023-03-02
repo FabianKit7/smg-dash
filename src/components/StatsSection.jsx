@@ -164,15 +164,15 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         <div className="grid grid-cols-1 justify-center md:flex md:flex-1 md:items-center ">
           <img className="m-auto md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()} crossOrigin="Anonymous" />
           <div className="m-auto lg:ml-8">
-            <h4 className="font-semibold text-[22px] text-gray20 text-center md:text-start">{name}</h4>
+            <h4 className="font-bold text-[1.5rem] text-gray20 text-center md:text-start font-MontserratBold">{name}</h4>
             <div className="flex gap-[2px]">
-              <p className="font-normal text-sm text-gray20 m-auto md:mx-0 text-center md:text-start flex items-center">
+              <p className="font-normal font-MontserratSemiBold text-lg text-[#333] m-auto md:mx-0 text-center md:text-start flex items-center">
                 {username}
                 <FaCheckCircle className="fas fa-check-circle fa-lg ml-1 text-primary" style={{ visibility: isVerified ? 'visible' : 'hidden' }} />
               </p>
             </div>
-            <div className="w-[300px] font-normal opacity-50 text-sm md:mb-4 text-center md:text-start">{bio}</div>
-            <a href={url} target="_blank" rel="noopener noreferrer" className="grid md:block font-normal text-[13px] underline mt-1 text-center md:text-start">{url}</a>
+            <div className="w-[300px] font-MontserratLight font-normal opacity-90 text-sm md:mb-4 text-center md:text-start">{bio}</div>
+            <a href={url} target="_blank" rel="noopener noreferrer" className="grid md:block font-MontserratRegular font-normal text-[14px] underline mt-1 text-center md:text-start">{url}</a>
           </div>
         </div>
         {/* Stats Col */}
@@ -180,18 +180,18 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
 
           <div className="flex justify-center md:justify-start items-center gap-14 mb-4 md:mb-8">
             <div className="">
-              <h2 className="font-semibold text-[28px] text-gray20">{numFormatter(currFollowers ? currFollowers : 0)}</h2>
-              <p className="font-normal text-sm opacity-50">Followers</p>
+              <h2 className="font-semibold text-[28px] text-gray20 font-MontserratBold">{numFormatter(currFollowers ? currFollowers : 0)}</h2>
+              <p className="font-normal text-sm opacity-90 font-MontserratLight">Followers</p>
             </div>
 
             <div>
-              <h2 className="font-semibold text-[28px] text-gray20">{numFormatter(currFollowing ? currFollowing : 0)}</h2>
-              <p className="font-normal text-sm opacity-50">Following</p>
+              <h2 className="font-semibold text-[28px] text-gray20 font-MontserratBold">{numFormatter(currFollowing ? currFollowing : 0)}</h2>
+              <p className="font-normal text-sm opacity-90 font-MontserratLight">Following</p>
             </div>
 
             <div className="">
-              <h2 className="font-semibold text-[28px] text-gray20">{numFormatter(currMediaCount ? currMediaCount : 0)}</h2>
-              <p className="font-normal text-sm opacity-50">Posts</p>
+              <h2 className="font-semibold text-[28px] text-gray20 font-MontserratBold">{numFormatter(currMediaCount ? currMediaCount : 0)}</h2>
+              <p className="font-normal text-sm opacity-90 font-MontserratLight">Posts</p>
             </div>
           </div>
           <div className="flex gap-6 justify-center lg:justify-end md:justify-start">

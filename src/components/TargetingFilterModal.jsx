@@ -89,8 +89,8 @@ export default function TargetingFilterModal(props, { min, max }) {
     >
       <Modal.Header id="custom-header" closeButton={false}>
         <div className="flex flex-col">
-          <Modal.Title className="font-bold text-[20px] mb-2">Targeting Filters</Modal.Title>
-          <p className="font-bold text-sm opacity-40 w-full">
+          <Modal.Title className="font-bold text-[20px] mb-2 font-MontserratBold">Targeting Filters</Modal.Title>
+          <p className="font-bold text-sm opacity-90 text-[#333] w-full font-MontserratRegular">
             Here you can add preferences for your ideal follower. Before any follow or like we do, target will be checked if it complies to your liking.
           </p>
         </div>
@@ -101,12 +101,13 @@ export default function TargetingFilterModal(props, { min, max }) {
           />
         </div>
       </Modal.Header>
+
       <Modal.Body>
         <>
-          <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-12 p-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-12 p-3 font-MontserratRegular">
             <div className="flex flex-col justify-content-between">
               <div className="flex flex-col w-[80%] relative">
-                <label className="font-semibold text-base">Followers</label>
+                <label className="font-semibold font-MontserratSemiBold text-base">Followers</label>
                 <div className="mrslider relative">
                   <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
                     <FaMagic className="text-white" />
@@ -130,7 +131,7 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div className="flex flex-col w-[80%]">
-                <label className="font-semibold text-base mt-4">Following</label>
+                <label className="font-semibold font-MontserratSemiBold text-base mt-4">Following</label>
                 <div className="mrslider relative">
                   <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
                     <FaMagic className="text-white" />
@@ -152,7 +153,7 @@ export default function TargetingFilterModal(props, { min, max }) {
                 </div>
               </div>
               <div className="flex flex-col w-[80%]">
-                <label className="font-semibold text-base mt-4">Media</label>
+                <label className="font-semibold font-MontserratSemiBold text-base mt-4">Media</label>
                 <div className="mrslider relative">
                   <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
                     <FaMagic className="text-white" />
@@ -175,15 +176,15 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <button
-                className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} w-full mt-5 rounded-[10px] py-4 text-base text-white font-bold`}
+                className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} font-MontserratSemiBold w-full mt-5 rounded-[10px] py-4 text-base text-white font-bold`}
                 onClick={() => { setMargic(!margic) }}
               >Magic Filters: {margic ? 'ON' : 'OFF'}</button>
             </div>
 
             <Col>
               <div>
-                <label className="font-medium text-[15px] mb-2">Privacy</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5" aria-label="Privacy"
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">Privacy</label>
+                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label="Privacy"
                   value={privacy}
                   // defaultValue={privacy}
                   onChange={(e) => {
@@ -197,8 +198,8 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div>
-                <label className="font-medium text-[15px] mb-2">Gender</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5" aria-label="Gender"
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">Gender</label>
+                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label="Gender"
                   value={gender}
                   onChange={(e) => {
                     setGender(e.target.value);
@@ -211,7 +212,7 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div>
-                <label className="font-medium text-[15px] mb-2">Language</label>
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">Language</label>
                 <Form.Select className="shadow-filter rounded-[10px] pl-5" aria-label="Privacy"
                   value={lang}
                   onChange={(e) => {
@@ -226,7 +227,7 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div>
-                <button className="bg-secondaryblue w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold"
+                <button className="bg-secondaryblue font-MontserratSemiBold w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold"
                   onClick={handleSaveAndClose}
                 >
                   Save And Close

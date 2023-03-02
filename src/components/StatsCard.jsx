@@ -97,10 +97,10 @@ const StatsCard = ({ userData, sessionsData }) => {
                             <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                 <BsArrowUp className="absolute text-btngreen font-semibold" />
                             </div>
-                            <h2 className="font-bold text-[30px] text-gray20">Status</h2>
+                            <h2 className="font-bold text-[28px] font-MontserratBold text-gray20">Status</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm">Your status is <span className="font-bold">{userData?.status}</span></p>
-                        <p className="font-normal text-sm opacity-40">
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular">Your status is <span className="font-bold font-MontserratSemiBold">{userData?.status}</span></p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight">
                             {userData?.status === 'checking' && <span>We're checking your password right now</span>}
                             {userData?.status === 'pending' && <span>Please <span className="text-red-600">input your password</span> in order to allow us to log in.</span>}
                             {userData?.status === 'paused' && 'Please contact support or renew your plan'}
@@ -127,8 +127,8 @@ const StatsCard = ({ userData, sessionsData }) => {
                             }
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_7daysGrowth)) || 'NAN'}</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm">Last <span className="font-bold">7 days</span> Follower Growth</p>
-                        <p className="font-normal text-sm opacity-40"><span className="font-bold">{_7daysGrowthPercent}</span>% increase from last week</p>
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular">Last <span className="font-MontserratSemiBold font-bold">7 days</span> Follower Growth</p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight"><span className="font-bold hidden">{_7daysGrowthPercent}</span>How much followers your account received in the last 7 days period.</p>
                     </div>
                     <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
@@ -149,8 +149,8 @@ const StatsCard = ({ userData, sessionsData }) => {
                             }
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_30daysGrowth)) || 'NAN'}</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm">Last <span className="font-bold">30 days</span> Follower Growth</p>
-                        <p className="font-normal text-sm opacity-40"><span className="font-bold">{_30daysGrowthPercent}</span>% increase from last week</p>
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular">Last <span className="font-MontserratSemiBold font-bold">30 days</span> Follower Growth</p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight"><span className="font-bold hidden">{_30daysGrowthPercent}</span>How much followers your account received in the last 30 days period.</p>
                     </div>
                     <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
@@ -159,7 +159,8 @@ const StatsCard = ({ userData, sessionsData }) => {
                             </div>
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(total_interactions)}</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm">Total Interactions</p>
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular"><span className="font-bold">Total</span> Interactions</p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight">Total interactions made by your personal manager on the account.</p>
                     </div>
                 </div>
             </div>
