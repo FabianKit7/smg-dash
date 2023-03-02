@@ -212,7 +212,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
       .eq('user_id', userId);
     error && console.log(data, error && error);
     setLoading(false)
-    if (u === 'admin'){
+    if (u === 'admin') {
       setIsOpen(!modalIsOpen);
       return;
     }
@@ -244,16 +244,17 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
           <h2 className='font-bold text-gray20 text-base mb-1 font-MontserratBold'>@{user?.username}</h2>
           <div className="relative w-full md:w-[403px] flex justify-center">
-            <input
-              className='bg-[#f8f8f8] text-center rounded-[10px] w-full placeholder:text-center py-5 md:py-6'
-              type={showPassword ? "text" : "password"}
-              placeholder='Instagram Password'
-              value={instagramPassword}
-              onChange={(e) => {
-                setInstagramPassword(e.target.value)
-              }}
-            />
-            <div className="absolute top-[50%] right-5 -translate-y-[50%]">
+            <div className="flex items-center justify-center gap-2 rounded-[10px] py-4 px-4 text-[1.25rem] border shadow-[inset_0_0px_2px_rgba(0,0,0,0.4)] ">
+              <input
+                className='w-80 placeholder:text-center text-center outline-none'
+                // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
+                type={showPassword ? "text" : "password"}
+                placeholder='Instagram Password'
+                value={instagramPassword}
+                onChange={(e) => {
+                  setInstagramPassword(e.target.value)
+                }}
+              />
               {showPassword ? <AiOutlineEyeInvisible onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" /> :
                 <AiOutlineEye onClick={() => setShowPassword(!showPassword)} className="cursor-pointer" />}
             </div>
