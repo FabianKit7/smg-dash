@@ -83,6 +83,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
       );
 
       setSelected("");
+      setDebouncedQuery('')
       setProcessing(false);
       setLoadingSpinner(false)
       setAddSuccess(!addSuccess);
@@ -137,7 +138,8 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                 {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
                   onClick={() => {
                     setSelected(debouncedQuery);
-                    setInput(debouncedQuery)
+                    // setInput(debouncedQuery)
+                    setLoadingSpinner(false)
                     setShowResultModal(false);
                   }}
                 >
@@ -157,7 +159,8 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                       onClick={() => {
                         setDebouncedQuery(data?.username)
                         setSelected(data?.username);
-                        setInput(data?.username)
+                        // setInput(data?.username)
+                        setLoadingSpinner(false)
                         setShowResultModal(false);
                       }}
                     >

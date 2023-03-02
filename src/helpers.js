@@ -181,7 +181,7 @@ export const deleteAccount = async (from, id) => {
   // console.log(from, id);
   if (id && window.confirm("Are you sure you want to delete this account?")) {
     const { data, error } = await supabase
-      .from("targeting")
+      .from(from)
       .delete()
       .match({ id: id })
     // .eq('id', id).select();

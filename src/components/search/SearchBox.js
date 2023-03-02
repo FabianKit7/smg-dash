@@ -117,7 +117,8 @@ export default function SearchBox() {
         {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
           onClick={() => {
             setSelected(debouncedQuery);
-            setInput(debouncedQuery)
+            // setInput(debouncedQuery)
+            setLoadingSpinner(false)
             setShowResultModal(false);
           }}
         >
@@ -137,7 +138,8 @@ export default function SearchBox() {
               onClick={() => {
                 setDebouncedQuery(data?.username)
                 setSelected(data?.username);
-                setInput(data?.username)
+                // setInput(data?.username)
+                setLoadingSpinner(false)
                 setShowResultModal(false);
               }}
             >
