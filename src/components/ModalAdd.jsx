@@ -8,42 +8,29 @@ import { getAccount, searchAccount } from '../helpers';
 import { Spinner } from 'react-bootstrap';
 import { TiTimes } from 'react-icons/ti';
 import { useRef } from 'react';
+import { useClickOutside } from 'react-click-outside-hook';
+import { FaUser } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
 const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle, userId, setAddSuccess, addSuccess }) => {
-  const [loadingSpinner, setLoadingSpinner] = useState(false)
-  const [selectAccountName, setSelectedAccountName] = useState("");
-  const [searchAccounts, setSearchAccounts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const inputRef = useRef()
-
-    const add = async () => {
-        if (selectAccountName) {
-        setLoading(true);
-        const theAccount = await getAccount(selectAccountName);
-        const res = await supabase.from(from).insert({
-          account: selectAccountName,
-          followers: theAccount.data[0].follower_count,
-          avatar: theAccount.data[0].profile_pic_url,
-          user_id: userId,
-        });
-          res?.error && console.log(
-          "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
-          res.error
-        );
-
-      setSelectedAccountName("");
-      setLoading(false);
-      setAddSuccess(!addSuccess);
-      setIsOpen(!modalIsOpen);
-    }
-  };
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [parentRef, isClickedOutside] = useClickOutside();
+  const [showResultModal, setShowResultModal] = useState(false)
+  const [selected, setSelected] = useState()
+  const [searchedAccounts, setSearchedAccounts] = useState([])
   const [input, setInput] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState(input)
-  
+
+  const [loadingSpinner, setLoadingSpinner] = useState(false)
+  const [processing, setProcessing] = useState(false);
+  const inputRef = useRef()
+
+  useEffect(() => {
+    if (isClickedOutside) {
+      setShowResultModal(false)
+    };
+  }, [isClickedOutside]);
+
   useEffect(() => {
     var i = debouncedQuery;
     if (debouncedQuery.startsWith('@')) {
@@ -53,28 +40,56 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
     return () => clearTimeout(timer)
   }, [debouncedQuery]);
 
-  const handleSearch = async (query) => {
-    setIsLoading(true);
-    setLoadingSpinner(true);
-    setDebouncedQuery(query)
-  };
-
   useEffect(() => {
     const fetch = async () => {
+      setLoadingSpinner(true)
       const data = await searchAccount(input);
-      // console.log(data?.users);
-      data?.users && setSearchAccounts(data?.users);
-      setIsLoading(false);
-      setLoadingSpinner(false);
+      const users = data?.users;
+      if (users?.length > 0) {
+        const filtered = users?.filter(user => {
+          var x = (user?.username)?.toLowerCase()
+          var y = input?.toLowerCase()
+          return x?.startsWith(y)
+        })
+        // console.log(filtered);
+        setSearchedAccounts(filtered)
+        setShowResultModal(true)
+      }
+      setLoadingSpinner(false)
     }
+    setSearchedAccounts([])
     fetch()
   }, [input])
-  
-  const filterBy = (user) => {
-    var x = (user?.username)?.toLowerCase()
-    var y = input?.toLowerCase()
-    return x?.startsWith(y)
+
+  const add = async () => {
+    var filteredSelected = selected;
+    if (filteredSelected.startsWith('@')) {
+      filteredSelected = filteredSelected.substring(1)
+    }
+    if (filteredSelected) {
+      setProcessing(true);
+      setLoadingSpinner(true)
+      const theAccount = await getAccount(filteredSelected);
+      // console.log(theAccount);
+      const res = await supabase.from(from).insert({
+        account: filteredSelected,
+        followers: theAccount.data[0].follower_count,
+        avatar: theAccount.data[0].profile_pic_url,
+        user_id: userId,
+      });
+      res?.error && console.log(
+        "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
+        res.error
+      );
+
+      setSelected("");
+      setProcessing(false);
+      setLoadingSpinner(false)
+      setAddSuccess(!addSuccess);
+      setIsOpen(!modalIsOpen);
+    }
   };
+
 
   return (
     <Modal
@@ -96,51 +111,89 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           <h1 className='font-bold text-black text-[40px] text-center pb-3 font-MADEOKINESANSPERSONALUSE'>{title}</h1>
           <p className='font-bold font-MontserratSemiBold text-[#333] text-sm text-center lg:px-[100px]'>{subtitle}</p>
           <div className="flex items-center justify-center w-full mt-4">
-            <div className="relative w-full">
-              <AsyncTypeahead
-                filterBy={filterBy}
-                id="async-example"
-                isLoading={isLoading}
-                ref={inputRef}
-                labelKey="username"
-                inputProps={
-                  { className: 'w-full bg-inputbkgrd rounded py-[25px] font-semibold' }
-                }
-                className='w-full'
-                placeholder="Search Account..."
-                minLength={2}
-                onSearch={handleSearch}
-                onChange={(selected) => {
-                  setSelectedAccountName(selected[0]?.username);
-                }}
-                options={searchAccounts}
-                renderMenuItemChildren={(option) => (
-                  <div className='min-w-[300px] flex items-center'>
-                    <img
-                      alt=''
-                      src={option.profile_pic_url}
-                      style={{
-                        height: '40px',
-                        marginRight: '10px',
-                        width: '40px',
-                        borderRadius: '99999px'
-                      }}
-                    />
-                    <div className="">
-                      <div>{option.username}</div>
-                      <div className="opacity-40">{option.full_name}</div>
-                    </div>
-                  </div>
-                )}
-              />
-              <div className="absolute right-5 top-[40%] translate-y-[-40%] flex items-center justify-center">
-                <span className="absolute z-10">{loadingSpinner && (<Spinner animation="border" />)}</span>
-                {/* {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery(''); inputRef.current.getInput().value=''; }} />} */}
+
+            <div className="flex flex-col items-center w-[320px] relative" ref={parentRef}>
+              <div className="flex items-center border rounded-md shadow-md w-full py-3 px-4">
+                <input
+                  type="text"
+                  className="w-full outline-none"
+                  placeholder="@username"
+                  value={debouncedQuery}
+                  ref={inputRef}
+                  onChange={(e) => {
+                    setDebouncedQuery(e.target.value);
+                  }}
+                  onFocus={() => {
+                    setShowResultModal(true)
+                  }}
+                />
+                <div className="relative flex items-center justify-center">
+                  <span className="absolute z-10">{loadingSpinner && (<Spinner animation="border" />)}</span>
+                  {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
+                </div>
               </div>
+
+              {showResultModal && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+                {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
+                  onClick={() => {
+                    setSelected(debouncedQuery);
+                    setInput(debouncedQuery)
+                    setShowResultModal(false);
+                  }}
+                >
+                  <div className="p-3 rounded-full bg-black">
+                    <FaUser size={14} color="white" />
+                  </div>
+                  <div className="">
+                    <div className="">{debouncedQuery}</div>
+                    <div className="mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
+                  </div>
+                </div>}
+                {searchedAccounts.map((data, index) => {
+                  return (<>
+                    <div
+                      key={index}
+                      className='accounts w-full flex items-center cursor-pointer hover:bg-[#02a1fd]/20'
+                      onClick={() => {
+                        setDebouncedQuery(data?.username)
+                        setSelected(data?.username);
+                        setInput(data?.username)
+                        setShowResultModal(false);
+                      }}
+                    >
+                      <img
+                        alt=''
+                        src={data.profile_pic_url}
+                        style={{
+                          height: '40px',
+                          marginRight: '10px',
+                          width: '40px',
+                          borderRadius: '9999px'
+                        }}
+                      />
+                      <div className="flex flex-col" id={data.username}>
+                        <p>{data.username}</p>
+                        <span className="opacity-40">{data.full_name}</span>
+                      </div>
+                    </div>
+                  </>)
+                })}
+              </div>}
+
+              <button className={`bg-[#ef5f3c] mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
+                style={{
+                  // backgroundColor: '#ef5f3c',
+                  color: 'white',
+                  boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                }}
+                onClick={() => { !processing && add() }}
+              >Select Account</button>
             </div>
-            <button className='bg-black w-32 md:w-40 py-[25px] font-semibold rounded text-white'
+
+
+            {/* <button className='bg-black w-32 md:w-40 py-[25px] font-semibold rounded text-white'
               onClick={() => add()}
-            >{loading ? "Loading..." : "Add"}</button>
+            >{Processing ? "Processing..." : "Add"}</button> */}
           </div>
           <p className='font-bold font-MontserratSemiBold text-sm text-center lg:px-[120px] pt-8 pb-5'>{extraSubtitle}</p>
         </div>

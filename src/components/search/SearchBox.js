@@ -11,6 +11,7 @@ import { supabase } from '../../supabaseClient';
 export default function SearchBox() {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [loadingSpinner, setLoadingSpinner] = useState(false)
+  const [processing, setProcessing] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false)
   const [input, setInput] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState(input)
@@ -26,7 +27,7 @@ export default function SearchBox() {
 
   useEffect(() => {
     var i = debouncedQuery;
-    if (debouncedQuery.startsWith('@')){
+    if (debouncedQuery.startsWith('@')) {
       i = debouncedQuery.substring(1)
     }
     const timer = setTimeout(() => setInput(i), 1000);
@@ -52,7 +53,7 @@ export default function SearchBox() {
     }
     setSearchedAccounts([])
     fetch()
-  }, [input]) 
+  }, [input])
 
   const handleSubmit = async () => {
     var filteredSelected = selected;
@@ -60,6 +61,7 @@ export default function SearchBox() {
       filteredSelected = filteredSelected.substring(1)
     }
     if (selected) {
+      setProcessing(true);
       const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false" };
       const options = {
         method: "GET",
@@ -82,8 +84,9 @@ export default function SearchBox() {
           username: userResults.data[0].username,
         }).eq('user_id', user.id);
       window.location = `/subscriptions/${userResults.data[0].username}`;
-
+      return;
     } else {
+      setProcessing(false);
       alert('choose your account');
     }
   };
@@ -111,13 +114,13 @@ export default function SearchBox() {
       </div>
 
       {showResultModal && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
-        {debouncedQuery  && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer" 
+        {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
           onClick={() => {
             setSelected(debouncedQuery);
             setInput(debouncedQuery)
             setShowResultModal(false);
           }}
-          >
+        >
           <div className="p-3 rounded-full bg-black">
             <FaUser size={14} color="white" />
           </div>
@@ -132,6 +135,7 @@ export default function SearchBox() {
               key={index}
               className='accounts w-full flex items-center cursor-pointer hover:bg-[#02a1fd]/20'
               onClick={() => {
+                setDebouncedQuery(data?.username)
                 setSelected(data?.username);
                 setInput(data?.username)
                 setShowResultModal(false);
@@ -156,13 +160,13 @@ export default function SearchBox() {
         })}
       </div>}
 
-      <button className='mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white'
+      <button className={`bg-[#ef5f3c] mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
         style={{
-          backgroundColor: '#ef5f3c',
+          // backgroundColor: '#ef5f3c',
           color: 'white',
           boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
         }}
-        onClick={() => handleSubmit()}
+        onClick={() => { !processing && handleSubmit() }}
       >Select Account</button>
     </div>
   </>)
