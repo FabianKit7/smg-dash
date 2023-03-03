@@ -92,15 +92,15 @@ const StatsCard = ({ userData, sessionsData }) => {
         <>
             <div className="container mx-auto p-0">
                 <div className="section mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6">
-                    <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
+                    <div className="shadow-stats flex flex-col items-center lg:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
                             <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                 <BsArrowUp className="absolute text-btngreen font-semibold" />
                             </div>
                             <h2 className="font-bold text-[28px] font-MontserratBold text-gray20">Status</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular">Your status is <span className="font-bold font-MontserratSemiBold">{userData?.status}</span></p>
-                        <p className="font-normal text-sm opacity-90 font-MontserratLight">
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular text-center lg:text-start w-full">Your status is <span className="font-bold font-MontserratSemiBold">{userData?.status}</span></p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight text-center lg:text-start">
                             {userData?.status === 'checking' && <span>We're checking your password right now</span>}
                             {userData?.status === 'pending' && <span>Please <span className="text-red-600">input your password</span> in order to allow us to log in.</span>}
                             {userData?.status === 'paused' && 'Please contact support or renew your plan'}
@@ -108,7 +108,7 @@ const StatsCard = ({ userData, sessionsData }) => {
                             {userData?.status === 'active' && 'Your status is Active.'}
                         </p>
                     </div>
-                    <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
+                    <div className="shadow-stats flex flex-col items-center lg:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
                             {_7daysGrowth >= 0 ?
                                 <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
@@ -127,10 +127,10 @@ const StatsCard = ({ userData, sessionsData }) => {
                             }
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_7daysGrowth)) || 'NAN'}</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular">Last <span className="font-MontserratSemiBold font-bold">7 days</span> Follower Growth</p>
-                        <p className="font-normal text-sm opacity-90 font-MontserratLight"><span className="font-bold hidden">{_7daysGrowthPercent}</span>How much followers your account received in the last 7 days period.</p>
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular text-center lg:text-start w-full">Last <span className="font-MontserratSemiBold font-bold">7 days</span> Follower Growth</p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight text-center lg:text-start"><span className="font-bold hidden">{_7daysGrowthPercent}</span>How much followers your account received in the last 7 days period.</p>
                     </div>
-                    <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
+                    <div className="shadow-stats flex flex-col items-center lg:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
                             {_30daysGrowth >= 0 ?
                                 <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
@@ -149,18 +149,18 @@ const StatsCard = ({ userData, sessionsData }) => {
                             }
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_30daysGrowth)) || 'NAN'}</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular">Last <span className="font-MontserratSemiBold font-bold">30 days</span> Follower Growth</p>
-                        <p className="font-normal text-sm opacity-90 font-MontserratLight"><span className="font-bold hidden">{_30daysGrowthPercent}</span>How much followers your account received in the last 30 days period.</p>
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular text-center lg:text-start w-full">Last <span className="font-MontserratSemiBold font-bold">30 days</span> Follower Growth</p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight text-center lg:text-start"><span className="font-bold hidden">{_30daysGrowthPercent}</span>How much followers your account received in the last 30 days period.</p>
                     </div>
-                    <div className="shadow-stats flex flex-col items-center md:items-start rounded-lg p-4">
+                    <div className="shadow-stats flex flex-col items-center lg:items-start rounded-lg p-4">
                         <div className="flex gap-[10px]">
                             <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10">
                                 <BsArrowUp className="absolute text-btngreen font-semibold" />
                             </div>
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(total_interactions)}</h2>
                         </div>
-                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular"><span className="font-bold">Total</span> Interactions</p>
-                        <p className="font-normal text-sm opacity-90 font-MontserratLight">Total interactions made by your personal manager on the account.</p>
+                        <p className="pt-4 pb-4 font-normal text-sm font-MontserratRegular text-center lg:text-start w-full"><span className="font-bold">Total</span> Interactions</p>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight text-center lg:text-start">Total interactions made by your personal manager on the account.</p>
                     </div>
                 </div>
             </div>

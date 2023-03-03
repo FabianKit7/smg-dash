@@ -59,16 +59,16 @@ export default function Blacklist({ userId }) {
     const getTargetingAccounts = async () => {
       setLoadingSpinner(true)
       const { data, error } = await supabase
-      .from("blacklist")
+        .from("blacklist")
         .select()
         .eq("user_id", userId)
         .order('id', { ascending: false });
       console.log(
         "🚀 ~ file: Blacklist.jsx:46 ~ getTargetingAccounts ~ error",
         error
-        );
-        setBlacklistAccounts(data);
-        setLoadingSpinner(false)
+      );
+      setBlacklistAccounts(data);
+      setLoadingSpinner(false)
     };
 
     getTargetingAccounts();
@@ -76,7 +76,7 @@ export default function Blacklist({ userId }) {
 
   const subtitle = "Blacklist users that you would not like to interact with and we won't follow them when growing your account."
   const extraSubtitle = "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."
-  
+
   return (
     <div>
 
@@ -85,7 +85,7 @@ export default function Blacklist({ userId }) {
         setIsOpen={setIsOpen}
         title="Add to a Blacklist"
         from='blacklist'
-        subtitle={subtitle} 
+        subtitle={subtitle}
         extraSubtitle={extraSubtitle}
         userId={userId}
         setAddSuccess={setAddSuccess}
@@ -102,8 +102,8 @@ export default function Blacklist({ userId }) {
             </div>
             {loadingSpinner && (<Spinner animation="border" />)}
           </div>
-          <div className="rounded-[4px] bg-[#D9D9D9] p-3 relative w-10 h-10 cursor-pointer" onClick={() => {setIsOpen(!modalIsOpen)}}>
-            <BsFillPlusSquareFill className="absolute text-[#8C8C8C] font-semibold"/>
+          <div className="rounded-[4px] bg-[#D9D9D9] p-3 relative w-10 h-10 cursor-pointer" onClick={() => { setIsOpen(!modalIsOpen) }}>
+            <BsFillPlusSquareFill className="absolute text-[#8C8C8C] font-semibold" />
           </div>
         </div>
         {/* body */}
@@ -111,27 +111,27 @@ export default function Blacklist({ userId }) {
           {blacklistAccounts.map((item, index) => {
             return (
               <div key={index}>
-              <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
-                <div className="flex gap-3">
-                  <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account} crossOrigin="Anonymous" />
-                  <div className="flex flex-col">
-                    <h1 className="font-bold">@{item.account}</h1>
-                    <p>{numFormatter(item.followers)} Followers</p>
-                  <p className="md:hidden">{countDays(item.created_at)}</p>
+                <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
+                  <div className="flex gap-3">
+                    <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account} crossOrigin="Anonymous" />
+                    <div className="flex flex-col">
+                      <h1 className="font-bold font-MontserratBold">@{item.account}</h1>
+                      <p className="font-MontserratRegular">{numFormatter(item.followers)} Followers</p>
+                      <p className="md:hidden font-MontserratLight">{countDays(item.created_at)}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex gap-3 items-center">
-                  <p className="hidden md:flex">{countDays(item.created_at)}</p>
-                  <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
-                    <ImBin2 className="absolute text-[#8C8C8C] font-semibold"
+                  <div className="flex gap-3 items-center">
+                    <p className="hidden md:flex">{countDays(item.created_at)}</p>
+                    <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
+                      <ImBin2 className="absolute text-[#8C8C8C] font-semibold"
                         onClick={async () => {
                           await deleteAccount('blacklist', item.id);
                           setAddSuccess(!addSuccess)
                         }}
-                    />
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
             );
           })}

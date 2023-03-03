@@ -45,12 +45,12 @@ export default function Nav() {
       >
         <Link to="/" className="navbar-brand" href="#">
           {/* <img src={sproutyLogo} alt="sprouty social" /> */}
-          <div className="font-MADEOKINESANSPERSONALUSE text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
+          <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]"><strong className="text-left">SPROUTYSOCIAL</strong></div>
 
         </Link>
 
-        {data?.full_name && <div className="flex justify-center items-center gap-[10px]">
-          <CiDark className="text-[25px] mr-4" />
+        {data?.full_name && <div className="flex justify-center items-center gap-2 md:gap-[10px]">
+          {/* <CiDark className="text-[25px] mr-4" /> */}
           <div className="img">
             <Link to="">
               <img
@@ -66,7 +66,7 @@ export default function Nav() {
           <div className="relative font-MontserratRegular">
             <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}><span className="hidden md:inline font-MontserratSemiBold">{data?.full_name}</span></p>
             {isOpen && (
-              <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[7%]">
+              <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[5%]">
                 <Link className="font-normal text-sm" to={"/dashboard/" + data?.user_id}
                   onClick={() => {
                     setIsOpen(!isOpen);

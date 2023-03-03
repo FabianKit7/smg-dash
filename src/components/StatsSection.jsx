@@ -161,42 +161,39 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
     <div className="shadow-stats mt-8 md:mt-[84px] md:py-7 md:px-16">
       <div className="lg:flex md:grid md:grid-cols-1 md:gap-8 justify-between p-6 md:px-3 md:py-4">
         {/* Image Col */}
-        <div className="grid grid-cols-1 justify-center md:flex md:flex-1 md:items-center ">
-          <img className="m-auto md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()} crossOrigin="Anonymous" />
-          <div className="m-auto lg:ml-8">
+        <div className="flex flex-col md:flex-row justify-center items-center md:gap-10 ">
+          <img className="md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()} crossOrigin="Anonymous" />
+          <div className="lg:ml-8">
             <h4 className="font-bold text-[1.5rem] text-gray20 text-center md:text-start font-MontserratBold">{name}</h4>
-            <div className="flex gap-[2px]">
-              <p className="font-normal font-MontserratSemiBold text-lg text-[#333] m-auto md:mx-0 text-center md:text-start flex items-center">
+            <p className="font-normal font-MontserratSemiBold text-lg text-[#333] text-center md:text-start">
                 {username}
                 <FaCheckCircle className="fas fa-check-circle fa-lg ml-1 text-primary" style={{ visibility: isVerified ? 'visible' : 'hidden' }} />
               </p>
-            </div>
             <div className="w-[300px] font-MontserratLight font-normal opacity-90 text-sm md:mb-4 text-center md:text-start">{bio}</div>
             <a href={url} target="_blank" rel="noopener noreferrer" className="grid md:block font-MontserratRegular font-normal text-[14px] underline mt-1 text-center md:text-start">{url}</a>
           </div>
         </div>
         {/* Stats Col */}
         <div className="Dashboard__stats__description mt-5">
-
-          <div className="flex justify-center md:justify-start items-center gap-14 mb-4 md:mb-8">
-            <div className="">
-              <h2 className="font-semibold text-[28px] text-gray20 font-MontserratBold">{numFormatter(currFollowers ? currFollowers : 0)}</h2>
+          <div className="flex justify-center lg:justify-start items-center gap-6 lg:gap-14 mb-4 md:mb-8">
+            <div className="flex items-center justify-center flex-col">
+              <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(currFollowers ? currFollowers : 0)}</h2>
               <p className="font-normal text-sm opacity-90 font-MontserratLight">Followers</p>
             </div>
 
-            <div>
-              <h2 className="font-semibold text-[28px] text-gray20 font-MontserratBold">{numFormatter(currFollowing ? currFollowing : 0)}</h2>
+            <div className="flex items-center justify-center flex-col">
+              <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(currFollowing ? currFollowing : 0)}</h2>
               <p className="font-normal text-sm opacity-90 font-MontserratLight">Following</p>
             </div>
 
-            <div className="">
-              <h2 className="font-semibold text-[28px] text-gray20 font-MontserratBold">{numFormatter(currMediaCount ? currMediaCount : 0)}</h2>
+            <div className="flex items-center justify-center flex-col">
+              <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(currMediaCount ? currMediaCount : 0)}</h2>
               <p className="font-normal text-sm opacity-90 font-MontserratLight">Posts</p>
             </div>
           </div>
-          <div className="flex gap-6 justify-center lg:justify-end md:justify-start">
-            <div className="relative">
-               
+
+          <div className="flex gap-6 justify-center lg:justify-end">
+            <div className="relative">               
               {userData?.status === 'pending' && <div className="absolute -top-1 -left-1 h-3 w-3 rounded-full bg-red-600"></div>}
               <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={profileImg} alt="" onClick={() => { setIsOpen(!modalIsOpen) }} />
             </div>
