@@ -24,7 +24,7 @@ export default function Search() {
           <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
 
           
-          <h1 className='font-bold text-black font-MADEOKINESANSPERSONALUSE text-[40px] text-center pb-3'>Search your account</h1>
+          <h1 className='font-bold text-black font-MADEOKINESANSPERSONALUSE text-[36px] md:text-[40px] text-center pb-3'>Search your account</h1>
           <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[100px]'>Find your Instagram account and start growing followers with Sprouty Social</p>
           <div className="flex justify-center mt-3"><SearchBox /></div>
           <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[120px] pt-14'>Don’t worry. You will be able to check if you’ve entered in a correct format in the next step.</p>

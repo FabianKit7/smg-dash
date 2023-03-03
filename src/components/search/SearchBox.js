@@ -169,7 +169,7 @@ export default function SearchBox() {
           boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
         }}
         onClick={() => { !processing && handleSubmit() }}
-      >Select Account</button>
+      >{processing ? <span className="animate-pulse">Processing your account…</span> : 'Select Account'}</button>
     </div>
   </>)
 }

@@ -114,7 +114,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           <div className="flex items-center justify-center w-full mt-4">
 
             <div className="flex flex-col items-center w-[320px] relative" ref={parentRef}>
-              <div className="flex items-center border rounded-md shadow-md w-full py-3 px-4">
+              <div className="flex items-center border rounded-md shadow-md w-[90%] mx-auto md:w-full py-3 px-4">
                 <input
                   type="text"
                   className="w-full outline-none"
@@ -183,7 +183,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                 })}
               </div>}
 
-              <button className={`bg-[#ef5f3c] mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
+              <button className={`bg-[#ef5f3c] mt-4 w-64 sm:w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
                 style={{
                   // backgroundColor: '#ef5f3c',
                   color: 'white',
