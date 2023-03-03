@@ -134,7 +134,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                 </div>
               </div>
 
-              {showResultModal && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+              {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
                 {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
                   onClick={() => {
                     setSelected(debouncedQuery);
@@ -190,7 +190,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                   boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                 }}
                 onClick={() => { !processing && add() }}
-              >Select Account</button>
+              >{processing ? <span className="animate-pulse">Processing your account…</span> : 'Select Account'}</button>
             </div>
 
 
