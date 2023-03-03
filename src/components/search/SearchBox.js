@@ -113,7 +113,7 @@ export default function SearchBox() {
         </div>
       </div>
 
-      {showResultModal && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+      {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
         {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
           onClick={() => {
             setSelected(debouncedQuery);
