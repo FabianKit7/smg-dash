@@ -63,6 +63,8 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         backupcode: backupCode,
         status: 'checking'
       }).eq('user_id', userId);
+      alert("We're processing your request...")
+      window.location.reload()
   }
 
   return (<>
