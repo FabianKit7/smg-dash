@@ -22,6 +22,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
   const [privacy, setPrivacy] = useState('All');
   const [gender, setGender] = useState('All');
   const [lang, setLang] = useState('All');
+  const [processing, setProcessing] = useState(false)
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [filterModal, setFilterModal] = useState(false);
@@ -57,14 +58,16 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
 
   const [backupCode, setBackupCode] = useState('')
   const storeBackupCode = async () => {
+    setProcessing(true)
+    // alert("We're processing your request...")
     await supabase
-      .from("users")
-      .update({
-        backupcode: backupCode,
-        status: 'checking'
-      }).eq('user_id', userId);
-      alert("We're processing your request...")
-      window.location.reload()
+    .from("users")
+    .update({
+      backupcode: backupCode,
+      status: 'checking'
+    }).eq('user_id', userId);
+    setProcessing(false)
+    window.location.reload()
   }
 
   return (<>
@@ -103,7 +106,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             value={backupCode}
             onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
 
-          <button onClick={() => storeBackupCode} 
+          <button onClick={() => storeBackupCode()} 
           // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
           className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
@@ -111,7 +114,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
               color: 'white',
               boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
             }}
-          >confirm</button>
+          >{processing ? <span className="animate-pulse">processing...</span> : 'confirm'}</button>
         </div>
       </div>
     </div>}
