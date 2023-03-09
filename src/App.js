@@ -5,7 +5,7 @@ import Dashboard from "./components/Dashboard";
 import Subscriptions from "./components/Subscriptions";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import Home from "./components/Home";
+// import Home from "./components/Home";
 import Settings from "./components/Settings/Settings";
 import Admin from "./components/Admin/Admin";
 import Nav from "./components/Nav";

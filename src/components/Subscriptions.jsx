@@ -170,7 +170,8 @@ export default function Subscriptions() {
       if (customer.message === 'success') {
         const create_subscription_for_customer_data = {
           customer_id: customer?.customer?.id,
-          plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+          plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+          // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
           // plan_id: "Monthly-Plan-USD-Monthly"
         }
         let subscriptionResult = await axios.post(`${baseUrl}/api/create_subscription_for_customer`,
