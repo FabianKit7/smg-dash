@@ -8,7 +8,7 @@ import SignUp from "./components/SignUp";
 // import Home from "./components/Home";
 import Settings from "./components/Settings/Settings";
 import Admin from "./components/Admin/Admin";
-import Nav from "./components/Nav";
+// import Nav from "./components/Nav";
 import { useEffect } from "react";
 import DashboardApp from "./dashboard";
 import Edit from "./dashboard/edit";
@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      {pathname === "/" ||
+      {/* {pathname === "/" ||
         pathname === "/login" ||
         pathname === "/login/" ||
         pathname === "/signUp" ||
@@ -37,7 +37,7 @@ function App() {
         pathname === "/dashboard/login" ||
         pathname.startsWith("/subscription") ||
         pathname.startsWith("/dashboard/edit/")
-        ? "" : <Nav />}
+        ? "" : <Nav />} */}
       {/* <Nav /> */}
       <Routes>
         {/* <Route index element={<Home />} /> */}

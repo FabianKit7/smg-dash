@@ -1,10 +1,13 @@
-import React, {  } from "react";
+import React, { } from "react";
 import { RxCaretRight } from "react-icons/rx"
+import Nav from "./Nav";
 import SearchBox from "./search/SearchBox";
 
 export default function Search() {
 
-  return (
+  return (<>
+    <Nav />
+    
     <div className="container mx-auto px-6">
       <div className="flex flex-col justify-center items-center mt-12 md:mt-20">
         <div className="flex items-center gap-4 md:gap-5 text-semibold mb-10 text-center font-MontserratSemiBold">
@@ -23,7 +26,7 @@ export default function Search() {
           {/* <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Create an account</h5>
           <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
 
-          
+
           <h1 className='font-bold text-black font-MADEOKINESANSPERSONALUSE text-[36px] md:text-[40px] text-center pb-3'>Search your account</h1>
           <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[100px]'>Find your Instagram account and start growing followers with Sprouty Social</p>
           <div className="flex justify-center mt-3"><SearchBox /></div>
@@ -31,5 +34,5 @@ export default function Search() {
         </div>
       </div>
     </div>
-  );
+  </>);
 }

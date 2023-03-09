@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import Nav from "../Nav";
 
 export default function Admin() {
   const [files, setFiles] = useState([]);
@@ -61,7 +62,8 @@ export default function Admin() {
     setLoading(false);
   }
 
-  return (
+  return (<>
+    <Nav />
     <div className="h-screen grid place-items-center -mt-10">
       <div>
         <h1 className="mb-5">Upload session file (Json)</h1>
@@ -78,5 +80,5 @@ export default function Admin() {
         </button>
       </div>
     </div>
-  );
+  </>);
 }

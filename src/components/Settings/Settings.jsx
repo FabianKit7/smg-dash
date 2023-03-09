@@ -4,6 +4,7 @@ import { supabase } from "../../supabaseClient";
 import axios from 'axios'
 import { FaTimesCircle } from "react-icons/fa";
 import { BsFillEnvelopeFill } from "react-icons/bs";
+import Nav from "../Nav";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -199,6 +200,8 @@ export default function Settings() {
   }
 
   return (<>
+  <Nav />
+
     <div className="container m-auto mt-9 px-6">
       <div className="grid justify-center items-center bg-white mb-5">
         <div className="flex justify-center items-center py-3">

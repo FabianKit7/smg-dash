@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import Blacklist from "./Blacklist";
 import ChartSection from "./ChartSection";
+import Nav from "./Nav";
 import StatsCard from "./StatsCard";
 import StatsSection from "./StatsSection";
 import Targeting from "./Targeting";
@@ -82,7 +83,8 @@ export default function Dashboard() {
 
   if (error) return <Error value={id} />;
 
-  return (
+  return (<>
+    <Nav />
     <div className="container mx-auto px-6">
       <StatsSection
         user={user}
@@ -115,5 +117,5 @@ export default function Dashboard() {
       <Whitelist userId={id} />
 
     </div>
-  );
+  </>);
 }
