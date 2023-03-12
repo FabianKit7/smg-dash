@@ -144,10 +144,13 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           toast.error(resData.error.message, {
             customId: resData.error.error_type,
           });
+          console.log(resData);
           setLoading(false)
           return;
-        } else if (resData.error.error_type === "two_factor_required") {
+        } 
+        if (resData.error.error_type === "two_factor_required") {
           setTwo_factor_identifier(resData.two_factor_identifier)
+          console.log(resData);
           setLoading(false)
           return;
         } else {
