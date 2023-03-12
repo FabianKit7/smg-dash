@@ -248,8 +248,9 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
       setIsOpen(!modalIsOpen);
       return;
     }
-    window.location.reload()
-    setIsOpen(!modalIsOpen);
+    setLoading(false)
+    // window.location.reload()
+    // setIsOpen(!modalIsOpen);
   }
 
   return (
