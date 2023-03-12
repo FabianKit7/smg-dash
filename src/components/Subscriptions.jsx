@@ -143,7 +143,8 @@ export default function Subscriptions() {
       }).catch(err => {
         console.log(err);
         if (err === "Error: Could not mount master component") return alert("Please check your card")
-        alert("something is wrong, please try again")
+        alert(err)
+        // alert("something is wrong, please try again")
         setLoading(false);
         return;
       });
