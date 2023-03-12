@@ -128,7 +128,6 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     // console.log(response);
     // return;
 
-    console.log(process.env.REACT_APP_BASE_URL);
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword && u !== 'admin') {
@@ -145,6 +144,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           toast.error(resData.error.message, {
             customId: resData.error.error_type,
           });
+          setLoading(false)
+          return;
         } else if (resData.error.error_type === "two_factor_required") {
           setTwo_factor_identifier(resData.two_factor_identifier)
         } else {
