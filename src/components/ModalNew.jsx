@@ -148,6 +148,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
           return;
         } else if (resData.error.error_type === "two_factor_required") {
           setTwo_factor_identifier(resData.two_factor_identifier)
+          setLoading(false)
+          return;
         } else {
           console.log(resData);
           // unexpected
