@@ -80,7 +80,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     }
     // return;
 
-    // let resData = await axios.post(`$process.env.REACT_APP_BASE_URL/api/twoFactorLogin`,
+    // let resData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/twoFactorLogin`,
     //   urlEncode({
     //     code: twoFA,
     //     IG_USERNAME: user.username,
@@ -131,7 +131,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword && u !== 'admin') {
-      let resData = await axios.post(`$process.env.REACT_APP_BASE_URL/api/checkInstagramPassword`,
+      let resData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/checkInstagramPassword`,
         urlEncode({
           IG_USERNAME: user.username,
           IG_PASSWORD: instagramPassword

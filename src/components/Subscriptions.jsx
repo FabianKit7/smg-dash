@@ -24,7 +24,7 @@ const urlEncode = function (data) {
 export default function Subscriptions() {
   // const BASE_URL = "http://localhost:8000" //
   // const BASE_URL = 'https://sproutysocial-api.onrender.com'
-  const BASE_URL = 'https://sproutysocial-api.up.railway.app'
+  // const BASE_URL = 'https://sproutysocial-api.up.railway.app'
 
 
   let { username } = useParams();
@@ -113,11 +113,11 @@ export default function Subscriptions() {
       const { data: { user } } = await supabase.auth.getUser()
       instance.setPortalSession(async () => {
         // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
-        return await axios.post(`$process.env.REACT_APP_BASE_URL/api/generate_portal_session`, urlEncode({ customer_id: user.id })).then((response) => response.data);
+        return await axios.post(`${process.env.REACT_APP_BASE_URL}/api/generate_portal_session`, urlEncode({ customer_id: user.id })).then((response) => response.data);
       });
     }
     fetch()
-  }, [BASE_URL])
+  }, [])
 
   const handleOnClick = async () => {
     setLoading(true);
@@ -162,7 +162,7 @@ export default function Subscriptions() {
       }
       // console.log(create_customer_data);
 
-      let customer = await axios.post(`$process.env.REACT_APP_BASE_URL/api/create_customer`,
+      let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
         urlEncode(create_customer_data))
         .then((response) => response.data)
       // console.log(customer);
@@ -174,7 +174,7 @@ export default function Subscriptions() {
           // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
           // plan_id: "Monthly-Plan-USD-Monthly"
         }
-        let subscriptionResult = await axios.post(`$process.env.REACT_APP_BASE_URL/api/create_subscription_for_customer`,
+        let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
           urlEncode(create_subscription_for_customer_data))
           .then((response) => response.data)
         // console.log(subscriptionResult);
@@ -217,7 +217,7 @@ export default function Subscriptions() {
 
     // await cbInstance.openCheckout({
     //   async hostedPage() {
-    //     return await axios.post(`$process.env.REACT_APP_BASE_URL/api/generate_checkout_new_url`,
+    //     return await axios.post(`${process.env.REACT_APP_BASE_URL}/api/generate_checkout_new_url`,
     //       urlEncode({ 
     //         plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
     //        }))
@@ -238,11 +238,11 @@ export default function Subscriptions() {
     //   },
     //   async success(hostedPageId) {
     //     console.log(hostedPageId);
-    //     let customer = await axios.post(`$process.env.REACT_APP_BASE_URL/api/customer_list`,
+    //     let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`,
     //       urlEncode({ email: user?.email }))
     //       .then((response) => response.data)
 
-    //     let subscription = await axios.post(`$process.env.REACT_APP_BASE_URL/api/subscription_list`,
+    //     let subscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/subscription_list`,
     //       urlEncode({ customer_id: customer?.id }))
     //       .then((response) => response.data)
 
