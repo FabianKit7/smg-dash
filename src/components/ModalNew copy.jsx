@@ -9,13 +9,14 @@ import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';
 import { FaLock } from 'react-icons/fa';
 import axios from 'axios';
+import { toast } from 'react-toastify'
 // import Instagram from "instagram-web-api";
 
-axios.defaults.headers.post['accept'] = 'application/json';
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
-axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
+// axios.defaults.headers.post['accept'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+// axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
+// axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 
 const urlEncode = function (data) {
   var str = [];
@@ -31,10 +32,15 @@ Modal.setAppElement('#root');
 
 const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
+  const [instagramPasswordHolder, setInstagramPasswordHolder] = useState("");
   const [mode, setMode] = useState('auto');
   const [showPassword, setShowPassword] = useState(false)
   const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
+
+  // const BASE_URL = "http://localhost:8000" //
+  // const BASE_URL = 'https://sproutysocial-api.onrender.com'
+  // const BASE_URL = 'https://sproutysocial-api.up.railway.app'
 
   const toggleValue = (newValue) => {
     setMode(mode === newValue ? '' : newValue);
@@ -48,13 +54,42 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
         .eq('user_id', userId).order('created_at', { ascending: false })
       setUser(data[0])
       setMode(data?.[0]?.userMode || 'auto');
-      setInstagramPassword(data?.[0]?.instagramPassword);
+      setInstagramPasswordHolder(data?.[0]?.instagramPassword);
       error && console.log(error);
     }
     if (userId) {
       fetch();
     }
   }, [userId, modalIsOpen])
+
+  const [two_factor_identifier, setTwo_factor_identifier] = useState('')
+  const [twoFA, setTwoFA] = useState("");
+  const twoFactorLogin = async () => {
+    setLoading(true)
+    console.log(two_factor_identifier);
+    if (twoFA) {
+      await supabase
+        .from("users")
+        .update({
+          backupcode: twoFA,
+          status: 'checking'
+        }).eq('user_id', userId);
+
+      window.location.reload()
+      setLoading(true)
+    }
+    // return;
+
+    // let resData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/twoFactorLogin`,
+    //   urlEncode({
+    //     code: twoFA,
+    //     IG_USERNAME: user.username,
+    //     two_factor_identifier
+    //   }))
+    //   .then((response) => response.data)
+
+    //   console.log(resData);
+  }
 
   const handleSave = async () => {
     // const res = await axios.post(
@@ -96,48 +131,51 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword && u !== 'admin') {
-      // 'username=popularen.si&password=Lol12345%40&verification_code=&proxy=&locale=&timezone=&user_agent='
-      // const query = {
-      //   username: user?.username, // use any shortcode you want
-      //   password: instagramPassword, // use any shortcode you want
-      //   verification_code: '', // use any shortcode you want
-      //   proxy: '', // use any shortcode you want
-      //   locale: '', // use any shortcode you want
-      //   timezone: '', // use any shortcode you want
-      //   user_agent: '', // use any shortcode you want
-      // }
-      // const url = new URL('https://api.lamadava.com/s1/auth/login')
-      // url.search = new URLSearchParams(query).toString()
-      // const headers = {
-      //   'method': 'POST',
-      //   'accept': 'application/json',
-      //   'Content-Type': 'application/x-www-form-urlencoded',
-      //   // 'x-rapidapi-host': 'instagram28.p.rapidapi.com',
-      //   'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
-      // }
-      // const response = await fetch(url.toString(), { headers })
-      // console.log({response});
-      // const result = await response.json()
-      // console.log({result});
+      // let resData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/checkInstagramPassword`,
+      //   urlEncode({
+      //     IG_USERNAME: user.username,
+      //     IG_PASSWORD: instagramPassword
+      //   }))
+      //   .then((response) => response.data)
 
-      fetch("https://api.lamadava.com/s1/auth/login", {
-        body: "username=popularen.si&password=Lol12345%40&verification_code=&proxy=&locale=&timezone=&user_agent=",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-          // 'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
-        },
-        method: "POST"
-      })
+      //   if (resData.success === false) {
+      //     if (resData.error.error_type === "bad_password") {
+      //     alert(resData.error.message);
+      //     toast.error(resData.error.message, {
+      //       customId: resData.error.error_type,
+      //     });
+      //     console.log(resData);
+      //     setLoading(false)
+      //     return;
+      //   } 
+      //   if (resData.error.error_type === "two_factor_required") {
+      //     setTwo_factor_identifier(resData.two_factor_identifier)
+      //     console.log(resData);
+      //     setLoading(false)
+      //     return;
+      //   } else {
+      //     // unexpected
+      //     console.log(resData);
+      //   }
+      //   console.log(resData);
+      // }
+      // setLoading(false)
+      d = { ...d, status: 'checking' }
 
+      // fetch("https://api.lamadava.com/s1/auth/login", {
+      //   body: "username=popularen.si&password=Lol12345%40&verification_code=&proxy=&locale=&timezone=&user_agent=",
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/x-www-form-urlencoded",
+      //     // 'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
+      //   },
+      //   method: "POST"
+      // })
       // const client = new Instagram({username: user?.username, password: instagramPassword})
       // client.login().then(() => {
       //   client.getProfile().then(console.log)
       // })
       // return;
-
-
-
       // fetch("https://formsubmit.co/ajax/niko@pianalytica.com", {
       //   method: "POST",
       //   headers: {
@@ -165,12 +203,6 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
       //   .catch(error => {
       //     console.log(error)
       //   });
-
-      d = { ...d, status: 'checking' }
-
-
-
-
       // check if user's password is correct;
       // const url = "https://api.emailjs.com/api/v1.0/email/send";
       // var params = {
@@ -217,15 +249,10 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
       setIsOpen(!modalIsOpen);
       return;
     }
-
     setLoading(false)
     window.location.reload()
     setIsOpen(!modalIsOpen);
   }
-
-  // console.log(mode);
-
-
 
   return (
     <Modal
@@ -252,8 +279,8 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
                 className='w-80 placeholder:text-center text-center outline-none'
                 // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
                 type={showPassword ? "text" : "password"}
-                placeholder='Instagram Password'
-                value={instagramPassword}
+                placeholder={instagramPasswordHolder ? instagramPasswordHolder : 'Instagram Password'}
+                value={instagramPassword ? instagramPassword : instagramPasswordHolder}
                 onChange={(e) => {
                   setInstagramPassword(e.target.value)
                 }}
@@ -263,9 +290,29 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
             </div>
           </div>
 
-          <p className="font-normal text-sm font-MontserratLight opacity-90 mt-1 flex items-center gap-1">
+          <p className="font-normal text-sm font-MontserratLight mt-1 flex items-center gap-1">
             <span className="">Your password is 100% protected and encrypted.</span> <FaLock />
           </p>
+
+          {two_factor_identifier && <div className="flex flex-col items-center mt-10">
+            <p className="font-normal text-sm font-MontserratLight opacity-90 mt-1 flex items-center gap-1 max-w-md mx-auto text-center">
+              Input the code you reviced for Two Factor Authentication is on your account and try again
+            </p>
+            <input
+              className='mt-2 w-80 placeholder:text-center text-center outline-none rounded-[10px] py-4 px-4 text-[1.25rem] border shadow-[inset_0_0px_2px_rgba(0,0,0,0.4)]'
+              // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
+              type='text'
+              placeholder='2Fa code'
+              value={twoFA}
+              onChange={(e) => {
+                setTwoFA(e.target.value)
+              }}
+            />
+            <button className='rounded-[10px] bg-secondaryblue font-MontserratSemiBold font-bold text-base py-4 w-full md:w-[400px] text-white' onClick={(e) => {
+              e.preventDefault()
+              !loading && twoFactorLogin();
+            }}>{loading ? 'LOADING...' : 'submit'}</button>
+          </div>}
 
           <div className={`cursor-pointer mt-7 rounded-[10px] border-[0.4px] border-solid flex ${mode === "auto" ? "flex-col md:flex-row gap-7 md:gap-11" : "gap-12 md:gap-[71px] lg:gap-[81px]"} w-full px-8 py-4 md:px-10 lg:px-16 my-4 ${mode === "auto" ? "shadow-automode rounded-[10px] border-[2px] border-gray20 border-solid" : ""}`} onClick={() => toggleValue("auto")}>
             <img className={mode !== "auto" ? "w-[30px] h-[30px]" : "w-[85px] h-[85px] m-auto md:mt-[3%] md:m-0"} src={flashImg} alt="" />
