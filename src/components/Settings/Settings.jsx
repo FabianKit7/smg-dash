@@ -19,9 +19,9 @@ const urlEncode = function (data) {
 }
 
 export default function Settings() {
-  // const baseUrl = "http://localhost:8000"
-  const baseUrl = 'https://sproutysocial-api.onrender.com'
-  // const baseUrl = 'https://sproutysocial-api.up.railway.app'
+  // const BASE_URL = "http://localhost:8000"
+  const BASE_URL = 'https://sproutysocial-api.onrender.com'
+  // const BASE_URL = 'https://sproutysocial-api.up.railway.app'
   const [supaData, setData] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -65,11 +65,11 @@ export default function Settings() {
       const { data: { user } } = await supabase.auth.getUser()
       instance.setPortalSession(async () => {
         // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
-        return await axios.post(`${baseUrl}/api/generate_portal_session`, urlEncode({ customer_id: user?.id })).then((response) => response.data);
+        return await axios.post(`$process.env.REACT_APP_BASE_URL/api/generate_portal_session`, urlEncode({ customer_id: user?.id })).then((response) => response.data);
       });
     }
     fetch()
-  }, [baseUrl])
+  }, [BASE_URL])
 
   useEffect(() => {
     const getData = async () => {
@@ -119,7 +119,7 @@ export default function Settings() {
     setSubLoading(true)
     await cbInstance.openCheckout({
       async hostedPage() {
-        return await axios.post(`${baseUrl}/api/generate_checkout_new_url`,
+        return await axios.post(`$process.env.REACT_APP_BASE_URL/api/generate_checkout_new_url`,
           urlEncode({
             plan_id: "Monthly-Plan-USD-Monthly" //"Free-Trial-USD-Monthly"
           }))
@@ -127,11 +127,11 @@ export default function Settings() {
       },
       async success(hostedPageId) {
         console.log(hostedPageId);
-        let customer = await axios.post(`${baseUrl}/api/customer_list`,
+        let customer = await axios.post(`$process.env.REACT_APP_BASE_URL/api/customer_list`,
           urlEncode({ email: supaData?.email }))
           .then((response) => response.data)
 
-        let subscription = await axios.post(`${baseUrl}/api/subscription_list`,
+        let subscription = await axios.post(`$process.env.REACT_APP_BASE_URL/api/subscription_list`,
           urlEncode({ customer_id: customer?.id }))
           .then((response) => response.data)
 
@@ -173,7 +173,7 @@ export default function Settings() {
     if (window.confirm("Are you sure you want to cancel your subscription")) {
       setSubLoading(true)
       try {
-        let a = await axios.post(`${baseUrl}/api/cancel_for_items`,
+        let a = await axios.post(`$process.env.REACT_APP_BASE_URL/api/cancel_for_items`,
           urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
           .then((response) => response?.data)
           .catch((error) => {

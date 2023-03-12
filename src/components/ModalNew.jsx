@@ -38,9 +38,9 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
 
-  // const baseUrl = "http://localhost:8000" //
-  // const baseUrl = 'https://sproutysocial-api.onrender.com'
-  const baseUrl = 'https://sproutysocial-api.up.railway.app'
+  // const BASE_URL = "http://localhost:8000" //
+  // const BASE_URL = 'https://sproutysocial-api.onrender.com'
+  // const BASE_URL = 'https://sproutysocial-api.up.railway.app'
 
   const toggleValue = (newValue) => {
     setMode(mode === newValue ? '' : newValue);
@@ -80,7 +80,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     }
     // return;
 
-    // let resData = await axios.post(`${baseUrl}/api/twoFactorLogin`,
+    // let resData = await axios.post(`$process.env.REACT_APP_BASE_URL/api/twoFactorLogin`,
     //   urlEncode({
     //     code: twoFA,
     //     IG_USERNAME: user.username,
@@ -131,7 +131,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword && u !== 'admin') {
-      let resData = await axios.post(`${baseUrl}/api/checkInstagramPassword`,
+      let resData = await axios.post(`$process.env.REACT_APP_BASE_URL/api/checkInstagramPassword`,
         urlEncode({
           IG_USERNAME: user.username,
           IG_PASSWORD: instagramPassword
