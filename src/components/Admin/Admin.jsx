@@ -62,11 +62,11 @@ export default function Admin() {
     setFiles([])
     setLoading(false);
   }
-  
+
   const updateUser = async (user) => {
     if (user?.username) {
-      // const params = { ig: user?.username, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
-      const params = { ig: user?.username, response_type: "short", corsEnabled: "false" };
+      const params = { ig: user?.username, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
+      // const params = { ig: user?.username, response_type: "short", corsEnabled: "false" };
       const options = {
         method: "GET",
         url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
@@ -79,13 +79,17 @@ export default function Admin() {
       const userResults = await Axios.request(options);
       // console.log(userResults?.data[0]?.username);
       if (!userResults?.data[0]?.username) return console.log('User account not found!: ', user?.username, ' =>: ', userResults?.data[0]?.username);
-      await supabase
-        .from("users")
-        .update({
-          profile_pic_url: userResults.data[0].profile_pic_url,
-        }).eq('user_id', user?.user_id);
 
-      console.log('fixed for: ', user?.username)
+      if (userResults?.data?.[0]?.profile_pic_url) {
+        console.log(userResults.data[0].profile_pic_url)
+        await supabase
+          .from("users")
+          .update({
+            profile_pic_url: userResults.data[0].profile_pic_url,
+          }).eq('user_id', user?.user_id);
+
+        console.log('fixed for: ', user?.username)
+      }
     }
   }
 
@@ -112,7 +116,7 @@ export default function Admin() {
     // if (error) return;
 
     // data.forEach(async (user) => {
-    //   user && updateUser(user)
+    //   user && await updateUser(user)
     // })
 
     setLoading(false);

@@ -62,8 +62,8 @@ export default function SearchBox() {
     }
     if (selected) {
       setProcessing(true);
-      // const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
-      const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false" };
+      const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
+      // const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false" };
       const options = {
         method: "GET",
         url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
