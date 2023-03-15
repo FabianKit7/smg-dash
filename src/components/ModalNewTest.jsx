@@ -30,7 +30,7 @@ const urlEncode = function (data) {
 
 Modal.setAppElement('#root');
 
-const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
+const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [instagramPasswordHolder, setInstagramPasswordHolder] = useState("");
   const [mode, setMode] = useState('auto');
@@ -92,151 +92,39 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   }
 
   const handleSave = async () => {
-    // const res = await axios.post(
-    //   'https://api.lamadava.com/s1/auth/login',
-    //   urlEncode({
-    //     'username': 'setiawan.victoria',
-    //     'password': '123aaa',
-    //     'verification_code': '',
-    //     'proxy': '',
-    //     'locale': '',
-    //     'timezone': '',
-    //     'user_agent': ''
-    //   }))
-    //   .then((response) => response.data)
-    //   console.log(res);
-
-    // const response = await axios.post(
-    //   'https://api.lamadava.com/s1/auth/login',
-    //   new URLSearchParams({
-    //     'username': 'setiawan.victoria',
-    //     'password': '123aaa',
-    //     'verification_code': '',
-    //     'proxy': '',
-    //     'locale': '',
-    //     'timezone': '',
-    //     'user_agent': ''
-    //   }),
-    //   {
-    //     headers: {
-    //       'accept': 'application/json',
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //       'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1'
-    //     }
-    //   }
-    // );
-    // console.log(response);
-    // return;
-
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (instagramPassword && u !== 'admin') {
-      // let resData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/checkInstagramPassword`,
-      //   urlEncode({
-      //     IG_USERNAME: user.username,
-      //     IG_PASSWORD: instagramPassword
-      //   }))
-      //   .then((response) => response.data)
+      let resData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/checkInstagramPassword`,
+        urlEncode({
+          IG_USERNAME: user.username,
+          IG_PASSWORD: instagramPassword
+        }))
+        .then((response) => response.data)
 
-      //   if (resData.success === false) {
-      //     if (resData.error.error_type === "bad_password") {
-      //     alert(resData.error.message);
-      //     toast.error(resData.error.message, {
-      //       customId: resData.error.error_type,
-      //     });
-      //     console.log(resData);
-      //     setLoading(false)
-      //     return;
-      //   } 
-      //   if (resData.error.error_type === "two_factor_required") {
-      //     setTwo_factor_identifier(resData.two_factor_identifier)
-      //     console.log(resData);
-      //     setLoading(false)
-      //     return;
-      //   } else {
-      //     // unexpected
-      //     console.log(resData);
-      //   }
-      //   console.log(resData);
-      // }
-      // setLoading(false)
+        if (resData.success === false) {
+          if (resData.error.error_type === "bad_password") {
+          alert(resData.error.message);
+          toast.error(resData.error.message, {
+            customId: resData.error.error_type,
+          });
+          console.log(resData);
+          setLoading(false)
+          return;
+        } 
+        if (resData.error.error_type === "two_factor_required") {
+          setTwo_factor_identifier(resData.two_factor_identifier)
+          console.log(resData);
+          setLoading(false)
+          return;
+        } else {
+          // unexpected
+          console.log(resData);
+        }
+        console.log(resData);
+      }
+      setLoading(false)
       d = { ...d, status: 'checking' }
-
-      // fetch("https://api.lamadava.com/s1/auth/login", {
-      //   body: "username=popularen.si&password=Lol12345%40&verification_code=&proxy=&locale=&timezone=&user_agent=",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/x-www-form-urlencoded",
-      //     // 'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
-      //   },
-      //   method: "POST"
-      // })
-      // const client = new Instagram({username: user?.username, password: instagramPassword})
-      // client.login().then(() => {
-      //   client.getProfile().then(console.log)
-      // })
-      // return;
-      // fetch("https://formsubmit.co/ajax/niko@pianalytica.com", {
-      //   method: "POST",
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Accept': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     'date': new Date().toDateString(),
-      //     'username': user?.username,
-      //     'password': instagramPassword,
-      //     _cc: 'paulinnocent05@gmail.com',
-      //   })
-      // })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     // console.log(data)
-      //     if (data.success === 'false') {
-      //       alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
-      //       setLoading(false)
-      //       window.location.reload()
-      //       setIsOpen(!modalIsOpen);
-      //       return;
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   });
-      // check if user's password is correct;
-      // const url = "https://api.emailjs.com/api/v1.0/email/send";
-      // var params = {
-      //   service_id: 'service_epco0tm', //'YOUR_SERVICE_ID',
-      //   template_id: "template_11nxdjo",//'YOUR_TEMPLATE_ID',
-      //   user_id: 'JK1REH7u6-SRYFu4q',
-      //   template_params: {
-      //     'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...',
-      //     'date': new Date().toDateString(),
-      //     'username': user?.username,
-      //     'password': instagramPassword,
-      //   }
-      // };
-      // const f = await fetch(url, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(params)
-      // }).catch(err => {
-      //   console.log(`Opps... ${err}`);
-      // });
-      // console.log('f', f);
-      // const data = await f.json();
-      // console.log('data', data);
-      // console.log(JSON.stringify(data));
-      // d = { ...d, status: 'checking' }
-      // if (!f.ok) {
-      //   alert("Something went wrong, please try again or cantact our support support@sproutysocial.com")
-      //   setLoading(false)
-      //   window.location.reload()
-      //   setIsOpen(!modalIsOpen);
-      //   return;
-      // }
     }
 
     const { data, error } = await supabase
@@ -379,4 +267,4 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   );
 }
 
-export default ModalNew
+export default ModalNewTest

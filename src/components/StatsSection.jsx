@@ -5,6 +5,7 @@ import { numFormatter } from "../helpers"
 import profileImg from "../images/profile.svg"
 import settingsImg from "../images/settings.svg"
 import ModalNew from "./ModalNew"
+import ModalNewTest from "./ModalNewTest"
 import TargetingFilterModal from "./TargetingFilterModal"
 import { supabase } from "../supabaseClient";
 import { useEffect } from "react"
@@ -204,13 +205,22 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             </div>
             <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />
 
+            {process.env.NODE_ENV === 'production' ? 
             <ModalNew
               modalIsOpen={modalIsOpen}
               setIsOpen={setIsOpen}
               avatar={avatar}
               user={user}
               userId={userId}
-            />
+            /> : 
+            <ModalNewTest
+              modalIsOpen={modalIsOpen}
+              setIsOpen={setIsOpen}
+              avatar={avatar}
+              user={user}
+              userId={userId}
+            /> 
+            }
 
             <TargetingFilterModal
               show={filterModal}

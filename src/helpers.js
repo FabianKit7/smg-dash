@@ -140,6 +140,7 @@ export const searchAccount = _.memoize(async (username) => {
   const options = {
     method: "GET",
     url: craperAPI,
+    // params: { ig: username, response_type: "search", corsEnabled: "true", storageEnabled: "true" },
     params: { ig: username, response_type: "search", corsEnabled: "true" },
     headers: {
       "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
