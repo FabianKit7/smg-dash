@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
@@ -47,7 +48,7 @@ export default function Admin() {
     //     })
     //   error && console.log(error)
     // }, Promise.resolve());
-    
+
     const { error } = await supabase
       .from("sessions")
       .upsert({
@@ -55,16 +56,72 @@ export default function Admin() {
         data: files
       })
     error && console.log(error);
-    
+
     alert('Upload successfull!');
     document.getElementById('input').value = '';
     setFiles([])
     setLoading(false);
   }
+  
+  const updateUser = async (user) => {
+    if (user?.username) {
+      // const params = { ig: user?.username, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
+      const params = { ig: user?.username, response_type: "short", corsEnabled: "false" };
+      const options = {
+        method: "GET",
+        url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
+        params,
+        headers: {
+          "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
+          "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+        },
+      };
+      const userResults = await Axios.request(options);
+      // console.log(userResults?.data[0]?.username);
+      if (!userResults?.data[0]?.username) return console.log('User account not found!: ', user?.username, ' =>: ', userResults?.data[0]?.username);
+      await supabase
+        .from("users")
+        .update({
+          profile_pic_url: userResults.data[0].profile_pic_url,
+        }).eq('user_id', user?.user_id);
+
+      console.log('fixed for: ', user?.username)
+    }
+  }
+
+  const update = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('users')
+      .select('profile_pic_url, status, username, user_id')
+      .eq('username', 'dev_cent')
+
+    error && console.log(error);
+    if (error) return;
+
+    console.log(data[0]);
+
+    updateUser(data[0])
+
+    // const { data, error } = await supabase
+    //   .from('users')
+    //   .select('profile_pic_url, status, username, user_id')
+    //   .neq('status', 'pending')
+
+    // error && console.log(error);
+    // if (error) return;
+
+    // data.forEach(async (user) => {
+    //   user && updateUser(user)
+    // })
+
+    setLoading(false);
+  }
+
 
   return (<>
     <Nav />
-    <div className="h-screen grid place-items-center -mt-10">
+    <div className="hidden h-screen delete-grid place-items-center -mt-10">
       <div>
         <h1 className="mb-5">Upload session file (Json)</h1>
 
@@ -80,5 +137,12 @@ export default function Admin() {
         </button>
       </div>
     </div>
+
+
+    <button className={`${!Loading ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
+      onClick={update}
+    >
+      {Loading ? "updating " : "update"}
+    </button>
   </>);
 }
