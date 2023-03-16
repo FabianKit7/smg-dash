@@ -8,6 +8,7 @@ import { ImBin2 } from "react-icons/im"
 import { BsFillPlusSquareFill } from "react-icons/bs"
 import ModalAdd from "../components/ModalAdd"
 import { Spinner } from "react-bootstrap";
+import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
@@ -110,29 +111,7 @@ export default function Blacklist({ userId }) {
         <div className="grid p-5 md:p-8 gap-4">
           {blacklistAccounts.map((item, index) => {
             return (
-              <div key={index}>
-                <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
-                  <div className="flex gap-3">
-                    <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account} crossOrigin="Anonymous" />
-                    <div className="flex flex-col">
-                      <h1 className="font-bold font-MontserratBold">@{item.account}</h1>
-                      <p className="font-MontserratRegular">{numFormatter(item.followers)} Followers</p>
-                      <p className="md:hidden font-MontserratLight">{countDays(item.created_at)}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3 items-center">
-                    <p className="hidden md:flex">{countDays(item.created_at)}</p>
-                    <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
-                      <ImBin2 className="absolute text-[#8C8C8C] font-semibold"
-                        onClick={async () => {
-                          await deleteAccount('blacklist', item.id);
-                          setAddSuccess(!addSuccess)
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <UserCard key={`blacklist_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="blacklist" />
             );
           })}
         </div>

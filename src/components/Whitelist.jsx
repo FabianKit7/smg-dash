@@ -8,6 +8,7 @@ import { ImBin2 } from "react-icons/im"
 import { BsFillPlusSquareFill } from "react-icons/bs"
 import ModalAdd from "../components/ModalAdd"
 import { Spinner } from "react-bootstrap";
+import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
@@ -109,114 +110,12 @@ export default function Whitelist({ userId }) {
         {/* body */}
         <div className="grid p-5 md:p-8 gap-4">
           {whitelistAccounts.map((item, index) => {
-            // console.log(item);
             return (
-              <div key={index}>
-                <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
-                  <div className="flex gap-3">
-                    <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account} crossOrigin="Anonymous" />
-                    <div className="flex flex-col">
-                      <h1 className="font-bold font-MontserratBold">@{item.account}</h1>
-                      <p className="font-MontserratRegular">{numFormatter(item.followers)} Followers</p>
-                      <p className="md:hidden font-MontserratLight">{countDays(item.created_at)}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3 items-center">
-                    <p className="hidden md:flex">{countDays(item.created_at)}</p>
-                    <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
-                      <ImBin2 className="absolute text-[#8C8C8C] font-semibold"
-                        onClick={ async () => {
-                          await deleteAccount('whitelist', item.id);
-                          setAddSuccess(!addSuccess)
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <UserCard key={`whitelist_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="whitelist" />
             );
           })}
         </div>
       </div>
-
-
-      {/* <div className="mt-5 w-[500px]">
-
-        <div className="d-flex  border p-3 rounded-4 ">
-          <div className="d-flex align-items-center gap-3">
-            <h3>Whitelist</h3>
-            <h4 className="bg-dark rounded ">
-              <Badge bg="Light">{whitelistAccounts.length}</Badge>
-            </h4>
-          </div>
-        </div>
-
-        <div className="mt-5 w-[500px]">
-          <Row>
-            <Col xs={12} md={8}>
-              <Table striped="columns">
-                <thead>
-                  <tr>
-                    <th>Source</th>
-                    <th>Followers</th>
-                    <th>Added</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {whitelistAccounts.map((item) => {
-                    return (
-                      <tr>
-                        <td>
-                          <img
-                            className="rounded-circle"
-                            src={item.avatar}
-                            alt={item.account}
-                            width={45}
-                            height={40}
-                            crossOrigin="Anonymous"
-                          />{" "}
-                          @{item.account}
-                        </td>
-                        <td>{numFormatter(item.followers)}</td>
-                        <td>{countDays(item.created_at)}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </Col>
-            <Col>
-              <div className="d-flex flex-column">
-                <h3>Whitelist Accounts</h3>
-                <p>The Whitelist</p>
-
-                <InputGroup className="mb-3 mt-3">
-                  <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                  <Typeahead
-                    onInputChange={(text) => setAccountName(text)}
-                    id="pk"
-                    onChange={(selected) => {
-                      setSelectedAccountName(selected[0]?.username);
-                    }}
-                    labelKey="username"
-                    options={searchAccounts}
-                    />{" "}
-                <div className="ps-2" >
-                    {loadingSpinner && (<Spinner animation="border" /> )}
-                </div>
-                </InputGroup>
-                <Button
-                  variant="dark"
-                  className="mt-5"
-                  onClick={() => insertWhitelist()}
-                >
-                  {loading ? "Loading..." : "Whitelist Account"}
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </div> */}
     </div>
   );
 }

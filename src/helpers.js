@@ -1,3 +1,4 @@
+// import Axios from 'axios'
 import axios from "axios"
 import _ from 'lodash';
 import { supabase } from "./supabaseClient"
@@ -151,6 +152,57 @@ export const searchAccount = _.memoize(async (username) => {
   const request = await axios.request(options).catch(err => console.log(err))
   return request?.data?.[0]
 })
+
+export const updateUserProfilePicUrl = async (user, from) => {
+  const username = from ? user.account : user.username;
+  console.log(username, from);
+  if (username) {
+    const userResults = await instabulkProfileAPI(username)
+    // console.log(userResults?.data[0]?.username);
+    if (!userResults?.data[0]?.username) return console.log('User account not found!: ', username, ' =>: ', userResults?.data[0]?.username);
+
+    if (userResults?.data?.[0]?.profile_pic_url) {
+      console.log(userResults.data[0].profile_pic_url)
+
+      if(from) {
+        const {error} = await supabase
+          .from(from)
+          .update({
+            avatar: userResults.data[0].profile_pic_url,
+          })
+          .eq('id', user?.id);
+
+          error && console.log(error)
+      }else{
+        await supabase
+          .from("users")
+          .update({
+            profile_pic_url: userResults.data[0].profile_pic_url,
+          }).eq('user_id', user?.user_id);
+      }
+
+      console.log('fixed for: ', username)
+      return {succuss: true, message: 'ok'}
+    }
+  }else{
+    return {succuss: false, message: 'username invalid'}
+  }
+}
+
+export async function instabulkProfileAPI(ig) {
+  const params = { ig, response_type: "short", storageEnabled: "true" };
+    // const params = { ig: user?.account, response_type: "short", corsEnabled: "false" };
+  const options = {
+    method: "GET",
+    url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
+    params,
+    headers: {
+      "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
+      "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+    },
+  };
+  return await axios.request(options);
+}
 
 export const totalLikes = (name) => {
   const options = {

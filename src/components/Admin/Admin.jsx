@@ -1,7 +1,6 @@
-import Axios from 'axios'
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
 
@@ -63,49 +62,19 @@ export default function Admin() {
     setLoading(false);
   }
 
-  const updateUser = async (user) => {
-    if (user?.username) {
-      const params = { ig: user?.username, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
-      // const params = { ig: user?.username, response_type: "short", corsEnabled: "false" };
-      const options = {
-        method: "GET",
-        url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
-        params,
-        headers: {
-          "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-          "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
-        },
-      };
-      const userResults = await Axios.request(options);
-      // console.log(userResults?.data[0]?.username);
-      if (!userResults?.data[0]?.username) return console.log('User account not found!: ', user?.username, ' =>: ', userResults?.data[0]?.username);
-
-      if (userResults?.data?.[0]?.profile_pic_url) {
-        console.log(userResults.data[0].profile_pic_url)
-        await supabase
-          .from("users")
-          .update({
-            profile_pic_url: userResults.data[0].profile_pic_url,
-          }).eq('user_id', user?.user_id);
-
-        console.log('fixed for: ', user?.username)
-      }
-    }
-  }
-
   const update = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('users')
-      .select('profile_pic_url, status, username, user_id')
-      .eq('username', 'dev_cent')
+    // const { data, error } = await supabase
+    //   .from('users')
+    //   .select('profile_pic_url, status, username, user_id')
+    //   .eq('username', 'dev_cent')
 
-    error && console.log(error);
-    if (error) return;
+    // error && console.log(error);
+    // if (error) return;
 
-    console.log(data[0]);
+    // console.log(data[0]);
 
-    updateUser(data[0])
+    // updateUser(data[0])
 
     // const { data, error } = await supabase
     //   .from('users')
@@ -115,17 +84,80 @@ export default function Admin() {
     // error && console.log(error);
     // if (error) return;
 
+    // var count = 0
     // data.forEach(async (user) => {
+    //   count += 1
+    //   await new Promise(resolve => setTimeout(resolve, 30000));
     //   user && await updateUser(user)
+    //   console.log(count);
     // })
+    var a;
 
+    // const res = await axios.post(
+    //   'https://api.lamadava.com/s1/auth/login',
+    //   urlEncode({
+    //     'username': 'setiawan.victoria',
+    //     'password': '123aaa',
+    //     'verification_code': '',
+    //     'proxy': '',
+    //     'locale': '',
+    //     'timezone': '',
+    //     'user_agent': ''
+    //   }))
+    //   .then((response) => response.data)
+    //   console.log(res);
+
+    // const response = await axios.post(
+    //   'https://api.lamadava.com/s1/auth/login',
+    //   new URLSearchParams({
+    //     'username': 'setiawan.victoria',
+    //     'password': '123aaa',
+    //     'verification_code': '',
+    //     'proxy': '',
+    //     'locale': '',
+    //     'timezone': '',
+    //     'user_agent': ''
+    //   }),
+    //   {
+    //     headers: {
+    //       'accept': 'application/json',
+    //       'Content-Type': 'application/x-www-form-urlencoded',
+    //       'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1'
+    //     }
+    //   }
+    // );
+    // console.log(response);
+    // return;
+
+    var username = 'dev_cent'
+    const options = {
+      method: 'GET',
+      url: `https://instagram-profile1.p.rapidapi.com/getprofile/${username}`,
+      headers: {
+        'X-RapidAPI-Key': '019c5aa355msh5056f6d15f2383bp1da51bjsn918a55ff5806',
+        'X-RapidAPI-Host': 'instagram-profile1.p.rapidapi.com'
+      }
+    };
+
+    const response = await axios.request(options).then(function (response) {
+      // console.log(response.data);
+      return response.data
+    }).catch(function (error) {
+      console.error(error);
+    });
+    console.error(response.profile_pic_url);
+    // 'username=dev_cent&password=Innocent@2918&verification_code=<123213>&proxy=&locale=&timezone=',
+    // .headers: {
+    //   'accept': 'application/json',
+    //   'Content-Type': 'application/x-www-form-urlencoded'
+    // }
     setLoading(false);
   }
 
 
   return (<>
     <Nav />
-    <div className="hidden h-screen delete-grid place-items-center -mt-10">
+    <div className="h-screen delete-grid place-items-center mt-10">
       <div>
         <h1 className="mb-5">Upload session file (Json)</h1>
 
@@ -143,7 +175,7 @@ export default function Admin() {
     </div>
 
 
-    <button className={`${!Loading ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
+    <button className={`${!Loading ? 'bg-secondaryblue' : 'bg-gray-600'} hidden w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
       onClick={update}
     >
       {Loading ? "updating " : "update"}

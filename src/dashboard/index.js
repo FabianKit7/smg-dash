@@ -10,6 +10,7 @@ import { useClickOutside } from 'react-click-outside-hook';
 import { Link, useNavigate } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
 import { deleteUserDetails } from '../helpers';
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const urlEncode = function (data) {

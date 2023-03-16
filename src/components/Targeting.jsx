@@ -1,44 +1,38 @@
-/* eslint-disable */
+// /* eslint-disable */
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import { countDays, deleteAccount, getAccount, numFormatter, searchAccount } from "../helpers";
+// import { searchAccount } from "../helpers";
 import { supabase } from "../supabaseClient";
-import avatarImg from "../images/avatar.svg"
-import { ImBin2 } from "react-icons/im"
 import { BsFillPlusSquareFill } from "react-icons/bs"
 import ModalAdd from "./ModalAdd";
 import { Spinner } from "react-bootstrap";
+import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
 export default function Targeting({ userId, avatar, username }) {
   const [targetingAccounts, setTargetingAccounts] = useState([]);
-  const [radioValue, setRadioValue] = useState("Account");
-  const [accountName, setAccountName] = useState("");
-  const [selectAccountName, setSelectedAccountName] = useState("");
-  const [searchAccounts, setSearchAccounts] = useState([]);
+  // const [radioValue, setRadioValue] = useState("Account");
+  // const [accountName, setAccountName] = useState("");
+  // const [selectAccountName, setSelectedAccountName] = useState("");
+  // const [searchAccounts, setSearchAccounts] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
 
-  const radios = [
-    { name: "Account", value: "Account" },
-    { name: "Hashtag", value: "Hashtag" },
-  ];
-
-  useEffect(() => {
-    if (accountName.length > 0) {
-      setLoadingSpinner(true);
-      const getData = async () => {
-        const data = await searchAccount(accountName);
-        setSearchAccounts(data.data[0].users ?? [{ username: "" }]);
-        setLoadingSpinner(false);
-      };
-      getData();
-    }
-  }, [accountName, addSuccess]);
+  // useEffect(() => {
+  //   if (accountName.length > 0) {
+  //     setLoadingSpinner(true);
+  //     const getData = async () => {
+  //       const data = await searchAccount(accountName);
+  //       setSearchAccounts(data.data[0].users ?? [{ username: "" }]);
+  //       setLoadingSpinner(false);
+  //     };
+  //     getData();
+  //   }
+  // }, [accountName, addSuccess]);
 
   useEffect(() => {
     const getTargetingAccounts = async () => {
@@ -48,16 +42,14 @@ export default function Targeting({ userId, avatar, username }) {
         .select()
         .eq("user_id", userId)
         .order('id', { ascending: false });
-      error && console.log(
-        "🚀 ~ file: Targeting.jsx:63 ~ getTargetingAccounts ~ error",
-        error
-      );
+
+      if(error) return console.log(error);
       setTargetingAccounts(data);
       setLoadingSpinner(false)
     };
 
     getTargetingAccounts();
-  }, [userId, selectAccountName, addSuccess]);
+  }, [userId, addSuccess]);
 
   const subtitle = "Set up your targeting by adding relevant username of an account."
   const extraSubtitle = "Add Accounts to use as sources for your targeting. Adding accounts as targets will interact with users who follow that account. For optimal results, aim for a follow-back rate of 15%+ across all targets."
@@ -97,124 +89,10 @@ export default function Targeting({ userId, avatar, username }) {
           {targetingAccounts.map((item, index) => {
             // console.log(item);
             return (
-              <div key={index}>
-                <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
-                  <div className="flex gap-3">
-                    <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account} crossOrigin="Anonymous" />
-                    <div className="flex flex-col">
-                      <h1 className="font-bold font-MontserratBold">@{item.account}</h1>
-                      <p className="font-MontserratRegular">{numFormatter(item.followers)} Followers</p>
-                      <p className="md:hidden font-MontserratLight">{countDays(item.created_at)}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3 items-center">
-                    <p className="hidden md:flex">{countDays(item.created_at)}</p>
-                    <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
-                      <ImBin2 className="absolute text-[#8C8C8C] font-semibold"
-                        onClick={ async () => {
-                          const res = await deleteAccount('targeting', item.id);
-                          console.log(res);
-                          console.log(item.id);
-                          // await supabase.from('targeting').delete().eq<"id">('id', item.id)
-                          setAddSuccess(!addSuccess)
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <UserCard key={`targeting_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="targeting" />
             );
           })}
         </div>
-
-
-
-        {/* <div className="mt-5 container">
-          <Row>
-            <Col xs={12} md={8}>
-              <Table striped="columns">
-                <thead>
-                  <tr>
-                    <th>Source</th>
-                    <th>followers</th>
-                    <th>performance</th>
-                    <th>Added</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {targetingAccounts.map((item) => {
-                    return (
-                      <tr>
-                        <td>
-                          <img
-                            className="rounded-circle"
-                            src={item.avatar}
-                            alt={item.account}
-                            width={45}
-                            height={40}
-                            crossOrigin="Anonymous"
-                          />{" "}
-                          @{item.account}
-                        </td>
-                        <td>{numFormatter(item.followers)}</td>
-                        <td>{numFormatter(item.performance)}</td>
-                        <td>{countDays(item.created_at)}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </Col>
-            <Col>
-              <div className="d-flex flex-column">
-                <h3>Add Source</h3>
-                <p>
-                  Set up tour targeting by adding relevant username and hashtag
-                </p>
-                <ButtonGroup>
-                  {radios.map((radio, idx) => (
-                    <ToggleButton
-                      key={idx}
-                      id={`radio-${idx}`}
-                      type="radio"
-                      variant={
-                        radioValue === radio.value ? "dark bg-dark" : "white"
-                      }
-                      name="radio"
-                      value={radio.value}
-                      checked={radioValue === radio.value}
-                      onChange={(e) => setRadioValue(e.currentTarget.value)}
-                    >
-                      {radio.name}
-                    </ToggleButton>
-                  ))}
-                </ButtonGroup>
-                <InputGroup className="mb-3 mt-3">
-                  <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-                  <Typeahead
-                    onInputChange={(text) => setAccountName(text)}
-                    id="pk"
-                    onChange={(selected) => {
-                      setSelectedAccountName(selected[0]?.username);
-                    }}
-                    labelKey="username"
-                    options={[...searchAccounts]}
-                  />
-                  <div className="ps-2">
-                    {loadingSpinner && <Spinner animation="border" />}
-                  </div>
-                </InputGroup>
-                <Button
-                  variant="dark"
-                  className="mt-5"
-                  onClick={() => insertTarget()}
-                >
-                  {loading ? "Loading..." : "Add Target"}
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </div> */}
       </div>
     </>
   );

@@ -17,15 +17,15 @@ axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 
-const urlEncode = function (data) {
-  var str = [];
-  for (var p in data) {
-    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
-      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
-    }
-  }
-  return str.join("&");
-}
+// const urlEncode = function (data) {
+//   var str = [];
+//   for (var p in data) {
+//     if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+//       str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+//     }
+//   }
+//   return str.join("&");
+// }
 
 Modal.setAppElement('#root');
 

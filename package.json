@@ -1,7 +1,8 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "private": true,
+  "proxy": "http://localhost:3000",
+  "private": false,
   "dependencies": {
     "@chargebee/chargebee-js-react-wrapper": "0.4.2",
     "@material-tailwind/react": "^1.4.2",
