@@ -7,7 +7,7 @@ export default function UserCard({ item, addSuccess, setAddSuccess, from }) {
     return (
         <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
             <div className="flex gap-3">
-                <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account} crossOrigin="Anonymous" />
+                <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account}  />
                 <div className="flex flex-col">
                     <h1 className="font-bold font-MontserratBold">@{item.account}</h1>
                     <p className="font-MontserratRegular">{numFormatter(item.followers)} Followers</p>

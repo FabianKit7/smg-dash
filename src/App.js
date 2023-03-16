@@ -26,19 +26,6 @@ function App() {
 
   return (
     <>
-      {/* {pathname === "/" ||
-        pathname === "/login" ||
-        pathname === "/login/" ||
-        pathname === "/signUp" ||
-        pathname === "/SignUp" ||
-        pathname === "/SignUp/" ||
-        pathname === "/dashboard" ||
-        pathname === "/dashboard/" ||
-        pathname === "/dashboard/login" ||
-        pathname.startsWith("/subscription") ||
-        pathname.startsWith("/dashboard/edit/")
-        ? "" : <Nav />} */}
-      {/* <Nav /> */}
       <Routes>
         {/* <Route index element={<Home />} /> */}
         <Route index element={<Login />} />
