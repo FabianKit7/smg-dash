@@ -9,63 +9,91 @@ const StatsCard = ({ userData, sessionsData }) => {
     const [_30daysGrowthPercent, set_30daysGrowthPercent] = useState(0)
     const [total_interactions, setTotal_interactions] = useState(0)
 
+    // const data = sessionsData //.reverse();
+    // console.log({sessionsData});
+    // console.log({data});
+    const getDate = (date) => {
+        var d = new Date(date.getFullYear(), date.getMonth() + 1, date.getDate())
+        return new Date(date).getDate()
+    }
+
     const [day7, setDay7] = useState(7)
-    const [day30, setDay30] = useState(30)
     useEffect(() => {
-        if (sessionsData.length > 0) {
-            const lastData = sessionsData.slice(-1)[0]
+        const lastData = sessionsData.slice(-1)[0]
 
-            if (!_7daysGrowth) {
-                var l7dDate = new Date(lastData?.start_time);
-                var day = l7dDate.getTime() - (day7 * 24 * 60 * 60 * 1000);
-                l7dDate.setTime(day);
-                l7dDate = new Date(l7dDate.getFullYear(), l7dDate.getMonth() + 1, l7dDate.getDate());
+        var l7dDate = new Date(lastData?.start_time);
+        var day = l7dDate.getTime() - (day7 * 24 * 60 * 60 * 1000);
+        l7dDate.setTime(day);
+        l7dDate = new Date(l7dDate.getFullYear(), l7dDate.getMonth() + 1, l7dDate.getDate());
 
-                const f = sessionsData.filter(session => {
-                    let a = new Date(session.start_time)
-                    let b = new Date(a.getFullYear(), a.getMonth() + 1, a.getDate())
-                    var l = b.getTime() === new Date(l7dDate).getTime()
-                    return l
-                })
-                const l7d = f[0]
-                if (!l7d) return setDay7(day7 - 1)
+        const f = sessionsData.filter(session => {
+            let a = new Date(session.start_time)
+            let b = new Date(a.getFullYear(), a.getMonth() + 1, a.getDate())
+            var l = b.getTime() === new Date(l7dDate).getTime()
+            return l
+        })
+        const l7d = f[0]
+        if (!l7d) return setDay7(day7-1)
 
-                var final = lastData?.profile?.followers - l7d?.profile?.followers
-                console.log({ final });
-                set_7daysGrowth(final)
+        var final = lastData?.profile?.followers - l7d?.profile?.followers
+        console.log(final);
+
+
+        const last7days = sessionsData.slice(0, 7)
+        const last7days_prev = sessionsData.slice(8, 15)
+        const last30days = sessionsData.slice(0, 30)
+        const last30days_prev = sessionsData.slice(31, 61)
+
+        var last7daysSum = 0
+        var prev_last7daysSum = 0
+        var last30daysSum = 0
+        var prev_last30daysSum = 0
+        last7days.forEach(item => {
+            last7daysSum += item.profile.followers;
+        });
+        last7days_prev.forEach(item => {
+            prev_last7daysSum += item.profile.followers;
+        });
+        last30days.forEach(item => {
+            last30daysSum += item.profile.followers;
+        });
+        last30days_prev.forEach(item => {
+            prev_last30daysSum += item.profile.followers;
+        });
+
+        const minMax = (arr) => {
+            let arr1 = [];
+            if (arr) {
+                arr1.push(Math.min(...arr));
+                arr1.push(Math.max(...arr));
+                return arr1
             }
+            return null;
+        };
+        const percentInc = (current, prev) => {
+            const minMaxValues = minMax([current, prev]);
+            if (minMaxValues) {
+                const a = minMaxValues[0];
+                const b = minMaxValues[1];
 
-            if (!_30daysGrowth){
-                var l30dDate = new Date(lastData?.start_time);
-                var day2 = l30dDate.getTime() - (day30 * 24 * 60 * 60 * 1000);
-                l30dDate.setTime(day2);
-                l30dDate = new Date(l30dDate.getFullYear(), l30dDate.getMonth() + 1, l30dDate.getDate());
-    
-                const f2 = sessionsData.filter(session => {
-                    let a = new Date(session.start_time)
-                    let b = new Date(a.getFullYear(), a.getMonth() + 1, a.getDate())
-                    var l = b.getTime() === new Date(l30dDate).getTime()
-                    return l
-                })
-                const l30d = f2[0]
-                if (!l30d) return setDay30(day30 - 1)
-    
-                var final2 = lastData?.profile?.followers - l30d?.profile?.followers
-                console.log({ final2 });
-                set_30daysGrowth(final2)
+                return `${prev > current ? '-' : '+'}${((a / b) * 100).toFixed(2)}`
             }
-
-            if (!total_interactions){
-                var count = 0;
-                for (let i = 0; i < sessionsData.length; i++) {
-                    count += parseInt(sessionsData[i].total_interactions)
-                }
-                // setTotal_interactions(sessionsData[0]?.total_interactions)
-                setTotal_interactions(count)
-            }
+            return 0;
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sessionsData, day7, day30])
+
+        set_7daysGrowthPercent(percentInc(last7daysSum, prev_last7daysSum))
+        set_30daysGrowthPercent(percentInc(last30daysSum, prev_last30daysSum))
+
+        set_7daysGrowth(last7daysSum - prev_last7daysSum)
+        set_30daysGrowth(last30daysSum - prev_last30daysSum)
+
+        var count = 0;
+        for (let i = 0; i < sessionsData.length; i++) {
+            count += parseInt(sessionsData[i].total_interactions)
+        }
+        // setTotal_interactions(sessionsData[0]?.total_interactions)
+        setTotal_interactions(count)
+    }, [sessionsData, day7])
 
     // console.log(last7daysSum);
     function nFormatter(num, digits = 1) {
@@ -119,9 +147,9 @@ const StatsCard = ({ userData, sessionsData }) => {
                             }
 
                             {_7daysGrowth >= 0 ?
-                                <h2 className="font-bold text-[30px] text-gray20 -mr-3">+</h2>
+                                <h2 className="font-bold text-[30px] text-gray20">+</h2>
                                 :
-                                <h2 className="font-bold text-[30px] text-gray20 -mr-3">-</h2>
+                                <h2 className="font-bold text-[30px] text-gray20">-</h2>
                             }
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_7daysGrowth)) || 'NAN'}</h2>
                         </div>
@@ -141,9 +169,9 @@ const StatsCard = ({ userData, sessionsData }) => {
                             }
 
                             {_30daysGrowth >= 0 ?
-                                <h2 className="font-bold text-[30px] text-gray20 -mr-3">+</h2>
+                                <h2 className="font-bold text-[30px] text-gray20">+</h2>
                                 :
-                                <h2 className="font-bold text-[30px] text-gray20 -mr-3">-</h2>
+                                <h2 className="font-bold text-[30px] text-gray20">-</h2>
                             }
                             <h2 className="font-bold text-[30px] text-gray20">{nFormatter(Math.abs(_30daysGrowth)) || 'NAN'}</h2>
                         </div>

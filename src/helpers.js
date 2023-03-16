@@ -155,7 +155,7 @@ export const searchAccount = _.memoize(async (username) => {
 
 export const updateUserProfilePicUrl = async (user, from) => {
   const username = from ? user.account : user.username;
-  console.log(username, from);
+  // console.log(username, from);
   if (username) {
     const userResults = await instabulkProfileAPI(username)
     // console.log(userResults?.data[0]?.username);
@@ -165,21 +165,25 @@ export const updateUserProfilePicUrl = async (user, from) => {
       console.log(userResults.data[0].profile_pic_url)
 
       if(from) {
+        console.log(username);
         const {error} = await supabase
           .from(from)
           .update({
             avatar: userResults.data[0].profile_pic_url,
+            imageUrlChanged: true
           })
           .eq('id', user?.id);
 
           error && console.log(error)
-      }else{
-        await supabase
+        }else{
+          const {error} = await supabase
           .from("users")
           .update({
             profile_pic_url: userResults.data[0].profile_pic_url,
           }).eq('user_id', user?.user_id);
-      }
+
+          error && console.log(error)
+        }
 
       console.log('fixed for: ', username)
       return {succuss: true, message: 'ok'}

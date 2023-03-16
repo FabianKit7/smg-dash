@@ -23,6 +23,8 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [FilterModal, setFilterModal] = useState(false);
   const [user, setUser] = useState(null)
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('start_time');
 
   let { id } = useParams();
 
@@ -60,6 +62,41 @@ export default function Dashboard() {
 
   // console.log(userDefaultdata?.username);
   // sessions
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
+
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+
   useEffect(() => {
     const fetch = async () => {
       const resData = await supabase
@@ -68,14 +105,14 @@ export default function Dashboard() {
         .eq('username', data?.username)
       resData.error && console.log(resData.error);
       const d = JSON.parse(resData.data[0].data)
-      // console.log(d);
+      // console.log(d[15].profile.followers);
       setSessionsData(d)
     }
     const username = data?.username;
     if (username) {
       fetch()
     }
-  }, [data])
+  }, [data, order, orderBy])
 
   const setFilterModalCallback = useCallback(() => {
     setFilterModal(false);

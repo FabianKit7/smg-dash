@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
+import { updateUserProfilePicUrl } from "../../helpers";
 import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
 
@@ -47,7 +48,7 @@ export default function Admin() {
     //     })
     //   error && console.log(error)
     // }, Promise.resolve());
-
+    if (!username) return setLoading(false);
     const { error } = await supabase
       .from("sessions")
       .upsert({
@@ -62,102 +63,64 @@ export default function Admin() {
     setLoading(false);
   }
 
-  const update = async () => {
+  const updateSub = async () => {
     setLoading(true);
-    // const { data, error } = await supabase
-    //   .from('users')
-    //   .select('profile_pic_url, status, username, user_id')
-    //   .eq('username', 'dev_cent')
 
-    // error && console.log(error);
-    // if (error) return;
+    const manulaFrom = 'targeting';
+    const { data, error } = await supabase
+      .from(manulaFrom)
+      .select('*')
+      .limit(100)
+      .eq("imageUrlChanged", false)
+      console.log(data);
 
-    // console.log(data[0]);
+    error && console.log(error);
+    if (error) return;
+    
+    var count = 0
+    console.log('initial: ', count);
 
-    // updateUser(data[0])
-
-    // const { data, error } = await supabase
-    //   .from('users')
-    //   .select('profile_pic_url, status, username, user_id')
-    //   .neq('status', 'pending')
-
-    // error && console.log(error);
-    // if (error) return;
-
-    // var count = 0
-    // data.forEach(async (user) => {
-    //   count += 1
-    //   await new Promise(resolve => setTimeout(resolve, 30000));
-    //   user && await updateUser(user)
-    //   console.log(count);
-    // })
-    var a;
-
-    // const res = await axios.post(
-    //   'https://api.lamadava.com/s1/auth/login',
-    //   urlEncode({
-    //     'username': 'setiawan.victoria',
-    //     'password': '123aaa',
-    //     'verification_code': '',
-    //     'proxy': '',
-    //     'locale': '',
-    //     'timezone': '',
-    //     'user_agent': ''
-    //   }))
-    //   .then((response) => response.data)
-    //   console.log(res);
-
-    // const response = await axios.post(
-    //   'https://api.lamadava.com/s1/auth/login',
-    //   new URLSearchParams({
-    //     'username': 'setiawan.victoria',
-    //     'password': '123aaa',
-    //     'verification_code': '',
-    //     'proxy': '',
-    //     'locale': '',
-    //     'timezone': '',
-    //     'user_agent': ''
-    //   }),
-    //   {
-    //     headers: {
-    //       'accept': 'application/json',
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //       'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1'
-    //     }
-    //   }
-    // );
-    // console.log(response);
-    // return;
-
-    var username = 'dev_cent'
-    const options = {
-      method: 'GET',
-      url: `https://instagram-profile1.p.rapidapi.com/getprofile/${username}`,
-      headers: {
-        'X-RapidAPI-Key': '019c5aa355msh5056f6d15f2383bp1da51bjsn918a55ff5806',
-        'X-RapidAPI-Host': 'instagram-profile1.p.rapidapi.com'
-      }
-    };
-
-    const response = await axios.request(options).then(function (response) {
-      // console.log(response.data);
-      return response.data
-    }).catch(function (error) {
-      console.error(error);
-    });
-    console.error(response.profile_pic_url);
-    // 'username=dev_cent&password=Innocent@2918&verification_code=<123213>&proxy=&locale=&timezone=',
-    // .headers: {
-    //   'accept': 'application/json',
-    //   'Content-Type': 'application/x-www-form-urlencoded'
-    // }
+    await data.reduce(async (ref, user) => {
+      await ref;
+      await new Promise(resolve => setTimeout(resolve, 500));
+      user?.account && await updateUserProfilePicUrl(user, manulaFrom)
+      count += 1
+    }, Promise.resolve());
+    // if (count === data.length) return setLoading(false);
+    console.log(count);
     setLoading(false);
   }
+
+  // const update = async () => {
+  //   setLoading(true);
+
+  //   const manulaFrom = 'users';
+  //   const { data, error } = await supabase
+  //     .from('users')
+  //     .select('profile_pic_url, status, username, user_id')
+  //     .neq('status', 'pending')
+
+  //   error && console.log(error);
+  //   if (error) return;
+    
+  //   var count = 0
+  //   console.log('initial: ', count);
+
+  //   await data.reduce(async (ref, user) => {
+  //     await ref;
+  //     await new Promise(resolve => setTimeout(resolve, 500));
+  //     user?.username && await updateUserProfilePicUrl(user)
+  //     count += 1
+  //   }, Promise.resolve());
+  //   // if (count === data.length) return setLoading(false);
+  //   console.log(count);
+  //   setLoading(false);
+  // }
 
 
   return (<>
     <Nav />
-    <div className="h-screen delete-grid place-items-center mt-10">
+    <div className="h-screen grid place-items-center">
       <div>
         <h1 className="mb-5">Upload session file (Json)</h1>
 
@@ -176,7 +139,7 @@ export default function Admin() {
 
 
     <button className={`${!Loading ? 'bg-secondaryblue' : 'bg-gray-600'} hidden w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
-      onClick={update}
+      onClick={updateSub}
     >
       {Loading ? "updating " : "update"}
     </button>
