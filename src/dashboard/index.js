@@ -9,7 +9,8 @@ import axios from 'axios';
 import { useClickOutside } from 'react-click-outside-hook';
 import { Link, useNavigate } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
-import { deleteUserDetails } from '../helpers';
+import { deleteUserDetails, updateUserProfilePicUrl } from '../helpers';
+import { TbRefresh } from 'react-icons/tb'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -32,6 +33,7 @@ export default function DashboardApp() {
   const [sortByStatus, setSortByStatus] = useState('All')
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [openRefreshModal, setOpenRefreshModal] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -55,7 +57,6 @@ export default function DashboardApp() {
     }
     fetch()
   }, [navigate])
-
 
   useEffect(() => {
     if (user?.admin) {
@@ -191,7 +192,7 @@ export default function DashboardApp() {
   }
 
   if (user?.admin) {
-    return (
+    return (<>
       <div className="bg-[#F8F8F8]">
         <div className="max-w-[1580px] mx-auto flex gap-2 md:gap-6 h-screen">
           <div className="flex-1 bg-white py-10 px-3">
@@ -201,6 +202,10 @@ export default function DashboardApp() {
                 <AiOutlineDashboard size={30} className="w-[24px] md:w-[30px]" />
                 <span className="hidden md:block text-md">Dashboard</span>
               </Link>
+              <button className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 bg-[#F8F8F8] hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg" onClick={() => setOpenRefreshModal(true)}>
+                <TbRefresh size={30} className="w-[24px] md:w-[30px]" />
+                <span className="hidden md:block text-md">Refresh</span>
+              </button>
               <div className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg" onClick={async () => {
                 await supabase.auth.signOut();
                 window.onbeforeunload = function () {
@@ -444,17 +449,18 @@ export default function DashboardApp() {
                       // console.log(user);
                       const username = user?.username;
                       var sessionData = '';
+
                       const fetch = async () => {
                         const resData = await supabase
                           .from('sessions')
                           .select()
                           .eq('username', user?.username)
                         resData.error && console.log(resData.error);
-                        if (resData?.data[0]?.data) {
+                        if (resData?.data?.[0]?.data) {
                           const d = JSON.parse(resData?.data[0]?.data)
                           // console.log(d[0]);
-                          const followers = document.querySelector(`#followers_${index}_${username}`)
-                          const following = document.querySelector(`#following_${index}_${username}`)
+                          const followers = document.querySelector(`#followers_${index}_${user?.id}`)
+                          const following = document.querySelector(`#following_${index}_${user?.id}`)
                           if (followers && following) {
                             followers.textContent = d[0].profile.followers
                             following.textContent = d[0].profile.following
@@ -463,36 +469,49 @@ export default function DashboardApp() {
                         }
                       }
 
-                      if (username) {
-                        fetch()
+                      if (username && user?.email) {
+                        setTimeout(async () => {
+                          await fetch()
+                        }, 500);
                       }
 
                       const getTargetingAccounts = async () => {
                         // console.log(user);
-                        const { data, error } = await supabase
-                          .from("targeting")
-                          .select()
-                          .eq("user_id", user?.user_id)
-                          .order('id', { ascending: false });
-                        error && console.log(
-                          "🚀 ~ file: Targeting.jsx:63 ~ getTargetingAccounts ~ error",
-                          error
-                        );
-                        // console.log(data);
-                        const targeting = document.querySelector(`#targeting_${index}_${username}`)
-                        if (targeting) {
-                          targeting.textContent = data?.length
+                        try {
+                          const { data, error } = await supabase
+                            .from("targeting")
+                            .select()
+                            .eq("user_id", user?.user_id)
+                            .order('id', { ascending: false });
+                          // error && console.log(
+                          //   "🚀 ~ file: Targeting.jsx:63 ~ getTargetingAccounts ~ error",
+                          //   error
+                          // );
+                          // console.log(data);
+                          if(!error){
+                            const targeting = document.querySelector(`#targeting_${index}_${user?.id}_t`)
+                            if (targeting) {
+                              targeting.textContent = data?.length
+                            }
+                          }
+                          // return data;
+                          // setTargetingAccounts(data);                          
+                        } catch (error) {
+                          console.error(error);
                         }
-                        return data;
-                        // setTargetingAccounts(data);
                       };
 
-                      getTargetingAccounts();
+                      if (username && user?.email) {
+                        setTimeout(async () => {
+                          await getTargetingAccounts();
+                        }, 500);
+                      }
+
 
                       // console.log(user.profile);
 
                       sessionData && console.log(sessionData);
-                      if (username) {
+                      if (username && user?.email) {
                         return (
                           <tr key={user.id} className={`${(index + 1) % 2 === 0 ? 'bg-white' : 'bg-[#F8F8F8]'} border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200`}>
                             <td
@@ -518,9 +537,9 @@ export default function DashboardApp() {
                                 </a>
                               </div>
                             </td>
-                            <td className="px-6 py-4" id={`followers_${index}_${username}`}>{user.followers}</td>
-                            <td className="px-6 py-4" id={`following_${index}_${username}`}>{user.following}</td>
-                            <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${username}`}>0</td>
+                            <td className="px-6 py-4" id={`followers_${index}_${user?.id}`}>{user.followers}</td>
+                            <td className="px-6 py-4" id={`following_${index}_${user?.id}`}>{user.following}</td>
+                            <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${user?.id}_t`}>0</td>
                             <td className="px-6 py-4">
                               <div className="flex items-center relative">
                                 {user.userMode}
@@ -641,10 +660,75 @@ export default function DashboardApp() {
           </div>
         </div>}
       </div>
-    );
+
+      {openRefreshModal && <RefreshModal openRefreshModal={openRefreshModal} setOpenRefreshModal={setOpenRefreshModal} />}
+    </>);
   } else {
     return (<></>)
   }
+}
+
+const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
+  const [parentRef, isClickedOutside] = useClickOutside();
+  const [message, setMessage] = useState('')
+  const [profilePicture, setProfilePicture] = useState()
+  const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState('')
+
+  useEffect(() => {
+    if (isClickedOutside) {
+      setOpenRefreshModal(false)
+    };
+  }, [isClickedOutside, setOpenRefreshModal]);
+
+  const handleRefresh = async () => {
+    if (username) {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('users')
+        .select('profile_pic_url, status, username, user_id')
+        .eq('username', username)
+      if (error) {
+        setMessage(error.message)
+        setLoading(false);
+        return;
+      }
+      data.forEach(async data => {
+        data?.profile_pic_url && setProfilePicture(data.profile_pic_url)
+  
+        if(data?.username){
+          const {ppu} = await updateUserProfilePicUrl(data)
+          if (ppu) {
+            setProfilePicture(ppu)
+            setMessage('success');
+          }else{
+            setMessage('error');
+          }
+        } else {
+          setMessage('error');
+        }
+      })
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70 z-50">
+      <div className="bg-white w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
+        <div className="py-2 px-6 border-b flex justify-between">
+          <div className="text-green-400">{message}</div>
+          <FaTimes className='cursor-pointer' onClick={() => setOpenRefreshModal(false)} />
+        </div>
+        <div className="mt-4 flex flex-col items-center gap-4 px-6">
+          <div className="w-[60px] h-[60px] rounded-full bg-red-600">
+            <img src={profilePicture} className="w-full h-full rounded-full" alt="" />
+          </div>
+          <input type="text" className="w-52 border border-black px-2" placeholder='enter username' onChange={(e) => setUsername(e.target.value)} />
+          <button onClick={() => { !loading && handleRefresh() }} className="w-[200px] py-2 bg-blue-500 text-white">{loading ? 'refreshing...' : 'refresh'}</button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 const Chargebee = ({ k, user, setShowChargebee }) => {

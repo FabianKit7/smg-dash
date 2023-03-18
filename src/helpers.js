@@ -162,11 +162,10 @@ export const updateUserProfilePicUrl = async (user, from) => {
     if (!userResults?.data[0]?.username) return console.log('User account not found!: ', username, ' =>: ', userResults?.data[0]?.username);
 
     if (userResults?.data?.[0]?.profile_pic_url) {
-      console.log(userResults.data[0].profile_pic_url)
 
-      if(from) {
+      if (from) {
         console.log(username);
-        const {error} = await supabase
+        const { error } = await supabase
           .from(from)
           .update({
             avatar: userResults.data[0].profile_pic_url,
@@ -174,28 +173,29 @@ export const updateUserProfilePicUrl = async (user, from) => {
           })
           .eq('id', user?.id);
 
-          error && console.log(error)
-        }else{
-          const {error} = await supabase
+        error && console.log(error)
+      } else {
+        const { error } = await supabase
           .from("users")
           .update({
             profile_pic_url: userResults.data[0].profile_pic_url,
           }).eq('user_id', user?.user_id);
 
-          error && console.log(error)
-        }
+        error && console.log(error)
+        return { success: true, ppu: userResults.data[0].profile_pic_url }
+      }
 
       console.log('fixed for: ', username)
-      return {succuss: true, message: 'ok'}
+      return { succuss: true, message: 'ok' }
     }
-  }else{
-    return {succuss: false, message: 'username invalid'}
+  } else {
+    return { succuss: false, message: 'username invalid' }
   }
 }
 
 export async function instabulkProfileAPI(ig) {
   const params = { ig, response_type: "short", storageEnabled: "true" };
-    // const params = { ig: user?.account, response_type: "short", corsEnabled: "false" };
+  // const params = { ig: user?.account, response_type: "short", corsEnabled: "false" };
   const options = {
     method: "GET",
     url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
