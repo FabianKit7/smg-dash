@@ -174,6 +174,31 @@ export default function DashboardApp() {
     }
   }, [originalUsers, searchTerm])
 
+  // useEffect(() => {
+  //   const wrapper1 = document.querySelector('.wrapper1')
+  //   const wrapper2 = document.querySelector('.wrapper2')
+  //   if (!wrapper1 && !wrapper2) return;
+
+  //   const handleScroll1 = () => {
+  //     var wrapper1scrollLeftOffset = wrapper1.scrollLeft
+  //     console.log(wrapper1scrollLeftOffset);
+  //     wrapper2.scrollLeft = wrapper1scrollLeftOffset
+  //   };
+  //   const handleScroll2 = () => {
+  //     console.log('scrolled2');
+  //     var wrapper2scrollLeftOffset = wrapper2.scrollLeft
+  //     wrapper1.scrollLeft = wrapper2scrollLeftOffset
+  //   };
+
+  //   wrapper1.addEventListener('scroll', handleScroll1);
+  //   wrapper2.addEventListener('scroll', handleScroll2);
+
+  //   return () => {
+  //     wrapper1.removeEventListener('scroll', handleScroll1);
+  //     wrapper2.removeEventListener('scroll', handleScroll2);
+  //   };
+  // }, []);
+
   const [showModes, setshowModes] = useState(false)
   const [modeChgCaller, setModeChgCaller] = useState()
   const changeMode = async (mode) => {
@@ -266,7 +291,7 @@ export default function DashboardApp() {
             </div>
 
             <div className="bg-white text-[#626262] pr-5">
-              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <div className="wrapper2 max-h-[calc(100vh-200px)] relative overflow-auto shadow-md sm:rounded-lg">
                 <div className="py-4 bg-white dark:bg-gray-900 flex justify-between gap-4  px-4">
                   <div className="flex gap-4 items-center">
                     <div className="">
@@ -304,9 +329,17 @@ export default function DashboardApp() {
                   </div>
 
                 </div>
+                {/* <div className="wrapper1 h-5 w-[300px] overflow-x-auto">
+                  <div className="div1 h-5 w-[30000px]">ddd
+                  </div>
+                </div> */}
+                {/* <div className="wrapper2 h-5 w-[300px] overflow-x-auto">
+                  <div className="div1 h-5 w-[30000px]">ddd
+                  </div>
+                </div> */}
 
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mr-2">
-                  <thead className="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+                <table className="w-full overflow-x-auto text-[0.7rem] text-left text-gray-500 dark:text-gray-400 mr-2">
+                  <thead className="text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         <div className="flex gap-1 items-center">
@@ -490,7 +523,7 @@ export default function DashboardApp() {
                           //   error
                           // );
                           // console.log(data);
-                          if(!error){
+                          if (!error) {
                             const targeting = document.querySelector(`#targeting_${index}_${user?.id}_t`)
                             if (targeting) {
                               targeting.textContent = data?.length
@@ -598,44 +631,44 @@ export default function DashboardApp() {
                     })}
                   </tbody>
                 </table>
-
-                {users?.length > 100 && <nav className="mb-10 px-4 flex items-center justify-between pt-4" aria-label="Table navigation">
-                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span className="font-semibold text-gray-900 dark:text-white">1-20</span> of <span className="font-semibold text-gray-900 dark:text-white">{users?.length}</span></span>
-                  <ul className="inline-flex items-center -space-x-px">
-                    <li>
-                      <a href="#" className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        <span className="sr-only">Previous</span>
-                        <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                    </li>
-                    <li>
-                      <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                    </li>
-                    <li>
-                      <a href="#" aria-current="page" className="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                    </li>
-                    <li>
-                      <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                    </li>
-                    <li>
-                      <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{users?.length}</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        <span className="sr-only">Next</span>
-                        <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>}
-
-                <br /><br /><br /><br /><br />
-
               </div>
+
+
+              {users?.length > 100 && <nav className="mb-10 px-4 flex items-center justify-between pt-4" aria-label="Table navigation">
+                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span className="font-semibold text-gray-900 dark:text-white">1-20</span> of <span className="font-semibold text-gray-900 dark:text-white">{users?.length}</span></span>
+                <ul className="inline-flex items-center -space-x-px">
+                  <li>
+                    <a href="#" className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                      <span className="sr-only">Previous</span>
+                      <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                  </li>
+                  <li>
+                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                  </li>
+                  <li>
+                    <a href="#" aria-current="page" className="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                  </li>
+                  <li>
+                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+                  </li>
+                  <li>
+                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{users?.length}</a>
+                  </li>
+                  <li>
+                    <a href="#" className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                      <span className="sr-only">Next</span>
+                      <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                    </a>
+                  </li>
+                </ul>
+              </nav>}
             </div>
+
+              <br />
           </div>
         </div>
         {showChargebee && <Chargebee key={selectedUser.id} k={selectedUser.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
@@ -698,13 +731,13 @@ const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
       }
       data.forEach(async data => {
         data?.profile_pic_url && setProfilePicture(data.profile_pic_url)
-  
-        if(data?.username){
-          const {ppu} = await updateUserProfilePicUrl(data)
+
+        if (data?.username) {
+          const { ppu } = await updateUserProfilePicUrl(data)
           if (ppu) {
             setProfilePicture(ppu)
             setMessage('success');
-          }else{
+          } else {
             setMessage('error');
           }
         } else {
