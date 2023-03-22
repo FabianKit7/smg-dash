@@ -122,16 +122,18 @@ export default function DashboardApp() {
       error && console.log(error);
       if (error) return;
 
-      const filtered = data.filter(user => user.username !== '')
-      setUsers(filtered);
-      setOriginalUsers(filtered);
-      var active = filtered.filter(user => (user.status).toLowerCase() === 'active')
-      var pending = filtered.filter(user => (user.status).toLowerCase() === 'pending')
-      var cancelled = filtered.filter(user => (user.status).toLowerCase() === 'cancelled')
+      // const filtered = data.filter(user => user.username !== '')
+      // setUsers(filtered);
+      // setOriginalUsers(filtered);
+      setUsers(data);
+      setOriginalUsers(data);
+      var active = data.filter(user => (user.status).toLowerCase() === 'active')
+      var pending = data.filter(user => (user.status).toLowerCase() === 'pending')
+      var cancelled = data.filter(user => (user.status).toLowerCase() === 'cancelled')
       document.querySelector('#Tactive').textContent = active.length
       document.querySelector('#Tpending').textContent = pending.length
       document.querySelector('#Tcancelled').textContent = cancelled.length
-      // console.log(filtered[0]);
+      // console.log(data[0]);
     }
     fetch()
   }, [user])
