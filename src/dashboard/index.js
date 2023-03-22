@@ -469,8 +469,7 @@ export default function DashboardApp() {
                         }
                       }
 
-                      // if (username && user?.email) {
-                      if (username) {
+                      if (username && user?.email) {
                         setTimeout(async () => {
                           await fetch()
                         }, 500);
@@ -512,7 +511,8 @@ export default function DashboardApp() {
                       // console.log(user.profile);
 
                       sessionData && console.log(sessionData);
-                      if (username && user?.email) {
+                      // if (username && user?.email) {
+                      if (username) {
                         return (
                           <tr key={user.id} className={`${(index + 1) % 2 === 0 ? 'bg-white' : 'bg-[#F8F8F8]'} border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200`}>
                             <td
