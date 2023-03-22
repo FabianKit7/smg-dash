@@ -469,7 +469,8 @@ export default function DashboardApp() {
                         }
                       }
 
-                      if (username && user?.email) {
+                      // if (username && user?.email) {
+                      if (username) {
                         setTimeout(async () => {
                           await fetch()
                         }, 500);
