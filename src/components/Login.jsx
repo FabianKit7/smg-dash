@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import sproutyLogo from "../images/sprouty.svg"
 
 export default function Login() {
   //   const [loading, setLoading] = useState(false);
@@ -18,7 +17,8 @@ export default function Login() {
     getData();
   }, [navigate]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault()
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -40,8 +40,8 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="shadow-2-strong p-5">
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="p-5 shadow-lg rounded-lg">
         <div className="flex flex-col justify-center items-center pb-10">
           {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
@@ -50,7 +50,7 @@ export default function Login() {
           <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Welcome Back</h5>
           <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p>
         </div>
-        <form action="" className="flex flex-col items-center justify-start">
+        <form action="" className="flex flex-col items-center justify-start" onSubmit={handleLogin}>
           <div className="form-outline mb-4 font-MontserratRegular">
             <input
               type="email"
@@ -71,18 +71,17 @@ export default function Login() {
               placeholder="Password"
               onChange={({ target }) => setPassword(target.value)}
             /> <br />
-            <Link to="#"><span className="text-[#1b89ff] font-MontserratSemiBold font-[600] text-[14px] mt-3">Forgot Password?</span></Link>
+            <Link to="/forget-password"><span className="text-[#1b89ff] font-MontserratSemiBold font-[600] text-[14px] mt-3">Forgot Password?</span></Link>
           </div>
 
           <button
-            type="button"
+            type="submit"
             className="text-white font-MontserratSemiBold text-[16px] mt-[14px] mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-80 font-semibold"
             style={{
               backgroundColor: '#ef5f3c',
               color: 'white',
               boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
             }}
-            onClick={() => handleLogin()}
           >
             Continue
           </button>

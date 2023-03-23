@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import DashboardApp from "./dashboard";
 import Edit from "./dashboard/edit";
 import AdminLogin from "./dashboard/adminLogin";
+import ForgetPassword from "./pages/forgetPassword";
+import ResetPassword from "./pages/resetPassword";
 
 const pathname = window.location.pathname;
 
@@ -32,6 +34,8 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/signUp" exact element={<SignUp />} />
+        <Route path="/forget-password" exact element={<ForgetPassword />} />
+        <Route path="/reset-password" exact element={<ResetPassword />} />
         <Route path="/settings" exact element={<Settings />} />
         <Route path="/admin" exact element={<Admin />} />
         <Route
