@@ -74,14 +74,14 @@ export default function Login() {
           <hr className="mb-7 w-full border-[#ef5f3c]" />
 
           <h5 className="font-semibold text-[2rem] text-center text-black font-MontserratSemiBold mt-[30px]">Welcome Back</h5>
-          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black max-w-[320px]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p>
+          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black max-w-[320px]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <span className="font-bold">followers</span> every month.</p>
         </div>
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleLogin}>
           <div className="form-outline mb-3 font-MontserratRegular">
             <input
               type="email"
               id="form2Example1"
-              className="rounded-[5px] h-[52px] px-4 w-64 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
+              className="rounded-[5px] h-[52px] px-4 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
               value={email}
               placeholder="Email Address"
               onChange={({ target }) => setEmail(target.value)}
@@ -92,7 +92,7 @@ export default function Login() {
             <input
               type="password"
               id="form2Example2"
-              className="rounded-[5px] h-[52px] px-4 w-64 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
+              className="rounded-[5px] h-[52px] px-4 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
               value={password}
               placeholder="Password"
               onChange={({ target }) => setPassword(target.value)}
@@ -102,7 +102,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] py-2 px-6 h-[52px] w-64 md:w-80 font-semibold"
+            className="text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] py-2 px-6 h-[52px] w-72 md:w-80 font-semibold"
             style={{
               backgroundColor: '#ef5f3c',
               color: 'white',
@@ -128,7 +128,7 @@ export default function Login() {
           <button
             onClick={signInWithGoogle}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] mt-8 mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-64 md:w-80 font-semibold bg-white text-black"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] mt-8 mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-72 md:w-80 font-semibold bg-white text-black"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',
