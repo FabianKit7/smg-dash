@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
@@ -39,6 +40,28 @@ export default function Login() {
     }
   }
 
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    })
+    if (data.user) {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+
+      if (data?.user) {
+        window.location = `/dashboard/${data.user?.user_id}`;
+      } else {
+        console.log({ error })
+        alert(error.message)
+      }
+    } else {
+      console.log({ error })
+      navigate("/search")
+      // alert(error.message)
+    }
+  }
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="p-5 shadow-lg rounded-lg">
@@ -48,7 +71,7 @@ export default function Login() {
           <hr className="mb-7 w-full border-[#ef5f3c]" />
 
           <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Welcome Back</h5>
-          <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p>
+          <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333] max-w-[320px]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p>
         </div>
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleLogin}>
           <div className="form-outline mb-4 font-MontserratRegular">
@@ -92,6 +115,28 @@ export default function Login() {
             Don't have an account? <Link to="/SignUp"><span className="text-[#1b89ff]">Sign Up</span></Link>
           </p>
         </div>
+
+        <div className="flex justify-center items-center relative my-8">
+          <hr className="w-full" />
+          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black">OR</div>
+        </div>
+
+        <div className="hidden del-flex items-center justify-center">
+          <button
+            onClick={signInWithGoogle}
+            type="button"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] mt-8 mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-80 font-semibold bg-white text-black"
+            style={{
+              border: '1px solid #ef5f3c',
+              color: 'white',
+              boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
+            }}
+          >
+            <FcGoogle />
+            <span>Continue with Google</span>
+          </button>
+        </div>
+
         <br /><br />
       </div>
     </div>

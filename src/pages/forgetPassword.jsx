@@ -50,7 +50,7 @@ export default function ForgetPassword() {
                     <hr className="mb-7 w-full border-[#ef5f3c]" />
 
                     <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Forgot Password?</h5>
-                    <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Enter your email address and we will send you instructions to reset your password.</p>
+                    <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333] max-w-[320px]">Enter your email address and we will send you instructions to reset your password.</p>
                 </div>
                 {page === 0 ?
                     <>

@@ -31,7 +31,7 @@ const StatsCard = ({ userData, sessionsData }) => {
                 if (!l7d) return setDay7(day7 - 1)
 
                 var final = lastData?.profile?.followers - l7d?.profile?.followers
-                console.log({ final });
+                // console.log({ final });
                 set_7daysGrowth(final)
             }
 
@@ -51,7 +51,7 @@ const StatsCard = ({ userData, sessionsData }) => {
                 if (!l30d) return setDay30(day30 - 1)
     
                 var final2 = lastData?.profile?.followers - l30d?.profile?.followers
-                console.log({ final2 });
+                // console.log({ final2 });
                 set_30daysGrowth(final2)
             }
 
