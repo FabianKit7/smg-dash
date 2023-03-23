@@ -10,8 +10,8 @@ export default function ResetPassword() {
 
     const handleResetPassword = async (e) => {
         e.preventDefault()
-        setLoading(true)
         if (password !== cPassword) return alert('password must be the same')
+        setLoading(true)
         const { data, error } = await supabase.auth.updateUser({ password })
         setLoading(false)
 
