@@ -6,7 +6,6 @@ import { RxCaretRight } from "react-icons/rx";
 import { TbRefresh, TbChecks } from "react-icons/tb";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
-import { FaCaretLeft } from "react-icons/fa";
 import axios from 'axios'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
