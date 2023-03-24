@@ -9,6 +9,7 @@ import ModalNewTest from "./ModalNewTest"
 import TargetingFilterModal from "./TargetingFilterModal"
 import { supabase } from "../supabaseClient";
 import { useEffect } from "react"
+import ConnectAccount from "./modals/ConnectAccount"
 
 
 const StatsSection = ({ user, userData, avatar, username, isVerified, name,
@@ -24,6 +25,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
   const [gender, setGender] = useState('All');
   const [lang, setLang] = useState('All');
   const [processing, setProcessing] = useState(false)
+  const [openCA, setOpenCA] = useState(false)
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [filterModal, setFilterModal] = useState(false);
@@ -62,17 +64,17 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
     setProcessing(true)
     // alert("We're processing your request...")
     await supabase
-    .from("users")
-    .update({
-      backupcode: backupCode,
-      status: 'checking'
-    }).eq('user_id', userId);
+      .from("users")
+      .update({
+        backupcode: backupCode,
+        status: 'checking'
+      }).eq('user_id', userId);
     setProcessing(false)
     window.location.reload()
   }
 
   return (<>
-   
+
     {userData?.status === 'incorrect' && <div className="flex justify-center mt-6">
       <div className="w-[320px] md:w-[350px] rounded-[10px]">
         <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
@@ -82,8 +84,8 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         <div className="bg-[#fcede0] px-4 py-3 rounded-b-[10px] text-sm">
           <p className="font-MontserratSemiBold">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
 
-          <button onClick={() => { setIsOpen(true) }} 
-          // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+          <button onClick={() => { setIsOpen(true) }}
+            // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
             className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
               backgroundColor: '#ff8c00',
@@ -94,7 +96,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         </div>
       </div>
     </div>}
-     
+
     {userData?.status === 'twofactor' && <div className="flex justify-center mt-6">
       <div className="w-[320px] md:w-[350px] rounded-[10px]">
         <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
@@ -107,9 +109,9 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             value={backupCode}
             onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
 
-          <button onClick={() => storeBackupCode()} 
-          // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
-          className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+          <button onClick={() => storeBackupCode()}
+            // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
+            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
               backgroundColor: '#ff8c00',
               color: 'white',
@@ -119,7 +121,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         </div>
       </div>
     </div>}
-     
+
     {userData?.status === 'checking' && <div className="flex justify-center mt-6">
       <div className="w-[320px] md:w-[350px] rounded-[10px]">
         <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
@@ -128,9 +130,9 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         </div>
         <div className="bg-[#fffbeb] px-4 py-3 rounded-b-[10px] text-sm">
           <p className="font-MontserratSemiBold">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
-          <button 
-          // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
-          className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+          <button
+            // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
+            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
               backgroundColor: '#ffd12c',
               color: 'white',
@@ -140,7 +142,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         </div>
       </div>
     </div>}
-     
+
     {userData?.status === 'pending' && <div className="flex justify-center mt-6">
       <div className="w-[320px] md:w-[350px] rounded-[10px]">
         <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
@@ -151,15 +153,16 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
           <p className="font-MontserratSemiBold">Your account is currently not connected to our
             growth system. To get started, please connect your
             account now.</p>
-          <button 
-          // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
-          className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+          <button
+            // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
+            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
               backgroundColor: '#ff2c55',
               color: 'white',
               boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
             }}
             onClick={() => setIsOpen(true)}
+            // onClick={() => setOpenCA(true)}
           >connect account</button>
         </div>
       </div>
@@ -168,13 +171,13 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       <div className="lg:flex md:grid md:grid-cols-1 md:gap-8 justify-between p-6 md:px-3 md:py-4">
         {/* Image Col */}
         <div className="flex flex-col md:flex-row justify-center items-center md:gap-10 ">
-          <img className="md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()}  />
+          <img className="md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()} />
           <div className="lg:ml-8">
             <h4 className="font-bold text-[1.5rem] text-gray20 text-center md:text-start font-MontserratBold">{name}</h4>
             <p className="font-normal font-MontserratSemiBold text-lg text-[#333] text-center md:text-start">
-                {username}
-                <FaCheckCircle className="fas fa-check-circle fa-lg ml-1 text-primary" style={{ visibility: isVerified ? 'visible' : 'hidden' }} />
-              </p>
+              {username}
+              <FaCheckCircle className="fas fa-check-circle fa-lg ml-1 text-primary" style={{ visibility: isVerified ? 'visible' : 'hidden' }} />
+            </p>
             <div className="w-[300px] font-MontserratLight font-normal opacity-90 text-sm md:mb-4 text-center md:text-start">{bio}</div>
             <a href={url} target="_blank" rel="noopener noreferrer" className="grid md:block font-MontserratRegular font-normal text-[14px] underline mt-1 text-center md:text-start">{url}</a>
           </div>
@@ -199,27 +202,27 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
           </div>
 
           <div className="flex gap-6 justify-center lg:justify-end">
-            <div className="relative">               
+            <div className="relative">
               {userData?.status === 'pending' && <div className="absolute -top-1 -left-1 h-3 w-3 rounded-full bg-red-600"></div>}
               <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={profileImg} alt="" onClick={() => { setIsOpen(!modalIsOpen) }} />
             </div>
             <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />
 
-            {process.env.NODE_ENV === 'production' ? 
-            <ModalNew
-              modalIsOpen={modalIsOpen}
-              setIsOpen={setIsOpen}
-              avatar={avatar}
-              user={user}
-              userId={userId}
-            /> : 
-            <ModalNewTest
-              modalIsOpen={modalIsOpen}
-              setIsOpen={setIsOpen}
-              avatar={avatar}
-              user={user}
-              userId={userId}
-            /> 
+            {process.env.NODE_ENV === 'production' ?
+              <ModalNew
+                modalIsOpen={modalIsOpen}
+                setIsOpen={setIsOpen}
+                avatar={avatar}
+                user={user}
+                userId={userId}
+              /> :
+              <ModalNewTest
+                modalIsOpen={modalIsOpen}
+                setIsOpen={setIsOpen}
+                avatar={avatar}
+                user={user}
+                userId={userId}
+              />
             }
 
             <TargetingFilterModal
@@ -240,6 +243,12 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
               genderd={gender}
               langd={lang}
             />
+
+            {openCA && <ConnectAccount
+              show={openCA}
+              setShow={setOpenCA}
+              user={userData}
+            />}
           </div>
         </div>
       </div>

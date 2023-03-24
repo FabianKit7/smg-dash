@@ -36,7 +36,7 @@ export default function Dashboard() {
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('user_id', user.id).order('created_at', { ascending: false })
+        .eq('user_id', user.id)
 
       // console.log(data);
       if (user && !data[0]?.subscribed) {
@@ -120,6 +120,8 @@ export default function Dashboard() {
 
   if (error) return <Error value={id} />;
 
+  // console.log(data?.user_id);
+
   return (<>
     <Nav />
     <div className="container mx-auto px-6">
@@ -145,13 +147,11 @@ export default function Dashboard() {
         sessionsData={sessionsData}
         isPrivate={false}
       />
-      <Targeting
-        userId={id}
-        avatar={data?.profile_pic_url}
-        username={data?.username}
-      />
-      <Blacklist userId={id} />
-      <Whitelist userId={id} />
+      {data?.user_id && <>
+        <Targeting userId={data?.user_id} />
+        <Blacklist userId={data?.user_id} />
+        <Whitelist userId={data?.user_id} />
+      </>}
 
     </div>
   </>);

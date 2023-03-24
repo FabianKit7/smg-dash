@@ -10,7 +10,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Targeting({ userId, avatar, username }) {
+export default function Targeting({ userId }) {
   const [targetingAccounts, setTargetingAccounts] = useState([]);
   // const [radioValue, setRadioValue] = useState("Account");
   // const [accountName, setAccountName] = useState("");

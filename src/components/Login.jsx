@@ -50,7 +50,8 @@ export default function Login() {
         .select('*')
 
       if (data?.user) {
-        window.location = `/dashboard/${data.user?.user_id}`;
+        // window.location = `/dashboard/${data.user?.user_id}`;
+        window.location = `/dashboard/${data.user?.username}`;
       } else {
         console.log({ error })
         alert(error.message)

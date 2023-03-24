@@ -203,8 +203,8 @@ export default function Subscriptions() {
           // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
 
           setLoading(false);
-          // navigate(`/dashboard/${user.id}`);
-          window.location = `/dashboard/${user.id}`;
+          navigate(`/dashboard/${username}`);
+          // window.location = `/dashboard/${username}`;
         } else {
           console.log('Error creating subscription:', subscriptionResult.error);
           alert('An error occurred, please try again or contact support')
