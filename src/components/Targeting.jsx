@@ -10,7 +10,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Targeting({ userId }) {
+export default function Targeting({ userId, page }) {
   const [targetingAccounts, setTargetingAccounts] = useState([]);
   // const [radioValue, setRadioValue] = useState("Account");
   // const [accountName, setAccountName] = useState("");
@@ -89,7 +89,7 @@ export default function Targeting({ userId }) {
           {targetingAccounts.map((item, index) => {
             // console.log(item);
             return (
-              <UserCard key={`targeting_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="targeting" />
+              <UserCard key={`targeting_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="targeting" page={page} />
             );
           })}
         </div>

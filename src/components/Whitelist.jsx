@@ -12,7 +12,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Whitelist({ userId }) {
+export default function Whitelist({ userId, page }) {
   const [whitelistAccounts, setWhitelistAccounts] = useState([]);
   const [accountName, setAccountName] = useState("");
   const [selectAccountName, setSelectedAccountName] = useState("");
@@ -111,7 +111,7 @@ export default function Whitelist({ userId }) {
         <div className="grid p-5 md:p-8 gap-4">
           {whitelistAccounts.map((item, index) => {
             return (
-              <UserCard key={`whitelist_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="whitelist" />
+              <UserCard key={`whitelist_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="whitelist" page={page} />
             );
           })}
         </div>

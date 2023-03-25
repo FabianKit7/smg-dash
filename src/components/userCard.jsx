@@ -3,7 +3,7 @@ import { TbRefresh } from "react-icons/tb";
 import { countDays, deleteAccount, numFormatter, updateUserProfilePicUrl } from "../helpers";
 import avatarImg from "../images/avatar.svg"
 
-export default function UserCard({ item, addSuccess, setAddSuccess, from }) {
+export default function UserCard({ item, addSuccess, setAddSuccess, from, page }) {
     return (
         <div className="rounded-[4px] border-[#E0E0E0] border border-solid flex justify-between p-3">
             <div className="flex gap-3">
@@ -29,7 +29,7 @@ export default function UserCard({ item, addSuccess, setAddSuccess, from }) {
                             size={20}
                         />
                     </div>
-                    {item && <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
+                    {item && page === 'admin' && <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
                         <TbRefresh className="text-[#8C8C8C] font-semibold cursor-pointer" onClick={async () => {
                             await updateUserProfilePicUrl(item, from)
                             setAddSuccess(!addSuccess)

@@ -12,7 +12,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Blacklist({ userId }) {
+export default function Blacklist({ userId, page }) {
   const [blacklistAccounts, setBlacklistAccounts] = useState([]);
   const [accountName, setAccountName] = useState("");
   const [selectAccountName, setSelectedAccountName] = useState("");
@@ -111,7 +111,7 @@ export default function Blacklist({ userId }) {
         <div className="grid p-5 md:p-8 gap-4">
           {blacklistAccounts.map((item, index) => {
             return (
-              <UserCard key={`blacklist_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="blacklist" />
+              <UserCard key={`blacklist_${index}`} item={item} setAddSuccess={setAddSuccess} addSuccess={addSuccess} from="blacklist" page={page} />
             );
           })}
         </div>

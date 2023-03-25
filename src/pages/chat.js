@@ -5,7 +5,7 @@ import { supabase } from '../supabaseClient';
 export default function Chat() {
   let { id } = useParams();
   const [user, setUser] = useState()
-  const [newMsg, setNewMsg] = useState(true)
+  const [newMsg, setNewMsg] = useState(false)
   const [loading, setLoading] = useState(false)
   // const navigate = useNavigate()
 
