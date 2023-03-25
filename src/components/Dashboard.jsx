@@ -120,8 +120,6 @@ export default function Dashboard() {
 
   if (error) return <Error value={id} />;
 
-  // console.log(data?.user_id);
-
   return (<>
     <Nav />
     <div className="container mx-auto px-6">

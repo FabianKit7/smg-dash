@@ -209,11 +209,16 @@ export default function DashboardApp() {
   }
   const [showStatus, setshowStatus] = useState(false)
   const [statusChgCaller, setStatusChgCaller] = useState()
+  
   const changeStatus = async (status) => {
+    console.log(status, statusChgCaller);
     const { data, error } = await supabase
       .from("users")
       // .select()
-      .update({ status }).eq('user_id', statusChgCaller);
+      .update({ status })
+      .match({ user_id: statusChgCaller })
+      // .eq('user_id', statusChgCaller);
+
     console.log(data, error)
     !error && window.location.reload();
   }
@@ -668,7 +673,7 @@ export default function DashboardApp() {
               </nav>}
             </div>
 
-              <br />
+            <br />
           </div>
         </div>
         {showChargebee && <Chargebee key={selectedUser.id} k={selectedUser.id} user={selectedUser} setShowChargebee={setShowChargebee} />}

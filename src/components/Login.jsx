@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
+import { getUser } from "../helpers";
 import { supabase } from "../supabaseClient";
 
 export default function Login() {
@@ -12,7 +13,9 @@ export default function Login() {
   useEffect(() => {
     const getData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (user) return navigate(`/dashboard/${user?.id}`)
+      const u = user ? await getUser(user?.id) : null
+      if (u.status === 200) return navigate(`/dashboard/${u?.obj.username}`)
+      console.log(u);
     };
 
     getData();
@@ -20,20 +23,30 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const authUserObj = await supabase.auth.signInWithPassword({
       email,
       password,
     })
 
-    if (data.user) {
-      window.location = `/dashboard/${data.user?.id}`;
-    }
-    if (error) console.log(error.message);
-    if (error.message === 'Invalid login credentials') {
-      alert(`${error.message}, please check your credentials and try again`);
+    if (authUserObj?.data?.user) {
+      const user = await getUser(authUserObj?.data?.user?.id)
+      if (user.status === 500) {
+        console.log(user.obj);
+        alert('an error occured')
+        return 
+      }else{
+        navigate(`/dashboard/${user?.obj?.username}`)
+      // window.location = `/dashboard/${authUser?.data?.user?.username}`;
+      }
       return;
     }
-    if (error?.message === `Cannot read properties of null (reading 'id')`) {
+  
+    if (authUserObj.error) console.log(authUserObj.error.message);
+    if (authUserObj.error.message === 'Invalid login credentials') {
+      alert(`${authUserObj.error.message}, please check your credentials and try again`);
+      return;
+    }
+    if (authUserObj.error?.message === `Cannot read properties of null (reading 'id')`) {
       alert('User not found please try again or register')
     } else {
       alert('An error occurred, please try again')
@@ -41,17 +54,19 @@ export default function Login() {
   }
 
   async function signInWithGoogle() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
     })
-    if (data.user) {
+    const authUser = await supabase.auth.getUser()
+    if (authUser?.data?.user) {
       const { data, error } = await supabase
         .from('users')
         .select('*')
+        .eq('user_id', authUser?.data?.user?.id)
 
       if (data?.user) {
         // window.location = `/dashboard/${data.user?.user_id}`;
-        window.location = `/dashboard/${data.user?.username}`;
+        window.location = `/dashboard/${authUser?.data.user?.username}`;
       } else {
         console.log({ error })
         alert(error.message)

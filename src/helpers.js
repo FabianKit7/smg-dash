@@ -1,6 +1,7 @@
 // import Axios from 'axios'
 import axios from "axios"
 import _ from 'lodash';
+// import { slackClient } from "./slackClient";
 import { supabase } from "./supabaseClient"
 const craperAPI = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile"
 
@@ -137,6 +138,7 @@ export const getAccount = async (account) => {
 
   return userResults
 }
+
 export const searchAccount = _.memoize(async (username) => {
   const options = {
     method: "GET",
@@ -293,36 +295,31 @@ export const deleteUserWhitelist = async (user_id) => {
   // return data
 }
 
-// const growthDifference = (current, previous) => {
-//   let percentage = Math.round(100 - ((current/previous) * 100))
-//   if (current < previous) {
-//     return percentage * (-1)
-//   } else if (current > previous) {
-//     return percentage
-//   }
-// }
+export const getUser = async (uid) => {
+  var error;
+  if (uid) {
+    const userObj = await supabase
+      .from('users')
+      .select('*')
+      .eq('user_id', uid)
+    error = userObj.error
+    const r = { status: 200, obj: userObj?.data?.[0] }
+    console.log(r);
+    return r;
+  }
+  return { status: 500, obj: error };
+}
 
-// const differenceDisplay = (currentVal, previousVal) => {
-//   let growth = growthDifference(currentVal, previousVal);
-//   if (Math.sign(growth) === 1) {
-//     return (
-//       <p className="text-muted mb-0" style={{fontSize: '0.8rem'}}>
-//         <span style={{color: 'green'}} className="mr-2">
-//           <i className="fas fa-long-arrow-alt-up mr-1" />
-//           {growth}%
-//         </span>
-//         More than last {dropDown === "Daily" ? 'day' : 'month'}
-//       </p>
-//     );
-//   }
-
-//   return (
-//     <p className="text-muted mb-0" style={{fontSize: '0.8rem'}}>
-//       <span style={{color: 'red'}} className="mr-2">
-//         <i className="fas fa-long-arrow-alt-down mr-1" />
-//         {growth}%
-//       </span >
-//       Less than last {dropDown === "Daily" ? 'day' : 'month'}
-//     </p>
-//   );
-// }
+export const messageSlack = async (message) => {
+  // const r = await axios.post('http://localhost:8000/api/notify', {
+  const r = await axios.post(process.env.REACT_APP_BASE_URL+'/api/notify', {
+    message
+  }).then(r => {
+    // console.log(r);
+    return r
+  })
+  .catch((e) => {
+    console.log(e);
+  })
+  return r
+}

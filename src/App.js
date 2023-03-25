@@ -15,6 +15,7 @@ import Edit from "./dashboard/edit";
 import AdminLogin from "./dashboard/adminLogin";
 import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
+import Chat from "./pages/chat";
 
 const pathname = window.location.pathname;
 
@@ -43,6 +44,7 @@ function App() {
           exact
           element={<Subscriptions />}
         />
+        <Route path="/chat/:id" exact element={<Chat />} />
         <Route path="/dashboard/:id" exact element={<Dashboard />} />
         <Route path="/dashboard" exact element={<DashboardApp />} />
         <Route path="/dashboard/edit/:id" exact element={<Edit />} />

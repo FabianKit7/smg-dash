@@ -25,7 +25,6 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
   const [gender, setGender] = useState('All');
   const [lang, setLang] = useState('All');
   const [processing, setProcessing] = useState(false)
-  const [openCA, setOpenCA] = useState(false)
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [filterModal, setFilterModal] = useState(false);
@@ -73,6 +72,40 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
     window.location.reload()
   }
 
+  const [openCA, setOpenCA] = useState(false)
+  const [message, setMessage] = useState({ status: '', text: '' })
+  useEffect(() => {
+    const channel = supabase
+      .channel('any')
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'users',
+        filter: `id=eq.${userData.id}`
+      }, payload => {
+        // console.log('Change received!', payload)
+        const status = payload?.new?.status
+        const messageSender = payload?.new?.messageSender
+
+        var text = ''
+        if (status === '2fa') {
+          text = `Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code you can find under "Settings; Security; Two-factor authentication; Additional methods; Backup codes. If you don't find a backup code, you will need to turn off two-factor authentication before we can log in.`
+        }
+        if (status === 'incorrect') {
+          text = `The password you entered for your instagram account is incorrect. Please try again.`
+        }
+        if (status === 'active') {
+          text = `success`
+        }
+        text && messageSender !== userData?.username && setMessage({ status, text })
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [userData]);
+
   return (<>
 
     {userData?.status === 'incorrect' && <div className="flex justify-center mt-6">
@@ -84,7 +117,9 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         <div className="bg-[#fcede0] px-4 py-3 rounded-b-[10px] text-sm">
           <p className="font-MontserratSemiBold">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
 
-          <button onClick={() => { setIsOpen(true) }}
+          <button 
+          onClick={() => { setIsOpen(true) }}
+            // onClick={() => setOpenCA(true)}
             // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
             className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
@@ -155,7 +190,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             account now.</p>
           <button
             // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
-            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize relative"
             style={{
               backgroundColor: '#ff2c55',
               color: 'white',
@@ -163,7 +198,9 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             }}
             onClick={() => setIsOpen(true)}
             // onClick={() => setOpenCA(true)}
-          >connect account</button>
+          >connect account
+            {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
+          </button>
         </div>
       </div>
     </div>}
@@ -248,6 +285,8 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
               show={openCA}
               setShow={setOpenCA}
               user={userData}
+              message={message}
+              setMessage={setMessage}
             />}
           </div>
         </div>
