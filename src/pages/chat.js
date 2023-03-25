@@ -97,14 +97,14 @@ export default function Chat() {
         <p className="animate-pulse">replying...</p>
       </div>}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="w-32 text-center mx-auto mb-3 py-4 px-6 bg-orange-600 text-white font-bold cursor-pointer rounded-md flex items-center gap-2" onClick={() => send('2fa')}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-10 w-full">
+        <div className="w-full md:w-32 mx-auto mb-3 py-4 px-6 bg-orange-600 text-white font-bold cursor-pointer rounded-md flex justify-center" onClick={() => send('2fa')}>
           2fa
         </div>
-        <div className="w-32 text-center mx-auto mb-3 py-4 px-6 bg-red-600 text-white font-bold cursor-pointer rounded-md flex items-center gap-2" onClick={() => send('incorrect')}>
+        <div className="w-full md:w-32 mx-auto mb-3 py-4 px-6 bg-red-600 text-white font-bold cursor-pointer rounded-md flex justify-center " onClick={() => send('incorrect')}>
           incorrect
         </div>
-        <div className="w-32 text-center mx-auto mb-3 py-4 px-6 bg-green-600 text-white font-bold cursor-pointer rounded-md flex items-center gap-2" onClick={() => send('active')}>
+        <div className="w-full md:w-32 mx-auto mb-3 py-4 px-6 bg-green-600 text-white font-bold cursor-pointer rounded-md flex justify-center" onClick={() => send('active')}>
           successful
         </div>
       </div>
