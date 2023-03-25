@@ -39,7 +39,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
         if (error) return alert(error.message);
 
         try {
-            const msg = `NEW_PASSWORD!: @${user.username} want's to connect their account. <https://app.sproutysocial.com/chat/${user.username}|click here to check>`;
+            const msg = `NEW_PASSWORD!: @${user.username} want's to connect their account. <${window.location.origin}/chat/${user.username}|click here to check>`;
             await messageSlack(msg);
             // console.log(r);
         } catch (error) {
@@ -62,7 +62,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
             }).eq('id', user.id);
 
         try {
-            const msg = `NEW_2fa!: @${user.username} submitted their 2fa code. <https://app.sproutysocial.com/chat/${user.username}|click here to check>`;
+            const msg = `NEW_2fa!: @${user.username} submitted their 2fa code. <${window.location.origin}/chat/${user.username}|click here to check>`;
             await messageSlack(msg);
             // console.log(r);
         } catch (error) {
