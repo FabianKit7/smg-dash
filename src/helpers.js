@@ -311,12 +311,13 @@ export const getUser = async (uid) => {
 }
 
 export const messageSlack = async (message) => {
-  const baseUrl = process.env.REACT_APP_BASE_URL
-  // const baseUrl = 'http://localhost:8000'
+  // const baseUrl = process.env.REACT_APP_BASE_URL
+  const baseUrl = 'http://localhost:8000'
 
   console.log({ message });
   
   const r = await axios.post(baseUrl + '/api/notify', {
+    webhookUrl: 'https://hooks.slack.com/services/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',
     message
   }).then(r => {
     console.log(r);
