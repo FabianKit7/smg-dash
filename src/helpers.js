@@ -311,15 +311,19 @@ export const getUser = async (uid) => {
 }
 
 export const messageSlack = async (message) => {
-  // const r = await axios.post('http://localhost:8000/api/notify', {
-  const r = await axios.post(process.env.REACT_APP_BASE_URL+'/api/notify', {
+  // const baseUrl = process.env.REACT_APP_BASE_URL
+  const baseUrl = 'http://localhost:8000'
+
+  console.log({ message });
+  
+  const r = await axios.post(baseUrl + '/api/notify', {
     message
   }).then(r => {
-    // console.log(r);
+    console.log(r);
     return r
   })
-  .catch((e) => {
-    console.log(e);
-  })
+    .catch((e) => {
+      console.log(e);
+    })
   return r
 }
