@@ -311,8 +311,8 @@ export const getUser = async (uid) => {
 }
 
 export const messageSlack = async (message) => {
-  // const baseUrl = process.env.REACT_APP_BASE_URL
-  const baseUrl = 'http://localhost:8000'
+  const baseUrl = process.env.REACT_APP_BASE_URL
+  // const baseUrl = 'http://localhost:8000'
 
   console.log({ message });
   
