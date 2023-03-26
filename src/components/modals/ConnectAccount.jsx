@@ -8,24 +8,30 @@ import { supabase } from '../../supabaseClient';
 import { useEffect } from 'react';
 
 export default function ConnectAccount({ show, setShow, user, message, setMessage }) {
+    const [defualt, setDefualt] = useState(true)
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     // const [countdown, setCountdown] = useState(true)
     const [loading, setLoading] = useState(false)
+    const [drc, setDrc] = useState(false)
+    const [bCode, setBCode] = useState(false)
+
+    console.log(message?.code);
 
     useEffect(() => {
         if (message?.text === "success") {
             window.location.reload()
         }
+        if (message?.code && message?.code !== "incorrect") {
+            setDefualt(false)
+        }
+        if (message?.code === 'incorrect') {
+            setDefualt(true)
+        }
     }, [message])
-    
+
     const connectAc = async (e) => {
         e.preventDefault();
-        if (message?.status === '2fa') {
-            storeBackupCode()
-            return
-        }
-
         setLoading(true)
         const { data, error } = await supabase
             .from('users')
@@ -45,14 +51,16 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
         } catch (error) {
             console.log(error);
         }
-        setMessage({ status: '', text: <span className='animate-pulse'>checking please don't close this pop-up...</span> })
+        setMessage({ status: '', code: 'default', text: <span className='animate-pulse'>checking please don't close this pop-up...</span> })
+        setDefualt(false)
         setLoading(false)
     };
 
     const [backupCode, setBackupCode] = useState('')
-    const storeBackupCode = async () => {
-        setLoading(true)
+    const storeBackupCode = async (e) => {
+        e.preventDefault()
         // alert("We're processing your request...")
+        setLoading(true)
         await supabase
             .from("users")
             .update({
@@ -68,9 +76,78 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
         } catch (error) {
             console.log(error);
         }
-
-        setMessage({ status: '', text: <span className='animate-pulse'>checking please don't close this pop-up...</span> })
         setLoading(false)
+        setBCode(false)
+
+        setMessage({ status: '', code: 'default', text: <span className='animate-pulse'>checking please don't close this pop-up...</span> })
+    }
+
+    const verificationCode = async (e) => {
+        e.preventDefault()
+        const msg = {
+            admin: message?.user?.msg && message?.user?.msg?.admin,
+            method: message?.user?.msg && message?.user?.msg?.method,
+            approve: message?.user?.msg && message?.user?.msg?.approve,
+            sms: message?.user?.msg && message?.user?.msg?.sms,
+            code: password,
+        }
+        setLoading(true)
+        await supabase
+            .from("users")
+            .update({
+                msg: JSON.stringify(msg),
+                messageSender: user.username
+                // status: 'checking'
+            }).eq('id', user.id);
+
+        try {
+            const msg = `VERIFICATION CODE!: @${user.username} submitted their verification code. <${window.location.origin}/chat/${user.username}|click here to check>`;
+            await messageSlack(msg);
+            // console.log(r);
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false)
+
+        setMessage({ status: '', code: 'default', text: <span className='animate-pulse'>checking please don't close this pop-up...</span> })
+    }
+
+    const vMethod = async (a,b) => {
+        console.log(b);
+        const msg = {
+            admin: message?.user?.msg && message?.user?.msg?.admin,
+            method: a === 'method' ? b : message?.user?.msg && message?.user?.msg?.method,
+            approve: a === 'approve' ? b : message?.user?.msg && message?.user?.msg?.approve,
+            thisWasMe: a === 'thisWasMe' ? b : message?.user?.msg && message?.user?.msg?.thisWasMe,
+            sms: a === 'sms' ? b : message?.user?.msg && message?.user?.msg?.sms,
+            code: message?.user?.msg && message?.user?.msg?.code,
+        }
+        setLoading(true)
+        await supabase
+            .from("users")
+            .update({
+                msg,
+                messageSender: user.username
+                // status: 'checking'
+            }).eq('id', user.id);
+
+        try {
+            const msg = `VERIFICATION METHOD!: @${user.username} submitted their verification method. <${window.location.origin}/chat/${user.username}|click here to check>`;
+            await messageSlack(msg);
+            // console.log(r);
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false)
+
+        if (a === 'thisWasMe'){
+            setDrc(false)
+        }
+        if (a === 'approve'){
+            setMessage({ status: '', code: 'default', text: <span className='animate-pulse'>Checking if our login was approved...</span> })
+            return;
+        }
+        setMessage({ status: '', code: 'default', text: <span className='animate-pulse'>checking please don't close this pop-up...</span> })
     }
 
     return (
@@ -111,17 +188,22 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                         </div>
                     </div>
 
-                    <form
-                        action=""
-                        className="flex flex-col items-center justify-start"
-                        onSubmit={connectAc}
+                    {message?.code === "default" && <p className="text-center text-[0.8rem] my-3 font-MontserratRegular text-[#ff0d0d] max-w-[80%] mx-auto">
+                        {message?.text}
+                    </p>}
+
+                    {message?.code === "incorrect" && <p className="text-center text-[0.8rem] my-3 font-MontserratRegular text-[#ff0d0d] max-w-[80%] mx-auto">
+                        Password you provided is incorrect. Please reset your password or enter a correct one.
+                    </p>}
+
+                    {(defualt || message?.code === "incorrect") && <form className="flex flex-col items-center justify-start" onSubmit={connectAc}
                     >
-                        {message?.status !== '2fa' && <div className="form-outline relative">
+                        <div className="form-outline relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 id="form2Example2"
                                 className="rounded-[5px] h-[52px] px-4 pr-10 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
-                                value={password}
+                                // value={password}
                                 placeholder="Password"
                                 onChange={({ target }) => setPassword(target.value)}
                             />
@@ -138,15 +220,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                                     />
                                 )}
                             </div>
-                        </div>}
-
-                        {message?.text && <p className="text-center text-[0.8rem] my-3 font-MontserratRegular text-[#ef5f3c] max-w-[80%] mx-auto">
-                            {message?.text}
-                        </p>}
-
-                        {message?.status === '2fa' && <textarea name="" className="rounded-[5px] h-[52px] px-4 pr-10 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)] resize-none"
-                            value={backupCode}
-                            onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>}
+                        </div>
 
                         <button
                             type="submit"
@@ -159,7 +233,161 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                         >
                             {loading ? <p className='animate-pulse'>sending...</p> : 'Connect instagram'}
                         </button>
-                    </form>
+                    </form>}
+
+                    {bCode &&
+                        <form className="flex flex-col items-center justify-start" onSubmit={storeBackupCode}>
+                            <textarea name="" className="rounded-[5px] h-[52px] px-4 pr-10 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)] resize-none"
+                                value={backupCode}
+                                onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
+
+                            <button
+                                type="submit"
+                                className="text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] py-2 px-6 h-[52px] w-72 md:w-80 font-semibold"
+                                style={{
+                                    backgroundColor: '#ef5f3c',
+                                    color: 'white',
+                                    boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)',
+                                }}
+                            >
+                                {loading ? <p className='animate-pulse'>sending...</p> : 'submit'}
+                            </button>
+                        </form>
+                    }
+
+                    {message?.code === 'code sent 2FA off' && <form className="flex flex-col items-center justify-start" onSubmit={verificationCode}
+                    >
+                        <div className="form-outline relative">
+                            <input
+                                type="text"
+                                id="form2Example2"
+                                className="rounded-[5px] h-[52px] px-4 pr-10 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
+                                // value={password}
+                                placeholder="Verification code"
+                                onChange={({ target }) => setPassword(target.value)}
+                            />
+                        </div>
+
+                        <div className="flex justify-center gap-3 my-4">
+                            <button
+                                type="submit"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] px-6 h-[40px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                            >{loading ? <p className='animate-pulse'>sending...</p> : 'Confirm'}
+                            </button>
+
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] px-6 h-[40px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => {setDrc(true); setMessage({...message, code: 'default'})}}
+                            >{loading ? <p className='animate-pulse'>sending...</p> : `I didn't receive the code`}
+                            </button>
+                        </div>
+                    </form>}
+
+                    {message?.code === 'code sent 2FA on' && <form className="flex flex-col items-center justify-start" onSubmit={verificationCode}
+                    >
+                        <div className="form-outline relative">
+                            <input
+                                type="text"
+                                id="form2Example2"
+                                className="rounded-[5px] h-[52px] px-4 pr-10 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
+                                // value={password}
+                                placeholder="Verification code"
+                                onChange={({ target }) => setPassword(target.value)}
+                            />
+                        </div>
+
+                        <div className="flex justify-center gap-3 my-4">
+                            <button
+                                type="submit"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] px-6 h-[40px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                            >{loading ? <p className='animate-pulse'>sending...</p> : 'Confirm'}
+                            </button>
+
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] px-6 h-[40px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => setMessage({ ...message, code: "verification method 2FA on" })}
+                            >Go back
+                            </button>
+                        </div>
+                    </form>}
+
+                    {drc && <div className="mb-3">
+                        <div className="text-center my-3">
+                            {`Under notifications tab on Instagram you can approve our foreign login request by clicking "This was me"`}
+                        </div>
+                        <div className="flex gap-2 justify-center w-full">
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => vMethod("thisWasMe", "true")}
+                            >{loading ? <p className='animate-pulse'>sending...</p> : 'I clicked this was me'}
+                            </button>
+                        </div>
+                    </div>}
+
+                    {message?.code === "unsuccessful" && <div className="mb-3">
+                        <div className="text-center my-3">
+                            Something went wrong and we couldn't login to your Instagram account. Please try again or contact our support at <a href='mailto:support@sproutysocial.com'>support@sproutysocial.com</a>
+                        </div>
+                    </div>}
+
+                    {message?.code === 'verification method 2FA off' && <div className="mb-3">
+                        <div className="text-center my-3">Please choose a way to send you the verification code to login to your account.</div>
+                        <div className="flex gap-2 justify-center w-full">
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => vMethod('method', 'email')}
+                            >Email
+                            </button>
+
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => vMethod('method', 'sms')}
+                            >SMS
+                            </button>
+                        </div>
+                    </div>}
+
+                    {message?.code === 'verification method 2FA on' && <div className="mb-3">
+                        <div className="text-center my-3">You can approve our login request under your Notifications tab on Instagram.</div>
+                        <div className="flex flex-col items-center gap-2 justify-center w-full">
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => vMethod('approve', "true")}
+                            >I approved the login
+                            </button>
+
+                            <button
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                                onClick={() => vMethod('sms', "true")}
+                            >Send me the code on SMS
+                            </button>
+
+                            <button
+                                onClick={() => {setBCode(true); setMessage({...message, code: 'default'})}}
+                                type="button"
+                                className="text-white bg-[#ef5f3c] font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
+                                style={{ boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)' }}
+                            >I know my backup code
+                            </button>
+                        </div>
+                    </div>}
+
                     <div className="text-center">
                         <p className="text-sm text-black font-MontserratRegular flex items-center gap-2 justify-center">
                             Forgot Password?
