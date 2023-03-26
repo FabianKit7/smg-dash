@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { updateUserProfilePicUrl } from "../../helpers";
 import { supabase } from "../../supabaseClient";
@@ -11,57 +12,106 @@ export default function Admin() {
   const [Loading, setLoading] = useState(false);
   const [reading, setReading] = useState(false)
 
+  let receipts = [];
+  let receiptsRead = [];
+  let currentReceipt = null;
+  var list = []
+  
+  const receiptReader = new FileReader();
+  receiptReader.onloadend = (e) => {
+    // const loadSucceeded = (e.error === undefined) ? true : false;
+    // console.log(`${currentReceipt.name}: ${e.loaded} of ${e.total} loaded. success: ${loadSucceeded}`);
+    const data = JSON.parse(e.target.result)
+    list.push({ data, username: data?.[0]?.args?.username })
+    receiptsRead.push(currentReceipt);
+    readNextReceipt();
+  };
+
+  function readNextReceipt() {
+    if (receiptsRead.length < receipts.length) {
+      currentReceipt = receipts[receiptsRead.length];
+      // receiptReader.readAsArrayBuffer(currentReceipt);
+      receiptReader.readAsText(currentReceipt, "UTF-8");
+    } else {
+      // console.log('All receipts have been read.');
+      setReading(false)
+      setFiles(list);
+    }
+  }
+
   const handleChange = e => {
     setReading(true)
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0], "UTF-8");
-    fileReader.onload = e => {
-      // console.log("e.target.result", e.target.result);
-      const data = JSON.parse(e.target.result)
-      setUsername(data[0].args.username);
-      setFiles(e.target.result);
-    };
-    setReading(false)
+    receipts = e.target.files;
+    receiptsRead = [];
+
+    console.log('Reading receipts...');
+    readNextReceipt();
+
+    // setFiles(e.target.files)
+    // setReading(true)
+    // const fileReader = new FileReader();
+    // // console.log(e?.target?.files);
+    // var files = e?.target?.files
+    // let index = 0
+    // var fileRead = []
+
+    // setInterval(() => {
+    //   var file = files[fileRead.length]
+    //   fileReader.readAsText(file, "UTF-8");
+    //   fileReader.onload = e => {
+    //     // console.log("e.target.result", e.target.result);
+    //     const data = JSON.parse(e.target.result)
+    //     setUsername(data[0].args.username);
+    //     const r = e.target.result
+    //     console.log(r);
+    //     // setFiles({...files, r});
+    //   };
+    // }, 50);
+
+    // for (const file of files) {
+    //   // do something with the file, for example:
+    //   console.log(file);
+
+    //     fileReader.readAsText(file, "UTF-8");
+    //     fileReader.onload = e => {
+    //       // console.log("e.target.result", e.target.result);
+    //       const data = JSON.parse(e.target.result)
+    //       console.log(data);
+    //       setUsername(data[0].args.username);
+    //       const r = e.target.result
+    //       setFiles({...files, r});
+    //     };
+    // }
+    // setReading(false)
   };
+
 
   const handleUploadSessionFile = async () => {
     setLoading(true);
-    // console.log(files);
-    // await files.reduce(async (ref, data) => {
-    //   await ref;
-    //   const { error } = await supabase
-    //     .from("sessions")
-    //     .upsert({
-    //       username: data.args.username,
-    //       start_time: data.start_time,
-    //       finish_time: data.finish_time,
-    //       total_interactions: data.total_interactions,
-    //       successful_interactions: data.successful_interactions,
-    //       total_followed: data.total_followed,
-    //       total_likes: data.total_likes,
-    //       total_comments: data.total_comments,
-    //       total_pm: data.total_pm,
-    //       total_watched: data.total_watched,
-    //       total_unfollowed: data.total_unfollowed,
-    //       total_scraped: data.total_scraped,
-    //       profile: data.profile
-    //     })
-    //   error && console.log(error)
-    // }, Promise.resolve());
-    if (!username) return setLoading(false);
-    const { error } = await supabase
-      .from("sessions")
-      .upsert({
-        username: username,
-        data: files
-      })
-    error && console.log(error);
+    // const username = 'dev_cent'
+    // if (!username) return setLoading(false);
+    await files.reduce(async (ref, file) => {
+      await ref;
+      const username = file?.username
+      const { error } = await supabase
+        .from("sessions")
+        .upsert({
+          username,
+          data: file.data
+        })
+      error && console.log(error);
+      console.log(username);
+      // console.log(file);
+    }, Promise.resolve());
+
+
 
     alert('Upload successfull!');
     document.getElementById('input').value = '';
     setFiles([])
     setLoading(false);
   }
+
 
   const updateSub = async () => {
     setLoading(true);
@@ -72,11 +122,11 @@ export default function Admin() {
       .select('*')
       .limit(100)
       .eq("imageUrlChanged", false)
-      console.log(data);
+    console.log(data);
 
     error && console.log(error);
     if (error) return;
-    
+
     var count = 0
     console.log('initial: ', count);
 
@@ -102,7 +152,7 @@ export default function Admin() {
 
   //   error && console.log(error);
   //   if (error) return;
-    
+
   //   var count = 0
   //   console.log('initial: ', count);
 
@@ -125,7 +175,7 @@ export default function Admin() {
         <h1 className="mb-5">Upload session file (Json)</h1>
 
         <div className="flex items-center gap-5">
-          <input type="file" id="input" onChange={handleChange} />
+          <input type="file" id="input" onChange={handleChange} multiple accept="application/JSON" />
           {reading && (<Spinner animation="border" />)}
         </div>
 
