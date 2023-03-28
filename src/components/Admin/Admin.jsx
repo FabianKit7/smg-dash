@@ -112,7 +112,6 @@ export default function Admin() {
     setLoading(false);
   }
 
-
   const updateSub = async () => {
     setLoading(true);
 

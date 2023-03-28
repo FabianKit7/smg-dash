@@ -36,6 +36,7 @@ export default function DashboardApp() {
   const [openRefreshModal, setOpenRefreshModal] = useState(false)
   const navigate = useNavigate()
 
+  // verify user
   useEffect(() => {
     const fetch = async () => {
       const { data: { user } } = await supabase.auth.getUser()
@@ -58,6 +59,7 @@ export default function DashboardApp() {
     fetch()
   }, [navigate])
 
+  // init datepicker
   useEffect(() => {
     if (user?.admin) {
       const datepickerEl = document.getElementById('datepickerId');
@@ -87,7 +89,7 @@ export default function DashboardApp() {
     }
   }, [user])
 
-
+  // add changeDate eventlisterner to datepicker
   useEffect(() => {
     if (user?.admin && originalUsers) {
       const sidenav = document.getElementById("datepickerId");
@@ -114,11 +116,15 @@ export default function DashboardApp() {
     }
   }, [originalUsers, user])
 
+  // get all users
   useEffect(() => {
     const fetch = async () => {
       const { data, error } = await supabase
         .from('users')
         .select('*')
+        .limit(3000)
+        // .limit(900)
+        // .eq('status', 'active')
       error && console.log(error);
       if (error) return;
 
@@ -148,6 +154,7 @@ export default function DashboardApp() {
     }, 10);
   }
 
+  // handle search
   useEffect(() => {
     if (searchTerm) {
       setTimeout(async () => {

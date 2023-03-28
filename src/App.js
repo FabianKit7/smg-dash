@@ -17,20 +17,21 @@ import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 
-const pathname = window.location.pathname;
+// const pathname = window.location.pathname;
 
 function App() {
-  useEffect(() => {
-    window.Chargebee.init({
-      site: "honeycomics-v3-test",
-      publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
-    })
-  }, [])
+  // useEffect(() => {
+  //   window.Chargebee.init({
+  //     site: "honeycomics-v3-test",
+  //     publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
+  //   })
+  // }, [])
 
   return (
     <>
+    {/* <nav>slkdfjl</nav> */}
       <Routes>
-        {/* <Route index element={<Home />} /> */}
+        {/* <Route path="/" element={<Home />} /> */}
         <Route index element={<Login />} />
         <Route path="/search" element={<Search />} />
         <Route path="/login" exact element={<Login />} />
