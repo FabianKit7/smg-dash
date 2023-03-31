@@ -127,6 +127,8 @@ export default function DashboardApp() {
         // .eq('status', 'active')
       error && console.log(error);
       if (error) return;
+      
+      console.log("all user: ", data.length);
 
       // const filtered = data.filter(user => user.username !== '')
       // setUsers(filtered);
@@ -144,13 +146,23 @@ export default function DashboardApp() {
     fetch()
   }, [user])
 
-  const filterByStatus = (status) => {
+  const filterByStatus = async (status) => {
     document.getElementById("datepickerId").value = ''
     document.getElementById("table-search").value = ''
-    var a = originalUsers.filter(user => (user.status).toLowerCase() === status.toLowerCase())
+    // var a = originalUsers.filter(user => (user.status).toLowerCase() === status.toLowerCase())
+    // console.log("a.length",a.length);
+    const { data, error } = await supabase
+    .from('users')
+      .select('*')
+      .eq("status", status.toLowerCase())
+      .limit(3000)
+    error && console.log(error);
+    if (error) return;
+    console.log("data.length",data.length);
+    
     setUsers()
     setTimeout(() => {
-      setUsers(a)
+      setUsers(data)
     }, 10);
   }
 
