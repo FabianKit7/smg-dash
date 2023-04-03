@@ -19,8 +19,8 @@ export default function ForgetPassword() {
 
     const handleSendResetLink = async (e) => {
         e.preventDefault()
-        console.log(window.location.origin + '/reset-password');
-        return;
+        // console.log(window.location.origin + '/reset-password');
+        // return;
         setLoading(true)
         if (!email) return alert()
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
