@@ -116,8 +116,8 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
           <p className="font-MontserratSemiBold">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
 
           <button 
-          // onClick={() => { setIsOpen(true) }}
-            onClick={() => setOpenCA(true)}
+          onClick={() => { setIsOpen(true) }}
+            // onClick={() => setOpenCA(true)}
             // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
             className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
             style={{
@@ -194,8 +194,8 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
               color: 'white',
               boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
             }}
-            // onClick={() => setIsOpen(true)}
-            onClick={() => setOpenCA(true)}
+            onClick={() => setIsOpen(true)}
+            // onClick={() => setOpenCA(true)}
           >connect account
             {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
           </button>
