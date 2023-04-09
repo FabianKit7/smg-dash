@@ -31,8 +31,8 @@ export default function Subscriptions() {
   const [userResults, setUserResults] = useState(null);
   // const [error, setError] = useState(false);
   const [Loading, setLoading] = useState(false);
-  const [showCardComponent, setShowCardComponent] = useState(true);
-  const [cbInstance, setCbInstance] = useState()
+  // const [showCardComponent, setShowCardComponent] = useState(true);
+  // const [cbInstance, setCbInstance] = useState()
   // error && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", error)
   // username && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", username)
 
@@ -109,7 +109,7 @@ export default function Subscriptions() {
         publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
       })
       const instance = window?.Chargebee?.getInstance()
-      setCbInstance(instance);
+      // setCbInstance(instance);
       const { data: { user } } = await supabase.auth.getUser()
       instance.setPortalSession(async () => {
         // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
@@ -428,59 +428,60 @@ export default function Subscriptions() {
                 {/* <CardComponent ref={cardRef} onChange={(e) => onChange(e)} /> */}
                 {/* <CardComponent ref={cardRef} onChange={(e) => onChange(e)} /> */}
                 <>
-                  {showCardComponent &&
+                  <CardComponent
+                    ref={cardRef}
+                    className="fieldset field"
+                    onChange={() => { }}
+                    styles={styles}
+                    // classes={classes}
+                    locale={'en'}
+                    placeholder={'placeholder'}
+                    fonts={fonts}
+                    onSubmit={onSubmit}
+                    onReady={onReady}
+                  >
+                    <div className="ex1-field mb-5" id='num'>
+                      <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
+                      <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i>
+                    </div>
+
+                    <div className="ex1-fields">
+                      <div className="ex1-field mb-5">
+                        <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
+                        <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i>
+                      </div>
+
+                      <div className="ex1-field">
+                        <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
+                        <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i>
+                      </div>
+
+                    </div>
+                  </CardComponent>
+                  {/* {showCardComponent &&
                     // <Provider cbInstance={cbInstance}>
-                    <CardComponent
-                      ref={cardRef}
-                      className="fieldset field"
-                      onChange={() => { }}
-                      styles={styles}
-                      // classes={classes}
-                      locale={'en'}
-                      placeholder={'placeholder'}
-                      fonts={fonts}
-                      onSubmit={onSubmit}
-                      onReady={onReady}
-                    >
-                      <div className="ex1-field mb-5" id='num'>
-                        <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
-                        <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i>
-                      </div>
-
-                      <div className="ex1-fields">
-                        <div className="ex1-field mb-5">
-                          <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
-                          <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i>
-                        </div>
-
-                        <div className="ex1-field">
-                          <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
-                          <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i>
-                        </div>
-
-                      </div>
-                    </CardComponent>
                     // </Provider>
-                  }
+                  } */}
                 </>
-                {showCardComponent && <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
-                  style={{
-                    backgroundColor: '#ef5f3c',
-                    color: 'white',
-                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                  }}
-                  onClick={() => {
-                    if(Loading) return alert('Please wait');
-                    handleOnClick()
-                  }}>
-                  <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
-                </button>}
+                  <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
+                    style={{
+                      backgroundColor: '#ef5f3c',
+                      color: 'white',
+                      boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                    }}
+                    onClick={() => {
+                      if (Loading) return alert('Please wait');
+                      handleOnClick()
+                    }}>
+                    <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
+                  </button>
+                {/* {showCardComponent && <></>} */}
                 {Loading && <div className="flex items-center py-3 gap-2 justify-center">
-                  <AiOutlineLoading3Quarters className="animate-spin"/>
-                <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
-                  We're processing your request, please wait...
-                </p>
-                </div>}                
+                  <AiOutlineLoading3Quarters className="animate-spin" />
+                  <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
+                    We're processing your request, please wait...
+                  </p>
+                </div>}
 
                 {/* {showCardComponent && <button className="bg-[#1b89ff] text-white font-MontserratSemiBold text-[16px] mt-5 w-full py-4 rounded-[10px] font-bold mb-4" onClick={() => handleOnClick()}>
                   <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
