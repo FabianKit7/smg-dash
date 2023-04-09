@@ -1,11 +1,13 @@
 import React, { } from "react";
 import { RxCaretRight } from "react-icons/rx"
+import CrispChat from "./CrispChat";
 import Nav from "./Nav";
 import SearchBox from "./search/SearchBox";
 
 export default function Search() {
 
   return (<>
+    <CrispChat />
     <Nav />
     
     <div className="container mx-auto px-6">

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import Blacklist from "./Blacklist";
 import ChartSection from "./ChartSection";
+import CrispChat from "./CrispChat";
 import Nav from "./Nav";
 import StatsCard from "./StatsCard";
 import StatsSection from "./StatsSection";

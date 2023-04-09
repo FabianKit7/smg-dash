@@ -7,6 +7,7 @@ import { TbRefresh, TbChecks } from "react-icons/tb";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import axios from 'axios'
+import CrispChat from "./CrispChat";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -383,6 +384,7 @@ export default function Subscriptions() {
 
   return (
     <>
+      <CrispChat />
       <script src="https://js.chargebee.com/v2/chargebee.js" ></script>
       <div className="container mx-auto px-6">
         <div className="flex flex-col justify-center items-center mt-12 md:mt-20">
