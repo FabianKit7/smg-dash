@@ -8,6 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import axios from 'axios'
 import CrispChat from "./CrispChat";
+import { getDownloadedFilePublicUrl, uploadImageFromURL } from "../helpers";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -169,6 +170,7 @@ export default function Subscriptions() {
       // console.log(customer);
 
       if (customer.message === 'success') {
+        var profile_pic_url;
         const create_subscription_for_customer_data = {
           customer_id: customer?.customer?.id,
           plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
@@ -180,6 +182,15 @@ export default function Subscriptions() {
           .then((response) => response.data)
         // console.log(subscriptionResult);
         if (subscriptionResult.message === 'success') {
+          const uploadImageFromURLRes  = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
+          // console.log(uploadImageFromURLRes);
+
+          if (uploadImageFromURLRes?.status === 'success') {
+            const publicUrl = getDownloadedFilePublicUrl(uploadImageFromURLRes?.data?.path)
+            // console.log(publicUrl?.data?.publicUrl);
+            profile_pic_url = publicUrl?.data?.publicUrl
+          }
+          
           let data = {
             chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
             chargebee_subscription_id: subscriptionResult.subscription?.id,
@@ -190,7 +201,8 @@ export default function Subscriptions() {
             email: user.email,
             followers: userResults?.data[0].follower_count,
             following: userResults?.data[0].following_count,
-            profile_pic_url: userResults?.data[0]?.profile_pic_url,
+            // profile_pic_url: userResults?.data[0]?.profile_pic_url,
+            profile_pic_url,
             is_verified: userResults?.data[0]?.is_verified,
             biography: userResults?.data[0]?.biography,
             start_time: getStartingDay(),

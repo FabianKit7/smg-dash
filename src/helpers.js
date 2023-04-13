@@ -304,7 +304,7 @@ export const getUser = async (uid) => {
       .eq('user_id', uid)
     error = userObj.error
     const r = { status: 200, obj: userObj?.data?.[0] }
-    console.log(r);
+    // console.log(r);
     return r;
   }
   return { status: 500, obj: error };
@@ -327,4 +327,32 @@ export const messageSlack = async (message) => {
       console.log(e);
     })
   return r
+}
+
+// Function to fetch and upload image in subscriptions.js 183
+export async function uploadImageFromURL(username, imageURL) {
+  // Fetch image data from URL
+  const response = await fetch(imageURL);
+  const imageData = await response.blob();
+
+  // Upload image to Supabase storage
+  const { data, error } = await supabase.storage.from('profilePictures').upload(`${username}.jpg`, imageData, { overwrite: true });
+
+  if (error.message === 'The resource already exists') {
+    return { status: 'success', data: {path: `${username}.jpg`}}
+  }
+  if (error) {
+    // console.log(error);
+    return {status: 'failed', data: error}
+  } else {
+    // console.log(`Image uploaded to ${data?.url}`);
+    return { status: 'success', data: data}
+  }
+}
+
+export function getDownloadedFilePublicUrl(path){
+  const publicUrl = supabase.storage
+    .from('profilePictures')
+    .getPublicUrl(path)
+  return publicUrl
 }
