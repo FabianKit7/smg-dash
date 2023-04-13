@@ -64,7 +64,7 @@ export default function Blacklist({ userId, page }) {
         .select()
         .eq("user_id", userId)
         .order('id', { ascending: false });
-      console.log(
+      error && console.log(
         "🚀 ~ file: Blacklist.jsx:46 ~ getTargetingAccounts ~ error",
         error
       );

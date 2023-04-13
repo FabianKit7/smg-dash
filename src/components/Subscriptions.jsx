@@ -8,7 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import axios from 'axios'
 import CrispChat from "./CrispChat";
-import { getDownloadedFilePublicUrl, uploadImageFromURL } from "../helpers";
+import { uploadImageFromURL } from "../helpers";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

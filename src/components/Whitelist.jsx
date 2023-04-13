@@ -65,7 +65,7 @@ export default function Whitelist({ userId, page }) {
         .select()
         .eq("user_id", userId)
         .order('id', { ascending: false });
-      console.log(
+      error && console.log(
         "🚀 ~ file: Whitelist.jsx:55 ~ getWhitelistedAccounts ~ error",
         error
       );

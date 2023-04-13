@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from "../supabaseClient";
 import Modal from 'react-modal';
-import { AsyncTypeahead } from "react-bootstrap-typeahead"
 import { IoClose } from 'react-icons/io5';
 import "../../src/modalsettings.css"
 import { getAccount, searchAccount, uploadImageFromURL } from '../helpers';
