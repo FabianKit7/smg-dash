@@ -206,7 +206,8 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       <div className="lg:flex md:grid md:grid-cols-1 md:gap-8 justify-between p-6 md:px-3 md:py-4">
         {/* Image Col */}
         <div className="flex flex-col md:flex-row justify-center items-center md:gap-10 ">
-          <img className="max-w-[200px] md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()} />
+          {/* <img className="max-w-[200px] md:mx-0 rounded-[50%]" src={avatar} alt={username?.charAt(0)?.toUpperCase()} /> */}
+          <img className="max-w-[200px] md:mx-0 rounded-[50%]" src="https://xhegppvlqrotnpejsiyc.supabase.co/storage/v1/object/public/profilePictures/dev_cent.jpg" alt={username?.charAt(0)?.toUpperCase()} />
           <div className="lg:ml-8">
             <h4 className="font-bold text-[1.5rem] text-gray20 text-center md:text-start font-MontserratBold">{name}</h4>
             <p className="font-normal font-MontserratSemiBold text-lg text-[#333] text-center md:text-start">

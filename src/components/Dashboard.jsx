@@ -40,7 +40,7 @@ export default function Dashboard() {
         .select()
         .eq('user_id', user.id)
 
-      // console.log(data);
+      console.log(data);
       if (user && !data[0]?.subscribed) {
         // const { data: delUser, error: delUserError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
         // console.log(delUser);
@@ -121,6 +121,8 @@ export default function Dashboard() {
   }, [setFilterModal]);
 
   if (error) return <Error value={id} />;
+
+  console.log("data?.profile_pic_url", data?.profile_pic_url);
 
   return (<>
     <Nav />

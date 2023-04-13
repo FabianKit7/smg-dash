@@ -336,17 +336,22 @@ export async function uploadImageFromURL(username, imageURL) {
   const imageData = await response.blob();
 
   // Upload image to Supabase storage
-  const { data, error } = await supabase.storage.from('profilePictures').upload(`${username}.jpg`, imageData, { overwrite: true });
+  const { data, error } = await supabase.storage
+  .from('profilePictures')
+  .upload(`${username}.jpg`, imageData, {
+    upsert: true
+  });
 
   // if (error.message === 'The resource already exists') {
   //   return { status: 'success', data: {path: `${username}.jpg`}}
   // }
   if (error) {
-    // console.log(error);
+    console.log(error);
     return {status: 'failed', data: error}
   } else {
-    // console.log(`Image uploaded to ${data?.url}`);
-    return { status: 'success', data: data}
+    // console.log(`Image uploaded to ${data}`);
+    const publicUrl = getDownloadedFilePublicUrl(data.path)
+    return { status: 'success', data: publicUrl?.data?.publicUrl }
   }
 }
 

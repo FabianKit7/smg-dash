@@ -186,9 +186,7 @@ export default function Subscriptions() {
           // console.log(uploadImageFromURLRes);
 
           if (uploadImageFromURLRes?.status === 'success') {
-            const publicUrl = getDownloadedFilePublicUrl(uploadImageFromURLRes?.data?.path)
-            // console.log(publicUrl?.data?.publicUrl);
-            profile_pic_url = publicUrl?.data?.publicUrl
+            profile_pic_url = uploadImageFromURLRes?.data
           }
           
           let data = {
@@ -217,7 +215,6 @@ export default function Subscriptions() {
 
           setLoading(false);
           navigate(`/dashboard/${username}`);
-          // window.location = `/dashboard/${username}`;
         } else {
           console.log('Error creating subscription:', subscriptionResult.error);
           alert('An error occurred, please try again or contact support')
