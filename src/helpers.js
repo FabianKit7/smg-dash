@@ -3,7 +3,7 @@ import axios from "axios"
 import _ from 'lodash';
 // import { slackClient } from "./slackClient";
 import { supabase } from "./supabaseClient"
-const craperAPI = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile"
+const scraperAPI = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile"
 
 export const numFormatter = (num = 0) => {
   if (num > 999 && num <= 999949) {
@@ -126,7 +126,7 @@ export const countDays = (day) => {
 export const getAccount = async (account) => {
   const options = {
     method: "GET",
-    url: craperAPI,
+    url: scraperAPI,
     params: { ig: account, response_type: "short", corsEnabled: "true" },
     headers: {
       "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
@@ -142,7 +142,7 @@ export const getAccount = async (account) => {
 export const searchAccount = _.memoize(async (username) => {
   const options = {
     method: "GET",
-    url: craperAPI,
+    url: scraperAPI,
     // params: { ig: username, response_type: "search", corsEnabled: "true", storageEnabled: "true" },
     params: { ig: username, response_type: "search", corsEnabled: "true" },
     headers: {
@@ -156,79 +156,96 @@ export const searchAccount = _.memoize(async (username) => {
 })
 
 export const updateUserProfilePicUrl = async (user, from) => {
-  const username = from ? user.account : user.username;
-  // console.log(username, from);
-  if (username) {
-    const userResults = await instabulkProfileAPI(username)
-    // console.log(userResults?.data[0]?.username);
-    if (!userResults?.data[0]?.username) return console.log('User account not found!: ', username, ' =>: ', userResults?.data[0]?.username);
+  try {
+    const username = from ? user.account : user.username;
+    // console.log(username, from);
+    if (username) {
+      const userResults = await instabulkProfileAPI(username)
+      // console.log(userResults?.data[0]?.username);
+      if (!userResults?.data[0]?.username) return console.log('User account not found!: ', username, ' =>: ', userResults?.data[0]?.username);
+      if (userResults?.data?.[0]?.profile_pic_url) {
+        var profile_pic_url = '';
+        const uploadImageFromURLRes = await uploadImageFromURL(username)
+        console.log(uploadImageFromURLRes)
+        if (uploadImageFromURLRes?.status === 'success') {
+          profile_pic_url = uploadImageFromURLRes?.data
+        }
 
-    if (userResults?.data?.[0]?.profile_pic_url) {
+        if (from) {
+          console.log(username);
+          const { error } = await supabase
+            .from(from)
+            .update({
+              avatar: profile_pic_url,
+              imageUrlChanged: true
+            })
+            .eq('id', user?.id);
 
-      if (from) {
-        console.log(username);
-        const { error } = await supabase
-          .from(from)
-          .update({
-            avatar: userResults.data[0].profile_pic_url,
-            imageUrlChanged: true
-          })
-          .eq('id', user?.id);
+          error && console.log(error)
+        } else {
+          const { error } = await supabase
+            .from("users")
+            .update({
+              profile_pic_url: profile_pic_url,
+            }).eq('user_id', user?.user_id);
 
-        error && console.log(error)
-      } else {
-        const { error } = await supabase
-          .from("users")
-          .update({
-            profile_pic_url: userResults.data[0].profile_pic_url,
-          }).eq('user_id', user?.user_id);
+          error && console.log(error)
+          return { success: true, ppu: profile_pic_url }
+        }
 
-        error && console.log(error)
-        return { success: true, ppu: userResults.data[0].profile_pic_url }
+        console.log('fixed for: ', username)
+        return { succuss: true, message: 'ok' }
       }
-
-      console.log('fixed for: ', username)
-      return { succuss: true, message: 'ok' }
+    } else {
+      return { succuss: false, message: 'username invalid' }
     }
-  } else {
-    return { succuss: false, message: 'username invalid' }
+  } catch (error) {
+    console.log("updateUserProfilePicUrl: ", error)
   }
 }
 
 export async function instabulkProfileAPI(ig) {
-  const params = { ig, response_type: "short", storageEnabled: "true" };
-  // const params = { ig: user?.account, response_type: "short", corsEnabled: "false" };
-  const options = {
-    method: "GET",
-    url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
-    params,
-    headers: {
-      "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-      "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
-    },
-  };
-  return await axios.request(options);
+  try {
+    const params = { ig, response_type: "short", storageEnabled: "true" };
+    // const params = { ig: user?.account, response_type: "short", corsEnabled: "false" };
+    const options = {
+      method: "GET",
+      url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
+      params,
+      headers: {
+        "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
+        "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+      },
+    };
+    return await axios.request(options);
+  } catch (error) {
+    console.log("instabulkProfileAPI: ", error)
+  }
 }
 
 export const totalLikes = (name) => {
-  const options = {
-    method: "GET",
-    url: craperAPI,
-    params: { ig: name, response_type: "feeds" },
-    headers: {
-      "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-      "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
-    },
-  }
+  try {
+    const options = {
+      method: "GET",
+      url: scraperAPI,
+      params: { ig: name, response_type: "feeds" },
+      headers: {
+        "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
+        "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+      },
+    }
 
-  axios
-    .request(options)
-    .then(function (response) {
-      console.log(response.data)
-    })
-    .catch(function (error) {
-      console.error(error)
-    })
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data)
+      })
+      .catch(function (error) {
+        console.error(error)
+      })
+  } catch (error) {
+    console.log("totalLikes: ", error)
+  }
 }
 
 export const getThDayNameFromDate = (date) => {
@@ -315,7 +332,7 @@ export const messageSlack = async (message) => {
   // const baseUrl = 'http://localhost:8000'
 
   // console.log({ message });
-  
+
   const r = await axios.post(baseUrl + '/api/notify', {
     webhookUrl: 'https://hooks.slack.com/services/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',
     message
@@ -331,31 +348,44 @@ export const messageSlack = async (message) => {
 
 // Function to fetch and upload image in subscriptions.js 183
 export async function uploadImageFromURL(username, imageURL) {
-  // Fetch image data from URL
-  const response = await fetch(imageURL);
-  const imageData = await response.blob();
+  // console.log(username, imageURL);
+  try {
+    // Fetch image data from URL
+    var response = imageURL && await fetch(imageURL);
+    if (!imageURL) {
+      const r = await getAccount(username)
+      response = await fetch(r.data?.[0]?.profile_pic_url);
+    }
+    // console.log("r: ",r);
+    const imageData = await response?.blob();
 
-  // Upload image to Supabase storage
-  const { data, error } = await supabase.storage
-  .from('profilePictures')
-  .upload(`${username}.jpg`, imageData, {
-    upsert: true
-  });
+    if (imageData) {
+      // Upload image to Supabase storage
+      const { data, error } = await supabase.storage
+        .from('profilePictures')
+        .upload(`${username}.jpg`, imageData, {
+          upsert: true
+        });
 
-  // if (error.message === 'The resource already exists') {
-  //   return { status: 'success', data: {path: `${username}.jpg`}}
-  // }
-  if (error) {
-    console.log(error);
-    return {status: 'failed', data: error}
-  } else {
-    // console.log(`Image uploaded to ${data}`);
-    const publicUrl = getDownloadedFilePublicUrl(data.path)
-    return { status: 'success', data: publicUrl?.data?.publicUrl }
+      // if (error.message === 'The resource already exists') {
+      //   return { status: 'success', data: {path: `${username}.jpg`}}
+      // }
+      if (error) {
+        console.log(error);
+        return { status: 'failed', data: error }
+      } else {
+        // console.log(`Image uploaded to ${data}`);
+        const publicUrl = getDownloadedFilePublicUrl(data.path)
+        // console.log("publicUrl: ", publicUrl?.data?.publicUrl)
+        return { status: 'success', data: publicUrl?.data?.publicUrl }
+      }
+    }
+  } catch (error) {
+    console.log("uploadImageFromURLError: ", error)
   }
 }
 
-export function getDownloadedFilePublicUrl(path){
+export function getDownloadedFilePublicUrl(path) {
   const publicUrl = supabase.storage
     .from('profilePictures')
     .getPublicUrl(path)

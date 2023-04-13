@@ -170,7 +170,7 @@ export default function Subscriptions() {
       // console.log(customer);
 
       if (customer.message === 'success') {
-        var profile_pic_url;
+        var profile_pic_url = '';
         const create_subscription_for_customer_data = {
           customer_id: customer?.customer?.id,
           plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"

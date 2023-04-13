@@ -39,21 +39,25 @@ export default function DashboardApp() {
   // verify user
   useEffect(() => {
     const fetch = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return navigate("/dashboard/login")
-      // console.log(user);
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return navigate("/dashboard/login")
+        // console.log(user);
 
-      const { data, error } = await supabase
-        .from('users')
-        .select()
-        .eq('user_id', user.id).order('created_at', { ascending: false })
+        const { data, error } = await supabase
+          .from('users')
+          .select()
+          .eq('user_id', user.id).order('created_at', { ascending: false })
 
-      error && console.console.log(error);
-      // console.log(data[0]);
-      setUser(data[0]);
-      if (!data[0]?.admin) {
-        alert("You are not allowed to access this page.")
-        window.location = "/login"
+        error && console.console.log(error);
+        // console.log(data[0]);
+        setUser(data[0]);
+        if (!data[0]?.admin) {
+          alert("You are not allowed to access this page.")
+          window.location = "/login"
+        }
+      } catch (error) {
+        console.log("fetchUser: ", error)
       }
     }
     fetch()
@@ -61,135 +65,155 @@ export default function DashboardApp() {
 
   // init datepicker
   useEffect(() => {
-    if (user?.admin) {
-      const datepickerEl = document.getElementById('datepickerId');
-      if (datepickerEl) {
-        new Datepicker(datepickerEl, {
-          title: "Sort by date added",
-          // date: new Date(),
-          placement: 'bottom',
-          triggerType: 'click',
-          offsetSkidding: 0,
-          offsetDistance: 10,
-          delay: 300,
-          onHide: () => {
-            console.log('dropdown has been hidden');
-          },
-          onShow: () => {
-            console.log('dropdown has been shown');
-          },
-          onToggle: () => {
-            console.log('dropdown has been toggled');
-          }
-        });
+    try {
+      if (user?.admin) {
+        const datepickerEl = document.getElementById('datepickerId');
+        if (datepickerEl) {
+          new Datepicker(datepickerEl, {
+            title: "Sort by date added",
+            // date: new Date(),
+            placement: 'bottom',
+            triggerType: 'click',
+            offsetSkidding: 0,
+            offsetDistance: 10,
+            delay: 300,
+            onHide: () => {
+              console.log('dropdown has been hidden');
+            },
+            onShow: () => {
+              console.log('dropdown has been shown');
+            },
+            onToggle: () => {
+              console.log('dropdown has been toggled');
+            }
+          });
 
-      } else {
-        console.log(datepickerEl);
+        } else {
+          console.log(datepickerEl);
+        }
       }
+    } catch (error) {
+      console.log("datePicker: ", error)
     }
   }, [user])
 
   // add changeDate eventlisterner to datepicker
   useEffect(() => {
-    if (user?.admin && originalUsers) {
-      const sidenav = document.getElementById("datepickerId");
-      if (sidenav) {
-        sidenav.addEventListener("changeDate", (event) => {
-          if (event?.target?.value) {
-            // var filtered = users.filter(user => new Date(user.created_at).getTime() === new Date(event.target.value).getTime())
-            var filtered = originalUsers?.filter(user => {
-              var d1 = new Date(user.created_at).getDate()
-              var m1 = new Date(user.created_at).getMonth() + 1
-              var y1 = new Date(user.created_at).getFullYear()
-              const a = (d1 + m1 + y1);
-              var d2 = new Date(event.target.value).getDate()
-              var m2 = new Date(event.target.value).getMonth() + 1
-              var y2 = new Date(event.target.value).getFullYear()
-              const b = (d2 + m2 + y2);
-              return a === b
-            })
-            setUsers(filtered)
-          }
-        });
+    try {
+      if (user?.admin && originalUsers) {
+        const sidenav = document.getElementById("datepickerId");
+        if (sidenav) {
+          sidenav.addEventListener("changeDate", (event) => {
+            if (event?.target?.value) {
+              // var filtered = users.filter(user => new Date(user.created_at).getTime() === new Date(event.target.value).getTime())
+              var filtered = originalUsers?.filter(user => {
+                var d1 = new Date(user.created_at).getDate()
+                var m1 = new Date(user.created_at).getMonth() + 1
+                var y1 = new Date(user.created_at).getFullYear()
+                const a = (d1 + m1 + y1);
+                var d2 = new Date(event.target.value).getDate()
+                var m2 = new Date(event.target.value).getMonth() + 1
+                var y2 = new Date(event.target.value).getFullYear()
+                const b = (d2 + m2 + y2);
+                return a === b
+              })
+              setUsers(filtered)
+            }
+          });
+        }
+        return sidenav.removeEventListener("changeDate", () => { })
       }
-      return sidenav.removeEventListener("changeDate", () => { })
+    } catch (error) {
+      console.log("datepickerEventListener: ", error)
     }
   }, [originalUsers, user])
 
   // get all users
   useEffect(() => {
     const fetch = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .limit(3000)
+      try {
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .limit(3000)
         // .limit(900)
         // .eq('status', 'active')
-      error && console.log(error);
-      if (error) return;
-      
-      console.log("all user: ", data.length);
+        error && console.log(error);
+        if (error) return;
 
-      // const filtered = data.filter(user => user.username !== '')
-      // setUsers(filtered);
-      // setOriginalUsers(filtered);
-      setUsers(data);
-      setOriginalUsers(data);
-      var active = data.filter(user => (user.status).toLowerCase() === 'active')
-      var pending = data.filter(user => (user.status).toLowerCase() === 'pending')
-      var cancelled = data.filter(user => (user.status).toLowerCase() === 'cancelled')
-      document.querySelector('#Tactive').textContent = active.length
-      document.querySelector('#Tpending').textContent = pending.length
-      document.querySelector('#Tcancelled').textContent = cancelled.length
-      // console.log(data[0]);
+        console.log("all user: ", data.length);
+
+        // const filtered = data.filter(user => user.username !== '')
+        // setUsers(filtered);
+        // setOriginalUsers(filtered);
+        setUsers(data);
+        setOriginalUsers(data);
+        var active = data.filter(user => (user.status).toLowerCase() === 'active')
+        var pending = data.filter(user => (user.status).toLowerCase() === 'pending')
+        var cancelled = data.filter(user => (user.status).toLowerCase() === 'cancelled')
+        document.querySelector('#Tactive').textContent = active.length
+        document.querySelector('#Tpending').textContent = pending.length
+        document.querySelector('#Tcancelled').textContent = cancelled.length
+        // console.log(data[0]);        
+      } catch (error) {
+
+      }
     }
     fetch()
   }, [user])
 
   const filterByStatus = async (status) => {
-    document.getElementById("datepickerId").value = ''
-    document.getElementById("table-search").value = ''
-    // var a = originalUsers.filter(user => (user.status).toLowerCase() === status.toLowerCase())
-    // console.log("a.length",a.length);
-    const { data, error } = await supabase
-    .from('users')
-      .select('*')
-      .eq("status", status.toLowerCase())
-      .limit(3000)
-    error && console.log(error);
-    if (error) return;
-    console.log("data.length",data.length);
-    
-    setUsers()
-    setTimeout(() => {
-      setUsers(data)
-    }, 10);
+    try {
+      document.getElementById("datepickerId").value = ''
+      document.getElementById("table-search").value = ''
+      // var a = originalUsers.filter(user => (user.status).toLowerCase() === status.toLowerCase())
+      // console.log("a.length",a.length);
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq("status", status.toLowerCase())
+        .limit(3000)
+      error && console.log(error);
+      if (error) return;
+      // console.log("data.length", data.length);
+
+      setUsers()
+      setTimeout(() => {
+        setUsers(data)
+      }, 10);
+    } catch (error) {
+      console.log("filterByStatus: ", error)
+    }
   }
 
   // handle search
   useEffect(() => {
-    if (searchTerm) {
-      setTimeout(async () => {
-        // const { data, error } = await supabase
-        //   .from('users')
-        //   .select()
-        //   .like('username', `%${searchTerm}%`)
-        const second = await supabase
-          .from('users')
-          .select()
-          .like('email', `%${searchTerm.toLowerCase()}%`)
+    try {
+      if (searchTerm) {
+        setTimeout(async () => {
+          // const { data, error } = await supabase
+          //   .from('users')
+          //   .select()
+          //   .like('username', `%${searchTerm}%`)
+          const second = await supabase
+            .from('users')
+            .select()
+            .like('email', `%${searchTerm.toLowerCase()}%`)
 
-        // error && console.log(error);
-        second.error && console.log(second.error);
-        // if(error) return;
-        if (second.error) return;
+          // error && console.log(error);
+          second.error && console.log(second.error);
+          // if(error) return;
+          if (second.error) return;
 
-        setUsers([...second.data])
-        // if (data) {
-        // } else {
-        //   setUsers(originalUsers)
-        // }
-      }, 500);
+          setUsers([...second.data])
+          // if (data) {
+          // } else {
+          //   setUsers(originalUsers)
+          // }
+        }, 500);
+      }
+    } catch (error) {
+      console.log("handleSearch: ", error)
     }
   }, [originalUsers, searchTerm])
 
@@ -220,26 +244,36 @@ export default function DashboardApp() {
 
   const [showModes, setshowModes] = useState(false)
   const [modeChgCaller, setModeChgCaller] = useState()
+
   const changeMode = async (mode) => {
-    await supabase
-      .from("users")
-      .update({ userMode: mode }).eq('user_id', modeChgCaller);
-    window.location.reload();
+    try {
+      await supabase
+        .from("users")
+        .update({ userMode: mode }).eq('user_id', modeChgCaller);
+      window.location.reload();
+    } catch (error) {
+      console.log("changeMode: ", error)
+    }
   }
+
   const [showStatus, setshowStatus] = useState(false)
   const [statusChgCaller, setStatusChgCaller] = useState()
-  
+
   const changeStatus = async (status) => {
-    console.log(status, statusChgCaller);
-    const { data, error } = await supabase
-      .from("users")
-      // .select()
-      .update({ status })
-      .match({ user_id: statusChgCaller })
+    try {
+      // console.log(status, statusChgCaller);
+      const { data, error } = await supabase
+        .from("users")
+        // .select()
+        .update({ status })
+        .match({ user_id: statusChgCaller })
       // .eq('user_id', statusChgCaller);
 
-    console.log(data, error)
-    !error && window.location.reload();
+      console.log(data, error)
+      !error && window.location.reload();
+    } catch (error) {
+      console.log("changeStatus: ", error)
+    }
   }
 
   if (user?.admin) {
@@ -336,7 +370,7 @@ export default function DashboardApp() {
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
                       </div>
-                      <input datepicker datepicker-title="Date added" id='datepickerId' type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date added" onChange={(e) => {
+                      <input datepicker-title="Date added" id='datepickerId' type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date added" onChange={(e) => {
                         // console.log(e.target.value);
                       }} />
                     </div>
@@ -505,26 +539,42 @@ export default function DashboardApp() {
 
                   <tbody className=''>
                     {users && users.map((user, index) => {
-                      // console.log(user);
                       const username = user?.username;
                       var sessionData = '';
 
                       const fetch = async () => {
-                        const resData = await supabase
-                          .from('sessions')
-                          .select()
-                          .eq('username', user?.username)
-                        resData.error && console.log(resData.error);
-                        if (resData?.data?.[0]?.data) {
-                          const d = JSON.parse(resData?.data[0]?.data)
-                          // console.log(d[0]);
-                          const followers = document.querySelector(`#followers_${index}_${user?.id}`)
-                          const following = document.querySelector(`#following_${index}_${user?.id}`)
-                          if (followers && following) {
-                            followers.textContent = d[0].profile.followers
-                            following.textContent = d[0].profile.following
+                        try {
+                          if((user.status).toLowerCase() === "pending") return;
+
+                          const resData = await supabase
+                            .from('sessions')
+                            .select()
+                            .eq('username', user?.username)
+                          resData.error && console.log(resData.error);
+                          if (resData?.data?.[0]?.data) {
+                            // console.log(resData?.data[0]?.data);
+                            // const d = JSON.parse(resData?.data[0]?.data)
+                            const d = resData?.data[0]?.data
+                            // console.log(d[0]);
+                            const followers = document.querySelector(`#followers_${index}_${user?.id}`)
+                            const following = document.querySelector(`#following_${index}_${user?.id}`)
+                            // console.log(d?.[0]?.args?.username, ":", d?.[0]?.profile?.followers);
+                            if (followers && following) {
+                              if (d?.[0]?.profile?.followers){
+                                followers.textContent = d?.[0]?.profile?.followers
+                              }else{
+                                followers.textContent = user?.profile?.followers
+                              }
+                              if (d?.[0]?.profile?.following){
+                                following.textContent = d?.[0]?.profile?.following || '';
+                              } else {
+                                following.textContent = user?.profile?.following
+                              }
+                            }
+                            sessionData = d[0]
                           }
-                          sessionData = d[0]
+                        } catch (error) {
+                          console.log("handleRefresh: ", error)
                         }
                       }
 
@@ -742,33 +792,37 @@ const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
   }, [isClickedOutside, setOpenRefreshModal]);
 
   const handleRefresh = async () => {
-    if (username) {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('users')
-        .select('profile_pic_url, status, username, user_id')
-        .eq('username', username)
-      if (error) {
-        setMessage(error.message)
-        setLoading(false);
-        return;
-      }
-      data.forEach(async data => {
-        data?.profile_pic_url && setProfilePicture(data.profile_pic_url)
+    try {
+      if (username) {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('users')
+          .select('profile_pic_url, status, username, user_id')
+          .eq('username', username)
+        if (error) {
+          setMessage(error.message)
+          setLoading(false);
+          return;
+        }
+        data.forEach(async data => {
+          data?.profile_pic_url && setProfilePicture(data.profile_pic_url)
 
-        if (data?.username) {
-          const { ppu } = await updateUserProfilePicUrl(data)
-          if (ppu) {
-            setProfilePicture(ppu)
-            setMessage('success');
+          if (data?.username) {
+            const { ppu } = await updateUserProfilePicUrl(data)
+            if (ppu) {
+              setProfilePicture(ppu)
+              setMessage('success');
+            } else {
+              setMessage('error');
+            }
           } else {
             setMessage('error');
           }
-        } else {
-          setMessage('error');
-        }
-      })
-      setLoading(false);
+        })
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("handleRefresh: ", error)
     }
   }
 

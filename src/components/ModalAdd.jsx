@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { AsyncTypeahead } from "react-bootstrap-typeahead"
 import { IoClose } from 'react-icons/io5';
 import "../../src/modalsettings.css"
-import { getAccount, searchAccount } from '../helpers';
+import { getAccount, searchAccount, uploadImageFromURL } from '../helpers';
 import { Spinner } from 'react-bootstrap';
 import { TiTimes } from 'react-icons/ti';
 import { useRef } from 'react';
@@ -71,10 +71,16 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
       setLoadingSpinner(true)
       const theAccount = await getAccount(filteredSelected);
       // console.log(theAccount);
+      var profile_pic_url = '';
+      const uploadImageFromURLRes = await uploadImageFromURL(filteredSelected, theAccount?.data?.[0]?.profile_pic_url)
+      if (uploadImageFromURLRes?.status === 'success') {
+        profile_pic_url = uploadImageFromURLRes?.data
+      }
+
       const res = await supabase.from(from).insert({
         account: filteredSelected,
         followers: theAccount.data[0].follower_count,
-        avatar: theAccount.data[0].profile_pic_url,
+        avatar: profile_pic_url,
         user_id: userId,
       });
       res?.error && console.log(
