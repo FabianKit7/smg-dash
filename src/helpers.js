@@ -338,9 +338,9 @@ export async function uploadImageFromURL(username, imageURL) {
   // Upload image to Supabase storage
   const { data, error } = await supabase.storage.from('profilePictures').upload(`${username}.jpg`, imageData, { overwrite: true });
 
-  if (error.message === 'The resource already exists') {
-    return { status: 'success', data: {path: `${username}.jpg`}}
-  }
+  // if (error.message === 'The resource already exists') {
+  //   return { status: 'success', data: {path: `${username}.jpg`}}
+  // }
   if (error) {
     // console.log(error);
     return {status: 'failed', data: error}
