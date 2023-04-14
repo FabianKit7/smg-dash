@@ -20,9 +20,10 @@ export default function UserCard({ item, addSuccess, setAddSuccess, from, page }
                     <div className="rounded-[4px] bg-[#D9D9D9] p-2 md:p-3 relative w-8 h-8 md:w-10 md:h-10 md:mr-5 cursor-pointer">
                         <ImBin2 className="text-[#8C8C8C] font-semibold"
                             onClick={async () => {
-                                const res = await deleteAccount('targeting', item.id);
-                                console.log(res);
-                                console.log(item.id);
+                                await deleteAccount('targeting', item.id);
+                                // const res = 
+                                // console.log(res);
+                                // console.log(item.id);
                                 // await supabase.from('targeting').delete().eq<"id">('id', item.id)
                                 setAddSuccess(!addSuccess)
                             }}

@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { updateUserProfilePicUrl } from "../../helpers";
 import { supabase } from "../../supabaseClient";
@@ -8,9 +6,8 @@ import Nav from "../Nav";
 
 export default function Admin() {
   const [files, setFiles] = useState([]);
-  const [username, setUsername] = useState('')
   const [Loading, setLoading] = useState(false);
-  const [reading, setReading] = useState(false)
+  const [reading, setReading] = useState(false);
 
   let receipts = [];
   let receiptsRead = [];
@@ -46,53 +43,31 @@ export default function Admin() {
 
     console.log('Reading receipts...');
     readNextReceipt();
-
-    // setFiles(e.target.files)
-    // setReading(true)
-    // const fileReader = new FileReader();
-    // // console.log(e?.target?.files);
-    // var files = e?.target?.files
-    // let index = 0
-    // var fileRead = []
-
-    // setInterval(() => {
-    //   var file = files[fileRead.length]
-    //   fileReader.readAsText(file, "UTF-8");
-    //   fileReader.onload = e => {
-    //     // console.log("e.target.result", e.target.result);
-    //     const data = JSON.parse(e.target.result)
-    //     setUsername(data[0].args.username);
-    //     const r = e.target.result
-    //     console.log(r);
-    //     // setFiles({...files, r});
-    //   };
-    // }, 50);
-
-    // for (const file of files) {
-    //   // do something with the file, for example:
-    //   console.log(file);
-
-    //     fileReader.readAsText(file, "UTF-8");
-    //     fileReader.onload = e => {
-    //       // console.log("e.target.result", e.target.result);
-    //       const data = JSON.parse(e.target.result)
-    //       console.log(data);
-    //       setUsername(data[0].args.username);
-    //       const r = e.target.result
-    //       setFiles({...files, r});
-    //     };
-    // }
-    // setReading(false)
   };
 
 
   const handleUploadSessionFile = async () => {
     setLoading(true);
-    // const username = 'dev_cent'
-    // if (!username) return setLoading(false);
     await files.reduce(async (ref, file) => {
       await ref;
       const username = file?.username
+      try {
+        const data = file?.data
+        let lastItem = data[data?.length - 1];
+
+        const updateUser = await supabase
+          .from("users")
+          .update({
+            followers: lastItem.profile.followers,
+            following: lastItem.profile.following,
+            posts: lastItem.profile.posts
+          }).eq('username', username);
+
+        updateUser.error && console.log(updateUser.error);
+      } catch (error) {
+        console.log(error);
+      }
+        
       const { error } = await supabase
         .from("sessions")
         .upsert({

@@ -261,7 +261,7 @@ export const deleteAccount = async (from, id) => {
       .delete()
       .match({ id: id })
     // .eq('id', id).select();
-    console.log(data, error)
+    error && console.log(error)
     // alert('error deleting account! contact admin');
     return data
   }
