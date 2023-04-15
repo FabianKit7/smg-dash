@@ -12,6 +12,7 @@ import settingsImg from "../images/settings.svg"
 import { useCallback } from 'react';
 import TargetingFilterModal from '../components/TargetingFilterModal';
 import ChartSection from '../components/ChartSection';
+import { numFormatter } from '../helpers';
 
 const Error = ({ value }) => {
     return (
@@ -151,6 +152,23 @@ export default function Edit() {
                     <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />
                 </div>
 
+                <div className="mt-6 flex justify-center lg:justify-start items-center gap-6 lg:gap-14 mb-4 md:mb-8">
+                    <div className="flex items-center justify-center flex-col">
+                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(user?.followers ? user?.followers : 0)}</h2>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight">Followers</p>
+                    </div>
+
+                    <div className="flex items-center justify-center flex-col">
+                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(user?.following ? user?.following : 0)}</h2>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight">Following</p>
+                    </div>
+
+                    <div className="flex items-center justify-center flex-col">
+                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(user?.posts ? user?.posts : 0)}</h2>
+                        <p className="font-normal text-sm opacity-90 font-MontserratLight">Posts</p>
+                    </div>
+                </div>
+                
                 <div className="w-[80vw]">
                     <ChartSection
                         sessionsData={sessionsData}
