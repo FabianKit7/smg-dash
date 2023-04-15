@@ -5,7 +5,7 @@ const ChartSection = ({ isPrivate, sessionsData }
 ) => {
   
   return (
-    <div className="rounded-lg">
+    <div className="w-full rounded-lg">
       {isPrivate ? <h4 style={{ textAlign: 'center' }}><i className="fas fa-lock" /> This account is private</h4> :
         (
           <Fragment>

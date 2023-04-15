@@ -6,11 +6,12 @@ import Blacklist from '../components/Blacklist';
 import ModalNew from '../components/ModalNew';
 import Targeting from '../components/Targeting';
 import Whitelist from '../components/Whitelist';
-import { supabase, supabaseAdmin } from '../supabaseClient';
+import { supabase } from '../supabaseClient';
 import profileImg from "../images/profile.svg"
 import settingsImg from "../images/settings.svg"
 import { useCallback } from 'react';
 import TargetingFilterModal from '../components/TargetingFilterModal';
+import ChartSection from '../components/ChartSection';
 
 const Error = ({ value }) => {
     return (
@@ -28,6 +29,7 @@ export default function Edit() {
     const [error, setError] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false)
     const [filterModal, setFilterModal] = useState(false);
+    const [sessionsData, setSessionsData] = useState([])
 
     const [followerMinValue, setFollowerMinValue] = useState(1);
     const [followerMaxValue, setFollowerMaxValue] = useState(20000);
@@ -89,9 +91,33 @@ export default function Edit() {
         }
     }, [filterModal, id])
 
+    // setSessionsData
+    useEffect(() => {
+        const username = user?.username;
+        const fetch = async () => {
+            const resData = await supabase
+                .from('sessions')
+                .select()
+                .eq('username', username)
+            resData.error && console.log(resData.error);
+            var d = resData.data[0].data
+            try {
+                const c = JSON.parse(resData.data[0].data);
+                if (c) { d = c }
+            } catch (error) {
+                console.log(error);
+            }
+            // console.log(d);
+            setSessionsData(d)
+        }
+        if (username) {
+            fetch()
+        }
+    }, [user])
+
     if (error) return <Error value={id} />;
     return (
-        <div className="max-w-[1400px] mx-auto bg-white">
+        <div className="max-w-[1600px] md:min-w-[500px] mx-auto bg-white">
             <div className="flex flex-col items-center w-full py-20">
                 <ModalNew
                     modalIsOpen={modalIsOpen}
@@ -124,6 +150,14 @@ export default function Edit() {
                     <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={profileImg} alt="" onClick={() => { setIsOpen(!modalIsOpen) }} />
                     <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />
                 </div>
+
+                <div className="w-[80vw]">
+                    <ChartSection
+                        sessionsData={sessionsData}
+                        isPrivate={false}
+                    />
+                </div>
+
                 <Targeting
                     userId={id} page={'admin'}
                 />
