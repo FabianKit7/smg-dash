@@ -45,7 +45,8 @@ export default function Nav() {
         <Link to="/" className="navbar-brand" href="#">
           {/* <img src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
-            <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" />
+            <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" />
+            {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-left">SPROUTYSOCIAL</strong> */}
             </div>
 

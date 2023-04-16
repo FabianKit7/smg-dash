@@ -84,7 +84,8 @@ export default function Login() {
         <div className="flex flex-col justify-center items-center">
           {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[28px]">
-            <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" />
+            <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" />
+            {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-[25px] text-left">SPROUTYSOCIAL</strong> */}
           </div>
           <hr className="mb-7 w-full border-[#ef5f3c]" />
