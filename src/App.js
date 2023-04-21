@@ -29,39 +29,39 @@ function App() {
 
   // console.log(pathname) // "/dashboard"
 
-  useEffect(() => {
-    const scriptText = `
-      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){
-      (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+  // useEffect(() => {
+  //   const scriptText = `
+  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){
+  //     (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
 
-      tap('create', '40122-96e787', { integration: "chargebee" });
-      tap('detect');
+  //     tap('create', '40122-96e787', { integration: "chargebee" });
+  //     tap('detect');
 
-      var setupCb = function() {
+  //     var setupCb = function() {
           
-          if (typeof Chargebee === 'undefined') return;
+  //         if (typeof Chargebee === 'undefined') return;
 
-          var cbInstance = Chargebee.getInstance();
-          cbInstance.setCheckoutCallbacks(function(cart) {
-              return {
-                  success: function(hostedPageId, data) {
-                      tap('trial', data.subscription.customer_id);
-                  }
-              };
-          });
-      };
+  //         var cbInstance = Chargebee.getInstance();
+  //         cbInstance.setCheckoutCallbacks(function(cart) {
+  //             return {
+  //                 success: function(hostedPageId, data) {
+  //                     tap('trial', data.subscription.customer_id);
+  //                 }
+  //             };
+  //         });
+  //     };
 
-      "complete"===document.readyState||"loading"!==document.readyState&&!document.documentElement.doScroll?setupCb():document.addEventListener("DOMContentLoaded",setupCb);
-    `
-    const script = document.createElement('script');
-    script.type = "text/javascript"
-    script.innerHTML = scriptText
+  //     "complete"===document.readyState||"loading"!==document.readyState&&!document.documentElement.doScroll?setupCb():document.addEventListener("DOMContentLoaded",setupCb);
+  //   `
+  //   const script = document.createElement('script');
+  //   script.type = "text/javascript"
+  //   script.innerHTML = scriptText
 
-    if (pathname === '/dashboard/') return;
-    if (pathname === '/dashboard') return;
-    if (pathname.includes('/dashboard/edit')) return;
-    document.querySelector('#affiliateScript').appendChild(script)
-  }, [])
+  //   if (pathname === '/dashboard/') return;
+  //   if (pathname === '/dashboard') return;
+  //   if (pathname.includes('/dashboard/edit')) return;
+  //   document.querySelector('#affiliateScript').appendChild(script)
+  // }, [])
   
   return (
     <>
