@@ -76,9 +76,23 @@ export default function Dashboard() {
     setFilterModal(false);
   }, [setFilterModal]);
 
+  useEffect(() => {
+    const scriptText = `
+      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+
+      tap('create', '40122-96e787', { integration: "javascript" });
+      tap('conversion');
+    `
+    const script = document.createElement('script');
+    script.type = "text/javascript"
+    script.innerHTML = scriptText
+    document.querySelector('#affiliateScript').appendChild(script)
+  }, [])
+
   if (error) return <Error value={id} />;
 
   return (<>
+    <div id="affiliateScript"></div>
     <Nav />
     <div className="container mx-auto px-6">
       <StatsSection

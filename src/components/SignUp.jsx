@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
@@ -75,7 +75,22 @@ export default function SignUp() {
     }
   }
 
-  return (
+  useEffect(() => {
+    const scriptText = `
+      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+
+      tap('create', '40122-96e787', { integration: "javascript" });
+      tap('detect');
+    `
+    const script = document.createElement('script');
+    script.type = "text/javascript"
+    script.innerHTML = scriptText
+    document.querySelector('#affiliateScript').appendChild(script)
+  }, [])
+
+  return (<>
+    <div id="affiliateScript"></div>
+    
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="p-5 md:p-10 md:shadow-lg rounded-[10px] w-full md:w-[458px]">
         <div className="flex flex-col justify-center items-center">
@@ -165,5 +180,6 @@ export default function SignUp() {
         </div>
       </div>
     </div>
+  </>
   );
 }

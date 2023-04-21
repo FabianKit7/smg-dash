@@ -63,7 +63,6 @@ function App() {
     document.querySelector('#affiliateScript').appendChild(script)
   }, [])
   
-
   return (
     <>
     {/* <nav>slkdfjl</nav> */}
@@ -75,15 +74,15 @@ function App() {
         <Route path="/signUp" exact element={<SignUp />} />
         <Route path="/forget-password" exact element={<ForgetPassword />} />
         <Route path="/reset-password" exact element={<ResetPassword />} />
-        <Route path="/settings" exact element={<Settings />} />
-        <Route path="/admin" exact element={<Admin />} />
         <Route
           path="/subscriptions/:username"
-          exact
           element={<Subscriptions />}
         />
-        <Route path="/chat/:id" exact element={<Chat />} />
+        <Route path="/settings" exact element={<Settings />} />
         <Route path="/dashboard/:id" exact element={<Dashboard />} />
+
+        <Route path="/admin" exact element={<Admin />} />
+        <Route path="/chat/:id" exact element={<Chat />} />
         <Route path="/dashboard" exact element={<DashboardApp />} />
         <Route path="/dashboard/edit/:id" exact element={<Edit />} />
         <Route path="/dashboard/login" exact element={<AdminLogin />} />

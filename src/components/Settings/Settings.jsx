@@ -199,8 +199,22 @@ export default function Settings() {
     }
   }
 
+  useEffect(() => {
+    const scriptText = `
+      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+
+      tap('create', '40122-96e787', { integration: "javascript" });
+      tap('conversion');
+    `
+    const script = document.createElement('script');
+    script.type = "text/javascript"
+    script.innerHTML = scriptText
+    document.querySelector('#affiliateScript').appendChild(script)
+  }, [])
+
   return (<>
-  <Nav />
+    <div id="affiliateScript"></div>
+    <Nav />
 
     <div className="container m-auto mt-9 px-6">
       <div className="grid justify-center items-center bg-white mb-5">
@@ -258,10 +272,10 @@ export default function Settings() {
 
     {showModal && <div className="fixed top-0 left-0 w-full h-screen bg-black/40 grid place-items-center">
       <div className="bg-white to-black py-7 pt-12 px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular">
-        <FaTimesCircle className="absolute top-3 right-3 flex flex-col items-center" 
-        onClick={() => {
-          setShowModal(false)
-        }} />
+        <FaTimesCircle className="absolute top-3 right-3 flex flex-col items-center"
+          onClick={() => {
+            setShowModal(false)
+          }} />
         <h1 className="text-lg font-bold text-center font-MontserratSemiBold text-[#333]">Submit your cancellation request</h1>
         <p className="text-center">
           All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
