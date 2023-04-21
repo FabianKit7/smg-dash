@@ -16,10 +16,15 @@ import AdminLogin from "./dashboard/adminLogin";
 import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
+import Tap from "@tapfiliate/tapfiliate-js";
 
 const pathname = window.location.pathname;
 
 function App() {
+  useEffect(() => {
+    Tap.init('40122-96e787');
+  }, [])
+  
   // useEffect(() => {
   //   window.Chargebee.init({
   //     site: "honeycomics-v3-test",
@@ -62,6 +67,8 @@ function App() {
   //   if (pathname.includes('/dashboard/edit')) return;
   //   document.querySelector('#affiliateScript').appendChild(script)
   // }, [])
+
+  // 40122 - 96e787
   
   return (
     <>

@@ -9,6 +9,7 @@ import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/charg
 import axios from 'axios'
 import CrispChat from "./CrispChat";
 import { uploadImageFromURL } from "../helpers";
+import Tap from "@tapfiliate/tapfiliate-js";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -212,7 +213,7 @@ export default function Subscriptions() {
             .from("users")
             .update(data).eq('user_id', user.id);
           // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-
+          Tap.conversion(user?.email, '30');
           setLoading(false);
           navigate(`/dashboard/${username}`);
         } else {
@@ -391,18 +392,18 @@ export default function Subscriptions() {
     // el.focus();
   }
 
-  useEffect(() => {
-    const scriptText = `
-      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+  // useEffect(() => {
+  //   const scriptText = `
+  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
 
-      tap('create', '40122-96e787', { integration: "javascript" });
-      tap('detect');
-    `
-    const script = document.createElement('script');
-    script.type = "text/javascript"
-    script.innerHTML = scriptText
-    document.querySelector('#affiliateScript').appendChild(script)
-  }, [])
+  //     tap('create', '40122-96e787', { integration: "javascript" });
+  //     tap('detect');
+  //   `
+  //   const script = document.createElement('script');
+  //   script.type = "text/javascript"
+  //   script.innerHTML = scriptText
+  //   document.querySelector('#affiliateScript').appendChild(script)
+  // }, [])
 
   return (
     <>

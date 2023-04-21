@@ -199,18 +199,18 @@ export default function Settings() {
     }
   }
 
-  useEffect(() => {
-    const scriptText = `
-      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+  // useEffect(() => {
+  //   const scriptText = `
+  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
 
-      tap('create', '40122-96e787', { integration: "javascript" });
-      tap('conversion');
-    `
-    const script = document.createElement('script');
-    script.type = "text/javascript"
-    script.innerHTML = scriptText
-    document.querySelector('#affiliateScript').appendChild(script)
-  }, [])
+  //     tap('create', '40122-96e787', { integration: "javascript" });
+  //     tap('conversion');
+  //   `
+  //   const script = document.createElement('script');
+  //   script.type = "text/javascript"
+  //   script.innerHTML = scriptText
+  //   document.querySelector('#affiliateScript').appendChild(script)
+  // }, [])
 
   return (<>
     <div id="affiliateScript"></div>
