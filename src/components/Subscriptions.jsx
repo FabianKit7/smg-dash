@@ -122,6 +122,10 @@ export default function Subscriptions() {
   }, [])
 
   const handleOnClick = async () => {
+    // setLoading(true);
+    // Tap.conversion("user?.email", '30');
+    // setLoading(false);
+    // return;
     setLoading(true);
 
     if (userResults.data[0].name === "INVALID_USERNAME") {
