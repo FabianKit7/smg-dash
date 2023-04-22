@@ -121,9 +121,24 @@ export default function Subscriptions() {
     fetch()
   }, [])
 
-  const handleOnClick = async () => {
-    // setLoading(true);
+  useEffect(() => {
+    if(typeof window === 'undefined') return;
+    // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
+    // console.log(window.tap);
+    // window.tap('create', '40122-96e787', { integration: "javascript" });
+    // window.tap('conversion', "test@gmail.com", '30');
     // Tap.conversion("user?.email", '30');
+  }, [])
+  
+
+  const handleOnClick = async () => {
+    setLoading(true);
+    // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
+    // console.log(window.tap);
+    // window.tap('create', '40122-96e787', { integration: "javascript" });
+    // window.tap('conversion', "test@gmail.com", '30');
+    
+    // Tap.conversion("test@gmail.com", '30');
     // setLoading(false);
     // return;
     setLoading(true);
