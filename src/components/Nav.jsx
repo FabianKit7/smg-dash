@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 // import sproutyLogo from "../images/sprouty.svg";
 import { useClickOutside } from "react-click-outside-hook";
+import { FaAngleDown } from "react-icons/fa";
 
 export default function Nav() {
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -38,36 +39,34 @@ export default function Nav() {
   }, []);
 
   return (
-    <nav className="bg-white shadow-nav py-2" ref={parentRef}>
+    <nav className="mb-[30px]" ref={parentRef}>
       <div
-        className="container mx-auto px-6 flex justify-between"
+        className="flex justify-between mt-[20px]"
       >
         <Link to="/" className="navbar-brand" href="#">
           {/* <img src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
-            <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" />
+            <img src="/sproutysocial-light.svg" alt="" className="w-[346px]" />
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-left">SPROUTYSOCIAL</strong> */}
-            </div>
+          </div>
 
         </Link>
 
-        {data?.full_name && <div className="flex justify-center items-center gap-2 md:gap-[10px]">
-          {/* <CiDark className="text-[25px] mr-4" /> */}
-          <div className="img">
-            <Link to="">
-              <img
-                src={data?.profile_pic_url}
-                className="rounded-circle"
-                height={32}
-                width={32}
-                alt={data?.username?.charAt(0)?.toUpperCase()}
-                loading="lazy"
-              />
-            </Link>
-          </div>
-          <div className="relative font-MontserratRegular">
-            <p className="font-semibold cursor-pointer text-sm after:content-['▾'] after:ml-[2px] after:text-lg" onClick={() => setIsOpen(!isOpen)}><span className="hidden md:inline font-MontserratSemiBold">{data?.full_name}</span></p>
+        {data?.full_name && <div className="flex justify-center items-center gap-2 md:gap-[10px] p-[10px]">
+          <Link to="">
+            <img
+              src={data?.profile_pic_url}
+              className="rounded-circle"
+              height={32}
+              width={32}
+              alt={data?.username?.charAt(0)?.toUpperCase()}
+              loading="lazy"
+            />
+          </Link>
+          <div className="relative flex items-center gap-2 font-MontserratRegular text-lg cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+            <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden md:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
+            <FaAngleDown />
             {isOpen && (
               <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[5%]">
                 <Link className="font-normal text-sm" to={"/dashboard/" + data?.user_id}

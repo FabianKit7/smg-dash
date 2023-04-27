@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import GrowthChart from './GrowthChart';
 
-const ChartSection = ({ isPrivate, sessionsData }
+const ChartSection = ({ isPrivate, sessionsData, days }
 ) => {
   
   return (
@@ -9,9 +9,10 @@ const ChartSection = ({ isPrivate, sessionsData }
       {isPrivate ? <h4 style={{ textAlign: 'center' }}><i className="fas fa-lock" /> This account is private</h4> :
         (
           <Fragment>
-              <div className="mt-12">
-              <GrowthChart currFollowers={2213} sessionsData={sessionsData} />
-              </div>
+              {/* <div className="mt-12"> */}
+              {/* <div className=""> */}
+            <GrowthChart currFollowers={2213} sessionsData={sessionsData} days={days} />
+              {/* </div> */}
           </Fragment>
         )
       }

@@ -1,35 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { numFormatter } from "../helpers";
+import { monthNames, numFormatter } from "../helpers";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dropdown from "react-bootstrap/Dropdown";
 
-export default function GrowthChart({ sessionsData }) {
-  const [dropDown, setDropDown] = useState("7 days");
+export default function GrowthChart({ sessionsData, days }) {
   const [followersData, setFollowersData] = useState([])
   const [categories, setCategories] = useState([])
   useEffect(() => {
     let followersData = []
     let categories = []
-    const dl = dropDown.split(' ')
-    sessionsData?.slice(-parseInt(dl[0])).forEach(items => {
-      // console.log(items);
-      // const day = new Date(items.finish_time).getDate()
-      // const month = new Date(items.finish_time).getMonth()+1
-      // const year = new Date(items.finish_time).getFullYear()
+    sessionsData?.slice(-days).forEach(items => {
       const day = new Date(items.start_time).getDate()
       const month = new Date(items.start_time).getMonth()+1
-      const year = new Date(items.start_time).getFullYear()
-      categories.push(`${year}/${month}/${day}`);
+      const monthName = monthNames[month]
+      categories.push(`${monthName} ${day}`);
       followersData.push(items.profile.followers);
     })
     setCategories(categories);
     setFollowersData(followersData)
-    // console.log(categories);
-    // console.log(followersData);
 
-  }, [dropDown, sessionsData])
+  }, [sessionsData, days])
   
 
   const options = {
@@ -41,12 +32,14 @@ export default function GrowthChart({ sessionsData }) {
     fill: {
       type: "gradient",
       gradient: {
-        opacityFrom: 1,
-        opacityTo: 1,
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.9,
+        stops: [0, 100]
       },
     },
     grid: {
-      show: false,
+      show: true,
       padding: {
         left: 0,
         right: 0,
@@ -69,7 +62,7 @@ export default function GrowthChart({ sessionsData }) {
         offsetX: -15,
         offsetY: 0,
         formatter: function (val, index) {
-          return numFormatter(val); // formats long numbers for y-axis values just like the rest of the nums
+          return val.toLocaleString('en-US', { maximumFractionDigits: 2 });
         },
       },
     },
@@ -77,38 +70,7 @@ export default function GrowthChart({ sessionsData }) {
 
   return (
     <div>
-      {/* <h1 className="font-bold text-[20px] pb-5">Followers</h1> */}
-      <div className="rounded-md text-gray20 shadow-stats w-full">
-        <div className="card-body pt-3 pb-0 px-3 d-flex flex-column">
-          <div className="flex justify-between px-6 py-4">
-            <h1 className="font-bold text-[28px] font-MontserratBold">Followers</h1>
-
-            <div className="rounded-md">
-              <Dropdown>
-                <Dropdown.Toggle
-                  variant=""
-                  className="btn btn-outline-secondary btn-sm dropdown-toggle font-MontserratRegular text-[#333]"
-                  id="dropdown-basic"
-                >
-                  {dropDown}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setDropDown("7 Days")} className="font-MontserratRegular text-[#333]">
-                    7 Days
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setDropDown("14 Days")} className="font-MontserratRegular text-[#333]">
-                    14 Days
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setDropDown("30 Days")} className="font-MontserratRegular text-[#333]">
-                    30 Days
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
-          </div>
-        </div>
-
+      <div className="rounded-md text-gray20 w-full">
         <div className="px-3">
           <Chart
             options={options}
@@ -119,7 +81,7 @@ export default function GrowthChart({ sessionsData }) {
             }]}
 
             type="area"
-            height="200"
+            height="400"
           />
         </div>
       </div>

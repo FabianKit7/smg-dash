@@ -1,4 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { BiMessageSquareDots } from "react-icons/bi";
+import { BsHeadset } from "react-icons/bs";
+import { FaAngleDown, FaCaretDown, FaCaretUp, FaClock, FaTrash } from "react-icons/fa";
+import { MdVerified } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import Blacklist from "./Blacklist";
@@ -11,7 +16,7 @@ import Whitelist from "./Whitelist";
 
 const Error = ({ value }) => {
   return (
-    <aside style={{ color: "red" }} className="px-3 py-4 px-sm-5">
+    <aside style={{ color: "red" }} classNameName="px-3 py-4 px-sm-5">
       The account @{value} was not found on Instagram.
     </aside>
   );
@@ -25,6 +30,8 @@ export default function Dashboard() {
   const [FilterModal, setFilterModal] = useState(false);
   const [user, setUser] = useState(null)
   const [sessionsData, setSessionsData] = useState([])
+  const [showDateOptions, setShowDateOptions] = useState(false)
+  const [selectedDate, setSelectedDate] = useState({ title: "Last 7 days", value: 7 })
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -76,53 +83,586 @@ export default function Dashboard() {
     setFilterModal(false);
   }, [setFilterModal]);
 
-  // useEffect(() => {
-  //   const scriptText = `
-  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-  //     tap('create', '40122-96e787', { integration: "javascript" });
-  //     tap('conversion');
-  //   `
-  //   const script = document.createElement('script');
-  //   script.type = "text/javascript"
-  //   script.innerHTML = scriptText
-  //   document.querySelector('#affiliateScript').appendChild(script)
-  // }, [])
-
   if (error) return <Error value={id} />;
 
-  return (<>
-    <div id="affiliateScript"></div>
-    <Nav />
-    <div className="container mx-auto px-6">
-      <StatsSection
-        user={user}
-        userData={data}
-        user_id={data?.id}
-        userId={data?.user_id}
-        username={data?.username}
-        avatar={data?.profile_pic_url}
-        isVerified={data?.is_verified}
-        name={data?.full_name}
-        bio={data?.biography}
-        url={`https://www.instagram.com/${data?.username}`}
-        currMediaCount={data?.posts}
-        currFollowers={data?.followers}
-        currFollowing={data?.following}
-        setFilterModal2={setFilterModalCallback}
-        filterModal2={FilterModal}
-      />
-      <StatsCard userData={data} sessionsData={sessionsData} />
-      <ChartSection
-        sessionsData={sessionsData}
-        isPrivate={false}
-      />
-      {data?.user_id && <>
-        <Targeting userId={data?.user_id} />
-        <Blacklist userId={data?.user_id} />
-        <Whitelist userId={data?.user_id} />
-      </>}
+  // console.log(data)
+  return (
+    <>
+      <Nav />
 
+      <div>
+        <div
+          className="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
+          style={{
+            boxShadow: '0 0 3px #00000040',
+          }}
+        >
+          <div className="ml-3 flex items-center gap-[10px]">
+            <img
+              alt=""
+              className="platform-logo"
+              src="/instagram.svg"
+              width="28px"
+              height="28px"
+            />
+            <div className="font-black text-2xl text-black font-MontserratBold capitalize">
+              {data?.username}
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-[52px] h-[52px] rounded-[10px] flex items-center justify-center cursor-pointer bg-black">
+              <img
+                alt=""
+                className="settings-logo"
+                src="/settings.svg"
+                width="31px"
+                height="31px"
+              />
+            </div>
+            <div className="relative rounded-[10px] bg-black text-white text-lg font-bold">
+              <div
+                className="flex items-center justify-center h-[52px] cursor-pointer"
+                onClick={() => setShowDateOptions(!showDateOptions)}
+              >
+                <AiOutlineClockCircle
+                  size={28}
+                  className="mr-[10px] ml-[16px]"
+                />
+                <span className="p-0 flex items-center">
+                  {selectedDate?.title}
+                </span>
+                <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
+              </div>
+              <div
+                className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black bg-white ${showDateOptions ? 'opacity-100' : 'opacity-0'
+                  }`}
+                style={{
+                  boxShadow: '0 0 3px #00000040',
+                  transform: 'translteY(8px)',
+                  transition: 'opacity .15s ease-in',
+                }}
+              >
+                <div
+                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  onClick={() => {
+                    setSelectedDate({ title: 'Last 7 days', value: 7 });
+                    setShowDateOptions(false);
+                  }}
+                >
+                  Last 7 days
+                </div>
+                <div
+                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  onClick={() => {
+                    setSelectedDate({ title: 'Last 30 days', value: 30 });
+                    setShowDateOptions(false);
+                  }}
+                >
+                  Last 30 days
+                </div>
+                <div
+                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  onClick={() => {
+                    setSelectedDate({ title: 'Last 60 days', value: 60 });
+                    setShowDateOptions(false);
+                  }}
+                >
+                  Last 60 days
+                </div>
+                <div
+                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  onClick={() => {
+                    setSelectedDate({ title: 'Last 90 days', value: 90 });
+                    setShowDateOptions(false);
+                  }}
+                >
+                  Last 90 days
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div className="mx-[40px] flex justify-between items-center font-MontserratRegular">
+          <div className="flex items-center">
+            <img
+              className="w-[100px] h-[100px] rounded-full mr-[20px]"
+              src={data?.profile_pic_url}
+              alt=""
+            />
+            <div className="flex flex-col text-2xl">
+              <div> {data?.username} </div>
+              <div className="font-semibold text-[#757575]">
+                @{data?.username}
+              </div>
+              <div className="flex items-center">
+                <div className="font-semibold font-MontserratSemiBold text-[#23df85] capitalize">
+                  {data?.userMode}
+                </div>
+                <appTooltip className="ml-[8px] cursor-pointer group relative">
+                  <div className="flex items-center">
+                    <svgIcon
+                      className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                      style={{
+                        transition: 'all .1s ease-in',
+                      }}
+                    >
+                      <svg
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
+                      </svg>
+                      <span className="tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                        transition: 'opacity .5s ease-in-out',
+                      }}>How your account is currently interacting with new users. You can change this in your interaction settings.</span>
+                    </svgIcon>
+                  </div>
+                </appTooltip>
+              </div>
+            </div>
+          </div>
+          
+          <Starts />
+        </div>
+      </div>
+
+      <div className="flex items-center px-10">
+        <div
+          className="min-w-[calc(100%-450px)]"
+          style={{ padding: '10px 40px 10px 0' }}
+        >
+          <ChartSection
+            sessionsData={sessionsData}
+            days={selectedDate.value}
+            isPrivate={false}
+          />
+        </div>
+        <div className="my-10">
+          <div>
+            <div
+              className="p-[35px] relative rounded-[10px] w-[450px]"
+              style={{ boxShadow: '0 0 3px #00000040' }}
+            >
+              <appTooltip className="absolute top-[25px] right-[20px] ml-[8px] z-10 group cursor-pointer">
+                <div className="flex items-center">
+                  <svgIcon
+                    className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                    style={{
+                      transition: 'all .1s ease-in',
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
+                    </svg>
+                  </svgIcon>
+                </div>
+              </appTooltip>
+              <div className="flex items-center">
+                <img
+                  alt=""
+                  className="mr-5 w-[87px] h-[87px] rounded-full"
+                  src="https://demo.engagementboost.com/assets/images/engagement/manager.png"
+                ></img>
+                <div>
+                  <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
+                  <div
+                    _ngcontent-cuk-c74=""
+                    className="font-bold font-MontserratBold text-2xl text-black"
+                  >
+                    Alexander A
+                  </div>
+                  <div className="font-normal text-base">
+                    Personal account manager
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 text-black text-sm font-normal">
+                Hey! My name is Alex and I am super excited to be your personal
+                account manager. I’ve been an Instagram marketing consultant
+                since 2017 and am here to help you get the real and targeted
+                growth you’ve been waiting for! Ask me any questions related to
+                targeting, account settings, content and more!
+              </div>
+            </div>
+            <div className="mt-[10px] gap-[10px] flex items-center">
+              <div className="bg-[#23df85] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
+                <BsHeadset size={18} className="mr-1" />
+                <span> Shedule a call</span>
+              </div>
+              <div className="bg-[#1b89ff] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
+                <BiMessageSquareDots size={18} className="mr-1" />
+                <span> Send an email</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <TargetingCompt />
+
+      <WhiteListCompt />
+    </>
+  );
+}
+
+const Starts = () => {
+  return(<>
+    <div className="flex items-center gap-4">
+      <div
+        className="bg-[#1b89ff] text-white w-[220px] cursor-pointer rounded-[10px]"
+        style={{
+          padding: '12px 16px 2px 20px',
+          transition: 'all .15s ease-in',
+        }}
+      >
+        <div className="text-[16px] font-[500]">Followers</div>
+        <div className="flex justify-between items-center">
+          <div className="text-4xl leading-[54px] font-MontserratBold font-bold">
+            49.6k
+          </div>
+          <div className="py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#23df85] mt-1 flex items-center gap-1 text-[12px] font-bold font-MontserratBold">
+            123 <FaCaretUp color="#1B89FF" size={12} />
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="text-black w-[220px] cursor-pointer rounded-[10px]"
+        style={{
+          boxShadow: '0 0 3px #00000040',
+          padding: '12px 16px 2px 20px',
+          transition: 'all .15s ease-in',
+        }}
+      >
+        <div className="text-[16px] font-[500] text-[#757575]">
+          Followings
+        </div>
+        <div className="text-4xl leading-[54px] font-MontserratBold font-bold">
+          300
+        </div>
+      </div>
+
+      <div
+        className="text-black w-[220px] cursor-pointer rounded-[10px]"
+        style={{
+          boxShadow: '0 0 3px #00000040',
+          padding: '12px 16px 2px 20px',
+          transition: 'all .15s ease-in',
+        }}
+      >
+        <div className="text-[16px] font-[500] text-[#757575]">
+          Interactions
+        </div>
+        <div className="text-4xl leading-[54px] font-MontserratBold font-bold">
+          4.6k
+        </div>
+      </div>
     </div>
-  </>);
+  </>)
+}
+
+const AddOthers = ({ pageProp }) => {
+  return(<>
+    <div key={pageProp.id} className="w-[430px] mt-[50px] pl-4 h-[380px] relative">
+      <div
+        className="h-full relative"
+        style={{ transition: 'opacity .25s ease-in' }}
+      >
+        <div>
+          <div className="font-bold font-MontserratBold text-2xl text-black">
+            Add {pageProp.title} {pageProp.title !== "Targeting" && "Accounts"}
+          </div>
+          <div className="font-normal text-[14px]">
+            {pageProp.addDescription}
+          </div>
+        </div>
+
+        <div className="mt-5 relative">
+          <input
+            type="text"
+            placeholder="@accountname"
+            className="text-base font-medium text-black border border-black h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border"
+          />
+          <div
+            className={`hidden opacity-100 max-h-[400px] overflow-y-auto absolute top-full w-full left-0 translate-y-2 rounded-[10px] z-10`}
+            style={{
+              pointerEvents: 'all',
+              boxShadow: '0 0 3px #00000040',
+              transition: 'opacity .15s ease-in',
+            }}
+          >
+            <div>
+              <div>
+                <div className="cursor-pointer py-5 px-[30px] flex items-center justify-center">
+                  <div className="flex items-center">
+                    <img
+                      alt=""
+                      className="w-[46px] h-[46px] bg-[#c4c4c4] rounded-full mr-[12px]"
+                      src="https://cdninsta.com/instagram-profile/15561680.jpg"
+                    />
+                    <div _ngcontent-yko-c81 className="flex flex-col">
+                      <div _ngcontent-yko-c81 className="flex items-center">
+                        <div className="text-black text-base font-medium ">
+                          Jen Selter
+                        </div>
+                        <MdVerified
+                          className="ml-[5px] w-[18px] h-[18px]"
+                          size={18}
+                        />
+                      </div>
+                      <div className="text-[#757575] text-base font-semibold font-MontserratSemiBold">
+                        @jenselter
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          { pageProp.title === 'Targeting' && <div className="text-[#1b89ff] cursor-pointer mt-2 ml-5 text-[14px] font-medium font-MontserratSemiBold">
+            Need help picking targets?
+          </div>}
+        </div>
+
+        <button
+          className={`bg-[#23df85] text-white font-medium text-base mt-7 absolute bottom-0 font-MontserratSemiBold w-full rounded-[10px] h-[52px] max-h-[52px] border-none`}
+          disabled
+          style={{ transition: 'background-color .15s ease-in' }}
+        >
+          {pageProp.title === 'Targeting' ? 'Add Target' : pageProp.title + " Account" }
+        </button>
+      </div>
+    </div>
+  </>)
+}
+
+const OtherUsers = () => {
+
+  return (<>
+    <div
+      className="bg-[#f8f8f8] text-[#757575] flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[10px]"
+      style={{ transition: 'all .1s ease-in' }}
+    >
+      <div className="w-[60%] flex items-center whitespace-nowrap overflow-hidden text-ellipsis justify-start pl-5">
+        <div className="w-[40px] h-[40px] mr-[10px] relative">
+          <img alt="" className="h-[40px] w-[40px] rounded-full" src="https://cdninsta.com/instagram-profile/12281817.jpg" />
+        </div>
+        <div className="font-normal text-base text-black whitespace-nowrap overflow-hidden text-ellipsis">
+          @kyliejenner
+        </div>
+      </div>
+      <div className="w-[15%] flex items-center justify-end text-[#757575] text-base font-normal">
+        335.1M
+      </div>
+      <div className="w-[21%] flex items-center justify-end">
+        3 hours ago
+      </div>
+      <div className="w-[4%] flex items-center justify-end">
+        <FaTrash className="cursor-pointer" />
+      </div>
+    </div>
+  </>)
+}
+
+const TargetingCompt = () => {
+  const pageProp = { id: 1, title: "Targeting", addDescription: 'Set up your targeting by adding relevant Usernames and Hashtags.' }
+  return (<>
+    <div>
+      <div>
+        <div
+          className="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
+          style={{
+            boxShadow: '0 0 3px #00000040',
+          }}
+        >
+          <div className="flex items-center">
+            <div className="bg-[#f8f8f8] font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
+              Targeting
+              <span className="bg-[#23df85] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
+                20
+              </span>
+            </div>
+            <appTooltip className="ml-[12px] cursor-pointer group">
+              <div className="flex items-center">
+                <svgIcon
+                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                  style={{
+                    transition: 'all .1s ease-in',
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
+                  </svg>
+                </svgIcon>
+              </div>
+            </appTooltip>
+          </div>
+
+          <button className="bg-[#1b89ff] text-white font-bold font-MontserratBold text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer">
+            Targeting Filters
+            <img alt="" className="ml-2" src="/ic_filters.svg" />
+          </button>
+        </div>
+      </div>
+
+      <div className="m-10 mt-0 flex items-center">
+        <div className="grow">
+          <div className="text-[#757575] flex items-center w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold pr-[30px]">
+            <div className="w-[60%] flex items-center justify-start pl-5">
+              <span className="ml-[60px]">Account</span>
+            </div>
+            <div className="w-[15%] flex items-center justify-end">
+              Followers
+            </div>
+            <div className="w-[20%] flex items-center justify-end">Added</div>
+            <div className="w-[5%]"></div>
+          </div>
+
+          <div className="h-[380px] overflow-y-auto flex flex-col gap-[11px] pr-4">
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+          </div>
+        </div>
+
+        <AddOthers pageProp={pageProp} />
+      </div>
+    </div>
+  </>)
+}
+
+const WhiteListCompt = () => {
+  const [pageProp, setPageProp] = useState({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by EngagementBoost. We will never unfollow anyone you manually followed.' })
+  const [showPageModal, setShowPageModal] = useState(false)
+
+  return (<>
+    <div>
+      <div>
+        <div
+          className="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
+          style={{
+            boxShadow: '0 0 3px #00000040',
+          }}
+        >
+          <div className="flex items-center">
+            <div className="relative">
+              <div className="bg-[#f8f8f8] font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
+                onClick={() => setShowPageModal(true)}
+              >
+                {pageProp.title}
+                <span className={`${pageProp.title === "Whitelist" ? "bg-[#1b89ff]" : "bg-[#000]"} text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]`}>
+                  20
+                </span>
+                <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
+              </div>
+              <div className={`${showPageModal ? 'opacity-100 z-10' : 'opacity-0 -z-10'} absolute top-0 left-0 w-full bg-white rounded-[10px]`} style={{
+                boxShadow: "0 0 3px #00000040",
+                transform: 'translteY(8px)',
+                transition: 'opacity .15s ease-in',
+              }}>
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-[#f8f8f8]"
+                  onClick={() => {
+                    setPageProp({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by EngagementBoost. We will never unfollow anyone you manually followed.' })
+                    setShowPageModal(false)
+                  }}>
+                  Whitelist
+                  <span className="bg-[#1b89ff] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
+                    20
+                  </span>
+                  <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
+                </div>
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-[#f8f8f8]"
+                  onClick={() => {
+                    setPageProp({
+                      id: 3, title: "Blacklist", addDescription: "Blacklist users that you would not like to interact with and we won't follow them when growing your account."
+                    })
+                    setShowPageModal(false)
+                  }}>
+                  Blacklist
+                  <span className="bg-[#000] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
+                    24
+                  </span>
+                </div>
+              </div>
+            </div>
+            <appTooltip className="ml-[12px] cursor-pointer group">
+              <div className="flex items-center">
+                <svgIcon
+                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                  style={{
+                    transition: 'all .1s ease-in',
+                  }}
+                >
+                  <svg
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
+                  </svg>
+                </svgIcon>
+              </div>
+            </appTooltip>
+          </div>
+        </div>
+      </div>
+      
+      <div className="m-10 mt-0 d-flex items-center">
+        <div className="grow">
+          <div className="text-[#757575] flex items-center w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold pr-[30px]">
+            <div className="w-[60%] flex items-center justify-start pl-5">
+              <span className="ml-[60px]">Account</span>
+            </div>
+            <div className="w-[15%] flex items-center justify-end">
+              Followers
+            </div>
+            <div className="w-[20%] flex items-center justify-end">Added</div>
+            <div className="w-[5%]"></div>
+          </div>
+
+          <div className="h-[380px] overflow-y-auto flex flex-col gap-[11px] pr-4">
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+            <OtherUsers />
+          </div>
+        </div>
+
+        <AddOthers pageProp={pageProp} />
+      </div>
+    </div>
+  </>)
 }
