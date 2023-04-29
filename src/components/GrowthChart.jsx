@@ -79,7 +79,7 @@ export default function GrowthChart({ sessionsData, days }) {
   return (
     <div>
       <div className="rounded-md text-gray20 w-full">
-        <div className="px-3">
+        <div className="md:px-3">
           <Chart
             options={options}
 

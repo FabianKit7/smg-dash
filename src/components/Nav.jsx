@@ -41,32 +41,31 @@ export default function Nav() {
   return (
     <nav className="mb-[30px]" ref={parentRef}>
       <div
-        className="flex justify-between mt-[20px]"
+        className="flex justify-between items-center mt-[20px]"
       >
         <Link to="/" className="navbar-brand" href="#">
           {/* <img src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
-            <img src="/sproutysocial-light.svg" alt="" className="w-[346px]" />
+            <img alt="" className="md:hidden w-[55px] h-[55px]" src="/logo.png" />
+            <img src="/sproutysocial-light.svg" alt="" className="hidden md:inline  w-[346px]" />
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-left">SPROUTYSOCIAL</strong> */}
           </div>
 
         </Link>
 
-        {data?.full_name && <div className="flex justify-center items-center gap-2 md:gap-[10px] p-[10px]">
-          <Link to="">
+        {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
               src={data?.profile_pic_url}
-              className="rounded-circle"
+              className="rounded-full"
               height={32}
               width={32}
               alt={data?.username?.charAt(0)?.toUpperCase()}
               loading="lazy"
             />
-          </Link>
-          <div className="relative flex items-center gap-2 font-MontserratRegular text-lg cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          <div className="relative flex items-center gap-2 font-MontserratRegular text-lg">
             <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden md:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
-            <FaAngleDown />
+            <FaAngleDown className="hidden md:block" />
             {isOpen && (
               <ul className="absolute z-10 bg-white py-2 shadow-targeting w-36 top-[130%] right-[5%]">
                 <Link className="font-normal text-sm" to={"/dashboard/" + data?.user_id}

@@ -7,12 +7,13 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    max-width: 860px;
+    /* max-width: 860px; */
     max-height: 740px;
     padding: 60px 24px;
     border-radius: 20px;
     box-shadow: 0px 4px 53px rgba(0, 0, 0, 0.1);
     overflow-y: scroll;
+    z-index: 9999;
   }
 
   .modal_add_content {

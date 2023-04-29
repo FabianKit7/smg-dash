@@ -70,7 +70,7 @@
     position: absolute;
     top: -200%;
     left: -415px;
-    z-index: 100;
+    z-index: 2;
     box-shadow: 0 0 3px #00000040;
     font-size: 14px;
 }
