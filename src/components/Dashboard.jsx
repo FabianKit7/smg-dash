@@ -11,14 +11,9 @@ import { Spinner } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { countDays, deleteAccount, getAccount, numFormatter, searchAccount, updateUserProfilePicUrl, uploadImageFromURL } from "../helpers";
 import { supabase } from "../supabaseClient";
-// import Blacklist from "./Blacklist";
 import ChartSection from "./ChartSection";
 import Nav from "./Nav";
 import TargetingFilterModal from './TargetingFilterModal'
-// import StatsCard from "./StatsCard";
-// import StatsSection from "./StatsSection";
-// import Targeting from "./Targeting";
-// import Whitelist from "./Whitelist";
 
 const Error = ({ value }) => {
   return (
@@ -617,8 +612,6 @@ const TargetingCompt = ({ user }) => {
   const userId = user?.user_id
   const pageProp = { id: 1, title: "Targeting", addDescription: 'Set up your targeting by adding relevant Usernames and Hashtags.' }
   const [targetingAccounts, setTargetingAccounts] = useState([]);
-  // const [modalIsOpen, setIsOpen] = useState(false);
-  const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const [followerMinValue, setFollowerMinValue] = useState(1);
@@ -631,12 +624,10 @@ const TargetingCompt = ({ user }) => {
   const [privacy, setPrivacy] = useState('All');
   const [gender, setGender] = useState('All');
   const [lang, setLang] = useState('All');
-  // const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
     const getTargetingAccounts = async () => {
       if (!userId) return;
-      setLoadingSpinner(true)
       const { data, error } = await supabase
         .from("targeting")
         .select()
@@ -645,7 +636,6 @@ const TargetingCompt = ({ user }) => {
 
       if (error) return console.log(error);
       setTargetingAccounts(data);
-      setLoadingSpinner(false)
     };
 
     getTargetingAccounts();
@@ -784,14 +774,11 @@ const WhiteListCompt = ({ userId }) => {
   const [pageProp, setPageProp] = useState({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by EngagementBoost. We will never unfollow anyone you manually followed.' })
   const [showPageModal, setShowPageModal] = useState(false)
   const [targetingAccounts, setTargetingAccounts] = useState([]);
-  // const [modalIsOpen, setIsOpen] = useState(false);
-  const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
 
   useEffect(() => {
     const getTargetingAccounts = async () => {
       if (!userId) return;
-      setLoadingSpinner(true)
       const whiteList = await supabase
         .from('whitelist')
         .select()
@@ -807,7 +794,6 @@ const WhiteListCompt = ({ userId }) => {
       pageProp?.title === 'Whitelist' ? setTargetingAccounts(whiteList.data) : setTargetingAccounts(blackList.data);
       if (blackList.error) console.log(blackList.error);
       if (whiteList.error) console.log(whiteList.error);
-      setLoadingSpinner(false)
     };
 
     getTargetingAccounts();
