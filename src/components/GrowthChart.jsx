@@ -39,6 +39,11 @@ export default function GrowthChart({ sessionsData, days }) {
       },
     },
     grid: {
+      xaxis: {
+        lines: {
+          show: true
+        }
+      },
       show: true,
       padding: {
         left: 0,
@@ -58,6 +63,9 @@ export default function GrowthChart({ sessionsData, days }) {
       categories,
     },
     yaxis: {
+      axisTicks: {
+        show: true
+      },
       labels: {
         offsetX: -15,
         offsetY: 0,

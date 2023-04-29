@@ -2,18 +2,22 @@
     font-family: MADEOKINESANSPERSONALUSE;
     src: url('./fonts/okine/MADEOkineSansPERSONALUSE-Bold.otf');
 }
+
 @font-face {
     font-family: Montserrat-Regular;
     src: url('./fonts/Montserrat/Montserrat-Regular.ttf');
 }
+
 @font-face {
     font-family: Montserrat-Light;
     src: url('./fonts/Montserrat/Montserrat-Light.ttf');
 }
+
 @font-face {
     font-family: Montserrat-SemiBold;
     src: url('./fonts/Montserrat/Montserrat-SemiBold.ttf');
 }
+
 @font-face {
     font-family: Montserrat-Bold;
     src: url('./fonts/Montserrat/Montserrat-Bold.ttf');
@@ -29,17 +33,16 @@
 
 .tooltiptext {
     visibility: hidden;
-    width: 450px;
+    width: 400px;
     background-color: white;
     color: #000;
-    text-align: center;
     border-radius: 6px;
     padding: 15px;
     position: absolute;
-    z-index: 1;
-    bottom: 150%;
+    z-index: 100;
+    bottom: 180%;
     left: 50%;
-    margin-left: -225px;
+    margin-left: -200px;
     box-shadow: 0 0 3px #00000040;
     font-size: 14px;
 }
@@ -48,10 +51,38 @@
     content: "";
     position: absolute;
     top: 100%;
-    box-shadow: 0 0 3px #00000040;
     left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
+    margin-left: -15px;
+    border-width: 15px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: white transparent transparent transparent;
+    -webkit-filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, .4));
+    filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, .4));
+}
+
+.tooltiptext2 {
+    visibility: hidden;
+    width: 400px;
+    background-color: white;
+    color: #000;
+    border-radius: 6px;
+    padding: 15px;
+    position: absolute;
+    top: -200%;
+    left: -415px;
+    z-index: 100;
+    box-shadow: 0 0 3px #00000040;
+    font-size: 14px;
+}
+
+.tooltiptext2::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -29px;
+    transform: translate(0px, -50%);
+    border-width: 15px;
+    border-style: solid;
+    border-color: transparent transparent transparent white;
+    filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, .4));
 }
