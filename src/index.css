@@ -87,6 +87,35 @@
     filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, .4));
 }
 
+.antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bx {
+    font-family: 'boxicons' !important;
+    font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    display: inline-block;
+    text-transform: none;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bx-error:before {
+    content: '\ea3a';
+}
+
+::after,
+::before {
+    border-width: 0;
+    border-style: solid;
+    border-color: #e2e8f0;
+}
+
 @media only screen and (max-width: 700px) {
     .tooltiptext {
         width: 300px;

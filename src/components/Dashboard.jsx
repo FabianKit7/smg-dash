@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useClickOutside } from "react-click-outside-hook";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BiMessageSquareDots } from "react-icons/bi";
+import { CgDanger } from "react-icons/cg";
 import { BsHeadset } from "react-icons/bs";
 import { FaAngleDown, FaCaretDown, FaCaretUp, FaTimes, FaTrash, FaUser } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
@@ -96,12 +97,10 @@ export default function Dashboard() {
           pageProp={mobileAdd.pageProp}
           userId={userData.user_id}
           setMobileAdd={setMobileAdd}
-        // addSuccess={addSuccess}
-        // setAddSuccess={setAddSuccess}
         />
       }
 
-      {!mobileAdd.show && <div className="">
+      {!mobileAdd.show && <>
         <div className="hidden lg:block">
           <div
             className="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
@@ -515,7 +514,7 @@ export default function Dashboard() {
         <TargetingCompt user={userData} setMobileAdd={setMobileAdd} />
 
         <WhiteListCompt userId={userData?.user_id} setMobileAdd={setMobileAdd} />
-      </div>}
+      </>}
     </>
   );
 }
@@ -833,8 +832,43 @@ const AddOthers = ({ pageProp, userId, addSuccess, setAddSuccess, setMobileAdd }
 }
 
 const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
+  const [confirm, setConfirm] = useState({ title: '', description: '' })
 
   return (<>
+    {confirm.title && <div className="antialiased bg-gray-200/20 text-gray-900 font-sans overflow-x-hidden fixed top-0 left-0 w-full h-screen z-10">
+      <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
+        <div className="bg-black opacity-25 w-full h-full absolute z-10 inset-0" />
+        <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+          <div className="md:flex items-center">
+            <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
+              {/* <i className="bx bx-error text-3xl" /> */}
+              <CgDanger />
+            </div>
+            <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+              <p className="font-bold">{confirm.title}</p>
+              <p className="text-sm text-gray-700 mt-1">{confirm.description}
+              </p>
+            </div>
+          </div>
+          <div className="text-center md:text-right mt-4 md:flex md:justify-end">
+            <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+              onClick={async () => {
+                await deleteAccount(from, account.id);
+                setAddSuccess(!addSuccess)
+                setConfirm({ title: "", description: "" })
+              }}
+            >Delete
+              Account</button>
+            <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
+              onClick={() => {
+                setConfirm({ title: "", description: "" })
+              }}
+            >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>}
+
     <div
       className="bg-[#f8f8f8] text-[#757575] flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
       style={{ transition: 'all .1s ease-in' }}
@@ -858,8 +892,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
       </div>
       <div className="w-[4%] md:w-[4%] ml-2 md:ml-0 flex items-center justify-end">
         <FaTrash className="cursor-pointer" onClick={async () => {
-          await deleteAccount(from, account.id);
-          setAddSuccess(!addSuccess)
+          setConfirm({ title: "Delete account", description: `Do you want to remove ${account.account}?` })
         }} />
       </div>
     </div>
@@ -1255,7 +1288,7 @@ const WhiteListCompt = ({ userId, setMobileAdd }) => {
           </div>
         </div>
 
-        <div className="lg:hidden flex items-center gap-2 w-full mt-4">
+        <div className="lg:hidden flex items-center gap-2 w-full my-4">
           <button className={`bg-[#23df85] text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >

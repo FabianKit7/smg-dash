@@ -18,7 +18,7 @@ import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 
-const pathname = window.location.pathname;
+// const pathname = window.location.pathname;
 
 function App() {
   useEffect(() => {

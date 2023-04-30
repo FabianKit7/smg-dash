@@ -259,7 +259,7 @@ export const getThDayNameFromDate = (date) => {
 
 export const deleteAccount = async (from, id) => {
   // console.log(from, id);
-  if (id && window.confirm("Are you sure you want to delete this account?")) {
+  // if (id && window.confirm("Are you sure you want to delete this account?")) {
     const { data, error } = await supabase
       .from(from)
       .delete()
@@ -268,11 +268,10 @@ export const deleteAccount = async (from, id) => {
     error && console.log(error)
     // alert('error deleting account! contact admin');
     return data
-  }
+  // }
 }
 
 export const deleteUserDetails = async (user_id) => {
-  // console.log(user_id);
   await deleteUser(user_id);
   await deleteUserBlacklist(user_id);
   await deleteUserTargeting(user_id);
