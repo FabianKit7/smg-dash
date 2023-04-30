@@ -41,7 +41,7 @@ export default function Nav() {
   return (
     <nav className="mb-[30px]" ref={parentRef}>
       <div
-        className="flex justify-between items-center mt-[20px]"
+        className="flex justify-between items-center mt-2 md:mt-[20px]"
       >
         <Link to="/" className="navbar-brand" href="#">
           {/* <img src={sproutyLogo} alt="sprouty social" /> */}

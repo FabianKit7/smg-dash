@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import Chart from "react-apexcharts";
-import { monthNames, numFormatter } from "../helpers";
+import { monthNames } from "../helpers";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function GrowthChart({ sessionsData, days }) {
+export default function GrowthChart({ isPrivate, sessionsData, days }) {
   const [followersData, setFollowersData] = useState([])
   const [categories, setCategories] = useState([])
+
   useEffect(() => {
     let followersData = []
     let categories = []
@@ -77,22 +78,30 @@ export default function GrowthChart({ sessionsData, days }) {
   }
 
   return (
-    <div>
-      <div className="rounded-md text-gray20 w-full">
-        <div className="md:px-3">
-          <Chart
-            options={options}
-
-            series={[{
-              name: "Followers",
-              data: followersData
-            }]}
-
-            type="area"
-            height="400"
-          />
-        </div>
-      </div>
+    <div className="w-full rounded-lg">
+      {isPrivate ? <h4 style={{ textAlign: 'center' }}><i className="fas fa-lock" /> This account is private</h4> :
+        (
+          <Fragment>
+              <div>
+                <div className="rounded-md text-gray20 w-full">
+                  <div className="md:px-3">
+                    <Chart
+                      options={options}
+          
+                      series={[{
+                        name: "Followers",
+                        data: followersData
+                      }]}
+          
+                      type="area"
+                      height="400"
+                    />
+                  </div>
+                </div>
+              </div>
+          </Fragment>
+        )
+      }
     </div>
   );
 }

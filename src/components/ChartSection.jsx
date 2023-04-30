@@ -11,7 +11,7 @@ const ChartSection = ({ isPrivate, sessionsData, days }
           <Fragment>
               {/* <div className="mt-12"> */}
               {/* <div className=""> */}
-            <GrowthChart currFollowers={2213} sessionsData={sessionsData} days={days} />
+            <GrowthChart isPrivate={isPrivate} currFollowers={2213} sessionsData={sessionsData} days={days} />
               {/* </div> */}
           </Fragment>
         )
