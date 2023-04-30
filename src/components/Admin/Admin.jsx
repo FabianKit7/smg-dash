@@ -13,7 +13,7 @@ export default function Admin() {
   let receiptsRead = [];
   let currentReceipt = null;
   var list = []
-  
+
   const receiptReader = new FileReader();
   receiptReader.onloadend = (e) => {
     // const loadSucceeded = (e.error === undefined) ? true : false;
@@ -60,14 +60,15 @@ export default function Admin() {
           .update({
             followers: lastItem.profile.followers,
             following: lastItem.profile.following,
-            posts: lastItem.profile.posts
+            posts: lastItem.profile.posts,
+            total_interactions: lastItem.total_interactions
           }).eq('username', username);
 
         updateUser.error && console.log(updateUser.error);
       } catch (error) {
         console.log(error);
       }
-        
+
       const { error } = await supabase
         .from("sessions")
         .upsert({
