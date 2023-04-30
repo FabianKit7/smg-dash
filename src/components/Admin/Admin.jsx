@@ -60,7 +60,8 @@ export default function Admin() {
           .update({
             followers: lastItem.profile.followers,
             following: lastItem.profile.following,
-            posts: lastItem.profile.posts
+            posts: lastItem.profile.posts,
+            total_interactions: lastItem.total_interactions
           }).eq('username', username);
 
         updateUser.error && console.log(updateUser.error);
