@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { IoClose } from 'react-icons/io5';
-import MultiRangeSlider, { ChangeResult } from "multi-range-slider-react";
+import MultiRangeSlider from "multi-range-slider-react";
 import { FaMagic } from "react-icons/fa"
 import "../modalsettings.css"
 import "../MultiRangeSlider.css"
@@ -18,7 +18,7 @@ export default function TargetingFilterModal(props, { min, max }) {
   //   mediaMin: parseInt(localStorage.getItem('mediaMinValue'), 10) || 1,
   //   mediaMax: parseInt(localStorage.getItem('mediaMaxValue'), 10) || 1000,
   // }
-  const { setFilterModal, filtermodal, user, user_id,
+  const { setFilterModal, filtermodal, user_id,
     followerMinValued, followerMaxValued, followingMinValued, followingMaxValued, mediaMinValued, mediaMaxValued, margicd, privacyd, genderd, langd } = props;
 
   const [followerMinValue, setFollowerMinValue] = useState(followerMinValued);
@@ -94,7 +94,7 @@ export default function TargetingFilterModal(props, { min, max }) {
             Here you can add preferences for your ideal follower. Before any follow or like we do, target will be checked if it complies to your liking.
           </p>
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end cursor-pointer">
           <IoClose
             className="text-[30px] text-[#8c8c8c]"
             onClick={() => setFilterModal(false)}

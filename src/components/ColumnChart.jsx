@@ -119,7 +119,7 @@ export default function ColumnChart({ type, sessionsData, days }) {
             options={options}
 
             series={[{
-              name: "Followers",
+              name: type,
               data: followersData
             }]}
 
