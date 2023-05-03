@@ -99,7 +99,7 @@ const ModalNew = (props) => {
             <div className="relative w-full md:w-[403px] flex justify-center mt-4">
               <div className="flex items-center justify-center gap-2 rounded-[10px] py-4 px-4 text-[1.25rem] border shadow-[inset_0_0px_2px_rgba(0,0,0,0.4)] ">
                 <input
-                  className='w-80 placeholder:text-center text-center outline-none'
+                  className='w-full md:w-80 placeholder:text-center text-center outline-none'
                   // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
                   type={showPassword ? "text" : "password"}
                   placeholder='Instagram Password'
@@ -138,7 +138,7 @@ const ModalNew = (props) => {
                 </div>
               </div>
 
-              <div className={`${mode === "follow" ? "border-[4px] border-[#1b89ff] h-[270px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "follow" ? "border-[4px] border-[#1b89ff] h-[270px] sm:h-[200px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("follow")}>
                 <svgicon className={`${mode === "follow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
