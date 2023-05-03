@@ -78,9 +78,9 @@
 .tooltiptext2::after {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 21%;
     right: -29px;
-    transform: translate(0px, -50%);
+    transform: translate(0px, -21%);
     border-width: 15px;
     border-style: solid;
     border-color: transparent transparent transparent white;
@@ -124,5 +124,11 @@
 
     .tooltiptext::after {
         margin-left: 27%;
+    }
+
+    .tooltiptext2 {
+        width: 240px;
+        top: -320%;
+        left: -253px;
     }
 }

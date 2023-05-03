@@ -53,10 +53,10 @@ export default function Settings() {
           </div>
         </div>
 
-        <div className="p-10">
-          <div className="flex justify-between items-center h-[70px] text-[18px]">
+        <div className="md:p-10">
+          <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
             <div className="">Full Name</div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">{user?.full_name}</div>
               <div className="text-[#1b89ff] cursor-pointer"
               onClick={() => {
@@ -67,9 +67,9 @@ export default function Settings() {
               >Change</div>
             </div>
           </div>
-          <div className="flex justify-between items-center h-[70px] text-[18px]">
+          <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
             <div className="">Email</div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col md:flex-row md:items-center md:gap-3">
               <div className="text-[#757575]">{user?.email}</div>
               <div className="text-[#1b89ff] cursor-pointer"
               onClick={() => {
@@ -80,9 +80,9 @@ export default function Settings() {
               >Change</div>
             </div>
           </div>
-          <div className="flex justify-between items-center h-[70px] text-[18px]">
+          <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
             <div className="">Password</div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">************</div>
               <div className="text-[#1b89ff] cursor-pointer"
               onClick={() => {
@@ -93,9 +93,9 @@ export default function Settings() {
               >Change</div>
             </div>
           </div>
-          <div className="flex justify-between items-center h-[70px] text-[18px]">
+          <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
             <div className="">Phone number</div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">{user?.phone}</div>
               <div className="text-[#1b89ff] cursor-pointer"
               onClick={() => {
@@ -106,9 +106,9 @@ export default function Settings() {
               >Change</div>
             </div>
           </div>
-          <div className="flex justify-between items-center h-[70px] text-[18px]">
+          <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
             <div className="">Subscription</div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">Active</div>
               <div className="text-[#1b89ff] cursor-pointer" onClick={() => setCancelModal(true)}>Cancel</div>
             </div>

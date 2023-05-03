@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Modal from 'react-modal';
+import Modal from "react-bootstrap/Modal";
 import { IoClose, IoPowerOutline } from 'react-icons/io5';
 import { BsPersonPlus, BsPersonDash } from "react-icons/bs"
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai"
@@ -9,27 +9,15 @@ import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';
 import { FaLock } from 'react-icons/fa';
 import axios from 'axios';
-// import Instagram from "instagram-web-api";
 
 axios.defaults.headers.post['accept'] = 'application/json';
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 
-// const urlEncode = function (data) {
-//   var str = [];
-//   for (var p in data) {
-//     if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
-//       str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
-//     }
-//   }
-//   return str.join("&");
-// }
+const ModalNew = (props) => {
+  const { modalIsOpen, setIsOpen, avatar, userId, u } = props
 
-Modal.setAppElement('#root');
-
-const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState('auto');
   const [showPassword, setShowPassword] = useState(false)
@@ -90,13 +78,21 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
 
   return (
     <Modal
-      isOpen={modalIsOpen}
-      className="modal_content"
-      overlayClassName="modal_overlay"
-      contentLabel="Dashboard Modal"
+      // isOpen={modalIsOpen}
+      // className="modal_content"
+      // overlayClassName="modal_overlay"
+      // contentLabel="Dashboard Modal"
+
+      {...props}
+      dialogClassName="modal-90w"
+      className="modal-90w"
+      size="xl"
+      // fullscreen={"xxl-down"}
+      aria-labelledby="example-custom-modal-styling-title"
+      centered
     >
-      <div className="modal_form_wrapper relative">
-        <div className="modal_nav absolute -top-4 right-0">
+      <div className="relative">
+        <div className="modal_nav absolute top-2 right-2">
           <IoClose
             className="modal_close_icon text-[30px]"
             onClick={() => {
@@ -104,7 +100,7 @@ const ModalNew = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
             }}
           />
         </div>
-        <div className="flex flex-col lg:flex-row justify-between gap-4">
+        <div className="flex flex-col xl:flex-row justify-between gap-2 p-3 h-full overflow-auto">
           <div className="flex flex-col justify-center items-center">
             <img className='w-[100px] h-[100px] md:w-[140px] md:h-[140px] mb-1 rounded-full' src={avatar || avatarImg} alt="" />
             <h2 className='font-bold text-gray20 text-base mb-1 font-MontserratBold'>@{user?.username}</h2>

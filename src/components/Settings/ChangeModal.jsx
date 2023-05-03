@@ -5,8 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoClose } from 'react-icons/io5';
 import { supabase } from "../../supabaseClient";
-import InfoAlert from "../InfoAlert";
-// import { supabase } from "../../supabaseClient";
+import InfoAlert from "./InfoAlert";
 
 
 export default function ChangeModal(props) {
@@ -15,7 +14,7 @@ export default function ChangeModal(props) {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
