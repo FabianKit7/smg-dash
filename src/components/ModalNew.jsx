@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
-import { IoClose, IoPowerOutline } from 'react-icons/io5';
-import { BsPersonPlus, BsPersonDash } from "react-icons/bs"
+import { IoClose } from 'react-icons/io5';
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai"
 import flashImg from "../images/flash.svg"
 import "../../src/modalsettings.css"
@@ -75,11 +74,11 @@ const ModalNew = (props) => {
       // dialogClassName="modal-90w"
       // className="modal-90w"
       size="xl"
-      // fullscreen={"xxl-down"}
+      fullscreen={"xl-down"}
       aria-labelledby="example-custom-modal-styling-title"
       centered
     >
-      <div className="relative">
+      <div className="relative h-screen xl:h-full overflow-auto">
         <div className="modal_nav absolute top-2 right-2">
           <IoClose
             className="modal_close_icon text-[30px]"
@@ -89,7 +88,7 @@ const ModalNew = (props) => {
           />
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-between gap-2 p-10 min-h-[700px] overflow-auto">
+        <div className="flex flex-col xl:flex-row justify-between gap-2 p-7 md:p-10">
           <div className="flex flex-col justify-center md:justify-start items-center md:mt-[39px]">
             <div className="relative w-[100px] h-[100px] md:w-[140px] md:h-[140px] rounded-full">
               <img className='h-full w-full mb-1 rounded-full' src={user?.profile_pic_url} alt="" />
@@ -120,18 +119,18 @@ const ModalNew = (props) => {
           </div>
 
           <div className="w-full">
-            <div className="flex flex-col gap-5 h-[575px]">
-              <div className="mb-[10px] text-[18px] font-bold font-MontserratBold">Interaction settings</div>
+            <div className="flex flex-col gap-5">
+              <div className="xl:mb-[10px] mt-4 xl:mt-0 text-[18px] xl:font-bold xl:font-MontserratBold">Interaction settings</div>
 
-              <div className={`py-5 px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-5`} style={{
+              <div className={`${mode === "auto" ? "border-[4px] border-[#1b89ff] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("auto")}>
-                <img className={`${mode === "auto" ? "w-[140px] h-[140px]" : "w-[30px] h-[30px]"}`} src={flashImg} alt="" style={{
+                <img className={`${mode === "auto" ? "w-[60px] h-[60px] lg:w-[100px] lg:h-[100px]" : "w-[20px] h-[20px] lg:w-[30px] lg:h-[30px]"}`} src={flashImg} alt="" style={{
                   transition: "all .3s linear"
                 }} />
                 <div className="">
-                  <h3 className={`${mode === "auto" ? "text-[24px]" : "text-[18px]"} font-bold font-MontserratBold`}>Auto Mode</h3>
-                  <p className={`${mode === "auto" ? "opacity-100 h-[150px]" : "opacity-0 max-h-0"} text-base overflow-hidden`} style={{
+                  <h3 className={`${mode === "auto" ? "text-[18px] lg:text-[24px]" : "text-[16px] lg:text-[18px]"} font-bold font-MontserratBold`}>Auto Mode</h3>
+                  <p className={`${mode === "auto" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
                     This setting will follow and unfollow relevant users using the targets you have selected. We will automatically unfollow users after 3 days to keep your following number low and healthy. We will never unfollow anyone that you manually followed yourself.
@@ -139,10 +138,10 @@ const ModalNew = (props) => {
                 </div>
               </div>
 
-              <div className={`py-5 px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-5`} style={{
+              <div className={`${mode === "follow" ? "border-[4px] border-[#1b89ff] h-[270px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("follow")}>
-                <svgicon className={`${mode === "follow" ? "min-w-[100px] h-[100px]" : "min-w-[30px] h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
+                <svgicon className={`${mode === "follow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
                   transition: "all .3s linear"
                 }}>
                   <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -150,8 +149,8 @@ const ModalNew = (props) => {
                   </svg>
                 </svgicon>
                 <div className="">
-                  <h3 className={`${mode === "follow" ? "text-[24px]" : "text-[18px]"} font-bold font-MontserratBold`}>Follow Mode</h3>
-                  <p className={`${mode === "follow" ? "opacity-100 h-[150px]" : "opacity-0 max-h-0"} text-base overflow-hidden`} style={{
+                  <h3 className={`${mode === "follow" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>Follow Mode</h3>
+                  <p className={`${mode === "follow" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base xl:text-[14px] font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
                     In ‘Follow Mode,’ your account will continue following
@@ -164,10 +163,10 @@ const ModalNew = (props) => {
                 </div>
               </div>
 
-              <div className={`py-5 px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-5`} style={{
+              <div className={`${mode === "unfollow" ? "border-[4px] border-[#1b89ff] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("unfollow")}>
-                <svgicon className={`${mode === "unfollow" ? "min-w-[100px] h-[100px]" : "min-w-[30px] h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
+                <svgicon className={`${mode === "unfollow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
                   transition: "all .3s linear"
                 }}>
                   <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -175,8 +174,8 @@ const ModalNew = (props) => {
                   </svg>
                 </svgicon>
                 <div className="">
-                  <h3 className={`${mode === "unfollow" ? "text-[24px]" : "text-[18px]"} font-bold font-MontserratBold`}>Unfollow Mode</h3>
-                  <p className={`${mode === "unfollow" ? "opacity-100 h-[150px]" : "opacity-0 max-h-0"} text-base overflow-hidden`} style={{
+                  <h3 className={`${mode === "unfollow" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>Unfollow Mode</h3>
+                  <p className={`${mode === "unfollow" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
                     In ‘Unfollow Mode,’ your account will unfollow all of the
@@ -188,10 +187,10 @@ const ModalNew = (props) => {
                 </div>
               </div>
 
-              <div className={`py-5 px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-5`} style={{
+              <div className={`${mode === "off" ? "border-[4px] border-[#1b89ff] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#00000040] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("off")}>
-                <svgicon className={`${mode === "off" ? "min-w-[100px] h-[100px]" : "min-w-[30px] h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
+                <svgicon className={`${mode === "off" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
                   transition: "all .3s linear"
                 }}>
                   <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -199,8 +198,8 @@ const ModalNew = (props) => {
                   </svg>
                 </svgicon>
                 <div className="">
-                  <h3 className={`${mode === "off" ? "text-[24px]" : "text-[18px]"} font-bold font-MontserratBold`}>off Mode</h3>
-                  <p className={`${mode === "off" ? "opacity-100 h-[150px]" : "opacity-0 max-h-0"} text-base overflow-hidden`} style={{
+                  <h3 className={`${mode === "off" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>Off Mode</h3>
+                  <p className={`${mode === "off" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
                     In ‘off Mode,’ your account will off all of the
@@ -214,7 +213,7 @@ const ModalNew = (props) => {
             </div>
 
             <div className="flex justify-center my-4">
-              <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-[300px] h-[72px] bg-[#1b89ff] text-white' onClick={(e) => {
+              <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-full xl:w-[300px] h-[72px] bg-[#1b89ff] text-white' onClick={(e) => {
                 e.preventDefault()
                 !loading && handleSave();
               }}>{loading ? 'Saving...' : 'Apply and Close'}</button>
