@@ -14,7 +14,7 @@ axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1'
 axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 
 const ModalNew = (props) => {
-  const { modalIsOpen, setIsOpen, user, u } = props
+  const { modalIsOpen, setIsOpen, user, setRefreshUser, u } = props
 
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState('auto');
@@ -65,6 +65,7 @@ const ModalNew = (props) => {
     setLoading(false)
     // window.location.reload()
     setIsOpen(!modalIsOpen);
+    setRefreshUser(true);
   }
 
   return (

@@ -41,6 +41,7 @@ export default function Dashboard() {
   const [mobileAdd, setMobileAdd] = useState({ show: false, pageProp: {} })
   const [chart, setChart] = useState(1)
   const [processing, setProcessing] = useState(false)
+  const [refreshUser, setRefreshUser] = useState(true)
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -61,8 +62,11 @@ export default function Dashboard() {
       setError(error)
     };
 
-    getData();
-  }, [id, navigate]);
+    if (refreshUser){
+      getData();
+    }
+    setRefreshUser(false)
+  }, [id, navigate, refreshUser]);
 
   // setSessionsData
   useEffect(() => {
@@ -325,6 +329,7 @@ export default function Dashboard() {
           setIsOpen={setIsOpen}
           user={userData}
           u={'user'}
+          setRefreshUser={setRefreshUser}
         />
 
         {userData?.status === 'incorrect' && <div className="flex justify-center my-6">
@@ -896,7 +901,7 @@ const AddOthers = ({ pageProp, userId, addSuccess, setAddSuccess, setMobileAdd }
             </div>
           </div>
 
-          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-35px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white`}
+          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white`}
             style={{
               pointerEvents: 'all',
               boxShadow: '0 0 3px #00000040',
