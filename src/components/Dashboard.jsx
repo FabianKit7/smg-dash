@@ -323,12 +323,11 @@ export default function Dashboard() {
           onHide={() => setIsOpen(false)}
           modalIsOpen={modalIsOpen}
           setIsOpen={setIsOpen}
-          avatar={userData?.profile_pic_url}
           user={userData}
-          userId={userData?.user_id}
+          u={'user'}
         />
 
-        {userData?.status === 'incorrect' && <div className="flex justify-center mt-6">
+        {userData?.status === 'incorrect' && <div className="flex justify-center my-6">
           <div className="w-[320px] md:w-[350px] rounded-[10px]">
             <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
               <RiUserSettingsFill size={30} />
@@ -352,7 +351,7 @@ export default function Dashboard() {
           </div>
         </div>}
 
-        {userData?.status === 'twofactor' && <div className="flex justify-center mt-6">
+        {userData?.status === 'twofactor' && <div className="flex justify-center my-6">
           <div className="w-[320px] md:w-[350px] rounded-[10px]">
             <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
               <RiUserSettingsFill size={30} />
@@ -377,7 +376,7 @@ export default function Dashboard() {
           </div>
         </div>}
 
-        {userData?.status === 'checking' && <div className="flex justify-center mt-6">
+        {userData?.status === 'checking' && <div className="flex justify-center my-6">
           <div className="w-[320px] md:w-[350px] rounded-[10px]">
             <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
               <RiUserSettingsFill />
@@ -387,7 +386,7 @@ export default function Dashboard() {
               <p className="font-MontserratSemiBold">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
               <button
                 // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
-                className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+                className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize cursor-text"
                 style={{
                   backgroundColor: '#ffd12c',
                   color: 'white',
@@ -398,7 +397,7 @@ export default function Dashboard() {
           </div>
         </div>}
 
-        {userData?.status === 'pending' && <div className="flex justify-center mt-6">
+        {userData?.status === 'pending' && <div className="flex justify-center my-6">
           <div className="w-[320px] md:w-[350px] rounded-[10px]">
             <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
               <RiUserSettingsFill />
@@ -1066,11 +1065,11 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
 
   useEffect(() => {
     const getTargetingAccounts = async () => {
-      if (!userId) return;
+      if (!user) return;
       const { data, error } = await supabase
         .from("targeting")
         .select()
-        .eq("user_id", userId)
+        .eq("user_id", user?.user_id)
         .order('id', { ascending: false });
 
       if (error) return console.log(error);
@@ -1078,32 +1077,23 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
     };
 
     getTargetingAccounts();
-  }, [userId, addSuccess]);
+  }, [user]);
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select()
-        .eq('user_id', userId).order('created_at', { ascending: false })
+    if(user){
+      setFollowerMinValue(user?.targetingFilter?.followersMin);
+      setFollowerMaxValue(user?.targetingFilter?.followersMax);
+      setFollowingMinValue(user?.targetingFilter?.followingMin);
+      setFollowingMaxValue(user?.targetingFilter?.followingMax);
+      setMediaMinValue(user?.targetingFilter?.mediaMin);
+      setMediaMaxValue(user?.targetingFilter?.mediaMax);
 
-      setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
-      setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
-      setFollowingMinValue(data?.[0]?.targetingFilter.followingMin);
-      setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
-      setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
-      setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
-
-      setMargic(data?.[0]?.targetingFilter.margicFilter || true);
-      setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
-      setGender(data?.[0]?.targetingFilter.gender || 'All');
-      setLang(data?.[0]?.targetingFilter.lang || 'All');
-      error && console.log(error);
+      setMargic(user?.targetingFilter?.margicFilter || true);
+      setPrivacy(user?.targetingFilter?.privacy || 'All');
+      setGender(user?.targetingFilter?.gender || 'All');
+      setLang(user?.targetingFilter?.lang || 'All');
     }
-    if (userId) {
-      fetch();
-    }
-  }, [filterModal, userId])
+  }, [user])
 
   return (<>
     <div>

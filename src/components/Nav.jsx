@@ -69,7 +69,7 @@ export default function Nav() {
           <div className="relative flex items-center gap-2 font-MontserratRegular text-lg">
             <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden md:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
             <FaAngleDown className="hidden md:block" />
-            <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-36 top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-bold font-MontserratBold`}
+            <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-[166px] top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-bold font-MontserratBold`}
             style={{
               transition: "opacity .15s ease-in"
             }}
