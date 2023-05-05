@@ -552,7 +552,7 @@ export default function Dashboard() {
                     </svg>
                     <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext2 opacity-0 group-hover:opacity-100 group-hover:visible" style={{
                       transition: 'all .5s ease-in-out',
-                    }}>Your personal account manager and growth consultant ‘Alex’ is our most senior expert with 5+ years of experience in Instagram marketing. Feel free to reach out at any time for help selecting optimal targets, using the dashboard, creating content, engaging followers and much more! Alex is here to provide his expertise and ensure you maximize your time with us.</span>
+                    }}>'Mike', your personal account analyst and growth consultant, who happens to be our most experienced Instagram marketing expert with over 5 years of proficiency. Don't hesitate to contact him for assistance with selecting the best targets, navigating the dashboard, generating content, engaging your followers, and much more. Mike is committed to sharing his knowledge and expertise to help you make the most of your time with us.</span>
                   </svgicon>
                 </div>
               </apptooltip>
@@ -561,18 +561,18 @@ export default function Dashboard() {
                 <img
                   alt=""
                   className="mr-5 w-[42px] h-[42px] rounded-full"
-                  src="https://demo.engagementboost.com/assets/images/engagement/manager.png"
+                  src="/mike.jpeg"
                 ></img>
                 <div>
                   <div
                     _ngcontent-cuk-c74=""
                     className="font-bold font-MontserratBold text-base lg:text-2xl text-black flex items-center gap-1"
                   >
-                    Alexander A
+                    Mike P
                     <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
                   </div>
                   <div className="font-normal text-base">
-                    Personal account manager
+                    Personal Account Analyst
                   </div>
                 </div>
               </div>
@@ -581,11 +581,7 @@ export default function Dashboard() {
             {showMobileManager && <div className="">
               <div className="shadow-[0_0_3px_#00000040] rounded-[10px] p-5 relative">
                 <div className="text-black text-sm font-normal font-MontserratRegular">
-                  Hey! My name is Alex and I am super excited to be your personal
-                  account manager. I’ve been an Instagram marketing consultant
-                  since 2017 and am here to help you get the real and targeted
-                  growth you’ve been waiting for! Ask me any questions related to
-                  targeting, account settings, content and more!
+                  Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex flex-col items-center">
@@ -593,7 +589,7 @@ export default function Dashboard() {
                   <BsHeadset size={18} className="mr-1" />
                   <span> Shedule a call</span>
                 </Link>
-                <a href="mailto:paulinnocent05@gmail.com" className="bg-[#1b89ff] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
+                <a href="mailto:analyst@sproutysocial.com" className="bg-[#1b89ff] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BiMessageSquareDots size={18} className="mr-1" />
                   <span> Send an email</span>
                 </a>
@@ -631,7 +627,7 @@ export default function Dashboard() {
                       </svg>
                       <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext2 opacity-0 group-hover:opacity-100 group-hover:visible" style={{
                         transition: 'all .5s ease-in-out',
-                      }}>Your personal account manager and growth consultant ‘Alex’ is our most senior expert with 5+ years of experience in Instagram marketing. Feel free to reach out at any time for help selecting optimal targets, using the dashboard, creating content, engaging followers and much more! Alex is here to provide his expertise and ensure you maximize your time with us.</span>
+                      }}>'Mike', your personal account analyst and growth consultant, who happens to be our most experienced Instagram marketing expert with over 5 years of proficiency. Don't hesitate to contact him for assistance with selecting the best targets, navigating the dashboard, generating content, engaging your followers, and much more. Mike is committed to sharing his knowledge and expertise to help you make the most of your time with us.</span>
                     </svgicon>
                   </div>
                 </apptooltip>
@@ -640,7 +636,7 @@ export default function Dashboard() {
                   <img
                     alt=""
                     className="mr-5 w-[87px] h-[87px] rounded-full"
-                    src="https://demo.engagementboost.com/assets/images/engagement/manager.png"
+                    src="/mike.jpeg"
                   ></img>
                   <div>
                     <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
@@ -648,19 +644,15 @@ export default function Dashboard() {
                       _ngcontent-cuk-c74=""
                       className="font-bold font-MontserratBold text-base lg:text-2xl text-black"
                     >
-                      Alexander A
+                      Mike P
                     </div>
                     <div className="font-normal text-base">
-                      Personal account manager
+                      Personal Account Analyst
                     </div>
                   </div>
                 </div>
                 <div className="mt-5 text-black text-sm font-normal">
-                  Hey! My name is Alex and I am super excited to be your personal
-                  account manager. I’ve been an Instagram marketing consultant
-                  since 2017 and am here to help you get the real and targeted
-                  growth you’ve been waiting for! Ask me any questions related to
-                  targeting, account settings, content and more!
+                  Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex items-center">
@@ -668,7 +660,7 @@ export default function Dashboard() {
                   <BsHeadset size={18} className="mr-1" />
                   <span> Shedule a call</span>
                 </Link>
-                <a href="mailto:paulinnocent05@gmail.com" className="bg-[#1b89ff] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
+                <a href="mailto:analyst@sproutysocial.com" className="bg-[#1b89ff] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BiMessageSquareDots size={18} className="mr-1" />
                   <span> Send an email</span>
                 </a>
@@ -1147,7 +1139,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>All your targets will appear here after you have added them. You can track their performance and make adjustments. For optimal results, aim for a follow-back rate of 15%+ across all targets.</span>
+                  }}>Once you've added your targets, you can monitor their progress and make modifications, as all of them will be displayed here. To achieve maximum outcomes, aim to achieve a follow-back rate of 15% or higher for all targets.</span>
                 </svgicon>
               </div>
             </apptooltip>
@@ -1180,7 +1172,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>All your targets will appear here after you have added them. You can track their performance and make adjustments. For optimal results, aim for a follow-back rate of 15%+ across all targets.</span>
+                  }}>Once you've added your targets, you can monitor their progress and make modifications, as all of them will be displayed here. To achieve maximum outcomes, aim to achieve a follow-back rate of 15% or higher for all targets.</span>
                 </svgicon>
               </div>
             </apptooltip>
@@ -1392,7 +1384,7 @@ const WhiteListCompt = ({ userId, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>All your targets will appear here after you have added them. You can track their performance and make adjustments. For optimal results, aim for a follow-back rate of 15%+ across all targets.</span>
+                  }}>{pageProp.title === "Whitelist" ? "If you wish to continue following a user that we automatically followed for you, add them here and we won’t unfollow them. Remember, we will never unfollow anyone you manually followed before or after using our service - this only applies to users we followed for you." : "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."}</span>
                 </svgicon>
               </div>
             </apptooltip>
