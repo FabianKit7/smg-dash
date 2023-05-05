@@ -15,6 +15,7 @@ export default function Nav({ setShowWelcomeModal }) {
   const [activeLink, setActiveLink] = useState('');
   const [data, setData] = useState("");
   const [error, setError] = useState(false);
+  const [pending, setPending] = useState(false)
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
 
   useEffect(() => {
@@ -36,6 +37,9 @@ export default function Nav({ setShowWelcomeModal }) {
         .eq("user_id", user.id);
       // console.log("🚀 ~ file: Dashboard.jsx:34 ~ getData ~ data", data);
       setData(data[0]);
+      if (data?.[0]?.status === "pending") {
+        setPending(true)
+      }
       setError(error);
     };
 
@@ -58,87 +62,87 @@ export default function Nav({ setShowWelcomeModal }) {
 
         </Link>
 
-<div className="flex items-center">
-        {setShowWelcomeModal && <BsQuestionOctagon size={30} className="cursor-pointer mr-1" fill="blue" onClick={() => setShowWelcomeModal(true)} />}
-        {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-          <img
-            src={data?.profile_pic_url}
-            className="rounded-full"
-            height={32}
-            width={32}
-            alt={data?.username?.charAt(0)?.toUpperCase()}
-            loading="lazy"
-          />
-          <div className="relative flex items-center gap-2 font-MontserratRegular text-lg">
-            <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden md:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
-            <FaAngleDown className="hidden md:block" />
-            <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-[166px] top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-bold font-MontserratBold`}
-            style={{
-              transition: "opacity .15s ease-in"
-            }}
-            >
-              <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/dashboard/" + data?.user_id}
-                onClick={() => {
-                  setIsOpen(!isOpen);
-                  setActiveLink("Profile");
+        <div className="flex items-center">
+          {setShowWelcomeModal && pending && <BsQuestionOctagon size={30} className="cursor-pointer mr-1" fill="blue" onClick={() => setShowWelcomeModal(true)} />}
+          {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+            <img
+              src={data?.profile_pic_url}
+              className="rounded-full"
+              height={32}
+              width={32}
+              alt={data?.username?.charAt(0)?.toUpperCase()}
+              loading="lazy"
+            />
+            <div className="relative flex items-center gap-2 font-MontserratRegular text-lg">
+              <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden md:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
+              <FaAngleDown className="hidden md:block" />
+              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-[166px] top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-bold font-MontserratBold`}
+                style={{
+                  transition: "opacity .15s ease-in"
                 }}
               >
-                <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Profile" ? "bg-activelink" : ""}`}>
-                <img
-                  src={data?.profile_pic_url}
-                  className="rounded-full"
-                  height={16}
-                  width={16}
-                  alt={data?.username?.charAt(0)?.toUpperCase()}
-                  loading="lazy"
-                />
-                  Profile
-                </li>
-              </Link>
+                <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/dashboard/" + data?.user_id}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    setActiveLink("Profile");
+                  }}
+                >
+                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Profile" ? "bg-activelink" : ""}`}>
+                    <img
+                      src={data?.profile_pic_url}
+                      className="rounded-full"
+                      height={16}
+                      width={16}
+                      alt={data?.username?.charAt(0)?.toUpperCase()}
+                      loading="lazy"
+                    />
+                    Profile
+                  </li>
+                </Link>
 
-              <Link to="/settings" className="font-normal text-sm hover:bg-[#f8f8f8]"
-                onClick={() => {
-                  setIsOpen(!isOpen);
-                  setActiveLink("Settings");
-                }}
-              >
-                <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
-                  <AiOutlineSetting size={18} />
-                  Settings
-                </li>
-              </Link>
+                <Link to="/settings" className="font-normal text-sm hover:bg-[#f8f8f8]"
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    setActiveLink("Settings");
+                  }}
+                >
+                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
+                    <AiOutlineSetting size={18} />
+                    Settings
+                  </li>
+                </Link>
 
-              {data?.admin && <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/admin"}
-                onClick={() => {
-                  setIsOpen(!isOpen);
-                  setActiveLink("Admin");
-                }}
-              >
-                <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Admin" ? "bg-activelink" : ""}`}>
-                <MdAdminPanelSettings size={18} />
-                  Admin
-                </li>
-              </Link>}
+                {data?.admin && <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/admin"}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    setActiveLink("Admin");
+                  }}
+                >
+                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Admin" ? "bg-activelink" : ""}`}>
+                    <MdAdminPanelSettings size={18} />
+                    Admin
+                  </li>
+                </Link>}
 
-              <li className="py-2 px-6 cursor-pointer hover:bg-[#f8f8f8] flex items-center gap-3" 
-                onClick={async () => {
-                  setIsOpen(!isOpen);
-                  await supabase.auth.signOut();
-                  window.onbeforeunload = function () {
-                    localStorage.clear();
-                  }
-                  window.location.pathname = "/login";
-                }}
-              >
-                <FiLogOut size={18} />
-                <p className="font-normal text-sm" >
-                  Log out
-                </p>
-              </li>
-            </ul>
-          </div>
-        </div>}
-</div>
+                <li className="py-2 px-6 cursor-pointer hover:bg-[#f8f8f8] flex items-center gap-3"
+                  onClick={async () => {
+                    setIsOpen(!isOpen);
+                    await supabase.auth.signOut();
+                    window.onbeforeunload = function () {
+                      localStorage.clear();
+                    }
+                    window.location.pathname = "/login";
+                  }}
+                >
+                  <FiLogOut size={18} />
+                  <p className="font-normal text-sm" >
+                    Log out
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>}
+        </div>
       </div>
     </nav>
   );
