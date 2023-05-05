@@ -1,8 +1,13 @@
-.modal-content {
-    width: 401px;
+.welcome-modal-content {
+    width: 560px;
     margin: auto;
-    padding: 0 20px;
+    padding: 20px 60px;
     text-align: center;
-    border: 10px solid;
-    border-radius: 20px;
+    border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+    .welcome-modal-content {
+        padding: 20px 10px;
+    }
 }

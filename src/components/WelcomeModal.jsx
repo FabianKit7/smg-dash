@@ -1,10 +1,16 @@
-import React, {  } from "react";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { FaTimesCircle } from "react-icons/fa";
 import "../styles/welcomeModal.css"
 
 export default function WelcomeModal({ show, onHide, setShowWelcomeModal }) {
   // props => show and onHide
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.querySelector('.modal-content').classList.add('welcome-modal-content')
+    }
+  }, [])
+
   return (
     <Modal
       show={show}
@@ -17,7 +23,7 @@ export default function WelcomeModal({ show, onHide, setShowWelcomeModal }) {
       }}
     >
       <div className="absolute top-2 right-2">
-        <FaTimesCircle className="cursor-pointer" onClick={()=>setShowWelcomeModal(false)} />
+        <FaTimesCircle className="cursor-pointer" onClick={() => setShowWelcomeModal(false)} />
       </div>
 
       <div className="flex flex-col items-center gap-4 pt-3 pb-5">

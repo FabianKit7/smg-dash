@@ -44,7 +44,7 @@ export default function Dashboard() {
   const [processing, setProcessing] = useState(false)
   const [refreshUser, setRefreshUser] = useState(true)
   const [totalInteractions, setTotalInteractions] = useState(0)
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false)
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true)
 
   !!!sessionsData && console.log(sessionsData)
 
