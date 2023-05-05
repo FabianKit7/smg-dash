@@ -671,7 +671,7 @@ export default function Dashboard() {
                 <img
                   alt=""
                   className="mr-5 w-[42px] h-[42px] rounded-full"
-                  src="/mike.jpeg"
+                  src="/mike.png"
                 ></img>
                 <div>
                   <div
@@ -746,7 +746,7 @@ export default function Dashboard() {
                   <img
                     alt=""
                     className="mr-5 w-[87px] h-[87px] rounded-full"
-                    src="/mike.jpeg"
+                    src="/mike.png"
                   ></img>
                   <div>
                     <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
