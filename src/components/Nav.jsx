@@ -7,8 +7,9 @@ import { FaAngleDown } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { BsQuestionOctagon } from "react-icons/bs";
 
-export default function Nav() {
+export default function Nav({ setShowWelcomeModal }) {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('');
@@ -57,6 +58,8 @@ export default function Nav() {
 
         </Link>
 
+<div className="flex items-center">
+        {setShowWelcomeModal && <BsQuestionOctagon size={30} className="cursor-pointer mr-1" fill="blue" onClick={() => setShowWelcomeModal(true)} />}
         {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
           <img
             src={data?.profile_pic_url}
@@ -135,6 +138,7 @@ export default function Nav() {
             </ul>
           </div>
         </div>}
+</div>
       </div>
     </nav>
   );

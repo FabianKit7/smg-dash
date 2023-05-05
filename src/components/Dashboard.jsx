@@ -18,6 +18,7 @@ import TargetingFilterModal from './TargetingFilterModal'
 import ModalNew from './ModalNew'
 import GrowthChart from "./GrowthChart";
 import ColumnChart from "./ColumnChart";
+import WelcomeModal from "./WelcomeModal";
 
 const Error = ({ value }) => {
   return (
@@ -43,6 +44,7 @@ export default function Dashboard() {
   const [processing, setProcessing] = useState(false)
   const [refreshUser, setRefreshUser] = useState(true)
   const [totalInteractions, setTotalInteractions] = useState(0)
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false)
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -59,7 +61,12 @@ export default function Dashboard() {
       if (user && !data[0]?.subscribed) {
         window.location.pathname = `subscriptions/${data[0].username}`;
       }
-      setUserData(data[0])
+      if (data?.[0]){
+        setUserData(data[0])
+        if(data[0].status === "pending"){
+          setShowWelcomeModal(true)
+        }
+      }
       setError(error)
     };
 
@@ -157,7 +164,9 @@ export default function Dashboard() {
 
   return (
     <>
-      <Nav />
+      <Nav setShowWelcomeModal={setShowWelcomeModal} />
+
+      <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} setShowWelcomeModal={setShowWelcomeModal} />
 
       {mobileAdd.show &&
         <AddOthers
