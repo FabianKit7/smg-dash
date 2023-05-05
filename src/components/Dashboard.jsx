@@ -346,123 +346,203 @@ export default function Dashboard() {
           setRefreshUser={setRefreshUser}
         />
 
-        <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden">
-          <div className="px-5 h-full rounded-l-[10px] bg-[#ff8c00] text-white grid place-items-center">
-            <RiUserSettingsFill size={30} />
-          </div>
-          <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
-            <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">Your password is incorrect</div>
-            <p className="font-MontserratSemiBold text-[1.125rem]">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
-          </div>
-          <button
-            onClick={() => { setIsOpen(true) }}
-            // onClick={() => setOpenCA(true)}
-            // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
-            style={{
-              backgroundColor: '#ff8c00',
-              color: 'white',
-              // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-            }}
-          >change password</button>
-        </div>
-
-        {userData?.status === 'incorrect' && <div className="flex justify-center my-6">
-          <div className="w-[320px] md:w-[350px] rounded-[10px]">
-            <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+        <div className="hidden lg:block">
+          {userData?.status === 'incorrect' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
+            <div className="px-8 h-full rounded-l-[10px] bg-[#ff8c00] text-white grid place-items-center">
               <RiUserSettingsFill size={30} />
-              Your password is incorrect
             </div>
-            <div className="bg-[#fcede0] px-4 py-3 rounded-b-[10px] text-sm">
-              <p className="font-MontserratSemiBold">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
-
-              <button
-                onClick={() => { setIsOpen(true) }}
-                // onClick={() => setOpenCA(true)}
-                // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-                className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
-                style={{
-                  backgroundColor: '#ff8c00',
-                  color: 'white',
-                  boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                }}
-              >change password</button>
+            <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
+              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">Your password is incorrect</div>
+              <p className="font-MontserratSemiBold text-[1.125rem]">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
             </div>
-          </div>
-        </div>}
+            <button
+              onClick={() => { setIsOpen(true) }}
+              // onClick={() => setOpenCA(true)}
+              // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
+              style={{
+                backgroundColor: '#ff8c00',
+                color: 'white',
+                // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+              }}
+            >change password</button>
+          </div>}
 
-        {userData?.status === 'twofactor' && <div className="flex justify-center my-6">
-          <div className="w-[320px] md:w-[350px] rounded-[10px]">
-            <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+          {userData?.status === 'twofactor' && <div className="flex items-center h-[170px] xl:h-[150px] rounded-[10px] overflow-hidden my-5">
+            <div className="px-8 h-full rounded-l-[10px] bg-[#ff8c00] text-white grid place-items-center">
               <RiUserSettingsFill size={30} />
-              Two-Factor Authentication Enabled
             </div>
-            <div className="bg-[#fcede0] px-4 py-3 rounded-b-[10px] text-sm">
-              <p className="font-MontserratSemiBold">Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code you can find under "Settings; Security; Two-factor authentication; Additional methods; Backup codes. If you don't find a backup code, you will need to turn off two-factor authentication before we can log in.</p>
-              <textarea name="" className="px-2 py-1 rounded-[10px] mt-3 w-full resize-none" id="" rows="3"
+            <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
+              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">
+                Two-Factor Authentication Enabled
+              </div>
+              <p className="font-MontserratSemiBold text-[1.125rem]">
+                Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code or accept our login request to get your account started.
+              </p>
+            </div>
+            <div className="bg-[#fcede0] px-3 grid place-items-center h-full w-2/5 ">
+              <textarea name="" className="px-2 py-1 rounded-[10px] w-full h-[50px] resize-none" id=""
                 value={backupCode}
                 onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
+            </div>
+            <button
+              onClick={() => storeBackupCode()}
+              // onClick={() => setOpenCA(true)}
+              // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
+              style={{
+                backgroundColor: '#ff8c00',
+                color: 'white',
+                // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+              }}
+            >{processing ? <span className="animate-pulse">processing...</span> : 'confirm'}</button>
+          </div>}
 
-              <button onClick={() => storeBackupCode()}
-                // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
-                className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
-                style={{
-                  backgroundColor: '#ff8c00',
-                  color: 'white',
-                  boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                }}
-              >{processing ? <span className="animate-pulse">processing...</span> : 'confirm'}</button>
+          {userData?.status === 'checking' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
+            <div className="px-8 h-full rounded-l-[10px] bg-[#ffd12c] text-white grid place-items-center">
+              <RiUserSettingsFill size={30} />
             </div>
-          </div>
-        </div>}
+            <div className="py-2 px-3 bg-[#fffbeb] h-full w-full">
+              <div className="font-bold text-[.8rem] text-[#ffd12c] md:text-[1.3rem] capitalize font-MontserratBold">
+                Connecting Your Account
+              </div>
+              <p className="font-MontserratSemiBold text-[1.125rem]">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
+            </div>
+            <button
+              // className="mt-3 bg-[#ffd12c] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize cursor-text"
+              style={{
+                backgroundColor: '#ff8c00',
+                color: 'white',
+                // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+              }}
+            >Logging in</button>
+          </div>}
 
-        {userData?.status === 'checking' && <div className="flex justify-center my-6">
-          <div className="w-[320px] md:w-[350px] rounded-[10px]">
-            <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
-              <RiUserSettingsFill />
-              Connecting Your Account
+          {userData?.status === 'pending' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
+            <div className="px-8 h-full rounded-l-[10px] bg-[#ff2c55] text-white grid place-items-center">
+              <RiUserSettingsFill size={30} />
             </div>
-            <div className="bg-[#fffbeb] px-4 py-3 rounded-b-[10px] text-sm">
-              <p className="font-MontserratSemiBold">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
-              <button
-                // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
-                className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize cursor-text"
-                style={{
-                  backgroundColor: '#ffd12c',
-                  color: 'white',
-                  boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                }}
-              >Logging in</button>
-            </div>
-          </div>
-        </div>}
-
-        {userData?.status === 'pending' && <div className="flex justify-center my-6">
-          <div className="w-[320px] md:w-[350px] rounded-[10px]">
-            <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
-              <RiUserSettingsFill />
-              Connect Your Account
-            </div>
-            <div className="bg-[#ffebf0] px-4 py-3 rounded-b-[10px] text-sm">
-              <p className="font-MontserratSemiBold">Your account is currently not connected to our
+            <div className="py-2 px-3 bg-[#ffebf0] h-full w-full">
+              <div className="font-bold text-[.8rem] text-[#ff2c55] md:text-[1.3rem] capitalize font-MontserratBold">
+                Connect Your Account
+              </div>
+              <p className="font-MontserratSemiBold text-[1.125rem]">Your account is currently not connected to our
                 growth system. To get started, please connect your
                 account now.</p>
-              <button
-                // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
-                className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize relative"
-                style={{
-                  backgroundColor: '#ff2c55',
-                  color: 'white',
-                  boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                }}
-                onClick={() => setIsOpen(true)}
-              // onClick={() => setOpenCA(true)}
-              >connect account
-                {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
-              </button>
             </div>
-          </div>
-        </div>}
+            <button
+              onClick={() => setIsOpen(true)}
+              // className="mt-3 bg-[#ff2c55] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize relative"
+              style={{
+                backgroundColor: '#ff8c00',
+                color: 'white',
+                // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+              }}
+            >connect account
+              {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}</button>
+          </div>}
+        </div>
+
+        <div className="lg:hidden">
+          {userData?.status === 'incorrect' && <div className="flex justify-center my-6">
+            <div className="w-[320px] md:w-[350px] rounded-[10px]">
+              <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+                <RiUserSettingsFill size={30} />
+                Your password is incorrect
+              </div>
+              <div className="bg-[#fcede0] px-4 py-3 rounded-b-[10px] text-sm">
+                <p className="font-MontserratSemiBold">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
+
+                <button
+                  onClick={() => { setIsOpen(true) }}
+                  // onClick={() => setOpenCA(true)}
+                  // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+                  style={{
+                    backgroundColor: '#ff8c00',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                >change password</button>
+              </div>
+            </div>
+          </div>}
+
+          {userData?.status === 'twofactor' && <div className="flex justify-center my-6">
+            <div className="w-[320px] md:w-[350px] rounded-[10px]">
+              <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+                <RiUserSettingsFill size={30} />
+                Two-Factor Authentication Enabled
+              </div>
+              <div className="bg-[#fcede0] px-4 py-3 rounded-b-[10px] text-sm">
+                <p className="font-MontserratSemiBold">Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code or accept our login request to get your account started.</p>
+                <textarea name="" className="px-2 py-1 rounded-[10px] mt-3 w-full resize-none" id="" rows="3"
+                  value={backupCode}
+                  onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
+
+                <button onClick={() => storeBackupCode()}
+                  // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
+                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+                  style={{
+                    backgroundColor: '#ff8c00',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                >{processing ? <span className="animate-pulse">processing...</span> : 'confirm'}</button>
+              </div>
+            </div>
+          </div>}
+
+          {userData?.status === 'checking' && <div className="flex justify-center my-6">
+            <div className="w-[320px] md:w-[350px] rounded-[10px]">
+              <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+                <RiUserSettingsFill />
+                Connecting Your Account
+              </div>
+              <div className="bg-[#fffbeb] px-4 py-3 rounded-b-[10px] text-sm">
+                <p className="font-MontserratSemiBold">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
+                <button
+                  // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
+                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize cursor-text"
+                  style={{
+                    backgroundColor: '#ffd12c',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                >Logging in</button>
+              </div>
+            </div>
+          </div>}
+
+          {userData?.status === 'pending' && <div className="flex justify-center my-6">
+            <div className="w-[320px] md:w-[350px] rounded-[10px]">
+              <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+                <RiUserSettingsFill />
+                Connect Your Account
+              </div>
+              <div className="bg-[#ffebf0] px-4 py-3 rounded-b-[10px] text-sm">
+                <p className="font-MontserratSemiBold">Your account is currently not connected to our
+                  growth system. To get started, please connect your
+                  account now.</p>
+                <button
+                  // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
+                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize relative"
+                  style={{
+                    backgroundColor: '#ff2c55',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                  onClick={() => setIsOpen(true)}
+                // onClick={() => setOpenCA(true)}
+                >connect account
+                  {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
+                </button>
+              </div>
+            </div>
+          </div>}
+        </div>
 
         <div>
           <div className="lg:mx-[40px] flex flex-col lg:flex-row justify-between items-center font-MontserratRegular">
