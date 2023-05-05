@@ -19,10 +19,10 @@ export default function Settings() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return navigate("/login")
       const { data, error } = await supabase
-      .from('users')
-      .select()
-      .eq('user_id', user.id)
-      
+        .from('users')
+        .select()
+        .eq('user_id', user.id)
+
       if (user && !data[0]?.subscribed) {
         window.location.pathname = `subscriptions/${data[0].username}`;
       }
@@ -59,11 +59,11 @@ export default function Settings() {
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">{user?.full_name}</div>
               <div className="text-[#1b89ff] cursor-pointer"
-              onClick={() => {
-                setShowModal(true);
-                setRefresh(!refresh)
-                setModalToShow('fullname');
-              }}
+                onClick={() => {
+                  setShowModal(true);
+                  setRefresh(!refresh)
+                  setModalToShow('fullname');
+                }}
               >Change</div>
             </div>
           </div>
@@ -72,11 +72,11 @@ export default function Settings() {
             <div className="flex flex-col md:flex-row md:items-center md:gap-3">
               <div className="text-[#757575]">{user?.email}</div>
               <div className="text-[#1b89ff] cursor-pointer"
-              onClick={() => {
-                setShowModal(true);
-                setRefresh(!refresh)
-                setModalToShow('email');
-              }}
+                onClick={() => {
+                  setShowModal(true);
+                  setRefresh(!refresh)
+                  setModalToShow('email');
+                }}
               >Change</div>
             </div>
           </div>
@@ -85,11 +85,11 @@ export default function Settings() {
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">************</div>
               <div className="text-[#1b89ff] cursor-pointer"
-              onClick={() => {
-                setShowModal(true);
-                setRefresh(!refresh)
-                setModalToShow('password');
-              }}
+                onClick={() => {
+                  setShowModal(true);
+                  setRefresh(!refresh)
+                  setModalToShow('password');
+                }}
               >Change</div>
             </div>
           </div>
@@ -98,11 +98,11 @@ export default function Settings() {
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">{user?.phone}</div>
               <div className="text-[#1b89ff] cursor-pointer"
-              onClick={() => {
-                setShowModal(true);
-                setRefresh(!refresh)
-                setModalToShow('phone');
-              }}
+                onClick={() => {
+                  setShowModal(true);
+                  setRefresh(!refresh)
+                  setModalToShow('phone');
+                }}
               >Change</div>
             </div>
           </div>
@@ -132,20 +132,22 @@ export default function Settings() {
       }}
       >
         <div className="fixed top-0 left-0 w-full h-screen bg-black/40 grid place-items-center" onClick={() => setCancelModal(false)}></div>
-        <div className="bg-white to-black py-7 pt-12 px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular">
+        <div className="bg-white to-black py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular">
           <FaTimesCircle className="absolute top-3 right-3 flex flex-col items-center"
             onClick={() => {
               setCancelModal(false)
             }} />
-          <h1 className="text-lg font-bold text-center font-MontserratSemiBold text-[#333]">Submit your cancellation request</h1>
-          <p className="text-center">
-            All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
-          </p>
-          <br />
-          <p className="text-center">
-            Our expert account managers are always on standby and ready to help. If you are not getting results, or need help, schedule a time to speak with our expert team who can help you reach your full instagram growth potential.
-          </p>
-          <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center gap-3">
+          <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold text-[#333]">Submit your cancellation request</h1>
+          <div className="text-[.8rem] md:text-base">
+            <p className="text-center">
+              All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
+            </p>
+            <br />
+            <p className="text-center">
+              Our expert account managers are always on standby and ready to help. If you are not getting results, or need help, schedule a time to speak with our expert team who can help you reach your full instagram growth potential.
+            </p>
+          </div>
+          <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
             <BsFillEnvelopeFill />
             Send an email
           </a>

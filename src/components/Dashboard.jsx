@@ -63,7 +63,7 @@ export default function Dashboard() {
       setError(error)
     };
 
-    if (refreshUser){
+    if (refreshUser) {
       getData();
     }
     setRefreshUser(false)
@@ -87,7 +87,7 @@ export default function Dashboard() {
       // console.log(d);
       setSessionsData(d)
       setTotalInteractions(sumTotalInteractions(d))
-      
+
     }
     const username = userData?.username;
     if (username) {
@@ -345,6 +345,27 @@ export default function Dashboard() {
           u={'user'}
           setRefreshUser={setRefreshUser}
         />
+
+        <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden">
+          <div className="px-5 h-full rounded-l-[10px] bg-[#ff8c00] text-white grid place-items-center">
+            <RiUserSettingsFill size={30} />
+          </div>
+          <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
+            <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">Your password is incorrect</div>
+            <p className="font-MontserratSemiBold text-[1.125rem]">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
+          </div>
+          <button
+            onClick={() => { setIsOpen(true) }}
+            // onClick={() => setOpenCA(true)}
+            // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
+            className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
+            style={{
+              backgroundColor: '#ff8c00',
+              color: 'white',
+              // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+            }}
+          >change password</button>
+        </div>
 
         {userData?.status === 'incorrect' && <div className="flex justify-center my-6">
           <div className="w-[320px] md:w-[350px] rounded-[10px]">
@@ -813,10 +834,11 @@ const AddOthers = ({ pageProp, userId, addSuccess, setAddSuccess, setMobileAdd }
 
       setSelected("");
       setDebouncedQuery('')
+      setSelectedData({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
       setProcessing(false);
       setLoadingSpinner(false)
-      setMobileAdd({ show: false, pageProp: {} })
-      setAddSuccess(!addSuccess);
+      setAddSuccess && setAddSuccess(!addSuccess);
+      setMobileAdd && setMobileAdd({ show: false, pageProp: {} })
     }
   };
 
@@ -1088,10 +1110,10 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
     };
 
     getTargetingAccounts();
-  }, [user]);
+  }, [user, addSuccess]);
 
   useEffect(() => {
-    if(user){
+    if (user) {
       setFollowerMinValue(user?.targetingFilter?.followersMin);
       setFollowerMaxValue(user?.targetingFilter?.followersMax);
       setFollowingMinValue(user?.targetingFilter?.followingMin);
