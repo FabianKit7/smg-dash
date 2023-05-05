@@ -7,7 +7,10 @@ export default function WelcomeModal({ show, onHide, setShowWelcomeModal }) {
   // props => show and onHide
   useEffect(() => {
     if (typeof window !== "undefined") {
-      document.querySelector('.modal-content').classList.add('welcome-modal-content')
+      const el = document.querySelector('.modal-content')
+      if (el) {
+        el.classList.add('welcome-modal-content')
+      }
     }
   }, [])
 
