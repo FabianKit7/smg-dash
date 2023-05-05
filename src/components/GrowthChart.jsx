@@ -13,7 +13,7 @@ export default function GrowthChart({ isPrivate, sessionsData, days }) {
     let categories = []
     sessionsData?.slice(-days).forEach(items => {
       const day = new Date(items.start_time).getDate()
-      const month = new Date(items.start_time).getMonth()+1
+      const month = new Date(items.start_time).getMonth()
       const monthName = monthNames[month]
       categories.push(`${monthName} ${day}`);
       followersData.push(items.profile.followers);

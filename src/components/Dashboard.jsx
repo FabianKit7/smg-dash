@@ -42,6 +42,7 @@ export default function Dashboard() {
   const [chart, setChart] = useState(1)
   const [processing, setProcessing] = useState(false)
   const [refreshUser, setRefreshUser] = useState(true)
+  const [totalInteractions, setTotalInteractions] = useState(0)
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -85,12 +86,25 @@ export default function Dashboard() {
       }
       // console.log(d);
       setSessionsData(d)
+      setTotalInteractions(sumTotalInteractions(d))
+      
     }
     const username = userData?.username;
     if (username) {
       fetch()
     }
   }, [userData])
+
+  function sumTotalInteractions(arr) {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+      const obj = arr[i];
+      if (obj.hasOwnProperty("total_interactions")) {
+        sum += obj.total_interactions;
+      }
+    }
+    return sum;
+  }
 
   const [backupCode, setBackupCode] = useState('')
   const storeBackupCode = async () => {
@@ -494,7 +508,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <Starts user={userData} chart={chart} setChart={setChart} />
+            <Starts user={userData} chart={chart} setChart={setChart} totalInteractions={totalInteractions} />
           </div>
         </div>
 
@@ -671,7 +685,7 @@ export default function Dashboard() {
   );
 }
 
-const Starts = ({ user, setChart, chart }) => {
+const Starts = ({ user, setChart, chart, totalInteractions }) => {
   // console.log(user);
   return (<>
     <div className="mt-4 lg:mt-0 flex justify-between items-center gap-1 lg:gap-4 w-screen text-center px-4">
@@ -719,7 +733,7 @@ const Starts = ({ user, setChart, chart }) => {
           Interactions
         </div>
         <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
-          {numFormatter(user.total_interactions)}
+          {numFormatter(totalInteractions)}
         </div>
       </div>
     </div>
