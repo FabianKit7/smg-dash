@@ -61,9 +61,9 @@ export default function Dashboard() {
       if (user && !data[0]?.subscribed) {
         window.location.pathname = `subscriptions/${data[0].username}`;
       }
-      if (data?.[0]){
+      if (data?.[0]) {
         setUserData(data[0])
-        if(data[0].status === "pending"){
+        if (data[0].status === "pending") {
           setShowWelcomeModal(true)
         }
       }
@@ -790,52 +790,54 @@ export default function Dashboard() {
 const Starts = ({ user, setChart, chart, totalInteractions }) => {
   // console.log(user);
   return (<>
-    <div className="mt-4 lg:mt-0 flex justify-between items-center gap-1 lg:gap-4 w-screen text-center px-4">
-      <div
-        className={`${chart === 1 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
-        onClick={() => setChart(1)}
-        style={{
-          transition: 'all .15s ease-in',
-        }}
-      >
-        <div className={`text-[12px] lg:text-[16px] font-[500] ${chart !== 1 && "text-[#757575]"}`}>Followers</div>
-        <div className="flex flex-col lg:flex-row justify-between items-center text-center relative">
-          <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">
-            {numFormatter(user.followers)}
+    <div className="mt-4 bg-[#f8f8f8] text-[#757575] md:text-black md:bg-transparent lg:mt-0 w-full rounded-[10px]">
+      <div className="flex justify-between items-center gap-1 lg:gap-4 w-screen text-center">
+        <div
+          className={`${chart === 1 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
+          onClick={() => setChart(1)}
+          style={{
+            transition: 'all .15s ease-in',
+          }}
+        >
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 1 && "text-[#757575]"}`}>Followers</div>
+          <div className="flex flex-col lg:flex-row justify-between items-center text-center relative">
+            <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">
+              {numFormatter(user.followers)}
+            </div>
+            <div className="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#23df85] mt-1 hidden d-flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
+              123 <FaCaretUp color="#1B89FF" size={12} />
+            </div>
           </div>
-          <div className="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#23df85] mt-1 hidden d-flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
-            123 <FaCaretUp color="#1B89FF" size={12} />
+        </div>
+
+        <div
+          className={`${chart === 2 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
+          onClick={() => setChart(2)}
+          style={{
+            transition: 'all .15s ease-in',
+          }}
+        >
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 2 && "text-[#757575]"}`}>
+            Followings
+          </div>
+          <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
+            {numFormatter(user.following)}
           </div>
         </div>
-      </div>
 
-      <div
-        className={`${chart === 2 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
-        onClick={() => setChart(2)}
-        style={{
-          transition: 'all .15s ease-in',
-        }}
-      >
-        <div className={`text-[12px] lg:text-[16px] font-[500] ${chart !== 2 && "text-[#757575]"}`}>
-          Followings
-        </div>
-        <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
-          {numFormatter(user.following)}
-        </div>
-      </div>
-
-      <div
-        className={`${chart === 3 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
-        onClick={() => setChart(3)}
-        style={{
-          transition: 'all .15s ease-in',
-        }}
-      >
-        <div className={`text-[12px] lg:text-[16px] font-[500] ${chart !== 3 && "text-[#757575]"}`}>
-          Interactions
-        </div>
-        <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
-          {numFormatter(totalInteractions)}
+        <div
+          className={`${chart === 3 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
+          onClick={() => setChart(3)}
+          style={{
+            transition: 'all .15s ease-in',
+          }}
+        >
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 3 && "text-[#757575]"}`}>
+            Interactions
+          </div>
+          <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
+            {numFormatter(totalInteractions)}
+          </div>
         </div>
       </div>
     </div>

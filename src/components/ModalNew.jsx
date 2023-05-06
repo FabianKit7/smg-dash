@@ -114,7 +114,7 @@ const ModalNew = (props) => {
               </div>
             </div>
 
-            <p className="font-normal text-sm font-MontserratLight opacity-90 mt-1">
+            <p className="font-normal text-xs md:text-sm font-MontserratLight opacity-90 mt-1">
               <span className="">Your password is 100% protected and encrypted.</span> <FaLock className='inline' />
             </p>
           </div>
