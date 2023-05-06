@@ -393,9 +393,12 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="bg-[#fcede0] px-3 grid place-items-center h-full w-2/5 ">
-              <textarea name="" className="px-2 py-1 rounded-[10px] flex items-center w-full h-[50px] resize-none" id=""
+              {/* <textarea name="" className="px-2 py-1 rounded-[10px] flex items-center w-full h-[50px] resize-none" id=""
                 value={backupCode}
-                onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
+                onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea> */}
+              <input type="text" className="px-2 py-4 rounded-[10px] w-full" placeholder="Enter backup code"
+              value={backupCode} 
+              onChange={(e) => setBackupCode(e.target.value)}  />
             </div>
             <button
               onClick={() => storeBackupCode()}
