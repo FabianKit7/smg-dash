@@ -63,9 +63,9 @@ export default function Dashboard() {
       }
       if (data?.[0]) {
         setUserData(data[0])
-        if (data[0].status === "pending") {
-          setShowWelcomeModal(true)
-        }
+        // if (data[0].status === "pending") {
+        //   setShowWelcomeModal(true)
+        // }
       }
       setError(error)
     };
@@ -166,10 +166,10 @@ export default function Dashboard() {
     <>
       <Nav setShowWelcomeModal={setShowWelcomeModal} />
 
-      <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} 
-      setShowWelcomeModal={setShowWelcomeModal} 
-      showWelcomeModal={showWelcomeModal} 
-      />
+      {/* <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)}
+        setShowWelcomeModal={setShowWelcomeModal}
+        showWelcomeModal={showWelcomeModal}
+      /> */}
 
       {mobileAdd.show &&
         <AddOthers
