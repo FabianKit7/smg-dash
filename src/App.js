@@ -18,13 +18,13 @@ import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 
-const pathname = window.location.pathname;
+// const pathname = window.location.pathname;
 
 function App() {
   useEffect(() => {
     Tap.init('40122-96e787');
   }, [])
-  
+
   // useEffect(() => {
   //   window.Chargebee.init({
   //     site: "honeycomics-v3-test",
@@ -43,7 +43,7 @@ function App() {
   //     tap('detect');
 
   //     var setupCb = function() {
-          
+
   //         if (typeof Chargebee === 'undefined') return;
 
   //         var cbInstance = Chargebee.getInstance();
@@ -69,31 +69,33 @@ function App() {
   // }, [])
 
   // 40122 - 96e787
-  
+
   return (
     <>
-    {/* <nav>slkdfjl</nav> */}
-      <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
-        <Route index element={<Login />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/signUp" exact element={<SignUp />} />
-        <Route path="/forget-password" exact element={<ForgetPassword />} />
-        <Route path="/reset-password" exact element={<ResetPassword />} />
-        <Route
-          path="/subscriptions/:username"
-          element={<Subscriptions />}
-        />
-        <Route path="/settings" exact element={<Settings />} />
-        <Route path="/dashboard/:id" exact element={<Dashboard />} />
+      <div className="max-w-[1400px] mx-auto p-5 font-MontserratRegular">
+        {/* <nav>slkdfjl</nav> */}
+        <Routes>
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route index element={<Login />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/signUp" exact element={<SignUp />} />
+          <Route path="/forget-password" exact element={<ForgetPassword />} />
+          <Route path="/reset-password" exact element={<ResetPassword />} />
+          <Route
+            path="/subscriptions/:username"
+            element={<Subscriptions />}
+          />
+          <Route path="/settings" exact element={<Settings />} />
+          <Route path="/dashboard/:id" exact element={<Dashboard />} />
 
-        <Route path="/admin" exact element={<Admin />} />
-        <Route path="/chat/:id" exact element={<Chat />} />
-        <Route path="/dashboard" exact element={<DashboardApp />} />
-        <Route path="/dashboard/edit/:id" exact element={<Edit />} />
-        <Route path="/dashboard/login" exact element={<AdminLogin />} />
-      </Routes>
+          <Route path="/admin" exact element={<Admin />} />
+          <Route path="/chat/:id" exact element={<Chat />} />
+          <Route path="/dashboard" exact element={<DashboardApp />} />
+          <Route path="/dashboard/edit/:id" exact element={<Edit />} />
+          <Route path="/dashboard/login" exact element={<AdminLogin />} />
+        </Routes>
+      </div>
     </>
   );
 }

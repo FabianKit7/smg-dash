@@ -21,6 +21,25 @@ export const numFormatter = (num = 0) => {
   }
 }
 
+export const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+const months = [
+  { month: "Jan", days: 31 },
+  { month: "Feb", days: 28 },
+  { month: "Mar", days: 31 },
+  { month: "Apr", days: 30 },
+  { month: "May", days: 31 },
+  { month: "Jun", days: 30 },
+  { month: "Jul", days: 31 },
+  { month: "Aug", days: 31 },
+  { month: "Sep", days: 30 },
+  { month: "Oct", days: 31 },
+  { month: "Nov", days: 30 },
+  { month: "Dec", days: 31 },
+]
+
 export const dateFormatter = (timeFrame) => {
   const getPrevDay = () => {
     // if the day is 0 that means need to the get the last day of the the previous month
@@ -35,21 +54,6 @@ export const dateFormatter = (timeFrame) => {
     }
     return prevMonth
   }
-
-  const months = [
-    { month: "Jan", days: 31 },
-    { month: "Feb", days: 28 },
-    { month: "Mar", days: 31 },
-    { month: "Apr", days: 30 },
-    { month: "May", days: 31 },
-    { month: "Jun", days: 30 },
-    { month: "Jul", days: 31 },
-    { month: "Aug", days: 31 },
-    { month: "Sep", days: 30 },
-    { month: "Oct", days: 31 },
-    { month: "Nov", days: 30 },
-    { month: "Dec", days: 31 },
-  ]
 
   const today = new Date()
   console.log("🚀 ~ file: helpers.js:42 ~ dateFormatter ~ today", today)
@@ -255,7 +259,7 @@ export const getThDayNameFromDate = (date) => {
 
 export const deleteAccount = async (from, id) => {
   // console.log(from, id);
-  if (id && window.confirm("Are you sure you want to delete this account?")) {
+  // if (id && window.confirm("Are you sure you want to delete this account?")) {
     const { data, error } = await supabase
       .from(from)
       .delete()
@@ -264,11 +268,10 @@ export const deleteAccount = async (from, id) => {
     error && console.log(error)
     // alert('error deleting account! contact admin');
     return data
-  }
+  // }
 }
 
 export const deleteUserDetails = async (user_id) => {
-  // console.log(user_id);
   await deleteUser(user_id);
   await deleteUserBlacklist(user_id);
   await deleteUserTargeting(user_id);
