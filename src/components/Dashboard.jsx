@@ -791,7 +791,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
   // console.log(user);
   return (<>
     <div className="mt-4 bg-[#f8f8f8] text-[#757575] md:text-black md:bg-transparent lg:mt-0 w-full rounded-[10px]">
-      <div className="flex justify-between items-center gap-1 lg:gap-4 w-screen text-center">
+      <div className="flex justify-between items-center gap-1 lg:gap-4 w-full text-center">
         <div
           className={`${chart === 1 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
           onClick={() => setChart(1)}
