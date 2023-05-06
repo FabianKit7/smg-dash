@@ -17,6 +17,7 @@ import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
+import Thankyou from "./pages/Thankyou";
 
 // const pathname = window.location.pathname;
 
@@ -72,7 +73,7 @@ function App() {
 
   return (
     <>
-      <div className="max-w-[1400px] mx-auto p-5 font-MontserratRegular">
+      <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular">
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
@@ -87,6 +88,7 @@ function App() {
             element={<Subscriptions />}
           />
           <Route path="/settings" exact element={<Settings />} />
+          <Route path="/thankyou" exact element={<Thankyou />} />
           <Route path="/dashboard/:id" exact element={<Dashboard />} />
 
           <Route path="/admin" exact element={<Admin />} />

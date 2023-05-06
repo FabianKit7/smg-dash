@@ -132,6 +132,8 @@ export default function Subscriptions() {
   
 
   const handleOnClick = async () => {
+    // navigate(`/thankyou`);
+    // return;
     setLoading(true);
     // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
     // console.log(window.tap);
@@ -232,9 +234,11 @@ export default function Subscriptions() {
             .from("users")
             .update(data).eq('user_id', user.id);
           // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-          Tap.conversion(user?.email, '30');
+          // Tap.conversion(user?.email, '30');
+          // Tap.conversion('DM', '30');
           setLoading(false);
-          navigate(`/dashboard/${username}`);
+          // navigate(`/dashboard/${username}`);
+          navigate(`/thankyou`);
         } else {
           console.log('Error creating subscription:', subscriptionResult.error);
           alert('An error occurred, please try again or contact support')

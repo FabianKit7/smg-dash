@@ -279,7 +279,7 @@ export default function DashboardApp() {
   if (user?.admin) {
     return (<>
       <div className="bg-[#F8F8F8]">
-        <div className="max-w-[1580px] mx-auto flex gap-2 md:gap-6 h-screen">
+        <div className="max-w-[1600px] mx-auto flex gap-2 md:gap-6 h-screen">
           <div className="flex-1 bg-white py-10 px-3">
             <img src="/sprouty.svg" alt="" className="mx-auto" />
             <div className="flex flex-col gap-9 lg:gap-4 mt-10 font-semibold">
@@ -506,12 +506,12 @@ export default function DashboardApp() {
                           </div>}
                         </div>
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3 max-w-[40px] break-all">
                         <div className="flex items-center">
                           Followers
                         </div>
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-2 py-3 max-w-[40px] break-all">
                         <div className="flex items-center">
                           Following
                         </div>
@@ -647,8 +647,8 @@ export default function DashboardApp() {
                                 </a>
                               </div>
                             </td>
-                            <td className="px-6 py-4" id={`followers_${index}_${user?.id}`}>{user.followers}</td>
-                            <td className="px-6 py-4" id={`following_${index}_${user?.id}`}>{user.following}</td>
+                            <td className="px-2 max-w-[40px] break-all py-4" id={`followers_${index}_${user?.id}`}>{user.followers}</td>
+                            <td className="px-2 max-w-[40px] break-all py-4" id={`following_${index}_${user?.id}`}>{user.following}</td>
                             <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${user?.id}_t`}>0</td>
                             <td className="px-6 py-4">
                               <div className="flex items-center relative">

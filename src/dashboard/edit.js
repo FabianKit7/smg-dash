@@ -42,6 +42,7 @@ export default function Edit() {
     const [privacy, setPrivacy] = useState('All');
     const [gender, setGender] = useState('All');
     const [lang, setLang] = useState('All');
+    const [refreshUser, setRefreshUser] = useState(true)
 
     useEffect(() => {
         const getData = async () => {
@@ -56,41 +57,54 @@ export default function Edit() {
                 .eq('user_id', id).order('created_at', { ascending: false })
 
             // console.log(data[0]);
-            setUser(data[0])
+            if (data?.[0]){
+                setUser(data?.[0])
+                setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
+                setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
+                setFollowingMinValue(data?.[0]?.targetingFilter.followingMin);
+                setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
+                setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
+                setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
+    
+                setMargic(data?.[0]?.targetingFilter.margicFilter || true);
+                setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
+                setGender(data?.[0]?.targetingFilter.gender || 'All');
+                setLang(data?.[0]?.targetingFilter.lang || 'All');
+            }
             setError(error)
         };
 
         getData();
-    }, [id, navigate]);
+    }, [id, navigate, refreshUser]);
 
     const setFilterModalCallback = useCallback(() => {
         setFilterModal(!filterModal);
     }, [filterModal]);
 
-    useEffect(() => {
-        const fetch = async () => {
-            const { data, error } = await supabase
-                .from('users')
-                .select()
-                .eq('user_id', id).order('created_at', { ascending: false })
+    // useEffect(() => {
+    //     const fetch = async () => {
+    //         const { data, error } = await supabase
+    //             .from('users')
+    //             .select()
+    //             .eq('user_id', id).order('created_at', { ascending: false })
 
-            setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
-            setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
-            setFollowingMinValue(data?.[0]?.targetingFilter.followingMin);
-            setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
-            setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
-            setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
+    //         setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
+    //         setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
+    //         setFollowingMinValue(data?.[0]?.targetingFilter.followingMin);
+    //         setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
+    //         setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
+    //         setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
 
-            setMargic(data?.[0]?.targetingFilter.margicFilter || true);
-            setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
-            setGender(data?.[0]?.targetingFilter.gender || 'All');
-            setLang(data?.[0]?.targetingFilter.lang || 'All');
-            error && console.log(error);
-        }
-        if (id) {
-            fetch();
-        }
-    }, [filterModal, id])
+    //         setMargic(data?.[0]?.targetingFilter.margicFilter || true);
+    //         setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
+    //         setGender(data?.[0]?.targetingFilter.gender || 'All');
+    //         setLang(data?.[0]?.targetingFilter.lang || 'All');
+    //         error && console.log(error);
+    //     }
+    //     if (id) {
+    //         fetch();
+    //     }
+    // }, [filterModal, id])
 
     // setSessionsData
     useEffect(() => {
@@ -121,12 +135,13 @@ export default function Edit() {
         <div className="max-w-[1600px] md:min-w-[500px] mx-auto bg-white">
             <div className="flex flex-col items-center w-full py-20">
                 <ModalNew
+                    show={modalIsOpen}
+                    onHide={() => setIsOpen(false)}
                     modalIsOpen={modalIsOpen}
                     setIsOpen={setIsOpen}
-                    avatar={user?.profile_pic_url}
                     user={user}
-                    userId={id}
-                    u="admin"
+                    u={'admin'}
+                    setRefreshUser={setRefreshUser}
                 />
                 
                 <TargetingFilterModal
