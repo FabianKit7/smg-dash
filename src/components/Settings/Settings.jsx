@@ -132,7 +132,7 @@ export default function Settings() {
       }}
       >
         <div className="fixed top-0 left-0 w-full h-screen bg-black/40 grid place-items-center" onClick={() => setCancelModal(false)}></div>
-        <div className="bg-white to-black py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular">
+        <div className="bg-white to-black py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular rounded-[10px]">
           <FaTimesCircle className="absolute top-3 right-3 flex flex-col items-center"
             onClick={() => {
               setCancelModal(false)

@@ -7,7 +7,6 @@ import { FaAngleDown } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
-import { BsQuestionOctagon } from "react-icons/bs";
 
 export default function Nav({ setShowWelcomeModal }) {
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -15,7 +14,7 @@ export default function Nav({ setShowWelcomeModal }) {
   const [activeLink, setActiveLink] = useState('');
   const [data, setData] = useState("");
   const [error, setError] = useState(false);
-  const [pending, setPending] = useState(false)
+  const [pending] = useState(false)
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
 
   useEffect(() => {
@@ -37,9 +36,9 @@ export default function Nav({ setShowWelcomeModal }) {
         .eq("user_id", user.id);
       // console.log("🚀 ~ file: Dashboard.jsx:34 ~ getData ~ data", data);
       setData(data[0]);
-      if (data?.[0]?.status === "pending") {
-        setPending(true)
-      }
+      // if (data?.[0]?.status === "pending") {
+      //   setPending(true)
+      // }
       setError(error);
     };
 
@@ -54,15 +53,15 @@ export default function Nav({ setShowWelcomeModal }) {
         <Link to="/" className="navbar-brand" href="#">
           {/* <img src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
-            <img alt="" className="md:hidden w-[55px] h-[55px]" src="/logo.png" />
+            <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
             <img src="/sproutysocial-light.svg" alt="" className="hidden md:inline  w-[346px]" />
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-left">SPROUTYSOCIAL</strong> */}
           </div>
-
         </Link>
 
         <div className="flex items-center">
+          {/* {'1' === '1' && */}
           {setShowWelcomeModal && pending &&
             <svgicon className="fill-black stroke-black font-[none] w-[15px] h-[15px] cursor-pointer" onClick={() => setShowWelcomeModal(true)}>
               <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

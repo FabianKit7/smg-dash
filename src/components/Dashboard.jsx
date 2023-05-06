@@ -166,7 +166,10 @@ export default function Dashboard() {
     <>
       <Nav setShowWelcomeModal={setShowWelcomeModal} />
 
-      <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} setShowWelcomeModal={setShowWelcomeModal} />
+      <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} 
+      setShowWelcomeModal={setShowWelcomeModal} 
+      showWelcomeModal={showWelcomeModal} 
+      />
 
       {mobileAdd.show &&
         <AddOthers
