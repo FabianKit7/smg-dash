@@ -773,7 +773,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex items-center">
-                <Link to="#" className="bg-[#23df85] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
+                <Link to="https://calendly.com/sproutysocial/30min" className="bg-[#23df85] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BsHeadset size={18} className="mr-1" />
                   <span>Schedule A Call</span>
                 </Link>
