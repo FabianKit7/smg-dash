@@ -703,11 +703,11 @@ export default function Dashboard() {
               <div className="mt-[10px] gap-[10px] flex flex-col items-center">
                 <Link to="#" className="bg-[#23df85] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BsHeadset size={18} className="mr-1" />
-                  <span> Shedule a call</span>
+                  <span>Schedule A Call</span>
                 </Link>
                 <a href="mailto:analyst@sproutysocial.com" className="bg-[#1b89ff] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BiMessageSquareDots size={18} className="mr-1" />
-                  <span> Send an email</span>
+                  <span>Send An Email</span>
                 </a>
               </div>
             </div>}
@@ -1434,7 +1434,7 @@ const WhiteListCompt = ({ userId, setMobileAdd }) => {
               }}>
                 <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-[#f8f8f8]"
                   onClick={() => {
-                    setPageProp({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by EngagementBoost. We will never unfollow anyone you manually followed.' })
+                    setPageProp({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by SproutySocial. We will never unfollow anyone you manually followed.' })
                     setShowPageModal(false)
                   }}>
                   Whitelist
