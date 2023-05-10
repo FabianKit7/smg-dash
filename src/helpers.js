@@ -260,14 +260,14 @@ export const getThDayNameFromDate = (date) => {
 export const deleteAccount = async (from, id) => {
   // console.log(from, id);
   // if (id && window.confirm("Are you sure you want to delete this account?")) {
-    const { data, error } = await supabase
-      .from(from)
-      .delete()
-      .match({ id: id })
-    // .eq('id', id).select();
-    error && console.log(error)
-    // alert('error deleting account! contact admin');
-    return data
+  const { data, error } = await supabase
+    .from(from)
+    .delete()
+    .match({ id: id })
+  // .eq('id', id).select();
+  error && console.log(error)
+  // alert('error deleting account! contact admin');
+  return data
   // }
 }
 
@@ -393,4 +393,15 @@ export function getDownloadedFilePublicUrl(path) {
     .from('profilePictures')
     .getPublicUrl(path)
   return publicUrl
+}
+
+export function getCookie(name) {
+  var nameEQ = name + '='
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i]
+    while (c.charAt(0) === '') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
 }

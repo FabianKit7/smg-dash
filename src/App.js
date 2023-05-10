@@ -18,12 +18,14 @@ import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
+import { getCookie } from "./helpers";
 
 // const pathname = window.location.pathname;
 
 function App() {
   useEffect(() => {
-    Tap.init('40122-96e787');
+    const clickId = getCookie('tap_click_id')
+    Tap.init('40122-96e787', {click: clickId});
   }, [])
 
   // useEffect(() => {
