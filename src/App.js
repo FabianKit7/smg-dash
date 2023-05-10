@@ -16,7 +16,7 @@ import AdminLogin from "./dashboard/adminLogin";
 import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
-// import Tap from "@tapfiliate/tapfiliate-js";
+import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
 import { getCookie } from "./helpers";
 
@@ -26,7 +26,7 @@ function App() {
   useEffect(() => {
     const clickId = getCookie('_vid_t')
     console.log(clickId);
-    // Tap.init('40122-96e787');
+    Tap.init('40122-96e787');
   }, [])
 
   // useEffect(() => {
