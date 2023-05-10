@@ -24,7 +24,7 @@ import { getCookie } from "./helpers";
 
 function App() {
   useEffect(() => {
-    const clickId = getCookie('tap_vid')
+    const clickId = getCookie('_vid_t')
     console.log(clickId);
     // Tap.init('40122-96e787');
   }, [])

@@ -23,7 +23,11 @@ export default function Thankyou() {
 
             if (data?.[0]) {
                 const username = data[0].username
-                Tap.conversion('DM', '30');
+                try {
+                    Tap.conversion('DM', '30');                    
+                } catch (error) {
+                    console.log(error);
+                }
                 navigate(`/dashboard/${username}`);
             }
         };
