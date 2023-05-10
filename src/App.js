@@ -16,7 +16,7 @@ import AdminLogin from "./dashboard/adminLogin";
 import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
-import Tap from "@tapfiliate/tapfiliate-js";
+// import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
 import { getCookie } from "./helpers";
 
@@ -25,7 +25,8 @@ import { getCookie } from "./helpers";
 function App() {
   useEffect(() => {
     const clickId = getCookie('tap_click_id')
-    Tap.init('40122-96e787', {click: clickId});
+    console.log(clickId);
+    // Tap.init('40122-96e787');
   }, [])
 
   // useEffect(() => {
