@@ -25,13 +25,12 @@ export default function Thankyou() {
                 const username = data[0].username
                 try {
                     // Tap.conversion('DM', '30');
-                    Tap.conversion('order123', '99.95', { approved: true }, null, function (error, result) {
+                    Tap.conversion('order123', '99.99', { approved: true }, null, function (error, result) {
                         if (error) {
                             console.error('Error tracking conversion:', error);
                         } else {
                             console.log('Conversion tracked successfully:', result);
                         }
-                            // console.log('2Conversion tracked successfully:', result);
                     });        
                 } catch (error) {
                     console.log(error);

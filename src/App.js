@@ -33,8 +33,8 @@ function App() {
       { cookie_domain: '.sproutysocial.com', always_callback: true }, // detectOptions with always_callback set to true to ensure detectCallback is always called
       function (error, result) {
         console.log("error: ", error);
-        console.log("result: ", result);
         console.log('Click tracked successfully');
+        console.log("result: ", result);
         // You can set the click ID to a cookie here if necessary
       } // detectCallback function
     );
