@@ -18,16 +18,29 @@ import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
-import { getCookie } from "./helpers";
+// import { getCookie } from "./helpers";
 
 // const pathname = window.location.pathname;
 
 function App() {
   useEffect(() => {
-    const clickId = getCookie('_vid_t')
-    console.log(clickId);
-    Tap.init('40122-96e787');
+    // const clickId = getCookie('_vid_t')
+    // console.log(clickId);
+    Tap.init(
+      '40122-96e787', // your account ID
+      { integration: 'javascript' }, // createOptions with cookie domain set to your main domain
+      function () { console.log('Tracking code initialized'); }, // createCallback function
+      { cookie_domain: '.sproutysocial.com', always_callback: true }, // detectOptions with always_callback set to true to ensure detectCallback is always called
+      function (error, result) {
+        console.log("error: ", error);
+        console.log("result: ", result);
+        console.log('Click tracked successfully');
+        // You can set the click ID to a cookie here if necessary
+      } // detectCallback function
+    );
   }, [])
+
+  
 
   // useEffect(() => {
   //   window.Chargebee.init({
