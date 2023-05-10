@@ -1196,7 +1196,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
 
   useEffect(() => {
     const getTargetingAccounts = async () => {
-      if (!user) return;
+      if (!user || !user?.user_id) return;
       const { data, error } = await supabase
         .from("targeting")
         .select()
