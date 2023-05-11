@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
@@ -10,7 +10,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
 
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
 
   const handleSignUp = async (e) => {

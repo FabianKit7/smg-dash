@@ -7,6 +7,7 @@ import { TiTimes } from 'react-icons/ti'
 import { FaUser } from 'react-icons/fa'
 import { searchAccount } from '../../helpers'
 import { supabase } from '../../supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchBox() {
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -18,6 +19,7 @@ export default function SearchBox() {
   const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selected, setSelected] = useState()
   const inputRef = useRef()
+  const navigate = useNavigate();  
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -84,7 +86,8 @@ export default function SearchBox() {
         .update({
           username: userResults.data[0].username,
         }).eq('user_id', user.id);
-      window.location = `/subscriptions/${userResults.data[0].username}`;
+      // window.location = `/subscriptions/${userResults.data[0].username}`;
+      navigate(`/subscriptions/${userResults.data[0].username}`)
       return;
     } else {
       setProcessing(false);
