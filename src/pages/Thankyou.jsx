@@ -24,8 +24,7 @@ export default function Thankyou() {
             if (data?.[0]) {
                 const username = data[0].username
                 try {
-                    // Tap.conversion('DM', '30');
-                    Tap.conversion('order123', '99.99', { approved: true }, null, function (error, result) {
+                    Tap.conversion('DM', '99.95', { approved: true, customer_id: user?.id }, null, function (error, result) {
                         if (error) {
                             console.error('Error tracking conversion:', error);
                         } else {
