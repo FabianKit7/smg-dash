@@ -22,8 +22,8 @@ export default function Thankyou() {
             }
 
             if (data?.[0]) {
-                // const username = data[0].username
-                // try {
+                const username = data[0].username
+                try {
                     // Tap.conversion('DM', '30');
                     Tap.conversion('order1234', '99.99', { approved: true }, null, function (error, result) {
                         if (error) {
@@ -32,10 +32,10 @@ export default function Thankyou() {
                             console.log('Conversion tracked successfully:', result);
                         }
                     });        
-                // } catch (error) {
-                //     console.log(error);
-                // }
-                // navigate(`/dashboard/${username}`);
+                } catch (error) {
+                    console.log(error);
+                }
+                navigate(`/dashboard/${username}`);
             }
         };
 
