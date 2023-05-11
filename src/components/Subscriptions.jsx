@@ -8,7 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import axios from 'axios'
 import CrispChat from "./CrispChat";
-import { uploadImageFromURL } from "../helpers";
+import { getRefCode, uploadImageFromURL } from "../helpers";
 import Tap from "@tapfiliate/tapfiliate-js";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -122,14 +122,14 @@ export default function Subscriptions() {
   }, [])
 
   useEffect(() => {
-    if(typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
     // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
     // console.log(window.tap);
     // window.tap('create', '40122-96e787', { integration: "javascript" });
     // window.tap('conversion', "test@gmail.com", '30');
     // Tap.conversion("user?.email", '30');
   }, [])
-  
+
 
   const handleOnClick = async () => {
     // navigate(`/thankyou`);
@@ -139,7 +139,7 @@ export default function Subscriptions() {
     // console.log(window.tap);
     // window.tap('create', '40122-96e787', { integration: "javascript" });
     // window.tap('conversion', "test@gmail.com", '30');
-    
+
     // Tap.conversion("test@gmail.com", '30');
     // setLoading(false);
     // return;
@@ -204,13 +204,13 @@ export default function Subscriptions() {
           .then((response) => response.data)
         // console.log(subscriptionResult);
         if (subscriptionResult.message === 'success') {
-          const uploadImageFromURLRes  = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
+          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
           // console.log(uploadImageFromURLRes);
 
           if (uploadImageFromURLRes?.status === 'success') {
             profile_pic_url = uploadImageFromURLRes?.data
           }
-          
+
           let data = {
             chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
             chargebee_subscription_id: subscriptionResult.subscription?.id,
@@ -238,7 +238,12 @@ export default function Subscriptions() {
           // Tap.conversion('DM', '30');
           setLoading(false);
           // navigate(`/dashboard/${username}`);
-          navigate(`/thankyou`);
+          const ref = getRefCode()
+          if (ref) {
+            navigate(`/thankyou/?ref=${ref}`)
+          } else {
+            navigate(`/thankyou`)
+          }
         } else {
           console.log('Error creating subscription:', subscriptionResult.error);
           alert('An error occurred, please try again or contact support')
@@ -510,18 +515,18 @@ export default function Subscriptions() {
                     // </Provider>
                   } */}
                 </>
-                  <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
-                    style={{
-                      backgroundColor: '#ef5f3c',
-                      color: 'white',
-                      boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                    }}
-                    onClick={() => {
-                      if (Loading) return alert('Please wait');
-                      handleOnClick()
-                    }}>
-                    <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
-                  </button>
+                <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
+                  style={{
+                    backgroundColor: '#ef5f3c',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                  onClick={() => {
+                    if (Loading) return alert('Please wait');
+                    handleOnClick()
+                  }}>
+                  <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
+                </button>
                 {/* {showCardComponent && <></>} */}
                 {Loading && <div className="flex items-center py-3 gap-2 justify-center">
                   <AiOutlineLoading3Quarters className="animate-spin" />

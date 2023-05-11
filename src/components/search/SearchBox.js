@@ -5,7 +5,7 @@ import { useClickOutside } from "react-click-outside-hook";
 import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { FaUser } from 'react-icons/fa'
-import { searchAccount } from '../../helpers'
+import { getRefCode, searchAccount } from '../../helpers'
 import { supabase } from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 
@@ -87,7 +87,12 @@ export default function SearchBox() {
           username: userResults.data[0].username,
         }).eq('user_id', user.id);
       // window.location = `/subscriptions/${userResults.data[0].username}`;
-      navigate(`/subscriptions/${userResults.data[0].username}`)
+      const ref = getRefCode()
+      if (ref) {
+        navigate(`/subscriptions/${userResults.data[0].username}/?ref=${ref}`)
+      } else {
+        navigate(`/subscriptions/${userResults.data[0].username}`)
+      }
       return;
     } else {
       setProcessing(false);
