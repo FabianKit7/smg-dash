@@ -1,6 +1,7 @@
 import Tap from '@tapfiliate/tapfiliate-js';
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { getRefCode } from '../helpers';
 import { supabase } from '../supabaseClient';
 
 export default function Thankyou() {
@@ -24,7 +25,9 @@ export default function Thankyou() {
             if (data?.[0]) {
                 const username = data[0].username
                 try {
-                    Tap.conversion('DM', '99.95', { approved: true, customer_id: user?.id }, null, function (error, result) {
+                    // Tap.conversion('DM', '99.95', { approved: true, customer_id: user?.id }, null, function (error, result) {
+                    const ref = getRefCode()
+                    Tap.conversion(ref, '99.95', { approved: true }, null, function (error, result) {
                         if (error) {
                             console.error('Error tracking conversion:', error);
                         } else {
