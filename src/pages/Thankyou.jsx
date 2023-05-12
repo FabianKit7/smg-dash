@@ -24,10 +24,11 @@ export default function Thankyou() {
 
             if (data?.[0]) {
                 const username = data[0].username
+                const email = data[0].email
                 try {
                     // Tap.conversion('DM', '99.95', { approved: true, customer_id: user?.id }, null, function (error, result) {
-                    const ref = getRefCode()
-                    Tap.conversion(ref, '99.95', { approved: true }, null, function (error, result) {
+                    // const ref = getRefCode()
+                    Tap.conversion(email, '99.95', { approved: true }, null, function (error, result) {
                         if (error) {
                             console.error('Error tracking conversion:', error);
                         } else {
