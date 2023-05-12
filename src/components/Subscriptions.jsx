@@ -240,7 +240,7 @@ export default function Subscriptions() {
           // navigate(`/dashboard/${username}`);
           const ref = getRefCode()
           if (ref) {
-            navigate(`/thankyou/?ref=${ref}`)
+            navigate(`/thankyou?ref=${ref}`)
           } else {
             navigate(`/thankyou`)
           }

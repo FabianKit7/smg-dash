@@ -89,7 +89,7 @@ export default function SearchBox() {
       // window.location = `/subscriptions/${userResults.data[0].username}`;
       const ref = getRefCode()
       if (ref) {
-        navigate(`/subscriptions/${userResults.data[0].username}/?ref=${ref}`)
+        navigate(`/subscriptions/${userResults.data[0].username}?ref=${ref}`)
       } else {
         navigate(`/subscriptions/${userResults.data[0].username}`)
       }

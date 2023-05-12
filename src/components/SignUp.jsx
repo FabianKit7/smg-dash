@@ -39,7 +39,7 @@ export default function SignUp() {
       if (error) return console.log(error);
       const ref = getRefCode()
       if(ref){
-        navigate(`/search/?ref=${ref}`)
+        navigate(`/search?ref=${ref}`)
       }else{
         navigate("/search")
       }
