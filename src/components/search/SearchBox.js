@@ -2,7 +2,7 @@ import Axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { useClickOutside } from "react-click-outside-hook";
 
-import { Spinner } from 'react-bootstrap'
+// import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { FaUser } from 'react-icons/fa'
 import { getRefCode, searchAccount } from '../../helpers'
@@ -16,7 +16,7 @@ export default function SearchBox() {
   const [showResultModal, setShowResultModal] = useState(false)
   const [input, setInput] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState(input)
-  const [searchedAccounts, setSearchedAccounts] = useState([])
+  // const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selected, setSelected] = useState()
   const inputRef = useRef()
   const navigate = useNavigate();  
@@ -42,18 +42,18 @@ export default function SearchBox() {
       const data = await searchAccount(input);
       const users = data?.users;
       if (users?.length > 0) {
-        const filtered = users?.filter(user => {
-          var x = (user?.username)?.toLowerCase()
-          var y = input?.toLowerCase()
-          return x?.startsWith(y)
-        })
+        // const filtered = users?.filter(user => {
+        //   var x = (user?.username)?.toLowerCase()
+        //   var y = input?.toLowerCase()
+        //   return x?.startsWith(y)
+        // })
         // console.log(filtered);
-        setSearchedAccounts(filtered)
+        // setSearchedAccounts(filtered)
         setShowResultModal(true)
       }
       setLoadingSpinner(false)
     }
-    setSearchedAccounts([])
+    // setSearchedAccounts([])
     fetch()
   }, [input])
 
@@ -112,7 +112,7 @@ export default function SearchBox() {
           onChange={(e) => {
             setDebouncedQuery(e.target.value);
           }}
-          onFocus={(e) => {
+          onFocus={() => {
             setShowResultModal(true)
           }}
         />
