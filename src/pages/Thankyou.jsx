@@ -1,7 +1,7 @@
 import Tap from '@tapfiliate/tapfiliate-js';
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { getRefCode } from '../helpers';
+// import { getRefCode } from '../helpers';
 import { supabase } from '../supabaseClient';
 
 export default function Thankyou() {

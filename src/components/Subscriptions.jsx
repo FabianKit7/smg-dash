@@ -152,168 +152,173 @@ export default function Subscriptions() {
       return;
     };
     const { data: { user } } = await supabase.auth.getUser()
-
-
-    if (cardRef) {
-      // cardRef.current.tokenize().then(data => {
-      //   console.log(data);
-      //   // return data.token
-      // }).catch(err => {
-      //   console.log(err);
-      // });
-      const token = await cardRef.current.tokenize().then(data => {
-        return data.token
-      }).catch(err => {
-        console.log(err);
-        if (err === "Error: Could not mount master component") return alert("Please check your card")
-        alert(err)
-        // alert("something is wrong, please try again")
-        setLoading(false);
-        return;
-      });
-
-      if (!token) {
-        setLoading(false);
-        return;
-      }      
-
-      // const create_subscription_data = {
-      //   allow_direct_debit: true,
-      //   // first_name: userResults.data[0].full_name,
-      //   first_name: user?.full_name,
-      //   last_name: '',
-      //   email: user.email,
-      //   token_id: token,
-      //   plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-      //   // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-      //   // plan_id: "Monthly-Plan-USD-Monthly"
-      // }
-      // // console.log(create_customer_data);
-      // const create_subscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription`,
-      //   urlEncode(create_subscription_data))
-      //   .then((response) => response.data)
-      // if (create_subscription.message === 'success') {
-      //   //
-      //   var profile_pic_url = '';
-      //   const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
-      //   // console.log(uploadImageFromURLRes);
-
-      //   if (uploadImageFromURLRes?.status === 'success') {
-      //     profile_pic_url = uploadImageFromURLRes?.data
-      //   }
-
-      //   let data = {
-      //     chargebee_subscription: JSON.stringify(create_subscription?.subscription),
-      //     chargebee_subscription_id: create_subscription?.subscription?.id,
-      //     chargebee_customer: JSON.stringify(create_subscription?.customer),
-      //     chargebee_customer_id: create_subscription?.customer?.id,
-
-      //     username,
-      //     email: user.email,
-      //     followers: userResults?.data[0].follower_count,
-      //     following: userResults?.data[0].following_count,
-      //     // profile_pic_url: userResults?.data[0]?.profile_pic_url,
-      //     profile_pic_url,
-      //     is_verified: userResults?.data[0]?.is_verified,
-      //     biography: userResults?.data[0]?.biography,
-      //     start_time: getStartingDay(),
-      //     posts: userResults?.data[0].media_count,
-      //     subscribed: true,
-      //   }
-      //   // console.log(data);
-      //   await supabase
-      //     .from("users")
-      //     .update(data).eq('user_id', user.id);
-      //   // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-      //   // Tap.conversion(user?.email, '30');
-      //   // Tap.conversion('DM', '30');
-      //   setLoading(false);
-      //   // navigate(`/dashboard/${username}`);
-      //   const ref = getRefCode()
-      //   if (ref) {
-      //     navigate(`/thankyou?ref=${ref}`)
-      //   } else {
-      //     navigate(`/thankyou`)
-      //   }        
-      // } else {
-      //   console.log('Error during create_subscription process:', create_subscription.error);
-      //   alert('An error occurred, please try again or contact support')
-      // }
-
-      const create_customer_data = {
-        allow_direct_debit: true,
-        // first_name: userResults.data[0].full_name,
-        first_name: user?.full_name,
-        last_name: '',
-        email: user.email,
-        token_id: token
-      }
-      let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
-        urlEncode(create_customer_data))
-        .then((response) => response.data)
-      // console.log(customer);
-
-      if (customer.message === 'success') {
-        var profile_pic_url = '';
-        const create_subscription_for_customer_data = {
-          customer_id: customer?.customer?.id,
-          plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-          // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-          // plan_id: "Monthly-Plan-USD-Monthly"
-        }
-        let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
-          urlEncode(create_subscription_for_customer_data))
-          .then((response) => response.data)
-        // console.log(subscriptionResult);
-        if (subscriptionResult.message === 'success') {
-          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
-          // console.log(uploadImageFromURLRes);
-
-          if (uploadImageFromURLRes?.status === 'success') {
-            profile_pic_url = uploadImageFromURLRes?.data
-          }
-
-          let data = {
-            chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
-            chargebee_subscription_id: subscriptionResult.subscription?.id,
-            chargebee_customer: JSON.stringify(customer.customer),
-            chargebee_customer_id: customer?.customer?.id,
-
-            username,
-            email: user.email,
-            followers: userResults?.data[0].follower_count,
-            following: userResults?.data[0].following_count,
-            // profile_pic_url: userResults?.data[0]?.profile_pic_url,
-            profile_pic_url,
-            is_verified: userResults?.data[0]?.is_verified,
-            biography: userResults?.data[0]?.biography,
-            start_time: getStartingDay(),
-            posts: userResults?.data[0].media_count,
-            subscribed: true,
-          }
-          // console.log(data);
-          await supabase
-            .from("users")
-            .update(data).eq('user_id', user.id);
-          // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-          // Tap.conversion(user?.email, '30');
-          // Tap.conversion('DM', '30');
+    const getUserDetails = await supabase
+      .from('users')
+      .select()
+      .eq('user_id', user.id).order('created_at', { ascending: false })
+      
+    if (getUserDetails?.data?.[0]){
+      if (cardRef) {
+        // cardRef.current.tokenize().then(data => {
+        //   console.log(data);
+        //   // return data.token
+        // }).catch(err => {
+        //   console.log(err);
+        // });
+        const token = await cardRef.current.tokenize().then(data => {
+          return data.token
+        }).catch(err => {
+          console.log(err);
+          if (err === "Error: Could not mount master component") return alert("Please check your card")
+          alert(err)
+          // alert("something is wrong, please try again")
           setLoading(false);
-          // navigate(`/dashboard/${username}`);
-          const ref = getRefCode()
-          if (ref) {
-            navigate(`/thankyou?ref=${ref}`)
+          return;
+        });
+  
+        if (!token) {
+          setLoading(false);
+          return;
+        }      
+  
+        // const create_subscription_data = {
+        //   allow_direct_debit: true,
+        //   // first_name: userResults.data[0].full_name,
+        //   first_name: user?.full_name,
+        //   last_name: '',
+        //   email: user.email,
+        //   token_id: token,
+        //   plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+        //   // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+        //   // plan_id: "Monthly-Plan-USD-Monthly"
+        // }
+        // // console.log(create_customer_data);
+        // const create_subscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription`,
+        //   urlEncode(create_subscription_data))
+        //   .then((response) => response.data)
+        // if (create_subscription.message === 'success') {
+        //   //
+        //   var profile_pic_url = '';
+        //   const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
+        //   // console.log(uploadImageFromURLRes);
+  
+        //   if (uploadImageFromURLRes?.status === 'success') {
+        //     profile_pic_url = uploadImageFromURLRes?.data
+        //   }
+  
+        //   let data = {
+        //     chargebee_subscription: JSON.stringify(create_subscription?.subscription),
+        //     chargebee_subscription_id: create_subscription?.subscription?.id,
+        //     chargebee_customer: JSON.stringify(create_subscription?.customer),
+        //     chargebee_customer_id: create_subscription?.customer?.id,
+  
+        //     username,
+        //     email: user.email,
+        //     followers: userResults?.data[0].follower_count,
+        //     following: userResults?.data[0].following_count,
+        //     // profile_pic_url: userResults?.data[0]?.profile_pic_url,
+        //     profile_pic_url,
+        //     is_verified: userResults?.data[0]?.is_verified,
+        //     biography: userResults?.data[0]?.biography,
+        //     start_time: getStartingDay(),
+        //     posts: userResults?.data[0].media_count,
+        //     subscribed: true,
+        //   }
+        //   // console.log(data);
+        //   await supabase
+        //     .from("users")
+        //     .update(data).eq('user_id', user.id);
+        //   // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+        //   // Tap.conversion(user?.email, '30');
+        //   // Tap.conversion('DM', '30');
+        //   setLoading(false);
+        //   // navigate(`/dashboard/${username}`);
+        //   const ref = getRefCode()
+        //   if (ref) {
+        //     navigate(`/thankyou?ref=${ref}`)
+        //   } else {
+        //     navigate(`/thankyou`)
+        //   }        
+        // } else {
+        //   console.log('Error during create_subscription process:', create_subscription.error);
+        //   alert('An error occurred, please try again or contact support')
+        // }
+  
+        const create_customer_data = {
+          allow_direct_debit: true,
+          // first_name: userResults.data[0].full_name,
+          first_name: getUserDetails?.data?.[0]?.full_name,
+          last_name: '',
+          email: user.email,
+          token_id: token
+        }
+        let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
+          urlEncode(create_customer_data))
+          .then((response) => response.data)
+        // console.log(customer);
+  
+        if (customer.message === 'success') {
+          var profile_pic_url = '';
+          const create_subscription_for_customer_data = {
+            customer_id: customer?.customer?.id,
+            plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+            // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+            // plan_id: "Monthly-Plan-USD-Monthly"
+          }
+          let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
+            urlEncode(create_subscription_for_customer_data))
+            .then((response) => response.data)
+          // console.log(subscriptionResult);
+          if (subscriptionResult.message === 'success') {
+            const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
+            // console.log(uploadImageFromURLRes);
+  
+            if (uploadImageFromURLRes?.status === 'success') {
+              profile_pic_url = uploadImageFromURLRes?.data
+            }
+  
+            let data = {
+              chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
+              chargebee_subscription_id: subscriptionResult.subscription?.id,
+              chargebee_customer: JSON.stringify(customer.customer),
+              chargebee_customer_id: customer?.customer?.id,
+  
+              username,
+              email: user.email,
+              followers: userResults?.data[0].follower_count,
+              following: userResults?.data[0].following_count,
+              // profile_pic_url: userResults?.data[0]?.profile_pic_url,
+              profile_pic_url,
+              is_verified: userResults?.data[0]?.is_verified,
+              biography: userResults?.data[0]?.biography,
+              start_time: getStartingDay(),
+              posts: userResults?.data[0].media_count,
+              subscribed: true,
+            }
+            // console.log(data);
+            await supabase
+              .from("users")
+              .update(data).eq('user_id', user.id);
+            // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+            // Tap.conversion(user?.email, '30');
+            // Tap.conversion('DM', '30');
+            setLoading(false);
+            // navigate(`/dashboard/${username}`);
+            const ref = getRefCode()
+            if (ref) {
+              navigate(`/thankyou?ref=${ref}`)
+            } else {
+              navigate(`/thankyou`)
+            }
           } else {
-            navigate(`/thankyou`)
+            console.log('Error creating subscription:', subscriptionResult.error);
+            alert('An error occurred, please try again or contact support')
           }
         } else {
-          console.log('Error creating subscription:', subscriptionResult.error);
+          console.log('Error creating customer:', customer.error);
           alert('An error occurred, please try again or contact support')
         }
-      } else {
-        console.log('Error creating customer:', customer.error);
-        alert('An error occurred, please try again or contact support')
-      }
+      }      
     }
 
     // await cbInstance.openCheckout({
