@@ -117,12 +117,15 @@ export default function SearchBox() {
           }}
         />
         <div className="relative flex items-center justify-center">
-          <span className="absolute z-10">{loadingSpinner && (<Spinner animation="border" />)}</span>
+          <span className="absolute z-10">{loadingSpinner && (<>
+              {/* <Spinner animation="border" /> */}
+            </>)}</span>
           {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
         </div>
       </div>
 
-      {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+      {/* {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4"> */}
+      {showResultModal && debouncedQuery && !processing && <div className="absolute top-[60px] z-50 w-full h-fit overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
         {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
           onClick={() => {
             setSelected(debouncedQuery);
