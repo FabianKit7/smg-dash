@@ -569,7 +569,7 @@ export default function Dashboard() {
                   alt=""
                 />
                 <div className="flex flex-col text-base lg:text-2xl">
-                  <div className="flex items-center gap-1"> {userData?.username}
+                  <div className="flex items-center gap-1"> {userData?.full_name}
                     <img
                       alt=""
                       className="lg:hidden platform-logo"

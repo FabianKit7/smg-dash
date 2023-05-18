@@ -2,7 +2,7 @@ import Axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { useClickOutside } from "react-click-outside-hook";
 
-// import { Spinner } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { FaUser } from 'react-icons/fa'
 import { getRefCode, searchAccount } from '../../helpers'
@@ -16,7 +16,7 @@ export default function SearchBox() {
   const [showResultModal, setShowResultModal] = useState(false)
   const [input, setInput] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState(input)
-  // const [searchedAccounts, setSearchedAccounts] = useState([])
+  const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selected, setSelected] = useState()
   const inputRef = useRef()
   const navigate = useNavigate();  
@@ -42,18 +42,18 @@ export default function SearchBox() {
       const data = await searchAccount(input);
       const users = data?.users;
       if (users?.length > 0) {
-        // const filtered = users?.filter(user => {
-        //   var x = (user?.username)?.toLowerCase()
-        //   var y = input?.toLowerCase()
-        //   return x?.startsWith(y)
-        // })
+        const filtered = users?.filter(user => {
+          var x = (user?.username)?.toLowerCase()
+          var y = input?.toLowerCase()
+          return x?.startsWith(y)
+        })
         // console.log(filtered);
-        // setSearchedAccounts(filtered)
+        setSearchedAccounts(filtered)
         setShowResultModal(true)
       }
       setLoadingSpinner(false)
     }
-    // setSearchedAccounts([])
+    setSearchedAccounts([])
     fetch()
   }, [input])
 
@@ -118,14 +118,14 @@ export default function SearchBox() {
         />
         <div className="relative flex items-center justify-center">
           <span className="absolute z-10">{loadingSpinner && (<>
-              {/* <Spinner animation="border" /> */}
+              <Spinner animation="border" />
             </>)}</span>
           {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
         </div>
       </div>
 
-      {/* {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4"> */}
-      {showResultModal && debouncedQuery && !processing && <div className="absolute top-[60px] z-50 w-full h-fit overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+      {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+      {/* {showResultModal && debouncedQuery && !processing && <div className="absolute top-[60px] z-50 w-full h-fit overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4"> */}
         {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
           onClick={() => {
             setSelected(debouncedQuery);
@@ -142,7 +142,7 @@ export default function SearchBox() {
             <div className="mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
           </div>
         </div>}
-        {/* {searchedAccounts.map((data, index) => {
+        {searchedAccounts.map((data, index) => {
           return (<>
             <div
               key={index}
@@ -171,7 +171,7 @@ export default function SearchBox() {
               </div>
             </div>
           </>)
-        })} */}
+        })}
       </div>}
 
       <button className={`bg-[#ef5f3c] mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
