@@ -405,3 +405,16 @@ export function getCookie(name) {
   }
   return null;
 }
+
+export function getRefCode() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var refParam = urlParams.get('ref');
+  if (refParam) {
+    return refParam
+    // var newUrl = "https://app.sproutysocial.com/signup/?ref=" + refParam;
+    // var signupLink = document.getElementById('signup');
+    // if (signupLink) {
+    //   signupLink.href = newUrl;
+  }
+  return ''
+}

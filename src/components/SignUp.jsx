@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
+import { getRefCode } from "../helpers";
 import { supabase } from "../supabaseClient";
 
 export default function SignUp() {
@@ -36,7 +37,12 @@ export default function SignUp() {
           username: data?.user?.username || ''
         });
       if (error) return console.log(error);
-      navigate("/search")
+      const ref = getRefCode()
+      if(ref){
+        navigate(`/search?ref=${ref}`)
+      }else{
+        navigate("/search")
+      }
     }
     // setLoading(false);
   };
@@ -55,6 +61,7 @@ export default function SignUp() {
 
       if (data?.user) {
         window.location = `/dashboard/${data.user?.user_id}`;
+        return;
       } else {
         // alert(error.message)
         const { error } = await supabase

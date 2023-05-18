@@ -8,7 +8,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
 import axios from 'axios'
 import CrispChat from "./CrispChat";
-import { uploadImageFromURL } from "../helpers";
+import { getRefCode, uploadImageFromURL } from "../helpers";
 import Tap from "@tapfiliate/tapfiliate-js";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -122,14 +122,14 @@ export default function Subscriptions() {
   }, [])
 
   useEffect(() => {
-    if(typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
     // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
     // console.log(window.tap);
     // window.tap('create', '40122-96e787', { integration: "javascript" });
     // window.tap('conversion', "test@gmail.com", '30');
     // Tap.conversion("user?.email", '30');
   }, [])
-  
+
 
   const handleOnClick = async () => {
     // navigate(`/thankyou`);
@@ -139,7 +139,7 @@ export default function Subscriptions() {
     // console.log(window.tap);
     // window.tap('create', '40122-96e787', { integration: "javascript" });
     // window.tap('conversion', "test@gmail.com", '30');
-    
+
     // Tap.conversion("test@gmail.com", '30');
     // setLoading(false);
     // return;
@@ -175,17 +175,79 @@ export default function Subscriptions() {
       if (!token) {
         setLoading(false);
         return;
-      }
+      }      
+
+      // const create_subscription_data = {
+      //   allow_direct_debit: true,
+      //   // first_name: userResults.data[0].full_name,
+      //   first_name: user?.full_name,
+      //   last_name: '',
+      //   email: user.email,
+      //   token_id: token,
+      //   plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+      //   // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+      //   // plan_id: "Monthly-Plan-USD-Monthly"
+      // }
+      // // console.log(create_customer_data);
+      // const create_subscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription`,
+      //   urlEncode(create_subscription_data))
+      //   .then((response) => response.data)
+      // if (create_subscription.message === 'success') {
+      //   //
+      //   var profile_pic_url = '';
+      //   const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
+      //   // console.log(uploadImageFromURLRes);
+
+      //   if (uploadImageFromURLRes?.status === 'success') {
+      //     profile_pic_url = uploadImageFromURLRes?.data
+      //   }
+
+      //   let data = {
+      //     chargebee_subscription: JSON.stringify(create_subscription?.subscription),
+      //     chargebee_subscription_id: create_subscription?.subscription?.id,
+      //     chargebee_customer: JSON.stringify(create_subscription?.customer),
+      //     chargebee_customer_id: create_subscription?.customer?.id,
+
+      //     username,
+      //     email: user.email,
+      //     followers: userResults?.data[0].follower_count,
+      //     following: userResults?.data[0].following_count,
+      //     // profile_pic_url: userResults?.data[0]?.profile_pic_url,
+      //     profile_pic_url,
+      //     is_verified: userResults?.data[0]?.is_verified,
+      //     biography: userResults?.data[0]?.biography,
+      //     start_time: getStartingDay(),
+      //     posts: userResults?.data[0].media_count,
+      //     subscribed: true,
+      //   }
+      //   // console.log(data);
+      //   await supabase
+      //     .from("users")
+      //     .update(data).eq('user_id', user.id);
+      //   // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+      //   // Tap.conversion(user?.email, '30');
+      //   // Tap.conversion('DM', '30');
+      //   setLoading(false);
+      //   // navigate(`/dashboard/${username}`);
+      //   const ref = getRefCode()
+      //   if (ref) {
+      //     navigate(`/thankyou?ref=${ref}`)
+      //   } else {
+      //     navigate(`/thankyou`)
+      //   }        
+      // } else {
+      //   console.log('Error during create_subscription process:', create_subscription.error);
+      //   alert('An error occurred, please try again or contact support')
+      // }
 
       const create_customer_data = {
         allow_direct_debit: true,
-        first_name: userResults.data[0].full_name,
+        // first_name: userResults.data[0].full_name,
+        first_name: user?.full_name,
         last_name: '',
         email: user.email,
         token_id: token
       }
-      // console.log(create_customer_data);
-
       let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
         urlEncode(create_customer_data))
         .then((response) => response.data)
@@ -204,13 +266,13 @@ export default function Subscriptions() {
           .then((response) => response.data)
         // console.log(subscriptionResult);
         if (subscriptionResult.message === 'success') {
-          const uploadImageFromURLRes  = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
+          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
           // console.log(uploadImageFromURLRes);
 
           if (uploadImageFromURLRes?.status === 'success') {
             profile_pic_url = uploadImageFromURLRes?.data
           }
-          
+
           let data = {
             chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
             chargebee_subscription_id: subscriptionResult.subscription?.id,
@@ -238,7 +300,12 @@ export default function Subscriptions() {
           // Tap.conversion('DM', '30');
           setLoading(false);
           // navigate(`/dashboard/${username}`);
-          navigate(`/thankyou`);
+          const ref = getRefCode()
+          if (ref) {
+            navigate(`/thankyou?ref=${ref}`)
+          } else {
+            navigate(`/thankyou`)
+          }
         } else {
           console.log('Error creating subscription:', subscriptionResult.error);
           alert('An error occurred, please try again or contact support')
@@ -510,18 +577,18 @@ export default function Subscriptions() {
                     // </Provider>
                   } */}
                 </>
-                  <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
-                    style={{
-                      backgroundColor: '#ef5f3c',
-                      color: 'white',
-                      boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                    }}
-                    onClick={() => {
-                      if (Loading) return alert('Please wait');
-                      handleOnClick()
-                    }}>
-                    <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
-                  </button>
+                <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
+                  style={{
+                    backgroundColor: '#ef5f3c',
+                    color: 'white',
+                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+                  }}
+                  onClick={() => {
+                    if (Loading) return alert('Please wait');
+                    handleOnClick()
+                  }}>
+                  <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
+                </button>
                 {/* {showCardComponent && <></>} */}
                 {Loading && <div className="flex items-center py-3 gap-2 justify-center">
                   <AiOutlineLoading3Quarters className="animate-spin" />
