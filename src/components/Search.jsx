@@ -37,7 +37,7 @@ export default function Search() {
         <div className="flex items-center gap-3">
           <span className=""> {user?.full_name} </span>
           <div className="w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center">
-            <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{(user?.full_name).charAt(0)}</span>
+            <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@ export default function Search() {
           <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
         </div>
         <div className="w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center">
-          <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{(user?.full_name).charAt(0)}</span>
+          <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
         </div>
       </div>
       
