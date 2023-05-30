@@ -1,55 +1,113 @@
-import React, { useEffect } from "react";
-import { RxCaretRight } from "react-icons/rx"
+import React from "react";
+// import { RxCaretRight } from "react-icons/rx"
 import CrispChat from "./CrispChat";
-import Nav from "./Nav";
-import SearchBox from "./search/SearchBox";
+// import Nav from "./Nav";
+// import SearchBox from "./search/SearchBox";
+import OnboardingSearchBox from "./search/OnboardingSearchBox";
+import { useEffect } from "react";
+import { supabase } from "../supabaseClient";
+import { useState } from "react";
 
 export default function Search() {
+  const [user, setUser] = useState(null)
 
-  // useEffect(() => {
-  //   const scriptText = `
-  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data } = await supabase
+        .from("users")
+        .select()
+        .eq("user_id", user.id);
+      setUser(data?.[0]);
+    };
 
-  //     tap('create', '40122-96e787', { integration: "javascript" });
-  //     tap('detect');
-  //   `
-  //   const script = document.createElement('script');
-  //   script.type = "text/javascript"
-  //   script.innerHTML = scriptText
-  //   document.querySelector('#affiliateScript').appendChild(script)
-  // }, [])
+    getData();
+  }, []);
+
+  // console.log(user);
 
   return (<>
     <div id="affiliateScript"></div>
-
     <CrispChat />
-    <Nav />
-    
-    <div className="container mx-auto px-6">
-      <div className="flex flex-col justify-center items-center mt-12 md:mt-20">
-        <div className="flex items-center gap-4 md:gap-5 text-semibold mb-10 text-center font-MontserratSemiBold">
-          <p className="text-[#1b89ff] text-xs md:text-sm font-bold">Select Your Account</p>
-          <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
-            <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
+
+    <div className="text-[#757575]">
+      <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer">
+        <div className="flex items-center gap-3">
+          <span className=""> {user?.full_name} </span>
+          <div className="w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+            <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{(user?.full_name).charAt(0)}</span>
           </div>
-          <p className="text-[#333] text-xs md:text-sm font-bold">Complete Setup</p>
-          <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
-            <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
-          </div>
-          <p className="text-[#333] text-xs md:text-sm font-bold">Enter Dashboard</p>
         </div>
+      </div>
+      
+      <div className="lg:hidden flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]">
+        <div className="flex">
+          <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
+        </div>
+        <div className="w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+          <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{(user?.full_name).charAt(0)}</span>
+        </div>
+      </div>
+      
+      <div className="h-screen min-h-screen lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-[#f8f8f8]">
+        <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] max-h-full lg:mx-auto relative left-0 rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-white">
 
-        <div className="grid justify-center items-center">
-          {/* <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Create an account</h5>
-          <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
+          <div className="hidden absolute -top-10 left-0 lg:flex items-center gap-2 font-[600] font-MontserratRegular">
+            <div className="text-[#1B89FF]">Select Your Account</div>
+            <div className="">{`>`}</div>
+            <div className="">Complete Setup</div>
+            <div className="">{`>`}</div>
+            <div className="">Enter Dashboard</div>
+          </div>
 
+          <div className="flex flex-col lg:justify-center lg:items-center h-full text-start lg:text-center px-5 lg:px-0">
+            <div className="block lg:flex flex-col lg:justify-center lg:items-center">
+              <h1 className='font-bold text-black font-MontserratBold text-[26px] pb-3'>Search your account</h1>
+              <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>Find your Instagram account and start growing followers with <br /> Sprouty Social</p>
 
-          <h1 className='font-bold text-black font-MADEOKINESANSPERSONALUSE text-[36px] md:text-[40px] text-center pb-3'>Search your account</h1>
-          <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[100px]'>Find your Instagram account and start growing followers with Sprouty Social</p>
-          <div className="flex justify-center mt-3"><SearchBox /></div>
-          <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[120px] pt-14'>Don’t worry. You will be able to check if you’ve entered in a correct format in the next step.</p>
+              <div className="lg:block flex justify-center mt-3"><OnboardingSearchBox /></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </>);
+  </>)
+
+  // return (<>
+  //   <div id="affiliateScript"></div>
+
+  //   <CrispChat />
+  //   <Nav />
+
+  //   <div className="container mx-auto px-6">
+  //     <div className="flex flex-col justify-center items-center mt-12 md:mt-20">
+  //       <div className="flex items-center gap-4 md:gap-5 text-semibold mb-10 text-center font-MontserratSemiBold">
+  //         <p className="text-[#1b89ff] text-xs md:text-sm font-bold">Select Your Account</p>
+  //         <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
+  //           <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
+  //         </div>
+  //         <p className="text-[#333] text-xs md:text-sm font-bold">Complete Setup</p>
+  //         <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
+  //           <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
+  //         </div>
+  //         <p className="text-[#333] text-xs md:text-sm font-bold">Enter Dashboard</p>
+  //       </div>
+
+  //       <div className="grid justify-center items-center">
+  //         {/* <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Create an account</h5>
+  //         <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
+
+
+  //         <h1 className='font-bold text-black font-MADEOKINESANSPERSONALUSE text-[36px] md:text-[40px] text-center pb-3'>Search your account</h1>
+  //         <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[100px]'>Find your Instagram account and start growing followers with Sprouty Social</p>
+
+  //         <div className="flex justify-center mt-3"><SearchBox /></div>
+
+  //         <p className='font-bold text-[0.75rem] font-MontserratRegular text-[#333] text-center md:px-[120px] pt-14'>Don’t worry. You will be able to check if you’ve entered in a correct format in the next step.</p>
+  //       </div>
+  //     </div>
+  //   </div>
+  // </>);
 }
