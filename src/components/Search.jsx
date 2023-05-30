@@ -42,7 +42,7 @@ export default function Search() {
         </div>
       </div>
       
-      <div className="lg:hidden flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]">
+      <div className="lg:hidden fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]">
         <div className="flex">
           <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
         </div>
@@ -51,27 +51,7 @@ export default function Search() {
         </div>
       </div>
       
-      <div className="h-screen min-h-screen lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-[#f8f8f8]">
-        <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] max-h-full lg:mx-auto relative left-0 rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-white">
-
-          <div className="hidden absolute -top-10 left-0 lg:flex items-center gap-2 font-[600] font-MontserratRegular">
-            <div className="text-[#1B89FF]">Select Your Account</div>
-            <div className="">{`>`}</div>
-            <div className="">Complete Setup</div>
-            <div className="">{`>`}</div>
-            <div className="">Enter Dashboard</div>
-          </div>
-
-          <div className="flex flex-col lg:justify-center lg:items-center h-full text-start lg:text-center px-5 lg:px-0">
-            <div className="block lg:flex flex-col lg:justify-center lg:items-center">
-              <h1 className='font-bold text-black font-MontserratBold text-[26px] pb-3'>Search your account</h1>
-              <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>Find your Instagram account and start growing followers with <br /> Sprouty Social</p>
-
-              <div className="lg:block flex justify-center mt-3"><OnboardingSearchBox /></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <OnboardingSearchBox />
     </div>
   </>)
 
