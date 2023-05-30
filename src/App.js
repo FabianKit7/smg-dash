@@ -90,7 +90,7 @@ function App() {
   return (
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
-      <div className="font-MontserratRegular">
+      <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular">
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}

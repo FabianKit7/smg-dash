@@ -17,6 +17,7 @@ export default function Search() {
 
   useEffect(() => {
     if (isClickedOutside) {
+      console.log('sdfa');
       setShowMenu(false)
     };
   }, [isClickedOutside]);
