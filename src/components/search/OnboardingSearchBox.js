@@ -120,11 +120,15 @@ export default function OnboardingSearchBox() {
             <div className="lg:block flex flex-col justify-between mt-3">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
                 <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-[all_.3s_ease-in]`}>
-                  {selected && <div className={`py-[30px] px-5 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#00000040] bg-[#f8f8f8]`}>
+                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#00000040] bg-[#f8f8f8]`}>
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <img src={selectedAccount?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
+                      </div>
+                      <div className="">
+                        <h3 className='font-bold text-black font-MontserratSemiBold'>{selectedAccount?.username}</h3>
+                        <h3 className=''>{selectedAccount?.full_name}</h3>
                       </div>
                     </div>
                     <img src="/icons/change_account.svg" alt="" className='w-[40px] h-[40px] cursor-pointer' onClick={() => {
@@ -160,8 +164,7 @@ export default function OnboardingSearchBox() {
                   </div>}
                 </div>
 
-                {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
-                  {/* {showResultModal && debouncedQuery && !processing && <div className="absolute top-[60px] z-50 w-full h-fit overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4"> */}
+                {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
                   {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
                     onClick={async () => {
                       const a = await getAccount(debouncedQuery)
@@ -180,8 +183,8 @@ export default function OnboardingSearchBox() {
                       <FaUser size={14} color="white" />
                     </div>
                     <div className="">
-                      <div className="">{debouncedQuery}</div>
-                      <div className="mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
+                      <div className="flex">{debouncedQuery}</div>
+                      <div className="flex mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
                     </div>
                   </div>}
                   {searchedAccounts.map((data, index) => {
@@ -209,8 +212,8 @@ export default function OnboardingSearchBox() {
                           }}
                         />
                         <div className="flex flex-col" id={data.username}>
-                          <p>{data.username}</p>
-                          <span className="opacity-40">{data.full_name}</span>
+                          <p className='flex'>{data.username}</p>
+                          <span className="flex opacity-40">{data.full_name}</span>
                         </div>
                       </div>
                     </>)
