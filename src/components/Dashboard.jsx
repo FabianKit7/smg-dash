@@ -18,7 +18,7 @@ import TargetingFilterModal from './TargetingFilterModal'
 import ModalNew from './ModalNew'
 import GrowthChart from "./GrowthChart";
 import ColumnChart from "./ColumnChart";
-import WelcomeModal from "./WelcomeModal";
+// import WelcomeModal from "./WelcomeModal";
 
 const Error = ({ value }) => {
   return (
@@ -44,7 +44,8 @@ export default function Dashboard() {
   const [processing, setProcessing] = useState(false)
   const [refreshUser, setRefreshUser] = useState(true)
   const [totalInteractions, setTotalInteractions] = useState(0)
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false)
+  const [, setShowWelcomeModal] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -59,7 +60,13 @@ export default function Dashboard() {
         .eq('user_id', user.id)
 
       if (user && !data[0]?.subscribed) {
-        window.location.pathname = `subscriptions/${data[0].username}`;
+        alert('Please complete your registration')
+        if (data[0]?.username) {
+          window.location.pathname = `subscriptions/${data[0]?.username}`;
+        } else {
+          window.location.pathname = `search`;
+        }
+        return;
       }
       if (data?.[0]) {
         setUserData(data[0])
@@ -68,6 +75,7 @@ export default function Dashboard() {
         // }
       }
       setError(error)
+      setLoading(false)
     };
 
     if (refreshUser) {
@@ -161,6 +169,9 @@ export default function Dashboard() {
   }, [userData]);
 
   if (error) return <Error value={id} />;
+  if (loading) return (<>
+    <h3 className="tracking-widest animate-pulse">Loading</h3>
+  </>);
 
   return (
     <>
@@ -397,8 +408,8 @@ export default function Dashboard() {
                 value={backupCode}
                 onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea> */}
               <input type="text" className="px-2 py-4 rounded-[10px] w-full" placeholder="Enter backup code"
-              value={backupCode} 
-              onChange={(e) => setBackupCode(e.target.value)}  />
+                value={backupCode}
+                onChange={(e) => setBackupCode(e.target.value)} />
             </div>
             <button
               onClick={() => storeBackupCode()}

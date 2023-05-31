@@ -18,11 +18,12 @@ import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
+import { useState } from "react";
 // import { getCookie } from "./helpers";
 
-const pathname = window.location.pathname;
 
 function App() {
+  const pathname = window.location.pathname;
   useEffect(() => {
     // const clickId = getCookie('_vid_t')
     // console.log(clickId);
@@ -87,10 +88,18 @@ function App() {
 
   // 40122 - 96e787
 
+  const [addPadding, setAddPadding] = useState(true)
+  useEffect(() => {
+    if (pathname.includes('/search')){
+      setAddPadding(false);
+    }
+  }, [pathname])
+  
+
   return (
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
-      <div className={`${!pathname.includes('/search') && 'p-5' } max-w-[1600px] mx-auto font-MontserratRegular`}>
+      <div className={`${addPadding && 'p-5' } max-w-[1600px] mx-auto font-MontserratRegular`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}

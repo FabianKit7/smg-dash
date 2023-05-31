@@ -28,7 +28,7 @@ export default function SignUp() {
     }
 
     if (data) {
-      console.log(data?.user?.username);
+      // console.log(data?.user?.username);
       const { error } = await supabase
         .from("users")
         .insert({

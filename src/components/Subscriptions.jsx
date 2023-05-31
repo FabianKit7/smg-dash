@@ -9,7 +9,6 @@ import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/charg
 import axios from 'axios'
 import CrispChat from "./CrispChat";
 import { getRefCode, uploadImageFromURL } from "../helpers";
-// import Tap from "@tapfiliate/tapfiliate-js";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
