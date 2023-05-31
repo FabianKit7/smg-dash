@@ -34,6 +34,7 @@ export default function SignUp() {
         .insert({
           user_id: data.user.id,
           full_name: fullName,
+          email,
           username: data?.user?.username || ''
         });
       if (error) return console.log(error);

@@ -9,11 +9,13 @@ import { supabase } from "../supabaseClient";
 import { useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { useClickOutside } from "react-click-outside-hook";
+import { useRef } from "react";
 
 export default function Search() {
   const [user, setUser] = useState(null)
   const [showMenu, setShowMenu] = useState(false)
   const [parentRef, isClickedOutside] = useClickOutside();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -45,55 +47,57 @@ export default function Search() {
     <div className="text-[#757575] relative">
       <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer">
         <div className="flex items-center gap-3" onClick={() => {
-          const menu = document.querySelector('#menu')
-          if(menu){
-            console.log('sdl');
-            menu.focus()
-          }
           setShowMenu(!showMenu);
         }}>
           <span className=""> {user?.full_name} </span>
-          <div className="w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center">
-            <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+          <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
+            <div className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center`}>
+              <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="lg:hidden fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]">
+      <div className="lg:hidden fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]" onClick={() => {
+        showMenu && setShowMenu(false);
+      }}>
         <div className="flex">
           <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
         </div>
-        <div className="w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center cursor-pointer" onClick={() => {
-          const menu = document.querySelector('#menu')
-          if (menu) {
-            console.log('sdl');
-            menu.focus()
-          }
-          setShowMenu(!showMenu);
-        }}>
-          <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+        <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
+          <div className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center cursor-pointer`} onClick={() => {
+            setShowMenu(!showMenu);
+          }}>
+            <span className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}>{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+          </div>
         </div>
       </div>
 
-      <div id="menu" className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-[all_.15s_ease-in]`} ref={parentRef} tabIndex="0">
-        <div className="flex items-center gap-3 p-5">
-          <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
-            <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+      <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 left-0 w-full h-screen z-10`}>
+        <div className="absolute top-0 left-0 w-full h-screen bg-black/0 z-10 cursor-pointer" onClick={() => {
+          setShowMenu(!showMenu);
+        }}></div>
+        <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-[all_.15s_ease-in]`} ref={parentRef} tabIndex={0}>
+          <div className="flex items-center gap-3 p-5">
+            <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+              <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+            </div>
+            <div className="">
+              <div className="text-black font-bold font-MontserratSemiBold text-[14px]">{user?.full_name}</div>
+              <div className="text-[12px]">{user?.email}</div>
+            </div>
           </div>
-          <div className="">
-            <div className="text-black font-bold font-MontserratSemiBold text-[14px]">{user?.username}</div>
-            <div className="text-[12px]">{user?.email}</div>
+
+          <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
+            setShowMenu(!showMenu)
+            await supabase.auth.signOut();
+            window.onbeforeunload = function () {
+              localStorage.clear();
+            }
+            window.location.pathname = "/login";
+          }}>
+            <MdLogout size={22} /> <span className="">Logout</span>
           </div>
-        </div>
-        <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
-          setShowMenu(!showMenu)
-          await supabase.auth.signOut();
-          window.onbeforeunload = function () {
-            localStorage.clear();
-          }
-          window.location.pathname = "/login";
-        }}>
-          <MdLogout size={22} /> <span className="">Logout</span>
         </div>
       </div>
 
