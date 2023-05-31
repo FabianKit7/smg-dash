@@ -20,7 +20,7 @@ import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
 // import { getCookie } from "./helpers";
 
-// const pathname = window.location.pathname;
+const pathname = window.location.pathname;
 
 function App() {
   useEffect(() => {
@@ -90,7 +90,7 @@ function App() {
   return (
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
-      <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular">
+      <div className={`${!pathname.includes('/search') && 'p-5' } max-w-[1600px] mx-auto font-MontserratRegular`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
