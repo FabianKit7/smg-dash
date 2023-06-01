@@ -90,7 +90,8 @@ function App() {
 
   const [addPadding, setAddPadding] = useState(true)
   useEffect(() => {
-    if (pathname.includes('/search')){
+    console.log(pathname);
+    if (pathname.includes('/search') || pathname.startsWith('/subscriptions')){
       setAddPadding(false);
     }
   }, [pathname])
@@ -99,7 +100,7 @@ function App() {
   return (
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
-      <div className={`${addPadding && 'p-5' } max-w-[1600px] mx-auto font-MontserratRegular`}>
+      <div className={`${addPadding ? 'p-5' : 'p-0' } max-w-[1600px] mx-auto font-MontserratRegular`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}

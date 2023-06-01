@@ -1,14 +1,18 @@
 import Axios from "axios";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import { RxCaretRight } from "react-icons/rx";
-import { TbRefresh, TbChecks } from "react-icons/tb";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper";
+import { TbRefresh } from "react-icons/tb";
 import axios from 'axios'
 import CrispChat from "./CrispChat";
+import { MdLogout } from "react-icons/md";
+import { useClickOutside } from "react-click-outside-hook";
+import { FaAngleLeft } from "react-icons/fa";
+import AlertModal from './AlertModal'
+import { useRef } from "react";
+import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper"
 import { getRefCode, uploadImageFromURL } from "../helpers";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -23,20 +27,35 @@ const urlEncode = function (data) {
 }
 
 export default function Subscriptions() {
-  // const BASE_URL = "http://localhost:8000" //
-  // const BASE_URL = 'https://sproutysocial-api.onrender.com'
-  // const BASE_URL = 'https://sproutysocial-api.up.railway.app'
+  const [user, setUser] = useState(null)
+  const [showMenu, setShowMenu] = useState(false)
+  const [parentRef, isClickedOutside] = useClickOutside();
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (isClickedOutside) {
+      setShowMenu(false)
+    };
+  }, [isClickedOutside]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data } = await supabase
+        .from("users")
+        .select()
+        .eq("user_id", user.id);
+      setUser(data?.[0]);
+    };
+
+    getData();
+  }, []);
 
   let { username } = useParams();
   const [userResults, setUserResults] = useState(null);
-  // const [error, setError] = useState(false);
-  const [Loading, setLoading] = useState(false);
-  // const [showCardComponent, setShowCardComponent] = useState(true);
-  // const [cbInstance, setCbInstance] = useState()
-  // error && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", error)
-  // username && console.log("🚀 ~ file: subscriptions.jsx:14 ~ Subscriptions ~ error", username)
-
   const navigate = useNavigate();
 
   // clearCookies
@@ -58,17 +77,6 @@ export default function Subscriptions() {
     }
   }, [])
 
-  const getStartingDay = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = mm + "/" + dd + "/" + yyyy;
-
-    return today
-  };
-
   const getData = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) navigate('/');
@@ -84,7 +92,7 @@ export default function Subscriptions() {
 
     try {
       const response = await Axios.request(options);
-      setUserResults(response);
+      setUserResults(response?.data?.[0]);
     } catch (error) {
       console.log(error)
     }
@@ -94,302 +102,308 @@ export default function Subscriptions() {
     getData();
   }, [getData]);
 
-  const goBack = () => {
-    navigate(`/search`)
-  }
+  // chargebee initiallization
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     window.Chargebee.init({
+  //       site: "sproutysocial",
+  //       // domain: 'app.sproutysocial.com',
+  //       iframeOnly: true,
+  //       publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
+  //     })
+  //     const instance = window?.Chargebee?.getInstance()
+  //     // setCbInstance(instance);
+  //     const { data: { user } } = await supabase.auth.getUser()
+  //     instance.setPortalSession(async () => {
+  //       // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
+  //       return await axios.post(`${process.env.REACT_APP_BASE_URL}/api/generate_portal_session`, urlEncode({ customer_id: user.id })).then((response) => response.data);
+  //     });
+  //   }
+  //   fetch()
+  // }, [])
+
+  return (
+    <>
+      <AlertModal
+        isOpen={isModalOpen}
+        onClose={() => { setIsModalOpen(false) }}
+        title={errorMsg?.title}
+        message={errorMsg?.message}
+      />
+      <div id="affiliateScript"></div>
+      <CrispChat />
+      <script src="https://js.chargebee.com/v2/chargebee.js" ></script>
+
+      <div className="text-[#757575] relative bg-[#f8f8f8]">
+        <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer bg-white rounded-full pl-4">
+          <div className="flex items-center gap-3" onClick={() => {
+            setShowMenu(!showMenu);
+          }}>
+            <span className=""> {user?.full_name} </span>
+            <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
+              <div className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center`}>
+                <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:hidden fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]" onClick={() => {
+          showMenu && setShowMenu(false);
+        }}>
+          <div className="flex">
+            <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
+          </div>
+          <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
+            <div className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center cursor-pointer`} onClick={() => {
+              setShowMenu(!showMenu);
+            }}>
+              <span className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}>{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 left-0 w-full h-screen z-10`}>
+          <div className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99999999999999999] cursor-pointer" onClick={() => {
+            setShowMenu(!showMenu);
+          }}></div>
+          <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-[all_.15s_ease-in]`} ref={parentRef} tabIndex={0}>
+            <div className="flex items-center gap-3 p-5">
+              <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+                <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+              </div>
+              <div className="">
+                <div className="text-black font-bold font-MontserratSemiBold text-[14px]">{user?.full_name}</div>
+                <div className="text-[12px]">{user?.email}</div>
+              </div>
+            </div>
+
+            <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
+              setShowMenu(!showMenu)
+              await supabase.auth.signOut();
+              window.onbeforeunload = function () {
+                localStorage.clear();
+              }
+              window.location.pathname = "/login";
+            }}>
+              <MdLogout size={22} /> <span className="">Logout</span>
+            </div>
+          </div>
+        </div>
+
+        <Content
+          userResults={userResults}
+          navigate={navigate}
+          setIsModalOpen={setIsModalOpen}
+          setErrorMsg={setErrorMsg}
+          username={username}          
+        />
+      </div>
+    </>
+  );
+}
+
+const Content = ({ userResults, navigate, setIsModalOpen, setErrorMsg, username }) => {
+  const [showCreaditCardInput, setShowCreaditCardInput] = useState(false)
+
+  return (<>
+    <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[20px] lg:px-[100px] bg-[#f8f8f8]">
+      <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] overflow-auto my-auto 2xl:grid max-h-full lg:mx-auto relative">
+        <div className="mb-4 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
+          <div className="">Select Your Account</div>
+          <div className="">{`>`}</div>
+          <div className="text-[#1B89FF]">Complete Setup</div>
+          <div className="">{`>`}</div>
+          <div className="">Enter Dashboard</div>
+        </div>
+
+        <div className="pb-4 flex flex-col justify-between lg:justify-start lg:items-center h-full text-start px-5 lg:px-0">
+          <div className="flex flex-col lg:flex-row gap-5 w-full">
+            <div className="basis-[45%] grow-[3] rounded-[20px] flex gap-5 flex-col">
+              <div className="rounded-[20px]">
+                <div className="text-start w-full h-[110px] shadow-[0_5px_10px_#0a17530d] rounded-[20px] py-[25px] px-4 lg:px-[50px] relative flex items-center justify-between bg-white">
+                  <div className="w-full max-w-[420px] relative overflow-hidden flex items-center text-start py-5 pr-[30px]">
+                    <div className="w-full flex gap-4 items-center ">
+                      <div className="h-[60px] relative">
+                        <img src={userResults?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />
+                        <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
+                      </div>
+                      <div className="">
+                        <div className="font-bold text-black">{userResults?.username}</div>
+                        <div className="">{userResults?.full_name}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-[40px] h-[40px] rounded-[10px] grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { navigate(`/search`) }}>
+                    <TbRefresh className="absolute text-[#8C8C8C] font-semibold" />
+                  </div>
+                </div>
+
+                <div className="pt-[32px] pb-3 px-5 lg:px-[50px] -mt-5 rounded-bl-[20px] rounded-br-[20px] shadow-[0_3px_8px_#0000001a] bg-[#f8f8f8]">
+                  <div className="flex text-[12px]">Select plan</div>
+                  <div className="flex font-bold text-black">Monthly Plan</div>
+                </div>
+              </div>
+
+              <div className="overflow-auto basis-[100%] rounded-[20px] py-10 px-4 lg:px-[50px] shadow-[0_5px_10px_#0a17530d] bg-[#ffffff]">
+                <div className="">
+                  <div className="flex items-center gap-3">
+                    {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { setShowCreaditCardInput(false) }}>
+                      <FaAngleLeft className="absolute text-[#8C8C8C] font-semibold" />
+                    </div>}
+                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black font-MontserratBold">Payment method</h1>
+                  </div>
+                  <p className="pt-2 pb-4 text-sm font-MontserratRegular text-start">You may cancel during your free trial and won't be billed, no risk.</p>
+
+                  {!showCreaditCardInput && <div className="flex flex-col gap-4 mb-4">
+                    <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#1b89ff] text-white flex items-center justify-center gap-2" onClick={() => { setShowCreaditCardInput(true) }}>
+                      <svgicon className="w-[28px] h-[28px] rounded-[8px] fill-white">
+                        <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M0 7C0 6.07174 0.368749 5.1815 1.02513 4.52513C1.6815 3.86875 2.57174 3.5 3.5 3.5H24.5C25.4283 3.5 26.3185 3.86875 26.9749 4.52513C27.6313 5.1815 28 6.07174 28 7V15.75H0V7ZM20.125 8.75C19.8929 8.75 19.6704 8.84219 19.5063 9.00628C19.3422 9.17038 19.25 9.39294 19.25 9.625V11.375C19.25 11.6071 19.3422 11.8296 19.5063 11.9937C19.6704 12.1578 19.8929 12.25 20.125 12.25H23.625C23.8571 12.25 24.0796 12.1578 24.2437 11.9937C24.4078 11.8296 24.5 11.6071 24.5 11.375V9.625C24.5 9.39294 24.4078 9.17038 24.2437 9.00628C24.0796 8.84219 23.8571 8.75 23.625 8.75H20.125ZM0 19.25V21C0 21.9283 0.368749 22.8185 1.02513 23.4749C1.6815 24.1313 2.57174 24.5 3.5 24.5H24.5C25.4283 24.5 26.3185 24.1313 26.9749 23.4749C27.6313 22.8185 28 21.9283 28 21V19.25H0Z" ></path>
+                        </svg>
+                      </svgicon>
+                      <div className="">Card / Debit Card</div>
+                    </div>
+                    <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#ffc439] text-white flex items-center justify-center gap-2" onClick={() => {
+                      setIsModalOpen(true);
+                      setErrorMsg({ title: 'Alert', message: 'PayPal not available yet!' })
+                    }}>
+                      <img src={'/icons/paypal-btn.svg'} alt="" className="h-[25px]" />
+                    </div>
+                  </div>}
+
+                  <div className={`${!showCreaditCardInput ? "opacity-0 pointer-events-none hidden" : 'opacity-100'} transition-[all_.15s_ease-out]`}>
+                    <ChargeBeeCard
+                      userResults={userResults}
+                      username={username}
+                      setIsModalOpen={setIsModalOpen}
+                      setErrorMsg={setErrorMsg}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="basis-[60%] grow-[4] rounded-[20px] shadow-[0_5px_10px_#0a17530d] p-4 lg:p-[50px_50px_50px] bg-white relative">
+              <div className="w-full h-full overflow-auto">
+                <span className="text-[14px] py-[5px] px-3 mb-3 rounded-[8px] text-[#23df85] bg-[#23df8533]">7-Days Free Trial</span>
+                <div className="text-[20px] lg:text-[26px] font-bold text-black font-MontserratBold">Start Your 7-Days Trial</div>
+                <p className="text-[14px] mt-2 mb-5">
+                  It's time to get the real exposure you've been waiting for. After signing up, you will be introduced to your personal account manager and start growing in under 2 minutes.
+                </p>
+                <div className="text-[72px] leading-[70px] text-black font-bold font-MontserratBold">Free</div>
+                <p className="text-[14px] mb-5">
+                  Then $24.99 per week, billed monthly.
+                </p>
+
+                <div className="flex flex-col gap-4 text-black text-base">
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" _ngcontent-gsj-c72="" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5" _ngcontent-gsj-c72=""></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5" _ngcontent-gsj-c72=""></rect>
+                      </svg>
+                    </svgicon>
+                    <p className="">Grow ~1-10k Real Monthly Followers</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Target Followers Relevant To You</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Detailed Analytics & Results Tracking</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Automated 24/7 Growth, Set & Forget</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>No Fakes Or Bots, 100% Real People</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Personal Account Manager</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Boost Likes, Comments & DMs</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Safest Instagram Growth Service</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
+                        <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
+                      </svg>
+                    </svgicon>
+                    <p>Access Dashboard On All Devices</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </>)
+}
+
+const ChargeBeeCard = ({ userResults, username, setIsModalOpen, setErrorMsg }) => {
+  const navigate = useNavigate();
+  const [Loading, setLoading] = useState(false);
 
   const cardRef = useRef();
 
-  // chargebee initiallization
-  useEffect(() => {
-    const fetch = async () => {
-      window.Chargebee.init({
-        site: "sproutysocial",
-        // domain: 'app.sproutysocial.com',
-        iframeOnly: true,
-        publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
-      })
-      const instance = window?.Chargebee?.getInstance()
-      // setCbInstance(instance);
-      const { data: { user } } = await supabase.auth.getUser()
-      instance.setPortalSession(async () => {
-        // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
-        return await axios.post(`${process.env.REACT_APP_BASE_URL}/api/generate_portal_session`, urlEncode({ customer_id: user.id })).then((response) => response.data);
-      });
-    }
-    fetch()
-  }, [])
+  const getStartingDay = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
-    // console.log(window.tap);
-    // window.tap('create', '40122-96e787', { integration: "javascript" });
-    // window.tap('conversion', "test@gmail.com", '30');
-    // Tap.conversion("user?.email", '30');
-  }, [])
+    today = mm + "/" + dd + "/" + yyyy;
 
-
-  const handleOnClick = async () => {
-    // navigate(`/thankyou`);
-    // return;
-    setLoading(true);
-    // (function (t, a, p) { t.TapfiliateObject = a; t[a] = t[a] || function () { (t[a].q = t[a].q || []).push(arguments) } })(window, 'tap');
-    // console.log(window.tap);
-    // window.tap('create', '40122-96e787', { integration: "javascript" });
-    // window.tap('conversion', "test@gmail.com", '30');
-
-    // Tap.conversion("test@gmail.com", '30');
-    // setLoading(false);
-    // return;
-    setLoading(true);
-
-    if (userResults.data[0].name === "INVALID_USERNAME") {
-      console.log("INVALID_USERNAME")
-      alert('An error has occurred, please try again')
-      setLoading(false);
-      return;
-    };
-    const { data: { user } } = await supabase.auth.getUser()
-    const getUserDetails = await supabase
-      .from('users')
-      .select()
-      .eq('user_id', user.id).order('created_at', { ascending: false })
-      
-    if (getUserDetails?.data?.[0]){
-      if (cardRef) {
-        // cardRef.current.tokenize().then(data => {
-        //   console.log(data);
-        //   // return data.token
-        // }).catch(err => {
-        //   console.log(err);
-        // });
-        const token = await cardRef.current.tokenize().then(data => {
-          return data.token
-        }).catch(err => {
-          console.log(err);
-          if (err === "Error: Could not mount master component") return alert("Please check your card")
-          alert(err)
-          // alert("something is wrong, please try again")
-          setLoading(false);
-          return;
-        });
-  
-        if (!token) {
-          setLoading(false);
-          return;
-        }      
-  
-        // const create_subscription_data = {
-        //   allow_direct_debit: true,
-        //   // first_name: userResults.data[0].full_name,
-        //   first_name: user?.full_name,
-        //   last_name: '',
-        //   email: user.email,
-        //   token_id: token,
-        //   plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-        //   // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-        //   // plan_id: "Monthly-Plan-USD-Monthly"
-        // }
-        // // console.log(create_customer_data);
-        // const create_subscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription`,
-        //   urlEncode(create_subscription_data))
-        //   .then((response) => response.data)
-        // if (create_subscription.message === 'success') {
-        //   //
-        //   var profile_pic_url = '';
-        //   const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
-        //   // console.log(uploadImageFromURLRes);
-  
-        //   if (uploadImageFromURLRes?.status === 'success') {
-        //     profile_pic_url = uploadImageFromURLRes?.data
-        //   }
-  
-        //   let data = {
-        //     chargebee_subscription: JSON.stringify(create_subscription?.subscription),
-        //     chargebee_subscription_id: create_subscription?.subscription?.id,
-        //     chargebee_customer: JSON.stringify(create_subscription?.customer),
-        //     chargebee_customer_id: create_subscription?.customer?.id,
-  
-        //     username,
-        //     email: user.email,
-        //     followers: userResults?.data[0].follower_count,
-        //     following: userResults?.data[0].following_count,
-        //     // profile_pic_url: userResults?.data[0]?.profile_pic_url,
-        //     profile_pic_url,
-        //     is_verified: userResults?.data[0]?.is_verified,
-        //     biography: userResults?.data[0]?.biography,
-        //     start_time: getStartingDay(),
-        //     posts: userResults?.data[0].media_count,
-        //     subscribed: true,
-        //   }
-        //   // console.log(data);
-        //   await supabase
-        //     .from("users")
-        //     .update(data).eq('user_id', user.id);
-        //   // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-        //   // Tap.conversion(user?.email, '30');
-        //   // Tap.conversion('DM', '30');
-        //   setLoading(false);
-        //   // navigate(`/dashboard/${username}`);
-        //   const ref = getRefCode()
-        //   if (ref) {
-        //     navigate(`/thankyou?ref=${ref}`)
-        //   } else {
-        //     navigate(`/thankyou`)
-        //   }        
-        // } else {
-        //   console.log('Error during create_subscription process:', create_subscription.error);
-        //   alert('An error occurred, please try again or contact support')
-        // }
-  
-        const create_customer_data = {
-          allow_direct_debit: true,
-          // first_name: userResults.data[0].full_name,
-          first_name: getUserDetails?.data?.[0]?.full_name,
-          last_name: '',
-          email: user.email,
-          token_id: token
-        }
-        let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
-          urlEncode(create_customer_data))
-          .then((response) => response.data)
-        // console.log(customer);
-  
-        if (customer.message === 'success') {
-          var profile_pic_url = '';
-          const create_subscription_for_customer_data = {
-            customer_id: customer?.customer?.id,
-            plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-            // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-            // plan_id: "Monthly-Plan-USD-Monthly"
-          }
-          let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
-            urlEncode(create_subscription_for_customer_data))
-            .then((response) => response.data)
-          // console.log(subscriptionResult);
-          if (subscriptionResult.message === 'success') {
-            const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.data[0]?.profile_pic_url)
-            // console.log(uploadImageFromURLRes);
-  
-            if (uploadImageFromURLRes?.status === 'success') {
-              profile_pic_url = uploadImageFromURLRes?.data
-            }
-  
-            let data = {
-              chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
-              chargebee_subscription_id: subscriptionResult.subscription?.id,
-              chargebee_customer: JSON.stringify(customer.customer),
-              chargebee_customer_id: customer?.customer?.id,
-  
-              username,
-              email: user.email,
-              followers: userResults?.data[0].follower_count,
-              following: userResults?.data[0].following_count,
-              // profile_pic_url: userResults?.data[0]?.profile_pic_url,
-              profile_pic_url,
-              is_verified: userResults?.data[0]?.is_verified,
-              biography: userResults?.data[0]?.biography,
-              start_time: getStartingDay(),
-              posts: userResults?.data[0].media_count,
-              subscribed: true,
-            }
-            // console.log(data);
-            await supabase
-              .from("users")
-              .update(data).eq('user_id', user.id);
-            // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-            // Tap.conversion(user?.email, '30');
-            // Tap.conversion('DM', '30');
-            setLoading(false);
-            // navigate(`/dashboard/${username}`);
-            const ref = getRefCode()
-            if (ref) {
-              navigate(`/thankyou?ref=${ref}`)
-            } else {
-              navigate(`/thankyou`)
-            }
-          } else {
-            console.log('Error creating subscription:', subscriptionResult.error);
-            alert('An error occurred, please try again or contact support')
-          }
-        } else {
-          console.log('Error creating customer:', customer.error);
-          alert('An error occurred, please try again or contact support')
-        }
-      }      
-    }
-
-    // await cbInstance.openCheckout({
-    //   async hostedPage() {
-    //     return await axios.post(`${process.env.REACT_APP_BASE_URL}/api/generate_checkout_new_url`,
-    //       urlEncode({ 
-    //         plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-    //        }))
-    //       .then((response) => response.data)
-
-    //     // const response = await axios.post(
-    //     //   'https://sproutysociall.chargebee.com/api/v2/hosted_pages/checkout_new_for_items',
-    //     //   'subscription_items[item_price_id][0]=Monthly-Plan-USD-Monthly&subscription_items[quantity][0]=1&subscription_items[item_price_price][0]=9995&subscription_items[currency_code][0]=USD',
-    //     //   {
-    //     //     headers: {
-    //     //       'Content-Type': 'application/x-www-form-urlencoded'
-    //     //     },
-    //     //     auth: {
-    //     //       api_key: 'live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE'
-    //     //     }
-    //     //   }
-    //     // );
-    //   },
-    //   async success(hostedPageId) {
-    //     console.log(hostedPageId);
-    //     let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`,
-    //       urlEncode({ email: user?.email }))
-    //       .then((response) => response.data)
-
-    //     let subscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/subscription_list`,
-    //       urlEncode({ customer_id: customer?.id }))
-    //       .then((response) => response.data)
-
-    //     let data = {
-    //       chargebee_subscription: JSON.stringify(subscription),
-    //       chargebee_subscription_id: subscription?.id,
-    //       chargebee_customer: JSON.stringify(customer),
-    //       chargebee_customer_id: customer?.id,
-
-    //       username,
-    //       followers: userResults?.data[0].follower_count,
-    //       following: userResults?.data[0].following_count,
-    //       profile_pic_url: userResults?.data[0]?.profile_pic_url,
-    //       is_verified: userResults?.data[0]?.is_verified,
-    //       biography: userResults?.data[0]?.biography,
-    //       start_time: getStartingDay(),
-    //       posts: userResults?.data[0].media_count,
-    //       subscribed: true,
-    //     }
-    //     console.log(data);
-    //     await supabase
-    //       .from("users")
-    //       .update(data).eq('user_id', user.id);
-    //     // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-
-    //     setLoading(false);
-    //     // navigate(`/dashboard/${user.id}`);
-    //     window.location = `/dashboard/${user.id}`;
-    //   },
-    //   async close() {
-    //     // console.log('done');
-    //     console.log("checkout new closed");
-
-    //   },
-    //   step(step) {
-    //     console.log("checkout", step);
-    //   }
-    // })
-
-    setLoading(false);
+    return today
   };
-
 
   const fonts = [
     'https://fonts.googleapis.com/css?family=Open+Sans'
@@ -426,265 +440,184 @@ export default function Subscriptions() {
     },
   }
 
-  const onSubmit = (e) => {
-    if (e) e.preventDefault()
-    if (cardRef) {
-      // Call tokenize method on card element
-      cardRef.current.tokenize().then((data) => {
-        console.log('chargebee token', data.token)
-      });
+  const handleCardPay = async () => {
+    setLoading(true);
+
+    if (userResults?.name === "INVALID_USERNAME") {
+      console.log("INVALID_USERNAME")
+      // alert('An error has occurred, please try again')
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Alert', message: 'An error has occured, please try again' })
+      setLoading(false);
+      return;
+    };
+    const { data: { user } } = await supabase.auth.getUser()
+    const getUserDetails = await supabase
+      .from('users')
+      .select()
+      .eq('user_id', user.id).order('created_at', { ascending: false })
+
+    if (getUserDetails?.data?.[0]) {
+      if (cardRef) {
+        const token = await cardRef.current.tokenize().then(data => {
+          return data.token
+        }).catch(err => {
+          console.log(err);
+          if (err === "Error: Could not mount master component") {
+            // alert("Please check your card")
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
+            return 
+            }
+          // alert(err)
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: err })
+          // alert("something is wrong, please try again")
+          setLoading(false);
+          return;
+        });
+
+        if (!token) {
+          setLoading(false);
+          // alert('something is wrong');
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'something is wrong' })
+          return;
+        }
+
+        const create_customer_data = {
+          allow_direct_debit: true,
+          // first_name: userResults?.full_name,
+          first_name: getUserDetails?.data?.[0]?.full_name,
+          last_name: '',
+          email: user.email,
+          token_id: token
+        }
+
+        let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
+          urlEncode(create_customer_data))
+          .then((response) => response.data)
+
+        if (customer.message === 'success') {
+          var profile_pic_url = '';
+          const create_subscription_for_customer_data = {
+            customer_id: customer?.customer?.id,
+            plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+            // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+            // plan_id: "Monthly-Plan-USD-Monthly"
+          }
+          let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
+            urlEncode(create_subscription_for_customer_data))
+            .then((response) => response.data)
+          // console.log(subscriptionResult);
+          if (subscriptionResult.message === 'success') {
+            const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
+            // console.log(uploadImageFromURLRes);
+
+            if (uploadImageFromURLRes?.status === 'success') {
+              profile_pic_url = uploadImageFromURLRes?.data
+            }
+
+            let data = {
+              chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
+              chargebee_subscription_id: subscriptionResult.subscription?.id,
+              chargebee_customer: JSON.stringify(customer.customer),
+              chargebee_customer_id: customer?.customer?.id,
+
+              username,
+              email: user.email,
+              followers: userResults?.follower_count,
+              following: userResults?.following_count,
+              // profile_pic_url: userResults?.profile_pic_url,
+              profile_pic_url,
+              is_verified: userResults?.is_verified,
+              biography: userResults?.biography,
+              start_time: getStartingDay(),
+              posts: userResults?.media_count,
+              subscribed: true,
+            }
+            // console.log(data);
+            await supabase
+              .from("users")
+              .update(data).eq('user_id', user.id);
+            // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
+            // Tap.conversion(user?.email, '30');
+            // Tap.conversion('DM', '30');
+            setLoading(false);
+            // navigate(`/dashboard/${username}`);
+            const ref = getRefCode()
+            if (ref) {
+              navigate(`/thankyou?ref=${ref}`)
+            } else {
+              navigate(`/thankyou`)
+            }
+          } else {
+            console.log('Error creating subscription:', subscriptionResult.error);
+            // alert('An error occurred, please try again or contact support')
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+          }
+        } else {
+          console.log('Error creating customer:', customer.error);
+          // alert('An error occurred, please try again or contact support')
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+        }
+      }
     }
-  }
+    setLoading(false);
+  };
 
-  // const [errors, setErrors] = useState({})
-  // const [errorMessages, setErrorMessages] = useState('')
+  return (<>
+    <CardComponent
+      ref={cardRef}
+      className="fieldset field"
+      onChange={() => { }}
+      styles={styles}
+      locale={'en'}
+      placeholder={'placeholder'}
+      fonts={fonts}
+    >
+      <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-[all_.28s_ease] mb-5" id='num'>
+        <CardNumber className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+        {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
+      </div>
 
-  // const onChange = (event) => {
-  //   console.log(event);
+      <div className="ex1-fields flex items-center gap-4 mb-5">
+        <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-[all_.28s_ease]">
+          <CardExpiry className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+          {/* <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i> */}
+        </div>
 
-  //   // const errors = this.state.errors;
-  //   let errorMessage = '';
-
-  //   if (event.error) {
-  //     // If error is present, setState and display the error
-  //     errors[event.field] = event.error
-  //     errorMessage = event.error.message
-  //   } else {
-  //     errors[event.field] = null
-  //     // If there's no error, check for existing error
-  //     const _errors = Object.values(errors).filter(val => val)
-
-  //     // The errorObject holds a message and code
-  //     // Custom error messages can be displayed based on the error code
-  //     const errorObj = _errors.pop();
-
-  //     // Display existing message
-  //     if (errorObj) errorMessage = errorObj.message
-  //     else errorMessage = ''
-  //   }
-  //   setErrors(errors)
-  //   setErrorMessages(errorMessage)
-  // }
-
-  // useEffect(() => {
-  //   if(errorMessages){
-  //     alert(errorMessages)
-  //   }
-  // }, [errorMessages])
-
-
-  const onReady = (el) => {
-    // console.log('ready');
-    el.focus();
-  }
-
-  const onFocus = (el) => {
-    // el.focus();
-  }
-
-  const onBlur = (el) => {
-    // el.focus();
-  }
-
-  // useEffect(() => {
-  //   const scriptText = `
-  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-  //     tap('create', '40122-96e787', { integration: "javascript" });
-  //     tap('detect');
-  //   `
-  //   const script = document.createElement('script');
-  //   script.type = "text/javascript"
-  //   script.innerHTML = scriptText
-  //   document.querySelector('#affiliateScript').appendChild(script)
-  // }, [])
-
-  return (
-    <>
-      <div id="affiliateScript"></div>
-      <CrispChat />
-      <script src="https://js.chargebee.com/v2/chargebee.js" ></script>
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col justify-center items-center mt-12 md:mt-20">
-          <div className="flex items-center gap-4 md:gap-5 text-semibold mb-10 text-center">
-            <p className="text-[#333] text-sm font-bold">Select Your Account</p>
-            <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
-              <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
-            </div>
-            <p className="text-[#1b89ff] text-sm font-bold">Complete Setup</p>
-            <div className="rounded-[4px] bg-[#D9D9D9] relative w-6 h-[18px] md:w-5 md:h-5 cursor-pointer">
-              <RxCaretRight className="absolute text-[#8C8C8C] font-semibold text-[17px]" />
-            </div>
-            <p className="text-[#333] text-sm font-bold">Enter Dashboard</p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 sm:grid-cols-1 justify-center gap-8 mb-12">
-            <div>
-              {/* instagram name */}
-              <div className="shadow-subs flex justify-between flex-wrap items-center mb-10 py-6 px-7 rounded-[10px]">
-                <div className="flex gap-[14px]">
-                  <img className="rounded-[50%]" width={90} height={90} src={userResults?.data[0]?.profile_pic_url} alt="" />
-                  <div className="text-gray20 pt-4">
-                    <p className="font-bold text-md md:text-lg font-MontserratBold text-black">@{username}</p>
-                    <p className="font-medium text-sm font-MontserratSemiBold text-[#333]">{userResults?.data[0].full_name}</p>
-                  </div>
-                </div>
-                <div className="rounded-[4px] bg-[#D9D9D9] p-3 relative w-10 h-10 cursor-pointer">
-                  <TbRefresh className="absolute text-[#8C8C8C] font-semibold cursor-pointer" onClick={goBack} />
-                </div>
-              </div>
-
-              {/* Payment method */}
-              <div className="shadow-subs px-7 py-6 rounded-[10px]">
-                <h3 className="font-bold font-MontserratBold text-[20px] text-black pb-2 flex items-center gap-2">
-                  {/* {showCardComponent && <FaCaretLeft className="cursor-pointer" onClick={() => setShowCardComponent(false)} />} */}
-                  Payment method</h3>
-                <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] pb-5">
-                  You may cancel during your free trial and won't be billed,
-                  no risk.
-                </p>
-                {/* <CardComponent ref={cardRef} onChange={(e) => onChange(e)} /> */}
-                {/* <CardComponent ref={cardRef} onChange={(e) => onChange(e)} /> */}
-                <>
-                  <CardComponent
-                    ref={cardRef}
-                    className="fieldset field"
-                    onChange={() => { }}
-                    styles={styles}
-                    // classes={classes}
-                    locale={'en'}
-                    placeholder={'placeholder'}
-                    fonts={fonts}
-                    onSubmit={onSubmit}
-                    onReady={onReady}
-                  >
-                    <div className="ex1-field mb-5" id='num'>
-                      <CardNumber className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
-                      <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i>
-                    </div>
-
-                    <div className="ex1-fields">
-                      <div className="ex1-field mb-5">
-                        <CardExpiry className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
-                        <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i>
-                      </div>
-
-                      <div className="ex1-field">
-                        <CardCVV className="ex1-input" onFocus={onFocus} onBlur={onBlur} onChange={(e) => { }} />
-                        <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i>
-                      </div>
-
-                    </div>
-                  </CardComponent>
-                  {/* {showCardComponent &&
-                    // <Provider cbInstance={cbInstance}>
-                    // </Provider>
-                  } */}
-                </>
-                <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
-                  style={{
-                    backgroundColor: '#ef5f3c',
-                    color: 'white',
-                    boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-                  }}
-                  onClick={() => {
-                    if (Loading) return alert('Please wait');
-                    handleOnClick()
-                  }}>
-                  <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
-                </button>
-                {/* {showCardComponent && <></>} */}
-                {Loading && <div className="flex items-center py-3 gap-2 justify-center">
-                  <AiOutlineLoading3Quarters className="animate-spin" />
-                  <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
-                    We're processing your request, please wait...
-                  </p>
-                </div>}
-
-                {/* {showCardComponent && <button className="bg-[#1b89ff] text-white font-MontserratSemiBold text-[16px] mt-5 w-full py-4 rounded-[10px] font-bold mb-4" onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
-                </button>} */}
-
-                {/* {!showCardComponent && <button className="bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => setShowCardComponent(true)}>
-                  <span>Card / Debit Card</span>
-                </button>} */}
-
-                {/* <button className="mt-5 bg-[#2255FF] w-full py-4 rounded-[10px] text-base text-white font-bold mb-4" onClick={() => handleOnClick()}>
-                  <span> {Loading ? "Loading " : "Pay $0.00 & Start Free Trial"}  </span>
-                </button> */}
-              </div>
-            </div>
-
-            <div className="shadow-subs px-7 py-6 rounded-[10px] font-MontserratRegular">
-              <p className="bg-bgicongreen rounded-[70px] text-btngreen font-bold text-xs md:text-sm py-[6px] px-4 w-36">7-Day Free Trial</p>
-              <h3 className="font-bold text-[20px] mt-4 mb-3 font-MontserratBold">Start Your 7-Day Trial</h3>
-              <p className="font-bold text-xs md:text-sm text-[#333] mb-4">
-                It's time to get the real exposure you've been waiting for. After
-                signing up, you will be introduced to your personal account manager
-                and start growing in under 2 minutes.
-              </p>
-              <h2 className="font-bold text-[40px] font-MADEOKINESANSPERSONALUSE">Free</h2>
-              <p className="text-xs md:text-sm text-[#333] font-normal">Then $24.99 per week, billed monthly.</p>
-              <ul className="pt-8">
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Grow ~1-10k Real Monthly Followers</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Target Followers Relevant To You</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Detailed Analytics & Results Tracking</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Automated 24/7 Growth, Set & Forget</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">No Fakes Or Bots, 100% Real People</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Personal Account Manager</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Boost Likes, Comments & DMs</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Safest Instagram Growth Service</p>
-                </li>
-                <li className="flex gap-3 items-center mb-3">
-                  <div className="rounded-[50%] bg-bgicongreen p-3 relative w-10 h-10 cursor-pointer">
-                    <TbChecks className="absolute text-btngreen font-semibold" />
-                  </div>
-                  <p className="font-bold text-xs md:text-sm text-[#333]">Access Dashboard On All Devices</p>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-[all_.28s_ease]">
+          <CardCVV className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+          {/* <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i> */}
         </div>
       </div>
-    </>
-  );
+    </CardComponent>
+    <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
+      style={{
+        backgroundColor: '#ef5f3c',
+        color: 'white',
+        boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+      }}
+      onClick={() => {
+        if (Loading) {
+          // alert('Please wait');
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Processing...', message: 'Please wait' })
+          return 
+          }
+        handleCardPay()
+      }}>
+      <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
+    </button>
+    {/* {showCardComponent && <></>} */}
+    {Loading && <div className="flex items-center py-3 gap-2 justify-center">
+      <AiOutlineLoading3Quarters className="animate-spin" />
+      <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
+        We're processing your request, please wait...
+      </p>
+    </div>}
+  </>)
 }
