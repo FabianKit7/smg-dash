@@ -192,6 +192,7 @@ export default function Subscriptions() {
         </div>
 
         <Content
+          user={user}
           userResults={userResults}
           navigate={navigate}
           setIsModalOpen={setIsModalOpen}
@@ -203,7 +204,7 @@ export default function Subscriptions() {
   );
 }
 
-const Content = ({ userResults, navigate, setIsModalOpen, setErrorMsg, username }) => {
+const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, username }) => {
   const [showCreaditCardInput, setShowCreaditCardInput] = useState(false)
 
   return (<>
@@ -274,6 +275,7 @@ const Content = ({ userResults, navigate, setIsModalOpen, setErrorMsg, username 
 
                   <div className={`${!showCreaditCardInput ? "opacity-0 pointer-events-none hidden" : 'opacity-100'} transition-[all_.15s_ease-out]`}>
                     <ChargeBeeCard
+                      user={user}
                       userResults={userResults}
                       username={username}
                       setIsModalOpen={setIsModalOpen}
@@ -388,7 +390,7 @@ const Content = ({ userResults, navigate, setIsModalOpen, setErrorMsg, username 
   </>)
 }
 
-const ChargeBeeCard = ({ userResults, username, setIsModalOpen, setErrorMsg }) => {
+const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMsg }) => {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
 
@@ -445,19 +447,13 @@ const ChargeBeeCard = ({ userResults, username, setIsModalOpen, setErrorMsg }) =
 
     if (userResults?.name === "INVALID_USERNAME") {
       console.log("INVALID_USERNAME")
-      // alert('An error has occurred, please try again')
       setIsModalOpen(true);
       setErrorMsg({ title: 'Alert', message: 'An error has occured, please try again' })
       setLoading(false);
       return;
     };
-    const { data: { user } } = await supabase.auth.getUser()
-    const getUserDetails = await supabase
-      .from('users')
-      .select()
-      .eq('user_id', user.id).order('created_at', { ascending: false })
 
-    if (getUserDetails?.data?.[0]) {
+    if (user) {
       if (cardRef) {
         const token = await cardRef.current.tokenize().then(data => {
           return data.token
@@ -467,8 +463,8 @@ const ChargeBeeCard = ({ userResults, username, setIsModalOpen, setErrorMsg }) =
             // alert("Please check your card")
             setIsModalOpen(true);
             setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
-            return 
-            }
+            return; 
+          }
           // alert(err)
           setIsModalOpen(true);
           setErrorMsg({ title: 'Alert', message: err })
@@ -488,7 +484,7 @@ const ChargeBeeCard = ({ userResults, username, setIsModalOpen, setErrorMsg }) =
         const create_customer_data = {
           allow_direct_debit: true,
           // first_name: userResults?.full_name,
-          first_name: getUserDetails?.data?.[0]?.full_name,
+          first_name: user?.full_name,
           last_name: '',
           email: user.email,
           token_id: token
