@@ -770,7 +770,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
       }}
       id="cardForm">
 
-      <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5" id='num'>
+      <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5`} id='num'>
         <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard} onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { setNameOnCard(e.target.value) }} />
         {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
       </div>
