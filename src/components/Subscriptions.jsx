@@ -212,7 +212,7 @@ export default function Subscriptions() {
 
                     <TbRefresh className="cursor-pointer" onClick={() => { navigate(`/search`) }} />
                   </div>
-                  
+
                   <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
                     <div className="flex items-center gap-[10px]">
                       <div className="flex flex-col">
@@ -335,53 +335,53 @@ export default function Subscriptions() {
           </div>
           {/* mobile end */}
 
-          <div className="">
+          <div
+            className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
+              } absolute top-0 left-0 w-full h-screen z-10`}
+          >
+            <div
+              className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99] cursor-pointer"
+              onClick={() => {
+                setShowMenu(!showMenu);
+              }}
+            ></div>
             <div
               className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
-                } absolute top-0 left-0 w-full h-screen z-10`}
+                } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
+              ref={parentRef}
+              tabIndex={0}
             >
-              <div
-                className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99] cursor-pointer"
-                onClick={() => {
-                  setShowMenu(!showMenu);
-                }}
-              ></div>
-              <div
-                className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
-                  } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
-                ref={parentRef}
-                tabIndex={0}
-              >
-                <div className="flex items-center gap-3 p-5">
-                  <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
-                    <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">
-                      {user?.full_name && user?.full_name?.charAt(0)}
-                    </span>
-                  </div>
-                  <div className="">
-                    <div className="text-black font-bold font-MontserratSemiBold text-[14px]">
-                      {user?.full_name}
-                    </div>
-                    <div className="text-[12px]">{user?.email}</div>
-                  </div>
+              <div className="flex items-center gap-3 p-5">
+                <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+                  <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">
+                    {user?.full_name && user?.full_name?.charAt(0)}
+                  </span>
                 </div>
-
-                <div
-                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
-                  onClick={async () => {
-                    setShowMenu(!showMenu);
-                    await supabase.auth.signOut();
-                    window.onbeforeunload = function () {
-                      localStorage.clear();
-                    };
-                    window.location.pathname = '/login';
-                  }}
-                >
-                  <MdLogout size={22} /> <span className="">Logout</span>
+                <div className="">
+                  <div className="text-black font-bold font-MontserratSemiBold text-[14px]">
+                    {user?.full_name}
+                  </div>
+                  <div className="text-[12px]">{user?.email}</div>
                 </div>
               </div>
-            </div>
 
+              <div
+                className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
+                onClick={async () => {
+                  setShowMenu(!showMenu);
+                  await supabase.auth.signOut();
+                  window.onbeforeunload = function () {
+                    localStorage.clear();
+                  };
+                  window.location.pathname = '/login';
+                }}
+              >
+                <MdLogout size={22} /> <span className="">Logout</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden lg:block">
             <Content
               user={user}
               userResults={userResults}
