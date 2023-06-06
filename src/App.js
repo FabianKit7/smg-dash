@@ -100,7 +100,7 @@ function App() {
   return (
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
-      <div className={`${addPadding ? 'p-5' : 'p-0' } max-w-[1600px] mx-auto font-MontserratRegular`}>
+      <div className={`${addPadding ? 'p-5 max-w-[1600px] mx-auto' : 'p-0' } font-MontserratRegular`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}

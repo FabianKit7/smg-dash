@@ -32,6 +32,7 @@ export default function Subscriptions() {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState({ id: 1, name: 'card' })
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -126,79 +127,270 @@ export default function Subscriptions() {
     <>
       <AlertModal
         isOpen={isModalOpen}
-        onClose={() => { setIsModalOpen(false) }}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
         title={errorMsg?.title}
         message={errorMsg?.message}
       />
       <div id="affiliateScript"></div>
       <CrispChat />
-      <script src="https://js.chargebee.com/v2/chargebee.js" ></script>
+      <script src="https://js.chargebee.com/v2/chargebee.js"></script>
 
       <div className="text-[#757575] relative bg-[#f8f8f8]">
-        <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer bg-white rounded-full pl-4">
-          <div className="flex items-center gap-3" onClick={() => {
-            setShowMenu(!showMenu);
-          }}>
-            <span className=""> {user?.full_name} </span>
-            <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
-              <div className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center`}>
-                <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+        <div className="max-w-[1600px] mx-auto">
+          <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer bg-white rounded-full pl-4">
+            <div
+              className="flex items-center gap-3"
+              onClick={() => {
+                setShowMenu(!showMenu);
+              }}
+            >
+              <span className=""> {user?.full_name} </span>
+              <div
+                className={`${showMenu && ' border-red-300'
+                  } border-2 rounded-full`}
+              >
+                <div
+                  className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center`}
+                >
+                  <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">
+                    {user?.full_name && user?.full_name?.charAt(0)}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="lg:hidden fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]" onClick={() => {
-          showMenu && setShowMenu(false);
-        }}>
-          <div className="flex">
-            <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
-          </div>
-          <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
-            <div className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center cursor-pointer`} onClick={() => {
-              setShowMenu(!showMenu);
-            }}>
-              <span className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}>{user?.full_name && (user?.full_name)?.charAt(0)}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 left-0 w-full h-screen z-10`}>
-          <div className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99999999999999999] cursor-pointer" onClick={() => {
-            setShowMenu(!showMenu);
-          }}></div>
-          <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-[all_.15s_ease-in]`} ref={parentRef} tabIndex={0}>
-            <div className="flex items-center gap-3 p-5">
-              <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
-                <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+          {/* mobile start */}
+          <div className="lg:hidden">
+            <div
+              className="fixed h-[65px] top-0 left-0 z-[50] bg-white flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]"
+              onClick={() => {
+                showMenu && setShowMenu(false);
+              }}
+            >
+              <div className="flex">
+                <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
               </div>
-              <div className="">
-                <div className="text-black font-bold font-MontserratSemiBold text-[14px]">{user?.full_name}</div>
-                <div className="text-[12px]">{user?.email}</div>
+              <div
+                className={`${showMenu && ' border-red-300'
+                  } border-2 rounded-full`}
+              >
+                <div
+                  className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center cursor-pointer`}
+                  onClick={() => {
+                    setShowMenu(!showMenu);
+                  }}
+                >
+                  <span
+                    className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}
+                  >
+                    {user?.full_name && user?.full_name?.charAt(0)}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
-              setShowMenu(!showMenu)
-              await supabase.auth.signOut();
-              window.onbeforeunload = function () {
-                localStorage.clear();
+            <div className="mt-[65px] mb-[150px]">
+              <div className="lg:hidden bg-white">
+                <div className="flex flex-col gap-[1px]">
+                  <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
+                    <div className="flex items-center gap-[10px]">
+                      <img
+                        src={user?.profile_pic_url}
+                        alt=""
+                        className="w-[38px] h-[38px] rounded-full"
+                      />
+                      <div className="flex flex-col">
+                        <div className="text-[12px] -mb-1">Account:</div>
+                        <div className="text-[14px] text-black font-bold font-MontserratSemiBold">
+                          @{user?.username}
+                        </div>
+                      </div>
+                    </div>
+
+                    <TbRefresh />
+                  </div>
+                  <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
+                    <div className="flex items-center gap-[10px]">
+                      <div className="flex flex-col">
+                        <div className="text-[12px] -mb-1">Plan:</div>
+                        <div className="text-[14px] text-black font-bold font-MontserratSemiBold">
+                          Monthly Plan
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 bg-white px-5">
+                <h1 className="text-black text-[20px] font-bold font-MontserratSemiBold">
+                  {' '}
+                  Start Your Free 7-Day Trial
+                </h1>
+                <p className="mt-1 mb-3 text-black text-[14px] font-normal">
+                  Grow ~1-10k Real & Targeted Followers Every Month. Analytics &
+                  Results Tracking. Boost Likes, Comments & DMs. Automated 24/7
+                  Growth, Set & Forget. Personal Account Manager. No Fakes Or
+                  Bots, 100% Real People.
+                </p>
+
+                <div className="mb-[11px] flex gap-[10px] h-[80px] items-center">
+                  <div className={`flex-1 bg-[#f8f8f8] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'card' && "border-[#1b89ff] border-2"}`}
+                    onClick={() => { setPaymentMethod({ id: 1, name: 'card' }) }}
+                  >
+                    <svgicon
+                      className={`${paymentMethod.name === 'card' ? 'top-[13px] left-[10px] w-[22px] h-[18px] translate-x-0 translate-y-0' : 'h-[25.5px] w-[32px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
+                        absolute transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                    >
+                      <svg
+                        viewBox="0 0 28 28"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M0 7C0 6.07174 0.368749 5.1815 1.02513 4.52513C1.6815 3.86875 2.57174 3.5 3.5 3.5H24.5C25.4283 3.5 26.3185 3.86875 26.9749 4.52513C27.6313 5.1815 28 6.07174 28 7V15.75H0V7ZM20.125 8.75C19.8929 8.75 19.6704 8.84219 19.5063 9.00628C19.3422 9.17038 19.25 9.39294 19.25 9.625V11.375C19.25 11.6071 19.3422 11.8296 19.5063 11.9937C19.6704 12.1578 19.8929 12.25 20.125 12.25H23.625C23.8571 12.25 24.0796 12.1578 24.2437 11.9937C24.4078 11.8296 24.5 11.6071 24.5 11.375V9.625C24.5 9.39294 24.4078 9.17038 24.2437 9.00628C24.0796 8.84219 23.8571 8.75 23.625 8.75H20.125ZM0 19.25V21C0 21.9283 0.368749 22.8185 1.02513 23.4749C1.6815 24.1313 2.57174 24.5 3.5 24.5H24.5C25.4283 24.5 26.3185 24.1313 26.9749 23.4749C27.6313 22.8185 28 21.9283 28 21V19.25H0Z"
+                          _ngcontent-esd-c92=""
+                        ></path>
+                      </svg>
+                    </svgicon>
+
+                    <div
+                      className={`${paymentMethod.name === 'card' ? "opacity-100 translate-y-0 text-[#1b89ff]" : 'opacity-0 translate-y-full'}
+                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                    >
+                      Card
+                    </div>
+                  </div>
+
+                  <div className={`flex-1 bg-[#f8f8f8] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'paypal' && "border-[#1b89ff] border-2"}`}
+                    onClick={() => { setPaymentMethod({ id: 1, name: 'paypal' }) }}
+                  >
+                    <svgicon
+                      className={`${paymentMethod.name === 'paypal' ? 'top-[13px] left-[10px] translate-x-0 translate-y-0' : 'top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
+                        absolute transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                    >
+                      <img src={'/icons/paypal-icon.svg'} alt="" className={`${paymentMethod.name === 'paypal' ? "h-[23.7px]" : "h-[37px]"}`} />
+                    </svgicon>
+
+                    <div
+                      className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#1b89ff]" : 'opacity-0 translate-y-full'}
+                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                    >
+                      paypal
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`${paymentMethod.name === 'card' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none hidden'} transition-all duration-150 ease-in`}>
+                  <ChargeBeeCard
+                    user={user}
+                    userResults={userResults}
+                    username={username}
+                    setIsModalOpen={setIsModalOpen}
+                    setErrorMsg={setErrorMsg}
+                    mobile={true}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="fixed bottom-0 left-0 w-full min-h-[85px] p-5 text-[14px] bg-white">
+              {paymentMethod.name === 'card' ?
+                <div className="">
+                  <button
+                    className="cursor-pointer w-full h-[50px] rounded-[10px] bg-[#c4c4c4] text-white flex items-center justify-center gap-2"
+                    type="submit"
+                    form="cardForm"
+                  // onClick={() => { }}
+                  >
+                    <div className="">Pay $0.00 & Start Free Trial</div>
+                  </button>
+                  <div className="text-center mt-2 text-black">
+                    Then $24.99 per week, billed monthly. <br /> Cancel any time, no
+                    risk.
+                  </div>
+                </div>
+                :
+                <div className="">
+                  <button
+                    className="cursor-pointer w-full h-[50px] rounded-[10px] bg-[#ffc439] text-white flex items-center justify-center gap-2"
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setErrorMsg({ title: 'Alert', message: 'PayPal not available yet!' })
+                    }}
+                  >
+                    <img src={'/icons/paypal-btn.svg'} alt="" className="h-[25px]" />
+                  </button>
+                  <div className="text-center mt-2 text-black">
+                    Start Free 7-Day Trial. Then $24.99 per week, billed monthly. Cancel any time, no risk.
+                  </div>
+                </div>
               }
-              window.location.pathname = "/login";
-            }}>
-              <MdLogout size={22} /> <span className="">Logout</span>
+
             </div>
           </div>
-        </div>
+          {/* mobile end */}
 
-        <Content
-          user={user}
-          userResults={userResults}
-          navigate={navigate}
-          setIsModalOpen={setIsModalOpen}
-          setErrorMsg={setErrorMsg}
-          username={username}          
-        />
+          <div className="hidden lg:block">
+            <div
+              className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
+                } absolute top-0 left-0 w-full h-screen z-10`}
+            >
+              <div
+                className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99999999999999999] cursor-pointer"
+                onClick={() => {
+                  setShowMenu(!showMenu);
+                }}
+              ></div>
+              <div
+                className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
+                  } absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
+                ref={parentRef}
+                tabIndex={0}
+              >
+                <div className="flex items-center gap-3 p-5">
+                  <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+                    <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">
+                      {user?.full_name && user?.full_name?.charAt(0)}
+                    </span>
+                  </div>
+                  <div className="">
+                    <div className="text-black font-bold font-MontserratSemiBold text-[14px]">
+                      {user?.full_name}
+                    </div>
+                    <div className="text-[12px]">{user?.email}</div>
+                  </div>
+                </div>
+
+                <div
+                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
+                  onClick={async () => {
+                    setShowMenu(!showMenu);
+                    await supabase.auth.signOut();
+                    window.onbeforeunload = function () {
+                      localStorage.clear();
+                    };
+                    window.location.pathname = '/login';
+                  }}
+                >
+                  <MdLogout size={22} /> <span className="">Logout</span>
+                </div>
+              </div>
+            </div>
+
+            <Content
+              user={user}
+              userResults={userResults}
+              navigate={navigate}
+              setIsModalOpen={setIsModalOpen}
+              setErrorMsg={setErrorMsg}
+              username={username}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
@@ -273,7 +465,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     </div>
                   </div>}
 
-                  <div className={`${!showCreaditCardInput ? "opacity-0 pointer-events-none hidden" : 'opacity-100'} transition-[all_.15s_ease-out]`}>
+                  <div className={`${!showCreaditCardInput ? "opacity-0 pointer-events-none hidden" : 'opacity-100'} transition-all duration-150 ease-out`}>
                     <ChargeBeeCard
                       user={user}
                       userResults={userResults}
@@ -390,22 +582,144 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
   </>)
 }
 
-const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMsg }) => {
+const getStartingDay = () => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + "/" + dd + "/" + yyyy;
+
+  return today
+};
+
+const handleCardPay = async (setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard) => {
+  setLoading(true);
+
+  if (userResults?.name === "INVALID_USERNAME") {
+    console.log("INVALID_USERNAME")
+    setIsModalOpen(true);
+    setErrorMsg({ title: 'Alert', message: 'An error has occured, please try again' })
+    setLoading(false);
+    return;
+  };
+
+  if (user) {
+    if (cardRef) {
+      const token = await cardRef.current.tokenize().then(data => {
+        return data.token
+      }).catch(err => {
+        console.log(err);
+        if (err === "Error: Could not mount master component") {
+          // alert("Please check your card")
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
+          return;
+        }
+        // alert(err)
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: err })
+        // alert("something is wrong, please try again")
+        setLoading(false);
+        return;
+      });
+
+      if (!token) {
+        setLoading(false);
+        // alert('something is wrong');
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: 'something is wrong' })
+        return;
+      }
+
+      const create_customer_data = {
+        allow_direct_debit: true,
+        // first_name: userResults?.full_name,
+        first_name: user?.full_name,
+        last_name: '',
+        email: user.email,
+        token_id: token
+      }
+
+      let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
+        urlEncode(create_customer_data))
+        .then((response) => response.data)
+
+      if (customer.message === 'success') {
+        var profile_pic_url = '';
+        const create_subscription_for_customer_data = {
+          customer_id: customer?.customer?.id,
+          plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+          // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+          // plan_id: "Monthly-Plan-USD-Monthly"
+        }
+        let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
+          urlEncode(create_subscription_for_customer_data))
+          .then((response) => response.data)
+        // console.log(subscriptionResult);
+        if (subscriptionResult.message === 'success') {
+          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
+          // console.log(uploadImageFromURLRes);
+
+          if (uploadImageFromURLRes?.status === 'success') {
+            profile_pic_url = uploadImageFromURLRes?.data
+          }
+
+          let data = {
+            nameOnCard,
+            chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
+            chargebee_subscription_id: subscriptionResult.subscription?.id,
+            chargebee_customer: JSON.stringify(customer.customer),
+            chargebee_customer_id: customer?.customer?.id,
+
+            username,
+            email: user.email,
+            followers: userResults?.follower_count,
+            following: userResults?.following_count,
+            // profile_pic_url: userResults?.profile_pic_url,
+            profile_pic_url,
+            is_verified: userResults?.is_verified,
+            biography: userResults?.biography,
+            start_time: getStartingDay(),
+            posts: userResults?.media_count,
+            subscribed: true,
+          }
+          // console.log(data);
+          await supabase
+            .from("users")
+            .update(data).eq('user_id', user.id);
+          // Tap.conversion(user?.email, '30');
+          // Tap.conversion('DM', '30');
+          setLoading(false);
+          // navigate(`/dashboard/${username}`);
+          const ref = getRefCode()
+          if (ref) {
+            navigate(`/thankyou?ref=${ref}`)
+          } else {
+            navigate(`/thankyou`)
+          }
+        } else {
+          console.log('Error creating subscription:', subscriptionResult.error);
+          // alert('An error occurred, please try again or contact support')
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+        }
+      } else {
+        console.log('Error creating customer:', customer.error);
+        // alert('An error occurred, please try again or contact support')
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+      }
+    }
+  }
+  setLoading(false);
+};
+
+const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMsg, mobile }) => {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
-
   const cardRef = useRef();
-
-  const getStartingDay = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = mm + "/" + dd + "/" + yyyy;
-
-    return today
-  };
+  const [nameOnCard, setNameOnCard] = useState('')
 
   const fonts = [
     'https://fonts.googleapis.com/css?family=Open+Sans'
@@ -424,7 +738,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
       },
 
       '::placeholder': {
-        color: '#9BACC8',
+        color: mobile ? '#333' : '#757575',
       },
 
       ':focus::placeholder': {
@@ -442,178 +756,70 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
     },
   }
 
-  const handleCardPay = async () => {
-    setLoading(true);
-
-    if (userResults?.name === "INVALID_USERNAME") {
-      console.log("INVALID_USERNAME")
-      setIsModalOpen(true);
-      setErrorMsg({ title: 'Alert', message: 'An error has occured, please try again' })
-      setLoading(false);
-      return;
-    };
-
-    if (user) {
-      if (cardRef) {
-        const token = await cardRef.current.tokenize().then(data => {
-          return data.token
-        }).catch(err => {
-          console.log(err);
-          if (err === "Error: Could not mount master component") {
-            // alert("Please check your card")
-            setIsModalOpen(true);
-            setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
-            return; 
-          }
-          // alert(err)
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: err })
-          // alert("something is wrong, please try again")
-          setLoading(false);
-          return;
-        });
-
-        if (!token) {
-          setLoading(false);
-          // alert('something is wrong');
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: 'something is wrong' })
-          return;
-        }
-
-        const create_customer_data = {
-          allow_direct_debit: true,
-          // first_name: userResults?.full_name,
-          first_name: user?.full_name,
-          last_name: '',
-          email: user.email,
-          token_id: token
-        }
-
-        let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
-          urlEncode(create_customer_data))
-          .then((response) => response.data)
-
-        if (customer.message === 'success') {
-          var profile_pic_url = '';
-          const create_subscription_for_customer_data = {
-            customer_id: customer?.customer?.id,
-            plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-            // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-            // plan_id: "Monthly-Plan-USD-Monthly"
-          }
-          let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
-            urlEncode(create_subscription_for_customer_data))
-            .then((response) => response.data)
-          // console.log(subscriptionResult);
-          if (subscriptionResult.message === 'success') {
-            const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
-            // console.log(uploadImageFromURLRes);
-
-            if (uploadImageFromURLRes?.status === 'success') {
-              profile_pic_url = uploadImageFromURLRes?.data
-            }
-
-            let data = {
-              chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
-              chargebee_subscription_id: subscriptionResult.subscription?.id,
-              chargebee_customer: JSON.stringify(customer.customer),
-              chargebee_customer_id: customer?.customer?.id,
-
-              username,
-              email: user.email,
-              followers: userResults?.follower_count,
-              following: userResults?.following_count,
-              // profile_pic_url: userResults?.profile_pic_url,
-              profile_pic_url,
-              is_verified: userResults?.is_verified,
-              biography: userResults?.biography,
-              start_time: getStartingDay(),
-              posts: userResults?.media_count,
-              subscribed: true,
-            }
-            // console.log(data);
-            await supabase
-              .from("users")
-              .update(data).eq('user_id', user.id);
-            // console.log("🚀 ~ file: subscriptions.jsx:52 ~ handelOnClick ~ data", data)
-            // Tap.conversion(user?.email, '30');
-            // Tap.conversion('DM', '30');
-            setLoading(false);
-            // navigate(`/dashboard/${username}`);
-            const ref = getRefCode()
-            if (ref) {
-              navigate(`/thankyou?ref=${ref}`)
-            } else {
-              navigate(`/thankyou`)
-            }
-          } else {
-            console.log('Error creating subscription:', subscriptionResult.error);
-            // alert('An error occurred, please try again or contact support')
-            setIsModalOpen(true);
-            setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
-          }
-        } else {
-          console.log('Error creating customer:', customer.error);
-          // alert('An error occurred, please try again or contact support')
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
-        }
-      }
-    }
-    setLoading(false);
-  };
-
   return (<>
-    <CardComponent
-      ref={cardRef}
-      className="fieldset field"
-      onChange={() => { }}
-      styles={styles}
-      locale={'en'}
-      placeholder={'placeholder'}
-      fonts={fonts}
-    >
-      <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-[all_.28s_ease] mb-5" id='num'>
-        <CardNumber className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
-        {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
-      </div>
-
-      <div className="ex1-fields flex items-center gap-4 mb-5">
-        <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-[all_.28s_ease]">
-          <CardExpiry className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
-          {/* <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i> */}
-        </div>
-
-        <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-[all_.28s_ease]">
-          <CardCVV className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
-          {/* <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i> */}
-        </div>
-      </div>
-    </CardComponent>
-    <button className={`font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
-      style={{
-        backgroundColor: '#ef5f3c',
-        color: 'white',
-        boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-      }}
-      onClick={() => {
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
         if (Loading) {
           // alert('Please wait');
           setIsModalOpen(true);
           setErrorMsg({ title: 'Processing...', message: 'Please wait' })
-          return 
-          }
-        handleCardPay()
-      }}>
-      <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
-    </button>
-    {/* {showCardComponent && <></>} */}
-    {Loading && <div className="flex items-center py-3 gap-2 justify-center">
-      <AiOutlineLoading3Quarters className="animate-spin" />
-      <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
-        We're processing your request, please wait...
-      </p>
-    </div>}
+          return
+        }
+        await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
+      }}
+      id="cardForm">
+
+      <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5" id='num'>
+        <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard} onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { setNameOnCard(e.target.value) }} />
+        {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
+      </div>
+      <CardComponent
+        ref={cardRef}
+        className="fieldset field"
+        onChange={() => { }}
+        styles={styles}
+        locale={'en'}
+        placeholder={'placeholder'}
+        fonts={fonts}
+      >
+        <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5" id='num'>
+          <CardNumber className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+          {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
+        </div>
+
+        <div className="ex1-fields flex items-center gap-4 mb-5">
+          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease">
+            <CardExpiry className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+            {/* <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i> */}
+          </div>
+
+          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease">
+            <CardCVV className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+            {/* <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i> */}
+          </div>
+        </div>
+      </CardComponent>
+
+      <div className="hidden lg:block">
+        <button className={`font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
+          type="submit"
+          form="cardForm"
+          style={{
+            backgroundColor: '#ef5f3c',
+            color: 'white',
+            boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
+          }}>
+          <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
+        </button>
+        {/* {showCardComponent && <></>} */}
+        {Loading && <div className="flex items-center py-3 gap-2 justify-center">
+          <AiOutlineLoading3Quarters className="animate-spin" />
+          <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
+            We're processing your request, please wait...
+          </p>
+        </div>}
+      </div>
+    </form>
   </>)
 }

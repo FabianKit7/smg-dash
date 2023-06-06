@@ -8,6 +8,7 @@ import { FaUser } from 'react-icons/fa'
 import { getRefCode, searchAccount } from '../../helpers'
 import { supabase } from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import AlertModal from '../AlertModal';
 
 export default function SearchBox() {
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -18,8 +19,10 @@ export default function SearchBox() {
   const [debouncedQuery, setDebouncedQuery] = useState(input)
   const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selected, setSelected] = useState()
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef()
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -78,7 +81,12 @@ export default function SearchBox() {
       console.log(options);
       const userResults = await Axios.request(options);
       console.log(userResults?.data[0]?.username);
-      if (!userResults?.data[0]?.username) return alert('Username not found!');
+      if (!userResults?.data[0]?.username) {
+        // alert('Username not found!');
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: 'Username not found!' })
+        return
+      }
       const { data: { user } } = await supabase.auth.getUser()
 
       await supabase
@@ -101,6 +109,13 @@ export default function SearchBox() {
   };
 
   return (<>
+    <AlertModal
+      isOpen={isModalOpen}
+      onClose={() => { setIsModalOpen(false) }}
+      title={errorMsg?.title}
+      message={errorMsg?.message}
+    />
+    
     <div className="flex flex-col items-center w-[320px] relative" ref={parentRef}>
       <div className="flex items-center border rounded-md shadow-md w-full py-3 px-4">
         <input
@@ -118,14 +133,14 @@ export default function SearchBox() {
         />
         <div className="relative flex items-center justify-center">
           <span className="absolute z-10">{loadingSpinner && (<>
-              <Spinner animation="border" />
-            </>)}</span>
+            <Spinner animation="border" />
+          </>)}</span>
           {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
         </div>
       </div>
 
       {showResultModal && !processing && <div className="absolute top-[60px] z-50 w-full h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
-      {/* {showResultModal && debouncedQuery && !processing && <div className="absolute top-[60px] z-50 w-full h-fit overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4"> */}
+        {/* {showResultModal && debouncedQuery && !processing && <div className="absolute top-[60px] z-50 w-full h-fit overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4"> */}
         {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
           onClick={() => {
             setSelected(debouncedQuery);

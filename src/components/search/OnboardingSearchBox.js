@@ -8,6 +8,7 @@ import { FaAngleRight, FaUser } from 'react-icons/fa'
 import { getAccount, getRefCode, searchAccount } from '../../helpers'
 import { supabase } from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import AlertModal from '../AlertModal';
 
 export default function OnboardingSearchBox() {
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -19,6 +20,8 @@ export default function OnboardingSearchBox() {
   const [searchedAccounts, setSearchedAccounts] = useState([])
   const [selectedAccount, setSelectedAccount] = useState()
   const [selected, setSelected] = useState()
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef()
   const navigate = useNavigate();
 
@@ -79,7 +82,12 @@ export default function OnboardingSearchBox() {
       console.log(options);
       const userResults = await Axios.request(options);
       console.log(userResults?.data[0]?.username);
-      if (!userResults?.data[0]?.username) return alert('Username not found!');
+      if (!userResults?.data[0]?.username) {
+        // alert('Username not found!');
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: 'Username not found!' })
+        return
+      }
       const { data: { user } } = await supabase.auth.getUser()
 
       await supabase
@@ -102,6 +110,13 @@ export default function OnboardingSearchBox() {
   };
 
   return (<>
+    <AlertModal
+      isOpen={isModalOpen}
+      onClose={() => { setIsModalOpen(false) }}
+      title={errorMsg?.title}
+      message={errorMsg?.message}
+    />
+
     <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-[#f8f8f8]">
       <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] my-auto 2xl:grid max-h-full lg:mx-auto relative rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-white">
         <div className="absolute -top-10 left-0 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
@@ -119,7 +134,7 @@ export default function OnboardingSearchBox() {
 
             <div className="lg:block flex flex-col justify-between mt-3">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
-                <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-[all_.3s_ease-in]`}>
+                <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-all duration-300 ease-in`}>
                   {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#00000040] bg-[#f8f8f8]`}>
                     <div className="flex items-center gap-4">
                       <div className="relative">
@@ -156,10 +171,10 @@ export default function OnboardingSearchBox() {
                     // }}
                     />
                     <div className="relative flex items-center justify-center">
-                      <span className="absolute z-10">{loadingSpinner && (<>
+                      <span className="mt-1">{loadingSpinner && (<>
                         <Spinner animation="border" />
                       </>)}</span>
-                      {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery(''); setSearchedAccounts([]) }} />}
+                      {input && <TiTimes className='cursor-pointer absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]' onClick={() => { setDebouncedQuery(''); setSearchedAccounts([]) }} />}
                     </div>
                   </div>}
                 </div>
@@ -172,7 +187,9 @@ export default function OnboardingSearchBox() {
                         setSelected(a?.data?.[0]?.username);
                         setSelectedAccount(a?.data?.[0]);
                       } else {
-                        alert('username not found!')
+                        // alert('username not found!')
+                        setIsModalOpen(true);
+                        setErrorMsg({ title: 'Alert', message: 'username not found!' })
                       }
                       // setInput(debouncedQuery)
                       setLoadingSpinner(false)
@@ -219,7 +236,7 @@ export default function OnboardingSearchBox() {
                     </>)
                   })}
                 </div>}
-                  
+
                 <button className={`${selected ? 'bg-[#ef5f3c]' : 'bg-[#C4C4C4]'} hidden lg:block mt-[40px] w-full lg:w-[350px] h-[60px] py-[15px] rounded-[10px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
                   onClick={() => { (selected && !processing) && handleSubmit() }}
                 >
@@ -228,7 +245,7 @@ export default function OnboardingSearchBox() {
               </div>
             </div>
           </div>
-          
+
           <button className={`${selected ? 'bg-[#ef5f3c]' : 'bg-[#C4C4C4]'} lg:hidden mt-[40px] w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
             onClick={() => { (selected && !processing) && handleSubmit() }}
           >

@@ -18,6 +18,7 @@ import TargetingFilterModal from './TargetingFilterModal'
 import ModalNew from './ModalNew'
 import GrowthChart from "./GrowthChart";
 import ColumnChart from "./ColumnChart";
+import AlertModal from "./AlertModal";
 // import WelcomeModal from "./WelcomeModal";
 
 const Error = ({ value }) => {
@@ -46,6 +47,8 @@ export default function Dashboard() {
   const [totalInteractions, setTotalInteractions] = useState(0)
   const [, setShowWelcomeModal] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -60,7 +63,9 @@ export default function Dashboard() {
         .eq('user_id', user.id)
 
       if (user && !data[0]?.subscribed) {
-        alert('Please complete your registration')
+        alert('Please finish your registration')
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
         if (data[0]?.username) {
           window.location.pathname = `subscriptions/${data[0]?.username}`;
         } else {
@@ -175,6 +180,13 @@ export default function Dashboard() {
 
   return (
     <>
+      <AlertModal
+        isOpen={isModalOpen}
+        onClose={() => { setIsModalOpen(false) }}
+        title={errorMsg?.title}
+        message={errorMsg?.message}
+      />
+      
       <Nav setShowWelcomeModal={setShowWelcomeModal} />
 
       {/* <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)}
