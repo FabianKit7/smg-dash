@@ -212,6 +212,7 @@ export default function Subscriptions() {
 
                     <TbRefresh className="cursor-pointer" onClick={() => { navigate(`/search`) }} />
                   </div>
+                  
                   <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
                     <div className="flex items-center gap-[10px]">
                       <div className="flex flex-col">
@@ -334,20 +335,20 @@ export default function Subscriptions() {
           </div>
           {/* mobile end */}
 
-          <div className="hidden lg:block">
+          <div className="">
             <div
               className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
                 } absolute top-0 left-0 w-full h-screen z-10`}
             >
               <div
-                className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99999999999999999] cursor-pointer"
+                className="absolute top-0 left-0 w-full h-screen bg-black/0 z-[99] cursor-pointer"
                 onClick={() => {
                   setShowMenu(!showMenu);
                 }}
               ></div>
               <div
                 className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
-                  } absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
+                  } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
                 ref={parentRef}
                 tabIndex={0}
               >
