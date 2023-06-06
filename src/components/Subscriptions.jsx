@@ -210,7 +210,7 @@ export default function Subscriptions() {
                       </div>
                     </div>
 
-                    <TbRefresh />
+                    <TbRefresh className="cursor-pointer" onClick={() => { navigate(`/search`) }} />
                   </div>
                   <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
                     <div className="flex items-center gap-[10px]">
