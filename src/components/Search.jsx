@@ -57,7 +57,7 @@ export default function Search() {
           </div>
         </div>
 
-        <div className="lg:hidden fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]" onClick={() => {
+        <div className="lg:hidden bg-white fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]" onClick={() => {
           showMenu && setShowMenu(false);
         }}>
           <div className="flex">

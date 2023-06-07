@@ -199,7 +199,7 @@ export default function Subscriptions() {
                   <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
                     <div className="flex items-center gap-[10px]">
                       <img
-                        src={user?.profile_pic_url}
+                        src={userResults?.profile_pic_url}
                         alt=""
                         className="w-[38px] h-[38px] rounded-full"
                       />
@@ -281,7 +281,7 @@ export default function Subscriptions() {
                       className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#1b89ff]" : 'opacity-0 translate-y-full'}
                         absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
                     >
-                      paypal
+                      PayPal
                     </div>
                   </div>
                 </div>
@@ -370,21 +370,21 @@ export default function Subscriptions() {
                   </div>
                 </div>
 
-                <div
-                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
-                  onClick={async () => {
-                    setShowMenu(!showMenu);
-                    await supabase.auth.signOut();
-                    window.onbeforeunload = function () {
-                      localStorage.clear();
-                    };
-                    window.location.pathname = '/login';
-                  }}
-                >
-                  <MdLogout size={22} /> <span className="">Logout</span>
-                </div>
+              <div
+                className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
+                onClick={async () => {
+                  setShowMenu(!showMenu);
+                  await supabase.auth.signOut();
+                  window.onbeforeunload = function () {
+                    localStorage.clear();
+                  };
+                  window.location.pathname = '/login';
+                }}
+              >
+                <MdLogout size={22} /> <span className="">Logout</span>
               </div>
             </div>
+          </div>
 
             <div className="hidden lg:block">
               <Content
@@ -427,7 +427,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                   <div className="w-full max-w-[420px] relative overflow-hidden flex items-center text-start py-5 pr-[30px]">
                     <div className="w-full flex gap-4 items-center ">
                       <div className="h-[60px] relative">
-                        <img src={userResults?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />
+                        <img src={userResults?.profile_pic_url} alt="" className='w-[60px] h-[60px] min-w-[60px] min-h-[60px] rounded-full' />
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
                       </div>
                       <div className="">
@@ -437,7 +437,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     </div>
                   </div>
                   <div className="w-[40px] h-[40px] rounded-[10px] grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { navigate(`/search`) }}>
-                    <TbRefresh className="absolute text-[#8C8C8C] font-semibold" />
+                    <TbRefresh className="text-[#8C8C8C] font-semibold" />
                   </div>
                 </div>
 
@@ -451,7 +451,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                 <div className="">
                   <div className="flex items-center gap-3">
                     {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { setShowCreaditCardInput(false) }}>
-                      <FaAngleLeft className="absolute text-[#8C8C8C] font-semibold" />
+                      <FaAngleLeft className="text-[#8C8C8C] font-semibold" />
                     </div>}
                     <h1 className="text-[20px] lg:text-[20px] font-bold text-black font-MontserratBold">Payment method</h1>
                   </div>
