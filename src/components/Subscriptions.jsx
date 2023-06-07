@@ -443,7 +443,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                 <div className="">
                   <div className="flex items-center gap-3">
                     {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { setShowCreaditCardInput(false) }}>
-                      <FaAngleLeft className="absolute text-[#8C8C8C] font-semibold" />
+                      <FaAngleLeft className="text-[#8C8C8C] font-semibold" />
                     </div>}
                     <h1 className="text-[20px] lg:text-[20px] font-bold text-black font-MontserratBold">Payment method</h1>
                   </div>
