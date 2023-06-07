@@ -305,7 +305,7 @@ export default function Subscriptions() {
               {paymentMethod.name === 'card' ?
                 <div className="">
                   <button
-                    className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#c4c4c4] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
+                    className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
                     type="submit"
                     form="cardForm"
                   // onClick={() => { }}
@@ -749,9 +749,9 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
             const ref = getRefCode()
             console.log('success');
             if (ref) {
-              // navigate(`/thankyou?ref=${ref}`)
+              navigate(`/thankyou?ref=${ref}`)
             } else {
-              // navigate(`/thankyou`)
+              navigate(`/thankyou`)
             }
             setLoading(false);
           } else {
@@ -827,7 +827,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
     </form>
 
     <div className="hidden lg:block">
-      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#c4c4c4] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4`}
+      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4`}
         onClick={()=> {
           if (Loading) {
             setIsModalOpen(true);
