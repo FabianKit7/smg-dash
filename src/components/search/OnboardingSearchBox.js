@@ -128,7 +128,7 @@ export default function OnboardingSearchBox() {
         </div>
 
         <div className="pb-4 flex flex-col justify-between lg:justify-center lg:items-center h-full text-start lg:text-center px-5 lg:px-0">
-          <div className="block lg:flex flex-col lg:justify-center lg:items-center">
+          <div className="block lg:flex flex-col lg:justify-center lg:items-center pb-[80px]">
             <h1 className='font-bold text-black font-MontserratBold text-[26px] pb-3'>Search your account</h1>
             <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>Find your Instagram account and start growing followers with <br className='hidden lg:block' /> Sprouty Social</p>
 
@@ -246,11 +246,13 @@ export default function OnboardingSearchBox() {
             </div>
           </div>
 
-          <button className={`${selected ? 'bg-[#ef5f3c]' : 'bg-[#C4C4C4]'} lg:hidden mt-[40px] w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
-            onClick={() => { (selected && !processing) && handleSubmit() }}
-          >
-            {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>Select Account <FaAngleRight size={20} /></div>}
-          </button>
+          <div className="fixed bottom-6 left-0 w-full px-5">
+            <button className={`${selected ? 'bg-[#ef5f3c]' : 'bg-[#C4C4C4]'} lg:hidden w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
+              onClick={() => { (selected && !processing) && handleSubmit() }}
+            >
+              {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>Select Account <FaAngleRight size={20} /></div>}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -280,7 +280,7 @@ export default function Subscriptions() {
                       className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#1b89ff]" : 'opacity-0 translate-y-full'}
                         absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
                     >
-                      paypal
+                      PayPal
                     </div>
                   </div>
                 </div>
