@@ -370,21 +370,21 @@ export default function Subscriptions() {
                   </div>
                 </div>
 
-              <div
-                className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
-                onClick={async () => {
-                  setShowMenu(!showMenu);
-                  await supabase.auth.signOut();
-                  window.onbeforeunload = function () {
-                    localStorage.clear();
-                  };
-                  window.location.pathname = '/login';
-                }}
-              >
-                <MdLogout size={22} /> <span className="">Logout</span>
+                <div
+                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
+                  onClick={async () => {
+                    setShowMenu(!showMenu);
+                    await supabase.auth.signOut();
+                    window.onbeforeunload = function () {
+                      localStorage.clear();
+                    };
+                    window.location.pathname = '/login';
+                  }}
+                >
+                  <MdLogout size={22} /> <span className="">Logout</span>
+                </div>
               </div>
             </div>
-          </div>
 
             <div className="hidden lg:block">
               <Content
@@ -632,7 +632,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
       },
     },
   }
-  
+
   const getStartingDay = () => {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
@@ -661,7 +661,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
           return data.token
         }).catch(err => {
           console.log(err);
-          console.log(err?.message);
+          // console.log(err?.message);
           if (err === "Error: Could not mount master component") {
             // alert("Please check your card")
             setIsModalOpen(true);
@@ -671,7 +671,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
           }
           // alert(err)
           setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: err })
+          setErrorMsg({ title: 'Alert', message: err?.message })
           // alert("something is wrong, please try again")
           setLoading(false);
           return;
@@ -680,8 +680,8 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
         if (!token) {
           setLoading(false);
           // alert('something is wrong');
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: 'something is wrong' })
+          // setIsModalOpen(true);
+          // setErrorMsg({ title: 'Alert', message: 'something is wrong' })
           return;
         }
 
@@ -737,20 +737,21 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
               posts: userResults?.media_count,
               subscribed: true,
             }
-            
+
             const updateUser = await supabase
               .from("users")
               .update(data).eq('id', user.id);
-            if (updateUser.error){
+            if (updateUser.error) {
               console.log(updateUser.error);
               setIsModalOpen(true);
               setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
             }
             const ref = getRefCode()
+            console.log('success');
             if (ref) {
-              navigate(`/thankyou?ref=${ref}`)
+              // navigate(`/thankyou?ref=${ref}`)
             } else {
-              navigate(`/thankyou`)
+              // navigate(`/thankyou`)
             }
             setLoading(false);
           } else {
@@ -771,6 +772,12 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
   };
 
   return (<>
+    <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5`} id='num'>
+      <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard}
+        // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
+        onChange={(e) => { setNameOnCard(e.target.value) }} />
+      {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
+    </div>
     <form
       onSubmit={async (e) => {
         e.preventDefault();
@@ -785,12 +792,6 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
       }}
       id="cardForm">
 
-      <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5`} id='num'>
-        <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard}
-          // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
-          onChange={(e) => { setNameOnCard(e.target.value) }} />
-        {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
-      </div>
       <CardComponent
         ref={cardRef}
         className="fieldset field"
@@ -823,26 +824,28 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
           </div>
         </div>
       </CardComponent>
-
-      <div className="hidden lg:block">
-        <button className={`font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4 ${Loading && 'cursor-wait'}`}
-          type="submit"
-          form="cardForm"
-          style={{
-            backgroundColor: '#ef5f3c',
-            color: 'white',
-            boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
-          }}>
-          <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
-        </button>
-        {/* {showCardComponent && <></>} */}
-        {Loading && <div className="flex items-center py-3 gap-2 justify-center">
-          <AiOutlineLoading3Quarters className="animate-spin" />
-          <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
-            We're processing your request, please wait...
-          </p>
-        </div>}
-      </div>
     </form>
+
+    <div className="hidden lg:block">
+      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#c4c4c4] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4`}
+        onClick={()=> {
+          if (Loading) {
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Processing...', message: 'Please wait' })
+            return
+          }
+          // await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
+          handleCardPay();
+        }}>
+        <span> {Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}  </span>
+      </button>
+      {/* {showCardComponent && <></>} */}
+      {Loading && <div className="flex items-center py-3 gap-2 justify-center">
+        <AiOutlineLoading3Quarters className="animate-spin" />
+        <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
+          We're processing your request, please wait...
+        </p>
+      </div>}
+    </div>
   </>)
 }
