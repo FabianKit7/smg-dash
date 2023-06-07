@@ -419,7 +419,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                   <div className="w-full max-w-[420px] relative overflow-hidden flex items-center text-start py-5 pr-[30px]">
                     <div className="w-full flex gap-4 items-center ">
                       <div className="h-[60px] relative">
-                        <img src={userResults?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />
+                        <img src={userResults?.profile_pic_url} alt="" className='w-[60px] h-[60px] min-w-[60px] min-h-[60px] rounded-full' />
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
                       </div>
                       <div className="">
@@ -429,7 +429,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     </div>
                   </div>
                   <div className="w-[40px] h-[40px] rounded-[10px] grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { navigate(`/search`) }}>
-                    <TbRefresh className="absolute text-[#8C8C8C] font-semibold" />
+                    <TbRefresh className="text-[#8C8C8C] font-semibold" />
                   </div>
                 </div>
 
