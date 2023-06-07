@@ -33,6 +33,7 @@ export default function Subscriptions() {
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState({ id: 1, name: 'card' })
+  const [Loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -212,7 +213,7 @@ export default function Subscriptions() {
 
                     <TbRefresh className="cursor-pointer" onClick={() => { navigate(`/search`) }} />
                   </div>
-                  
+
                   <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
                     <div className="flex items-center gap-[10px]">
                       <div className="flex flex-col">
@@ -293,6 +294,8 @@ export default function Subscriptions() {
                     setIsModalOpen={setIsModalOpen}
                     setErrorMsg={setErrorMsg}
                     mobile={true}
+                    Loading={Loading}
+                    setLoading={setLoading}
                   />
                 </div>
               </div>
@@ -302,12 +305,12 @@ export default function Subscriptions() {
               {paymentMethod.name === 'card' ?
                 <div className="">
                   <button
-                    className="cursor-pointer w-full h-[50px] rounded-[10px] bg-[#c4c4c4] text-white flex items-center justify-center gap-2"
+                    className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#c4c4c4] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
                     type="submit"
                     form="cardForm"
                   // onClick={() => { }}
                   >
-                    <div className="">Pay $0.00 & Start Free Trial</div>
+                    <div className="">{Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}</div>
                   </button>
                   <div className="text-center mt-2 text-black">
                     Then $24.99 per week, billed monthly. <br /> Cancel any time, no
@@ -346,6 +349,7 @@ export default function Subscriptions() {
                   setShowMenu(!showMenu);
                 }}
               ></div>
+
               <div
                 className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
                   } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
@@ -382,14 +386,18 @@ export default function Subscriptions() {
               </div>
             </div>
 
-            <Content
-              user={user}
-              userResults={userResults}
-              navigate={navigate}
-              setIsModalOpen={setIsModalOpen}
-              setErrorMsg={setErrorMsg}
-              username={username}
-            />
+            <div className="hidden lg:block">
+              <Content
+                user={user}
+                userResults={userResults}
+                navigate={navigate}
+                setIsModalOpen={setIsModalOpen}
+                setErrorMsg={setErrorMsg}
+                username={username}
+                Loading={Loading}
+                setLoading={setLoading}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -397,7 +405,7 @@ export default function Subscriptions() {
   );
 }
 
-const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, username }) => {
+const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, username, Loading, setLoading }) => {
   const [showCreaditCardInput, setShowCreaditCardInput] = useState(false)
 
   return (<>
@@ -411,7 +419,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
           <div className="">Enter Dashboard</div>
         </div>
 
-        <div className="pb-4 flex flex-col justify-between lg:justify-start lg:items-center h-full text-start px-5 lg:px-0">
+        <div className="pb-4 hidden lg:flex flex-col justify-between lg:justify-start lg:items-center h-full text-start px-5 lg:px-0">
           <div className="flex flex-col lg:flex-row gap-5 w-full">
             <div className="basis-[45%] grow-[3] rounded-[20px] flex gap-5 flex-col">
               <div className="rounded-[20px]">
@@ -473,6 +481,8 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                       username={username}
                       setIsModalOpen={setIsModalOpen}
                       setErrorMsg={setErrorMsg}
+                      Loading={Loading}
+                      setLoading={setLoading}
                     />
                   </div>
                 </div>
@@ -583,142 +593,8 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
   </>)
 }
 
-const getStartingDay = () => {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
-
-  today = mm + "/" + dd + "/" + yyyy;
-
-  return today
-};
-
-const handleCardPay = async (setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard) => {
-  setLoading(true);
-
-  if (userResults?.name === "INVALID_USERNAME") {
-    console.log("INVALID_USERNAME")
-    setIsModalOpen(true);
-    setErrorMsg({ title: 'Alert', message: 'An error has occured, please try again' })
-    setLoading(false);
-    return;
-  };
-
-  if (user) {
-    if (cardRef) {
-      const token = await cardRef.current.tokenize().then(data => {
-        return data.token
-      }).catch(err => {
-        console.log(err);
-        if (err === "Error: Could not mount master component") {
-          // alert("Please check your card")
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
-          return;
-        }
-        // alert(err)
-        setIsModalOpen(true);
-        setErrorMsg({ title: 'Alert', message: err })
-        // alert("something is wrong, please try again")
-        setLoading(false);
-        return;
-      });
-
-      if (!token) {
-        setLoading(false);
-        // alert('something is wrong');
-        setIsModalOpen(true);
-        setErrorMsg({ title: 'Alert', message: 'something is wrong' })
-        return;
-      }
-
-      const create_customer_data = {
-        allow_direct_debit: true,
-        // first_name: userResults?.full_name,
-        first_name: user?.full_name,
-        last_name: '',
-        email: user.email,
-        token_id: token
-      }
-
-      let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
-        urlEncode(create_customer_data))
-        .then((response) => response.data)
-
-      if (customer.message === 'success') {
-        var profile_pic_url = '';
-        const create_subscription_for_customer_data = {
-          customer_id: customer?.customer?.id,
-          plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-          // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-          // plan_id: "Monthly-Plan-USD-Monthly"
-        }
-        let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
-          urlEncode(create_subscription_for_customer_data))
-          .then((response) => response.data)
-        // console.log(subscriptionResult);
-        if (subscriptionResult.message === 'success') {
-          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
-          // console.log(uploadImageFromURLRes);
-
-          if (uploadImageFromURLRes?.status === 'success') {
-            profile_pic_url = uploadImageFromURLRes?.data
-          }
-
-          let data = {
-            nameOnCard,
-            chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
-            chargebee_subscription_id: subscriptionResult.subscription?.id,
-            chargebee_customer: JSON.stringify(customer.customer),
-            chargebee_customer_id: customer?.customer?.id,
-
-            username,
-            email: user.email,
-            followers: userResults?.follower_count,
-            following: userResults?.following_count,
-            // profile_pic_url: userResults?.profile_pic_url,
-            profile_pic_url,
-            is_verified: userResults?.is_verified,
-            biography: userResults?.biography,
-            start_time: getStartingDay(),
-            posts: userResults?.media_count,
-            subscribed: true,
-          }
-          // console.log(data);
-          await supabase
-            .from("users")
-            .update(data).eq('user_id', user.id);
-          // Tap.conversion(user?.email, '30');
-          // Tap.conversion('DM', '30');
-          setLoading(false);
-          // navigate(`/dashboard/${username}`);
-          const ref = getRefCode()
-          if (ref) {
-            navigate(`/thankyou?ref=${ref}`)
-          } else {
-            navigate(`/thankyou`)
-          }
-        } else {
-          console.log('Error creating subscription:', subscriptionResult.error);
-          // alert('An error occurred, please try again or contact support')
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
-        }
-      } else {
-        console.log('Error creating customer:', customer.error);
-        // alert('An error occurred, please try again or contact support')
-        setIsModalOpen(true);
-        setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
-      }
-    }
-  }
-  setLoading(false);
-};
-
-const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMsg, mobile }) => {
+const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMsg, mobile, Loading, setLoading }) => {
   const navigate = useNavigate();
-  const [Loading, setLoading] = useState(false);
   const cardRef = useRef();
   const [nameOnCard, setNameOnCard] = useState('')
 
@@ -756,6 +632,143 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
       },
     },
   }
+  
+  const getStartingDay = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + "/" + dd + "/" + yyyy;
+
+    return today
+  };
+
+  // const handleCardPay = async (setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard) => {
+  const handleCardPay = async () => {
+    setLoading(true);
+    if (userResults?.name === "INVALID_USERNAME") {
+      console.log("INVALID_USERNAME")
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Alert', message: 'An error has occured, please try again' })
+      setLoading(false);
+      return;
+    };
+
+    if (user) {
+      if (cardRef) {
+        const token = await cardRef.current.tokenize().then(data => {
+          return data.token
+        }).catch(err => {
+          console.log(err);
+          console.log(err?.message);
+          if (err === "Error: Could not mount master component") {
+            // alert("Please check your card")
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
+            setLoading(false);
+            return;
+          }
+          // alert(err)
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: err })
+          // alert("something is wrong, please try again")
+          setLoading(false);
+          return;
+        });
+
+        if (!token) {
+          setLoading(false);
+          // alert('something is wrong');
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'something is wrong' })
+          return;
+        }
+
+        const create_customer_data = {
+          allow_direct_debit: true,
+          // first_name: userResults?.full_name,
+          first_name: user?.full_name,
+          last_name: '',
+          email: user.email,
+          token_id: token
+        }
+
+        let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
+          urlEncode(create_customer_data))
+          .then((response) => response.data)
+
+        if (customer.message === 'success') {
+          var profile_pic_url = '';
+          const create_subscription_for_customer_data = {
+            customer_id: customer?.customer?.id,
+            plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+            // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+            // plan_id: "Monthly-Plan-USD-Monthly"
+          }
+          let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
+            urlEncode(create_subscription_for_customer_data))
+            .then((response) => response.data)
+          // console.log(subscriptionResult);
+          if (subscriptionResult.message === 'success') {
+            const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
+            // console.log(uploadImageFromURLRes);
+
+            if (uploadImageFromURLRes?.status === 'success') {
+              profile_pic_url = uploadImageFromURLRes?.data
+            }
+
+            let data = {
+              nameOnCard,
+              chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
+              chargebee_subscription_id: subscriptionResult.subscription?.id,
+              chargebee_customer: JSON.stringify(customer.customer),
+              chargebee_customer_id: customer?.customer?.id,
+
+              username,
+              email: user.email,
+              followers: userResults?.follower_count,
+              following: userResults?.following_count,
+              // profile_pic_url: userResults?.profile_pic_url,
+              profile_pic_url,
+              is_verified: userResults?.is_verified,
+              biography: userResults?.biography,
+              start_time: getStartingDay(),
+              posts: userResults?.media_count,
+              subscribed: true,
+            }
+            
+            const updateUser = await supabase
+              .from("users")
+              .update(data).eq('id', user.id);
+            if (updateUser.error){
+              console.log(updateUser.error);
+              setIsModalOpen(true);
+              setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
+            }
+            const ref = getRefCode()
+            if (ref) {
+              navigate(`/thankyou?ref=${ref}`)
+            } else {
+              navigate(`/thankyou`)
+            }
+            setLoading(false);
+          } else {
+            console.log('Error creating subscription:', subscriptionResult.error);
+            // alert('An error occurred, please try again or contact support')
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+          }
+        } else {
+          console.log('Error creating customer:', customer.error);
+          // alert('An error occurred, please try again or contact support')
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+        }
+      }
+    }
+    setLoading(false);
+  };
 
   return (<>
     <form
@@ -767,12 +780,15 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
           setErrorMsg({ title: 'Processing...', message: 'Please wait' })
           return
         }
-        await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
+        // await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
+        await handleCardPay();
       }}
       id="cardForm">
 
       <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5`} id='num'>
-        <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard} onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { setNameOnCard(e.target.value) }} />
+        <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard}
+          // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
+          onChange={(e) => { setNameOnCard(e.target.value) }} />
         {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
       </div>
       <CardComponent
@@ -785,18 +801,24 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
         fonts={fonts}
       >
         <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5" id='num'>
-          <CardNumber className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+          <CardNumber className="ex1-input"
+            // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
+            onChange={(e) => { }} />
           {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
         </div>
 
         <div className="ex1-fields flex items-center gap-4 mb-5">
           <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease">
-            <CardExpiry className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+            <CardExpiry className="ex1-input"
+              // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
+              onChange={(e) => { }} />
             {/* <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i> */}
           </div>
 
           <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease">
-            <CardCVV className="ex1-input" onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }} onChange={(e) => { }} />
+            <CardCVV className="ex1-input"
+              // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
+              onChange={(e) => { }} />
             {/* <label className="ex1-label font-MontserratLight">CVC</label><i className="ex1-bar"></i> */}
           </div>
         </div>
