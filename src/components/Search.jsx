@@ -40,7 +40,7 @@ export default function Search() {
 
   return (<>
     <div id="affiliateScript"></div>
-    <CrispChat />
+    {/* <CrispChat /> */}
 
     <div className="text-[#757575] relative">
       <div className="max-w-[1600px] mx-auto">
