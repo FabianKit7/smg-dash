@@ -12,8 +12,8 @@ export default function ColumnChart({ type, sessionsData, days }) {
     let followersData = []
     let categories = []
     sessionsData?.slice(-days).forEach(items => {
-      const day = new Date(items.start_time).getDate()
-      const month = new Date(items.start_time).getMonth()
+      const day = new Date(items?.start_time?.replace(/-/g, "/")).getDate()
+      const month = new Date(items?.start_time?.replace(/-/g, "/")).getMonth()
       const monthName = monthNames[month]
       categories.push(`${monthName} ${day}`);
       if(type === "total_interactions"){
