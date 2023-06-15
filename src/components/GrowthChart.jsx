@@ -8,21 +8,42 @@ export default function GrowthChart({ isPrivate, sessionsData, days }) {
   const [followersData, setFollowersData] = useState([])
   const [categories, setCategories] = useState([])
 
+  // useEffect(() => {
+  //   let followersData = []
+  //   let categories = []
+  //   sessionsData?.slice(-days).forEach(items => {
+  //     // console.log(items.start_time);
+  //     const day = new Date((items?.start_time)?.replace(/-/g, "/")).getDate()
+  //     const month = new Date((items?.start_time)?.replace(/-/g, "/")).getMonth()
+  //     const monthName = monthNames[month]
+  //     categories.push(`${monthName} ${day}`);
+  //     followersData.push(items.profile.followers);
+  //   })
+  //   setCategories(categories);
+  //   setFollowersData(followersData)
+
+  // }, [sessionsData, days])
+  
   useEffect(() => {
-    let followersData = []
-    let categories = []
+    let followersData = [];
+    let categories = [];
     sessionsData?.slice(-days).forEach(items => {
-      // console.log(items.start_time);
-      const day = new Date(items?.start_time?.replace(/-/g, "/")).getDate()
-      const month = new Date(items?.start_time?.replace(/-/g, "/")).getMonth()
-      const monthName = monthNames[month]
+      const dateParts = (items?.start_time)?.split(/[- :]/); // Split date string into parts
+      // const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]) - 1; // Adjust month (zero-based index)
+      const day = parseInt(dateParts[2]);
+
+      // const sessionDate = new Date(year, month, day); // Create Date object
+
+      const monthName = monthNames[month];
       categories.push(`${monthName} ${day}`);
       followersData.push(items.profile.followers);
-    })
-    setCategories(categories);
-    setFollowersData(followersData)
+    });
 
-  }, [sessionsData, days])
+    setCategories(categories);
+    setFollowersData(followersData);
+  }, [sessionsData, days]);
+
   
 
   const options = {

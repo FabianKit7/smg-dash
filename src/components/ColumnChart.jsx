@@ -8,24 +8,52 @@ export default function ColumnChart({ type, sessionsData, days }) {
   const [followersData, setFollowersData] = useState([])
   const [categories, setCategories] = useState([])
 
-  useEffect(() => {
-    let followersData = []
-    let categories = []
-    sessionsData?.slice(-days).forEach(items => {
-      const day = new Date(items?.start_time?.replace(/-/g, "/")).getDate()
-      const month = new Date(items?.start_time?.replace(/-/g, "/")).getMonth()
-      const monthName = monthNames[month]
-      categories.push(`${monthName} ${day}`);
-      if(type === "total_interactions"){
-        followersData.push(items.total_interactions);
-        return;
-      }
-      followersData.push(items.profile[type]);
-    })
-    setCategories(categories);
-    setFollowersData(followersData)
+  // useEffect(() => {
+  //   let followersData = []
+  //   let categories = []
+  //   sessionsData?.slice(-days).forEach(items => {
+  //     const day = new Date((items?.start_time)?.replace(/-/g, "/")).getDate()
+  //     const month = new Date((items?.start_time)?.replace(/-/g, "/")).getMonth()
+  //     const monthName = monthNames[month]
+  //     categories.push(`${monthName} ${day}`);
+  //     if(type === "total_interactions"){
+  //       followersData.push(items.total_interactions);
+  //       return;
+  //     }
+  //     followersData.push(items.profile[type]);
+  //   })
+  //   setCategories(categories);
+  //   setFollowersData(followersData)
 
-  }, [sessionsData, days, type])
+  // }, [sessionsData, days, type])
+  
+  useEffect(() => {
+    let followersData = [];
+    let categories = [];
+    sessionsData?.slice(-days).forEach(items => {
+      const dateParts = (items?.start_time)?.split(/[- :]/); // Split date string into parts
+      // const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]) - 1; // Adjust month (zero-based index)
+      const day = parseInt(dateParts[2]);
+
+      // const sessionDate = new Date(year, month, day); // Create Date object
+
+      const monthName = monthNames[month];
+      categories.push(`${monthName} ${day}`);
+
+      let followerValue;
+      if (type === "total_interactions") {
+        followerValue = items.total_interactions;
+      } else {
+        followerValue = items.profile[type];
+      }
+      followersData.push(followerValue);
+    });
+
+    setCategories(categories);
+    setFollowersData(followersData);
+  }, [sessionsData, days, type]);
+
 
   var colors = ["#7ea5ff"]
 
