@@ -10,7 +10,7 @@ import { supabase } from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../AlertModal';
 
-export default function OnboardingSearchBox() {
+export default function OnboardingSearchBox({ user }) {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [processing, setProcessing] = useState(false);
@@ -62,6 +62,9 @@ export default function OnboardingSearchBox() {
   }, [input])
 
   const handleSubmit = async () => {
+    if (!user?.user_id){
+      alert('please login first')
+    }
     var filteredSelected = selected;
     if (filteredSelected.startsWith('@')) {
       filteredSelected = filteredSelected.substring(1)
@@ -79,22 +82,29 @@ export default function OnboardingSearchBox() {
           "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
         },
       };
-      console.log(options);
+      // console.log(options);
       const userResults = await Axios.request(options);
-      console.log(userResults?.data[0]?.username);
+      // console.log(userResults?.data[0]?.username);
       if (!userResults?.data[0]?.username) {
         // alert('Username not found!');
         setIsModalOpen(true);
         setErrorMsg({ title: 'Alert', message: 'Username not found!' })
         return
       }
-      const { data: { user } } = await supabase.auth.getUser()
+      // const currentUser = await supabase.auth.getUser()
+      // const userId = currentUser?.data?.user?.id
+      // if (!userId) {
+      //   // alert('Username not found!');
+      //   setIsModalOpen(true);
+      //   setErrorMsg({ title: 'Alert', message: 'Username not found!' })
+      // }
+      // const { data: { user } } = await supabase.auth.getUser()
 
       await supabase
         .from("users")
         .update({
           username: userResults.data[0].username,
-        }).eq('user_id', user.id);
+        }).eq('user_id', user?.user_id);
       // window.location = `/subscriptions/${userResults.data[0].username}`;
       const ref = getRefCode()
       if (ref) {

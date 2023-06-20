@@ -1,6 +1,6 @@
 import React from "react";
 // import { RxCaretRight } from "react-icons/rx"
-import CrispChat from "./CrispChat";
+// import CrispChat from "./CrispChat";
 // import Nav from "./Nav";
 // import SearchBox from "./search/SearchBox";
 import OnboardingSearchBox from "./search/OnboardingSearchBox";
@@ -100,7 +100,7 @@ export default function Search() {
           </div>
         </div>
 
-        <OnboardingSearchBox />
+        <OnboardingSearchBox user={user} />
       </div>
     </div>
   </>)

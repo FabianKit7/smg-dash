@@ -3,9 +3,12 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { getRefCode } from "../helpers";
 import { supabase } from "../supabaseClient";
+import AlertModal from "./AlertModal";
 
 export default function SignUp() {
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
@@ -16,15 +19,19 @@ export default function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault()
-    // setLoading(true);
+    if (loading) return;
+    setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
     if (error) {
       console.log(error.message);
-      alert(error.message);
-
+      // alert(error.message);
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Registration Error', message: error.message })
+      setLoading(false);
+      return;
     }
 
     if (data) {
@@ -37,15 +44,20 @@ export default function SignUp() {
           email,
           username: data?.user?.username || ''
         });
-      if (error) return console.log(error);
+      if (error) {
+        console.log(error);
+        setLoading(false);
+        alert('something went wrong');
+        return
+      }
       const ref = getRefCode()
-      if(ref){
+      if (ref) {
         navigate(`/search?ref=${ref}`)
-      }else{
+      } else {
         navigate("/search")
       }
     }
-    // setLoading(false);
+    setLoading(false);
   };
 
   async function signInWithGoogle() {
@@ -58,7 +70,7 @@ export default function SignUp() {
         .from('users')
         .select('*')
         .eq('user_id', user?.data?.user?.id)
-        console.log({ error })
+      console.log({ error })
 
       if (data?.user) {
         window.location = `/dashboard/${data.user?.user_id}`;
@@ -73,7 +85,7 @@ export default function SignUp() {
             email: user?.data?.user?.email || '',
             username: ''
           });
-          if (error) return alert(error.message)
+        if (error) return alert(error.message)
         navigate("/search")
       }
     } else {
@@ -97,6 +109,13 @@ export default function SignUp() {
   // }, [])
 
   return (<>
+    <AlertModal
+      isOpen={isModalOpen}
+      onClose={() => { setIsModalOpen(false) }}
+      title={errorMsg?.title}
+      message={errorMsg?.message}
+    />
+    
     <div id="affiliateScript"></div>
 
     <div className="flex flex-col justify-center items-center h-screen">
@@ -107,7 +126,7 @@ export default function SignUp() {
             <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" />
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-[25px] text-left">SPROUTYSOCIAL</strong> */}
-            </div>
+          </div>
           <hr className="mb-7 w-full border-[#ef5f3c]" />
 
           <h5 className="font-semibold text-[2rem] text-center text-black font-MontserratSemiBold mt-[30px]">Partner With Us</h5>
@@ -156,7 +175,7 @@ export default function SignUp() {
               boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
             }}
           >
-            Sign Up Now
+            {loading ? 'Processing...' : 'Sign Up Now'}
           </button>
         </form>
 

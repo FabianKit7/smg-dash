@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { TbRefresh } from "react-icons/tb";
 import axios from 'axios'
-import CrispChat from "./CrispChat";
+// import CrispChat from "./CrispChat";
 import { MdLogout } from "react-icons/md";
 import { useClickOutside } from "react-click-outside-hook";
 import { FaAngleLeft } from "react-icons/fa";

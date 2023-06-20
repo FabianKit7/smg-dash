@@ -62,8 +62,8 @@ export default function SearchBox() {
 
   const handleSubmit = async () => {
     var filteredSelected = selected;
-    if (filteredSelected.startsWith('@')) {
-      filteredSelected = filteredSelected.substring(1)
+    if (filteredSelected?.startsWith('@')) {
+      filteredSelected = filteredSelected?.substring(1)
     }
     if (selected) {
       setProcessing(true);
@@ -78,8 +78,11 @@ export default function SearchBox() {
           "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
         },
       };
-      console.log(options);
-      const userResults = await Axios.request(options);
+      // console.log(options);
+      const userResults = await Axios.request(options).catch(e => {
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: 'Username not found!' })
+      });
       console.log(userResults?.data[0]?.username);
       if (!userResults?.data[0]?.username) {
         // alert('Username not found!');
@@ -89,23 +92,30 @@ export default function SearchBox() {
       }
       const { data: { user } } = await supabase.auth.getUser()
 
-      await supabase
+      const updateUsername = await supabase
         .from("users")
         .update({
           username: userResults.data[0].username,
         }).eq('user_id', user.id);
+        
+      if (updateUsername?.error){
+        alert("")
+      }
       // window.location = `/subscriptions/${userResults.data[0].username}`;
       const ref = getRefCode()
       if (ref) {
         navigate(`/subscriptions/${userResults.data[0].username}?ref=${ref}`)
+        return
       } else {
         navigate(`/subscriptions/${userResults.data[0].username}`)
       }
+      setProcessing(false);
       return;
     } else {
       setProcessing(false);
       alert('choose your account');
     }
+    setProcessing(false);
   };
 
   return (<>
