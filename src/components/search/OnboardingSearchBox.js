@@ -62,7 +62,7 @@ export default function OnboardingSearchBox({ user }) {
   }, [input])
 
   const handleSubmit = async () => {
-    if (!user?.user_id){
+    if (!user?.user_id) {
       alert('please login first')
     }
     var filteredSelected = selected;
@@ -192,7 +192,9 @@ export default function OnboardingSearchBox({ user }) {
                 {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
                   {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
                     onClick={async () => {
+                      setProcessing(true)
                       const a = await getAccount(debouncedQuery)
+                      setProcessing(false)
                       if (a?.data?.[0]?.username) {
                         setSelected(a?.data?.[0]?.username);
                         setSelectedAccount(a?.data?.[0]);
