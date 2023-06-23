@@ -3,7 +3,7 @@ var usercurrentFollowersCount = 0;
 var withSprouty = 0;
 var withoutSprouty = 0;
 var username = '';
-var [resultArray1, resultArray2] = [0,0];
+var [resultArray1, resultArray2] = [0, 0];
 
 const chartRangetoggleDropdown = () => {
     const chartRangeDropdownEl = document.querySelectorAll('.chartRangeDropdown')
@@ -28,6 +28,7 @@ const toggleChartRangeDropdown = (range) => {
     if (chartRange === 'Monthly') {
         const options = renderMonthlyChart();
         document.querySelector("#chart2").classList.add("hidden")
+        document.querySelector("#dailyChartEl").classList.add("hidden")
         document.querySelector("#chart1").classList.remove("hidden")
         document.querySelector("#chart1").classList.add("block")
         const el = document.querySelector("#chart1")
@@ -38,6 +39,7 @@ const toggleChartRangeDropdown = (range) => {
     } else if (chartRange === 'Weekly') {
         const options = renderWeeklyChart()
         document.querySelector("#chart1").classList.add("hidden")
+        document.querySelector("#dailyChartEl").classList.add("hidden")
         document.querySelector("#chart2").classList.remove("hidden")
         document.querySelector("#chart2").classList.add("block")
         const el = document.querySelector("#chart2")
@@ -50,6 +52,8 @@ const toggleChartRangeDropdown = (range) => {
     else {
         document.querySelector("#chart1").classList.add("hidden")
         document.querySelector("#chart2").classList.add("hidden")
+        document.querySelector("#dailyChartEl").classList.remove("hidden")
+        document.querySelector("#dailyChartEl").classList.add("block")
 
         const options = renderDailyChart();
         const dailyChartEl = document.querySelector("#dailyChartEl")
@@ -70,9 +74,34 @@ function generateDates(range) {
         var formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
         dateList.push(formattedDate);
     }
-
+    console.log(range);
+    console.log(dateList);
     return dateList;
 }
+
+function generateMonthlyDates(months) {
+    const currentDate = new Date();
+    const dates = [];
+
+    for (let i = 0; i < months; i++) {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear() % 100; // Get the last two digits of the year
+        const formattedDate = `${month}/${year}`;
+        dates.push(formattedDate);
+    }
+
+    return dates;
+}
+
+const months = 12;
+const generatedDates = generateMonthlyDates(months);
+console.log(generatedDates);
+
+var range = 12; // Example range of 12 months
+var dates = generateDates(range);
+console.log(dates);
+
 
 function generateWeeklyDateRanges(range) {
     var dateRangeList = [];
@@ -121,25 +150,6 @@ function generateArrays(baseNumber) {
     return [array1, array2];
 }
 
-// function generateListO(targetSum) {
-//     let values = [];
-//     let currentSum = 0;
-
-//     for (let i = 0; i < 30; i++) {
-//         let maxVal = Math.ceil(targetSum - currentSum - (30 - i));
-//         let minVal = Math.max(Math.floor((targetSum - currentSum) / (30 - i)), 1);
-
-//         let value = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-
-//         values.push(value);
-//         currentSum += value;
-//     }
-
-//     values.push(targetSum - currentSum);
-
-//     return values;
-// }
-
 function generateList(number) {
     const list = [];
     let remaining = number;
@@ -163,12 +173,12 @@ const renderMonthlyChart = () => {
         },
         series: [
             {
-                name: 'sproutysocial',
+                name: 'SproutySocial',
                 // data: resultArray1?.slice(),
                 data: resultArray1?.slice(-11),
             },
             {
-                name: 'normal',
+                name: 'Others',
                 data: resultArray2?.slice(-11),
             }
         ],
@@ -199,16 +209,16 @@ const renderMonthlyChart = () => {
             enabled: true,
         },
         xaxis: {
-            type: 'datetime',
-            categories: generateDates(11),
+            type: 'category',
+            categories: generateMonthlyDates(11),
             labels: {
                 offsetX: 3,
-                formatter: function (value, timestamp, opts) {
-                    const date = new Date(timestamp);
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const day = date.getDate().toString().padStart(2, '0');
-                    return month + '/' + day;
-                }
+                // formatter: function (value, timestamp, opts) {
+                //     const date = new Date(timestamp);
+                //     const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                //     const day = date.getDate().toString().padStart(2, '0');
+                //     return month + '/' + day;
+                // }
             }
         },
         yaxis: {
@@ -301,12 +311,12 @@ const renderWeeklyChart = () => {
         },
         series: [
             {
-                name: 'sproutysocial',
+                name: 'SproutySocial',
                 // data: resultArray1?.slice(0, 8),
                 data: generateWeeklyData(resultArray1),
             },
             {
-                name: 'normal',
+                name: 'Others',
                 // data: resultArray2?.slice(0, 8),
                 data: generateWeeklyData(resultArray2),
             }
@@ -360,9 +370,8 @@ const renderDailyChart = () => {
         },
         series: [
             {
-                name: 'sproutysocial',
-                // data: generateWeeklyData(resultArray1, false)?.slice(-31),
-                data: generateList(10200)
+                name: 'SproutySocial',
+                data: generateList(usercurrentFollowersCount).slice(0, 7)
             }
         ],
         chart: {
@@ -393,7 +402,7 @@ const renderDailyChart = () => {
         },
         xaxis: {
             type: 'category',
-            categories: generateDates(31),
+            categories: generateDates(7),
             labels: {
                 offsetX: 3,
                 // formatter: function (value, timestamp, opts) {
@@ -425,6 +434,7 @@ function getUsernameFromURL() {
 
 async function getUserData() {
     const username = getUsernameFromURL();
+    if (!username) return { message: 'no username' }
 
     const url = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile";
     const params = { ig: username, response_type: "short", corsEnabled: "true" };
@@ -474,18 +484,18 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (res?.message === 'success') {
         // console.log(res.data);
         const user = res.data
-        if(user){
+        if (user) {
             usercurrentFollowersCount = user.follower_count
             var [r1, r2] = generateArrays(usercurrentFollowersCount);
             // console.log(r1, r2);
-            resultArray1=r1
-            resultArray2=r2
+            resultArray1 = r1
+            resultArray2 = r2
             withSprouty = getLastItem(r1)
             withoutSprouty = getLastItem(r2)
-            
+
             // var username = user.username
-    
-    
+
+
             const root = document.getElementById('root');
             root.innerHTML = `
             <div class="rounded-xl overflow-hidden">
@@ -499,7 +509,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                         <div class="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
                             style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px;">
                             <div class="ml-3 flex items-center gap-[10px]">
-                                <img alt="" class="platform-logo" src="https://app.sproutysocial.com/instagram.svg"
+                                <img alt="" class="platform-logo" src="https://app.SproutySocial.com/instagram.svg"
                                     width="28px" height="28px">
                                 <div class="font-black text-base lg:text-2xl text-black font-MontserratBold">
                                     Growth Trajectory for @${user.username}
@@ -548,12 +558,12 @@ window.addEventListener('DOMContentLoaded', async () => {
                             <div class="w-full flex justify-between items-center">
                                 <div class="flex items-center">
                                     <img class="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] rounded-[10px] lg:rounded-full mr-[12px] lg:mr-[20px]"
-                                        src="${ user.profile_pic_url }"
+                                        src="${user.profile_pic_url}"
                                         alt="">
                                     <div class="flex flex-col text-base lg:text-2xl">
                                         <div class="flex items-center gap-1">${user.full_name}<img alt=""
                                                 class="lg:hidden platform-logo"
-                                                src="https://app.sproutysocial.com/instagram.svg" width="16px"
+                                                src="https://app.SproutySocial.com/instagram.svg" width="16px"
                                                 height="16px">
                                         </div>
                                         <div class="font-semibold text-[#757575]">@${user.username}</div>
@@ -645,7 +655,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                 </div>
             </div>
             `
-    
+
             const options = renderMonthlyChart();
             document.querySelector("#chart2").classList.add("hidden")
             document.querySelector("#chart1").classList.remove("hidden")
@@ -654,8 +664,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             if (el) {
                 var chart = new ApexCharts(el, options);
                 chart.render();
-            }            
+            }
         }
     }
-
 })
