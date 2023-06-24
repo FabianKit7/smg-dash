@@ -4,6 +4,7 @@ var withSprouty = 0;
 var withoutSprouty = 0;
 var username = '';
 var [resultArray1, resultArray2] = [0, 0];
+const [weeklyR1, weeklyR2] = generateArrays(usercurrentFollowersCount, true);
 
 const chartRangetoggleDropdown = () => {
     const chartRangeDropdownEl = document.querySelectorAll('.chartRangeDropdown')
@@ -74,8 +75,6 @@ function generateDates(range) {
         var formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
         dateList.push(formattedDate);
     }
-    console.log(range);
-    console.log(dateList);
     return dateList;
 }
 
@@ -93,15 +92,6 @@ function generateMonthlyDates(months) {
 
     return dates;
 }
-
-const months = 12;
-const generatedDates = generateMonthlyDates(months);
-console.log(generatedDates);
-
-var range = 12; // Example range of 12 months
-var dates = generateDates(range);
-console.log(dates);
-
 
 function generateWeeklyDateRanges(range) {
     var dateRangeList = [];
@@ -128,41 +118,30 @@ function generateWeeklyDateRanges(range) {
     return dateRangeList;
 }
 
-function generateArrays(baseNumber) {
-    const array1 = [];
-    const array2 = [];
+function getRandomNumberInRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
-    let previousNumber = baseNumber;
+function generateArrays(baseNumber, weekly) {
+    var m1Min = weekly ? 1000/4 : 1000;
+    var m1Max = weekly ? 2000/4 : 2000;
+    var m2Min = weekly ? 600/4 : 600;
+    var m2Max = weekly ? 900/4 : 900;
+    const array1 = [baseNumber + getRandomNumberInRange(m1Min, m1Max)];
+    const array2 = [(baseNumber - baseNumber * 0.3) + getRandomNumberInRange(m2Min, m2Max)];
 
-    for (let i = 0; i < 11; i++) {
-        // Generate random numbers for array1 within the range 700-1100
-        const random1 = Math.floor(Math.random() * 401) + 700;
-        const number1 = random1 + previousNumber;
-        array1.push(number1);
+    for (let i = 1; i < 12; i++) {
+        const prev1 = array1[i - 1];
+        const prev2 = array2[i - 1];
 
-        // Generate random numbers for array2 within the range 1000-3000
-        const random2 = Math.floor(Math.random() * 2001) + 1000;
-        array2.push(random2);
+        const next1 = prev1 + getRandomNumberInRange(m1Min, m1Max);
+        const next2 = prev2 + getRandomNumberInRange(m2Min, m2Max);
 
-        previousNumber = number1;
+        array1.push(next1);
+        array2.push(next2);
     }
 
     return [array1, array2];
-}
-
-function generateList(number) {
-    const list = [];
-    let remaining = number;
-
-    for (let i = 0; i < 30; i++) {
-        const value = Math.ceil(remaining / (31 - i));
-        list.push(value);
-        remaining -= value;
-    }
-
-    list.push(remaining); // Add the remaining value to the list
-
-    return list;
 }
 
 const renderMonthlyChart = () => {
@@ -229,41 +208,34 @@ const renderMonthlyChart = () => {
     return options
 }
 
-function generateList(number) {
-    const list = [];
+function divideNumber(number) {
+    const numbers = [];
     let remaining = number;
 
-    for (let i = 0; i < 30; i++) {
-        const minValue = Math.ceil(remaining / (31 - i) - 2);
-        const maxValue = Math.floor(remaining / (31 - i) + 2);
-
-        const value = Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
-        list.push(value);
-        remaining -= value;
+    for (let i = 0; i < 4 - 1; i++) {
+        const min = Math.floor(remaining / (4 - i) * 0.8); // Adjust the factor (0.8) as needed
+        const max = Math.ceil(remaining / (4 - i) * 1.2); // Adjust the factor (1.2) as needed
+        const currentNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+        numbers.push(currentNumber);
+        remaining -= currentNumber;
     }
 
-    list.push(remaining); // Add the remaining value to the list
-
-    return list;
+    numbers.push(remaining);
+    return numbers;
 }
 
-function divideAndSortNumber(number) {
-    const parts = [];
-    let remainder = number;
+function generateDailyData(array) {
+    const result = [];
 
-    // Divide the number into four parts
-    for (let i = 0; i < 3; i++) {
-        const part = Math.floor(remainder / (4 - i));
-        parts.push(part);
-        remainder -= part;
-    }
-    parts.push(remainder + 1); // Add 1 to the last part for a larger difference
+    array.forEach(item => {
+        const p = divideNumber(item);
+        p.forEach(i => {
+            result.push(i);            
+        });
 
-    // Sort the parts in ascending order
-    parts.sort((a, b) => a - b);
+    });
 
-    // Return the result
-    return parts;
+    return result;
 }
 
 function distributeAndSortArray(array) {
@@ -285,8 +257,26 @@ function distributeAndSortArray(array) {
     return result;
 }
 
+function divideAndSortNumber(number) {
+    const parts = [];
+    let remainder = number;
+
+    // Divide the number into four parts
+    for (let i = 0; i < 3; i++) {
+        const part = Math.floor(remainder / (4 - i));
+        parts.push(part);
+        remainder -= part;
+    }
+    parts.push(remainder + 1); // Add 1 to the last part for a larger difference
+
+    // Sort the parts in ascending order
+    parts.sort((a, b) => a - b);
+
+    // Return the result
+    return parts;
+}
+
 function generateWeeklyData(array) {
-    console.log(array);
     const newArray = [];
 
     // Loop through the given array
@@ -296,14 +286,12 @@ function generateWeeklyData(array) {
     }
 
     // Remove the first 4 values
-    const trimmedArray = newArray.slice(16);
-    console.log(newArray.slice(0, 8));
-    console.log(trimmedArray.slice(0, 8));
+    // const trimmedArray = newArray.slice(16);
+    const trimmedArray = newArray;
     return trimmedArray.slice(0, 8);
 }
 
-
-const renderWeeklyChart = () => {
+const renderWeeklyChart = () => {    
     var options = {
         colors: ["#ef5f3c", "#c1c1c1"],
         legend: {
@@ -313,12 +301,14 @@ const renderWeeklyChart = () => {
             {
                 name: 'SproutySocial',
                 // data: resultArray1?.slice(0, 8),
-                data: generateWeeklyData(resultArray1),
+                // data: generateWeeklyData(resultArray1),
+                data: weeklyR1?.slice(0, 8),
             },
             {
                 name: 'Others',
                 // data: resultArray2?.slice(0, 8),
-                data: generateWeeklyData(resultArray2),
+                // data: generateWeeklyData(resultArray2),
+                data: weeklyR2?.slice(0, 8),
             }
         ],
         chart: {
@@ -371,7 +361,7 @@ const renderDailyChart = () => {
         series: [
             {
                 name: 'SproutySocial',
-                data: generateList(usercurrentFollowersCount).slice(0, 7)
+                data: generateDailyData(weeklyR1).slice(0, 7)
             }
         ],
         chart: {
@@ -479,6 +469,16 @@ const numFormatter = (num = 0) => {
 
 const getLastItem = (array) => array[array.length - 1]
 
+function calculatePercentageDifference(num1, num2) {
+    // Calculate the absolute difference between the numbers
+    const difference = Math.abs(num1 - num2);
+
+    // Calculate the percentage difference
+    const percentageDifference = (difference / ((num1 + num2) / 2)) * 100;
+
+    return percentageDifference;
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
     const res = await getUserData()
     if (res?.message === 'success') {
@@ -492,6 +492,8 @@ window.addEventListener('DOMContentLoaded', async () => {
             resultArray2 = r2
             withSprouty = getLastItem(r1)
             withoutSprouty = getLastItem(r2)
+            // console.log(calculatePercentageDifference(50, 70));
+            // console.log(calculatePercentageDifference(withSprouty, withoutSprouty));
 
             // var username = user.username
 
