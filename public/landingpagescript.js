@@ -539,7 +539,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (user) {
             const buttons = document.querySelectorAll('.custom-button-content');
             buttons.forEach(button => {
-                button.textContent = `Start Free Trial ${user.username}`;
+                button.textContent = `Start Free Trial @${user.username}`;
             });
             usercurrentFollowersCount = user.follower_count
             var [r1, r2] = generateArrays(usercurrentFollowersCount);
