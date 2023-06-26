@@ -136,10 +136,10 @@ function getRandomNumberInRange(min, max) {
 }
 
 function generateArrays(baseNumber, weekly) {
-    // if (!baseNumber) return [];
-    console.log(baseNumber);
-    console.log(weekly);
-    baseNumber = 899999
+    if (!baseNumber) return [0, 0];
+    // console.log(baseNumber);
+    // console.log(weekly);
+    // baseNumber = 899999
     var withSproutyMin, withSproutyMax, withoutSproutyMin, withoutSproutyMax;
     if (baseNumber >= 1 && baseNumber <= 999) {
         withoutSproutyMin = 10;
