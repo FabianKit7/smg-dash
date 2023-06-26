@@ -5,6 +5,7 @@ var withoutSprouty = 0;
 var username = '';
 var [resultArray1, resultArray2] = [0, 0];
 var [weeklyR1, weeklyR2] = [0, 0];
+var [dailyR1, dailyR2] = [0, 0];
 
 const chartRangetoggleDropdown = () => {
     const chartRangeDropdownEl = document.querySelectorAll('.chartRangeDropdown')
@@ -178,10 +179,10 @@ function generateArrays(baseNumber, weekly) {
         withSproutyMax = 3500;
     }
 
-    var m1Min = weekly ? withSproutyMin / 4 : withSproutyMin;
-    var m1Max = weekly ? withSproutyMax / 4 : withSproutyMax;
-    var m2Min = weekly ? withoutSproutyMin / 4 : withoutSproutyMin;
-    var m2Max = weekly ? withoutSproutyMax / 4 : withoutSproutyMax;
+    var m1Min = weekly ? withSproutyMin / weekly : withSproutyMin;
+    var m1Max = weekly ? withSproutyMax / weekly : withSproutyMax;
+    var m2Min = weekly ? withoutSproutyMin / weekly : withoutSproutyMin;
+    var m2Max = weekly ? withoutSproutyMax / weekly : withoutSproutyMax;
     const array1 = [baseNumber + getRandomNumberInRange(m1Min, m1Max)];
     const array2 = [baseNumber + getRandomNumberInRange(m2Min, m2Max)];
 
@@ -283,13 +284,15 @@ function generateDailyData(array) {
     const result = [];
 
     array.forEach(item => {
-        const p = divideNumber(item);
+        const p = divideNumber(item - usercurrentFollowersCount);
         p.forEach(i => {
             result.push(i);
         });
 
     });
 
+    console.log(array);
+    console.log(result);
     return result;
 }
 
@@ -348,7 +351,7 @@ function generateWeeklyData(array) {
 
 const renderWeeklyChart = () => {
     if (!weeklyR1 || weeklyR1?.length === 0) {
-        const [r1, r2] = generateArrays(usercurrentFollowersCount, true);
+        const [r1, r2] = generateArrays(usercurrentFollowersCount, 4);
         weeklyR1 = r1;
         weeklyR2 = r2
     }
@@ -413,11 +416,19 @@ const renderWeeklyChart = () => {
 }
 
 const renderDailyChart = () => {
+    // if (!dailyR1 || dailyR1?.length === 0) {
+    //     const [r1, r2] = generateArrays(usercurrentFollowersCount, 4);
+    //     dailyR1 = r1;
+    //     dailyR2 = r2
+    // }
     if (!weeklyR1 || weeklyR1?.length === 0) {
-        const [r1, r2] = generateArrays(usercurrentFollowersCount, true);
+        const [r1, r2] = generateArrays(usercurrentFollowersCount, 4);
         weeklyR1 = r1;
         weeklyR2 = r2
     }
+
+    console.log(weeklyR1[0]);
+
     var options = {
         colors: ["#ef5f3c", "#c1c1c1"],
         legend: {
@@ -426,7 +437,8 @@ const renderDailyChart = () => {
         series: [
             {
                 name: 'SproutySocial',
-                data: generateDailyData(weeklyR1).slice(0, 7)
+                data: generateDailyData(weeklyR1).slice(0, 7),
+                // data: dailyR1?.slice(0, 7),
             }
         ],
         chart: {
