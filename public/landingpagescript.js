@@ -4,7 +4,7 @@ var withSprouty = 0;
 var withoutSprouty = 0;
 var username = '';
 var [resultArray1, resultArray2] = [0, 0];
-const [weeklyR1, weeklyR2] = generateArrays(usercurrentFollowersCount, true);
+var [weeklyR1, weeklyR2] = [0, 0];
 
 const chartRangetoggleDropdown = () => {
     const chartRangeDropdownEl = document.querySelectorAll('.chartRangeDropdown')
@@ -136,8 +136,10 @@ function getRandomNumberInRange(min, max) {
 }
 
 function generateArrays(baseNumber, weekly) {
-    // function generateArrays(weekly) {
-    // var baseNumber = 899999
+    // if (!baseNumber) return [];
+    console.log(baseNumber);
+    console.log(weekly);
+    baseNumber = 899999
     var withSproutyMin, withSproutyMax, withoutSproutyMin, withoutSproutyMax;
     if (baseNumber >= 1 && baseNumber <= 999) {
         withoutSproutyMin = 10;
@@ -175,6 +177,7 @@ function generateArrays(baseNumber, weekly) {
         withSproutyMin = 1500;
         withSproutyMax = 3500;
     }
+
     var m1Min = weekly ? withSproutyMin / 4 : withSproutyMin;
     var m1Max = weekly ? withSproutyMax / 4 : withSproutyMax;
     var m2Min = weekly ? withoutSproutyMin / 4 : withoutSproutyMin;
@@ -344,6 +347,9 @@ function generateWeeklyData(array) {
 }
 
 const renderWeeklyChart = () => {
+    const [r1, r2] = generateArrays(usercurrentFollowersCount, true);
+    weeklyR1 = r1;
+    weeklyR2 = r2
     var options = {
         colors: ["#ef5f3c", "#c1c1c1"],
         legend: {
