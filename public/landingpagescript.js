@@ -347,9 +347,11 @@ function generateWeeklyData(array) {
 }
 
 const renderWeeklyChart = () => {
-    const [r1, r2] = generateArrays(usercurrentFollowersCount, true);
-    weeklyR1 = r1;
-    weeklyR2 = r2
+    if (!weeklyR1 || weeklyR1?.length === 0) {
+        const [r1, r2] = generateArrays(usercurrentFollowersCount, true);
+        weeklyR1 = r1;
+        weeklyR2 = r2
+    }
     var options = {
         colors: ["#ef5f3c", "#c1c1c1"],
         legend: {
@@ -411,6 +413,11 @@ const renderWeeklyChart = () => {
 }
 
 const renderDailyChart = () => {
+    if (!weeklyR1 || weeklyR1?.length === 0) {
+        const [r1, r2] = generateArrays(usercurrentFollowersCount, true);
+        weeklyR1 = r1;
+        weeklyR2 = r2
+    }
     var options = {
         colors: ["#ef5f3c", "#c1c1c1"],
         legend: {
