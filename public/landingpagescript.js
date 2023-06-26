@@ -82,11 +82,24 @@ function generateMonthlyDates(months) {
     const currentDate = new Date();
     const dates = [];
 
+    // for (let i = 0; i < months; i++) {
+    //     currentDate.setMonth(currentDate.getMonth() + 1);
+    //     const month = currentDate.getMonth() + 1;
+    //     const year = currentDate.getFullYear() % 100; // Get the last two digits of the year
+    //     const formattedDate = `${month}/${year}`;
+    //     dates.push(formattedDate);
+    // }
+
+    // return dates;
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
     for (let i = 0; i < months; i++) {
         currentDate.setMonth(currentDate.getMonth() + 1);
-        const month = currentDate.getMonth() + 1;
+        const monthIndex = currentDate.getMonth();
+        const monthName = monthNames[monthIndex];
         const year = currentDate.getFullYear() % 100; // Get the last two digits of the year
-        const formattedDate = `${month}/${year}`;
+        const formattedDate = `${monthName}, ${year}`;
         dates.push(formattedDate);
     }
 
@@ -123,12 +136,51 @@ function getRandomNumberInRange(min, max) {
 }
 
 function generateArrays(baseNumber, weekly) {
-    var m1Min = weekly ? 1000/4 : 1000;
-    var m1Max = weekly ? 2000/4 : 2000;
-    var m2Min = weekly ? 600/4 : 600;
-    var m2Max = weekly ? 900/4 : 900;
+    // function generateArrays(weekly) {
+    // var baseNumber = 899999
+    var withSproutyMin, withSproutyMax, withoutSproutyMin, withoutSproutyMax;
+    if (baseNumber >= 1 && baseNumber <= 999) {
+        withoutSproutyMin = 10;
+        withoutSproutyMax = 30;
+        withSproutyMin = 300;
+        withSproutyMax = 800;
+    } else if (baseNumber >= 1000 && baseNumber <= 1999) {
+        withoutSproutyMin = 40;
+        withoutSproutyMax = 50;
+        withSproutyMin = 600;
+        withSproutyMax = 1600;
+    } else if (baseNumber >= 2000 && baseNumber <= 4999) {
+        withoutSproutyMin = 70;
+        withoutSproutyMax = 80;
+        withSproutyMin = 900;
+        withSproutyMax = 2000;
+    } else if (baseNumber >= 5000 && baseNumber <= 9999) {
+        withoutSproutyMin = 100;
+        withoutSproutyMax = 150;
+        withSproutyMin = 1000;
+        withSproutyMax = 2000;
+    } else if (baseNumber >= 10000 && baseNumber <= 19999) {
+        withoutSproutyMin = 150;
+        withoutSproutyMax = 200;
+        withSproutyMin = 1000;
+        withSproutyMax = 2000;
+    } else if (baseNumber >= 20000 && baseNumber <= 49999) {
+        withoutSproutyMin = 350;
+        withoutSproutyMax = 500;
+        withSproutyMin = 1500;
+        withSproutyMax = 3500;
+    } else if (baseNumber >= 50000) {
+        withoutSproutyMin = 750;
+        withoutSproutyMax = 1500;
+        withSproutyMin = 1500;
+        withSproutyMax = 3500;
+    }
+    var m1Min = weekly ? withSproutyMin / 4 : withSproutyMin;
+    var m1Max = weekly ? withSproutyMax / 4 : withSproutyMax;
+    var m2Min = weekly ? withoutSproutyMin / 4 : withoutSproutyMin;
+    var m2Max = weekly ? withoutSproutyMax / 4 : withoutSproutyMax;
     const array1 = [baseNumber + getRandomNumberInRange(m1Min, m1Max)];
-    const array2 = [(baseNumber - baseNumber * 0.3) + getRandomNumberInRange(m2Min, m2Max)];
+    const array2 = [baseNumber + getRandomNumberInRange(m2Min, m2Max)];
 
     for (let i = 1; i < 12; i++) {
         const prev1 = array1[i - 1];
@@ -230,7 +282,7 @@ function generateDailyData(array) {
     array.forEach(item => {
         const p = divideNumber(item);
         p.forEach(i => {
-            result.push(i);            
+            result.push(i);
         });
 
     });
@@ -291,7 +343,7 @@ function generateWeeklyData(array) {
     return trimmedArray.slice(0, 8);
 }
 
-const renderWeeklyChart = () => {    
+const renderWeeklyChart = () => {
     var options = {
         colors: ["#ef5f3c", "#c1c1c1"],
         legend: {
@@ -485,6 +537,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         // console.log(res.data);
         const user = res.data
         if (user) {
+            const buttons = document.querySelectorAll('.custom-button-content');
+            buttons.forEach(button => {
+                button.textContent = `Start Free Trial ${user.username}`;
+            });
             usercurrentFollowersCount = user.follower_count
             var [r1, r2] = generateArrays(usercurrentFollowersCount);
             // console.log(r1, r2);
@@ -629,7 +685,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                             with Sprouty</div>
                                         <div
                                             class="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
-                                            ${numFormatter(withSprouty)}
+                                            ${numFormatter(withSprouty)}${withSprouty >= 1000000 ? '+' : ''}
                                         </div>
                                     </div>
                                     <div class="text-[#757575] md:text-black md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]"
