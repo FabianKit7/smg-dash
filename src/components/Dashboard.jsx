@@ -62,8 +62,8 @@ export default function Dashboard() {
         .select()
         .eq('user_id', user.id)
 
-      if (user && !data[0]?.subscribed) {
-        alert('Please finish your registration')
+      if (data[0]?.subscribed !== true) {
+        // alert('Please finish your registration')
         setIsModalOpen(true);
         setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
         // if (data[0]?.username) {
