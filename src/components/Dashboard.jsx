@@ -95,6 +95,12 @@ export default function Dashboard() {
         // } else {
         //   window.location.pathname = `search`;
         // }
+        setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
+        // if (data[0]?.username) {
+        //   window.location.pathname = `subscriptions/${data[0]?.username}`;
+        // } else {
+        //   window.location.pathname = `search`;
+        // }
         return;
       }
 
@@ -197,32 +203,23 @@ export default function Dashboard() {
 
   return (
     <>
-      {admin && <div className="fixed top-4 left-2 text-xl text-[#8c2828] font-MontserratBold font-bold tracking-[0.6em] cursor-pointer"
-      // onClick={async () => { await supabase.auth.signOut() }}
-      >ADMIN</div>}
-
-      <div className="max-w-[1400px] mx-auto">
-        <AlertModal
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false)
-            if (errorMsg?.message === "Please finish your registration") {
-              if (userData?.username) {
-                window.location.pathname = `subscriptions/${userData?.username}`
-              } else {
-                window.location.pathname = `search`;
-              }
+      <AlertModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          if(errorMsg?.message === "Please finish your registration"){
+            if(userData?.username){
+              window.location.pathname = `subscriptions/${userData?.username}`
+            }else{
+              window.location.pathname = `search`;
             }
-          }}
-          title={errorMsg?.title}
-          message={errorMsg?.message}
-        />
+          }
+        }}
+        title={errorMsg?.title}
+        message={errorMsg?.message}
+      />
 
-        <Nav
-          setShowWelcomeModal={setShowWelcomeModal}
-          userD={userData}
-          admin={admin}
-        />
+      <Nav setShowWelcomeModal={setShowWelcomeModal} />
 
         {/* <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)}
         setShowWelcomeModal={setShowWelcomeModal}
