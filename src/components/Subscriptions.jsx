@@ -657,6 +657,13 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
     };
 
     if (user) {
+      // if (user?.subscribed) {
+      //   setIsModalOpen(true);
+      //   setErrorMsg({ title: 'Card Error', message: `You've aleady subscribed, contact support if you need a custom service` })
+      //   setLoading(false);
+      //   return;
+      // }
+      
       if (cardRef) {
         const token = await cardRef.current.tokenize().then(data => {
           return data.token
@@ -769,7 +776,10 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
 
         let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
           urlEncode(create_customer_data))
-          .then((response) => response.data)
+          .then((response) => response.data).catch(error => {
+            console.log(error);
+            return {message: 'error', error}
+          })
 
         if (customer.message === 'success') {
           var profile_pic_url = '';
