@@ -26,6 +26,7 @@ export default function Settings() {
   const [modalToShow, setModalToShow] = useState('')
   const [cancelModal, setCancelModal] = useState(false)
   const [refresh, setRefresh] = useState(false)
+  const [chargebeeCustomerData, setChargebeeCustomerData] = useState()
 
   useEffect(() => {
     const getData = async () => {
@@ -43,13 +44,16 @@ export default function Settings() {
           customerId: currentUser?.chargebee_customer_id,
         }
         
-        let customerData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/retrieve_customer`,
+        let chargebeeCustomerData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/retrieve_customer`,
           urlEncode(retrieve_customer_data))
           .then((response) => response.data).catch((err) =>{
             console.log(err);
           })
           
-        console.log(customerData);
+        // console.log(chargebeeCustomerData);
+        if (chargebeeCustomerData?.card){
+          setChargebeeCustomerData(chargebeeCustomerData)
+        }
       }      
     };
 
@@ -57,18 +61,20 @@ export default function Settings() {
   }, [navigate, refresh]);
 
   // console.log({user});
+  console.log(chargebeeCustomerData);
   return (
     <>
+    <div className="max-w-[1400px] mx-auto">
       <Nav />
 
       <div className="mt-4">
         <div
-          className="flex justify-between items-center rounded-[10px] h-[84px] px-[30px] mb-10"
+          className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
           style={{
             boxShadow: '0 0 3px #00000040',
           }}
         >
-          <h1 className="font-black font-MontserratBold text-[26px] text-black">Profile settings</h1>
+          <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Profile settings</h1>
 
           <div className="flex items-center gap-2 text-base cursor-pointer" onClick={() => navigate(-1)}>
             <h3>Close</h3>
@@ -78,7 +84,7 @@ export default function Settings() {
 
         <div className="md:px-10">
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-            <div className="">Full Name</div>
+            <div className="border-b mb-2 md:mb-0 md:border-b-0">Full Name</div>
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">{user?.full_name}</div>
               <div className="text-[#1b89ff] cursor-pointer"
@@ -91,7 +97,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-            <div className="">Email</div>
+            <div className="border-b mb-2 md:mb-0 md:border-b-0">Email</div>
             <div className="flex flex-col md:flex-row md:items-center md:gap-3">
               <div className="text-[#757575]">{user?.email}</div>
               <div className="text-[#1b89ff] cursor-pointer"
@@ -104,7 +110,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-            <div className="">Password</div>
+            <div className="border-b mb-2 md:mb-0 md:border-b-0">Password</div>
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">************</div>
               <div className="text-[#1b89ff] cursor-pointer"
@@ -117,7 +123,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-            <div className="">Phone number</div>
+            <div className="border-b mb-2 md:mb-0 md:border-b-0">Phone number</div>
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">{user?.phone}</div>
               <div className="text-[#1b89ff] cursor-pointer"
@@ -130,7 +136,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-            <div className="">Subscription</div>
+            <div className="border-b mb-2 md:mb-0 md:border-b-0">Subscription</div>
             <div className="flex items-center justify-between md:justify-end gap-3">
               <div className="text-[#757575]">Active</div>
               <div className="text-[#1b89ff] cursor-pointer" onClick={() => setCancelModal(true)}>Cancel</div>
@@ -139,32 +145,39 @@ export default function Settings() {
         </div>
       </div>
 
-      <div className="my-8">
+      {chargebeeCustomerData && <div className="my-8">
         <div
-          className="flex justify-between items-center rounded-[10px] h-[84px] px-[30px] mb-10"
+          className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
           style={{
             boxShadow: '0 0 3px #00000040',
           }}
         >
-          <h1 className="font-black font-MontserratBold text-[26px] text-black">Payment and Billing Settings</h1>
+          <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Payment and Billing Settings</h1>
         </div>
 
         <div className="md:px-10">
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-            <div className="">Credit Card</div>
+            <div className="border-b mb-2 md:mb-0 md:border-b-0">Credit Card</div>
+            
             <div className="flex items-center justify-between md:justify-end gap-3">
-              <div className="text-[#757575]">{user?.full_name}</div>
+              <div className="text-[#757575] flex items-center gap-3">
+                {chargebeeCustomerData?.card?.card_type === 'visa' && <img src="/icons/visa.svg" alt="visa" className="w-[36px] h-fit" />}
+                {chargebeeCustomerData?.card?.card_type === 'mastercard' && <img src="/icons/mastercard.svg" alt="visa" className="w-[36px] h-fit" />}
+                {chargebeeCustomerData?.card?.card_type === 'maestro' && <img src="/icons/maestro.svg" alt="visa" className="w-[36px] h-fit" />}
+                {!(['visa', 'mastercard', 'maestro'].includes(chargebeeCustomerData?.card?.card_type)) && <>({chargebeeCustomerData?.card?.card_type})</>}
+                <span className="">card ending with {chargebeeCustomerData?.card?.last4}</span>
+              </div>
               <div className="text-[#1b89ff] cursor-pointer"
                 onClick={() => {
                   setShowModal(true);
                   setRefresh(!refresh)
-                  setModalToShow('fullname');
+                  setModalToShow('updatePayment');
                 }}
               >Update</div>
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       <ChangeModal
         show={showModal}
@@ -175,6 +188,7 @@ export default function Settings() {
         user={user}
         setRefresh={setRefresh}
         refresh={refresh}
+        chargebeeCustomerData={chargebeeCustomerData}
       />
 
       <div className={`${cancelModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} fixed top-0 left-0 w-full h-screen grid place-items-center`} style={{
@@ -203,6 +217,7 @@ export default function Settings() {
           </a>
         </div>
       </div>
+    </div>
     </>
   );
 }

@@ -104,26 +104,6 @@ export default function Subscriptions() {
     getData();
   }, [getData]);
 
-  // chargebee initiallization
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     window.Chargebee.init({
-  //       site: "sproutysocial",
-  //       // domain: 'app.sproutysocial.com',
-  //       iframeOnly: true,
-  //       publishableKey: "live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE",
-  //     })
-  //     const instance = window?.Chargebee?.getInstance()
-  //     // setCbInstance(instance);
-  //     const { data: { user } } = await supabase.auth.getUser()
-  //     instance.setPortalSession(async () => {
-  //       // https://apidocs.chargebee.com/docs/api/portal_sessions#create_a_portal_session
-  //       return await axios.post(`${process.env.REACT_APP_BASE_URL}/api/generate_portal_session`, urlEncode({ customer_id: user.id })).then((response) => response.data);
-  //     });
-  //   }
-  //   fetch()
-  // }, [])
-
   return (
     <>
       <AlertModal
@@ -594,7 +574,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
   </>)
 }
 
-const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMsg, mobile, Loading, setLoading }) => {
+export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModalOpen, setErrorMsg, mobile, Loading, setLoading, setRefresh, refresh }) => {
   const navigate = useNavigate();
   const cardRef = useRef();
   const [nameOnCard, setNameOnCard] = useState('')
@@ -644,9 +624,74 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
 
     return today
   };
+  
+  const handleAddCard = async () => {
+    setLoading(true);
+    if (user) {
+      if (cardRef) {
+        const token = await cardRef.current.tokenize().then(data => {
+          return data.token
+        }).catch(err => {
+          console.log(err);
+          alert(err.message)
+          // console.log(err?.message);
+          if (err === "Error: Could not mount master component") {
+            // alert("Please check your card")
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Card Error', message: 'Please check your card' })
+            setLoading(false);
+            return;
+          }
+          // alert(err)
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: err?.message })
+          // alert("something is wrong, please try again")
+          setLoading(false);
+          return;
+        });
+
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+
+        const create_customer_data = {
+          customer_id: user?.chargebee_customer_id,
+          token_id: token
+        }
+
+        let updateCustomerPaymentMethodRes = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/updateCustomerPaymentMethod`,
+          urlEncode(create_customer_data))
+          .then((response) => response.data).catch(error => {
+            console.log(error);
+            return { message: 'error', error }
+          })
+
+        if (updateCustomerPaymentMethodRes?.message === 'success') {
+          setRefresh(!refresh)
+          setLoading(false);
+          setIsModalOpen(false);
+        } else {
+          console.log('Error creating customer:', updateCustomerPaymentMethodRes?.error);
+          // alert('An error occurred, please try again or contact support')
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+        }
+      }
+    }else{
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Authentication Error', message: 'You have to login to continue' })
+    }
+    setLoading(false);    
+  }
 
   // const handleCardPay = async (setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard) => {
   const handleCardPay = async () => {
+    if (addCard){
+      await handleAddCard()
+      return;
+    }
+    
     setLoading(true);
     if (userResults?.name === "INVALID_USERNAME") {
       console.log("INVALID_USERNAME")
@@ -693,163 +738,166 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
           return;
         }
 
-        // const create_customer_data = {
-        //   allow_direct_debit: true,
-        //   first_name: user?.full_name,
-        //   last_name: '',
-        //   email: user.email,
-        //   token_id: token,
-        //   plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-        // }
-
-        // let createCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer_and_subscription`,
-        //   urlEncode(create_customer_data))
-        //   .then((response) => response.data).catch((err) =>{
-        //     // console.log(err);
-        //     setIsModalOpen(true);
-        //     setErrorMsg({ title: 'Alert', message: err?.message })
-        //     setLoading(false);
-        //     return err?.response?.data.err
-        //   })
-
-        // if (createCustomer.message === 'success') {
-        //   var profile_pic_url = '';
-        //   const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
-
-        //   if (uploadImageFromURLRes?.status === 'success') {
-        //     profile_pic_url = uploadImageFromURLRes?.data
-        //   }
-
-        //   let data = {
-        //     nameOnCard,
-        //     chargebee_subscription: JSON.stringify(createCustomer.subscription),
-        //     chargebee_subscription_id: createCustomer.subscription?.id,
-        //     chargebee_customer: JSON.stringify(createCustomer.customer),
-        //     chargebee_customer_id: createCustomer?.customer?.id,
-
-        //     username,
-        //     email: user.email,
-        //     followers: userResults?.follower_count,
-        //     following: userResults?.following_count,
-        //     // profile_pic_url: userResults?.profile_pic_url,
-        //     profile_pic_url,
-        //     is_verified: userResults?.is_verified,
-        //     biography: userResults?.biography,
-        //     start_time: getStartingDay(),
-        //     posts: userResults?.media_count,
-        //     subscribed: true,
-        //   }
-
-        //   const updateUser = await supabase
-        //     .from("users")
-        //     .update(data).eq('id', user.id);
-        //   if (updateUser?.error) {
-        //     console.log(updateUser.error);
-        //     setIsModalOpen(true);
-        //     setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
-        //   }
-        //   const ref = getRefCode()
-        //   console.log('success');
-        //   if (ref) {
-        //     navigate(`/thankyou?ref=${ref}`)
-        //   } else {
-        //     navigate(`/thankyou`)
-        //   }
-        //   setLoading(false);
-
-        // } else {
-        //   console.log('Error creating customer:', createCustomer);
-        //   // alert('An error occurred, please try again or contact support')
-        //   setIsModalOpen(true);
-        //   setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
-        //   setLoading(false);
-        // }
-
         const create_customer_data = {
           allow_direct_debit: true,
-          // first_name: userResults?.full_name,
           first_name: user?.full_name,
           last_name: '',
           email: user.email,
-          token_id: token
+          token_id: token,
+          plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
         }
 
-        let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
+        let createCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer_and_subscription`,
           urlEncode(create_customer_data))
-          .then((response) => response.data).catch(error => {
-            console.log(error);
-            return {message: 'error', error}
+          .then((response) => response.data).catch((err) =>{
+            // console.log(err);
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Alert', message: err?.message })
+            setLoading(false);
+            return err?.response?.data.err
           })
 
-        if (customer.message === 'success') {
+        if (createCustomer.message === 'success') {
           var profile_pic_url = '';
-          const create_subscription_for_customer_data = {
-            customer_id: customer?.customer?.id,
-            plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
-            // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
-            // plan_id: "Monthly-Plan-USD-Monthly"
+          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
+
+          if (uploadImageFromURLRes?.status === 'success') {
+            profile_pic_url = uploadImageFromURLRes?.data
           }
-          let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
-            urlEncode(create_subscription_for_customer_data))
-            .then((response) => response.data)
-          // console.log(subscriptionResult);
-          if (subscriptionResult.message === 'success') {
-            const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
-            // console.log(uploadImageFromURLRes);
 
-            if (uploadImageFromURLRes?.status === 'success') {
-              profile_pic_url = uploadImageFromURLRes?.data
-            }
+          let data = {
+            nameOnCard,
+            chargebee_subscription: JSON.stringify(createCustomer.subscription),
+            chargebee_subscription_id: createCustomer.subscription?.id,
+            chargebee_customer: JSON.stringify(createCustomer.customer),
+            chargebee_customer_id: createCustomer?.customer?.id,
 
-            let data = {
-              nameOnCard,
-              chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
-              chargebee_subscription_id: subscriptionResult.subscription?.id,
-              chargebee_customer: JSON.stringify(customer.customer),
-              chargebee_customer_id: customer?.customer?.id,
+            username,
+            email: user.email,
+            followers: userResults?.follower_count,
+            following: userResults?.following_count,
+            // profile_pic_url: userResults?.profile_pic_url,
+            profile_pic_url,
+            is_verified: userResults?.is_verified,
+            biography: userResults?.biography,
+            start_time: getStartingDay(),
+            posts: userResults?.media_count,
+            subscribed: true,
+          }
 
-              username,
-              email: user.email,
-              followers: userResults?.follower_count,
-              following: userResults?.following_count,
-              // profile_pic_url: userResults?.profile_pic_url,
-              profile_pic_url,
-              is_verified: userResults?.is_verified,
-              biography: userResults?.biography,
-              start_time: getStartingDay(),
-              posts: userResults?.media_count,
-              subscribed: true,
-            }
-
-            const updateUser = await supabase
-              .from("users")
-              .update(data).eq('id', user.id);
-            if (updateUser.error) {
-              console.log(updateUser.error);
-              setIsModalOpen(true);
-              setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
-            }
-            const ref = getRefCode()
-            console.log('success');
-            if (ref) {
-              navigate(`/thankyou?ref=${ref}`)
-            } else {
-              navigate(`/thankyou`)
-            }
-            setLoading(false);
-          } else {
-            console.log('Error creating subscription:', subscriptionResult.error);
-            // alert('An error occurred, please try again or contact support')
+          const updateUser = await supabase
+            .from("users")
+            .update(data).eq('id', user.id);
+          if (updateUser?.error) {
+            console.log(updateUser.error);
             setIsModalOpen(true);
-            setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+            setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
           }
+          const ref = getRefCode()
+          console.log('success');
+          if (ref) {
+            navigate(`/thankyou?ref=${ref}`)
+          } else {
+            navigate(`/thankyou`)
+          }
+          setLoading(false);
+
         } else {
-          console.log('Error creating customer:', customer.error);
+          console.log('Error creating customer:', createCustomer);
           // alert('An error occurred, please try again or contact support')
           setIsModalOpen(true);
           setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+          setLoading(false);
         }
+
+        // const create_customer_data = {
+        //   allow_direct_debit: true,
+        //   // first_name: userResults?.full_name,
+        //   first_name: user?.full_name,
+        //   last_name: '',
+        //   email: user.email,
+        //   token_id: token
+        // }
+
+        // let customer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer`,
+        //   urlEncode(create_customer_data))
+        //   .then((response) => response.data).catch(error => {
+        //     console.log(error);
+        //     return {message: 'error', error}
+        //   })
+
+        // if (customer.message === 'success') {
+        //   var profile_pic_url = '';
+        //   const create_subscription_for_customer_data = {
+        //     customer_id: customer?.customer?.id,
+        //     plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+        //     // plan_id: "Free-Trial-USD-Monthly" //Monthly-Plan-USD-Monthly
+        //     // plan_id: "Monthly-Plan-USD-Monthly"
+        //   }
+        //   let subscriptionResult = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription_for_customer`,
+        //     urlEncode(create_subscription_for_customer_data))
+        //     .then((response) => response.data)
+        //   // console.log(subscriptionResult);
+        //   if (subscriptionResult.message === 'success') {
+        //     const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
+        //     // console.log(uploadImageFromURLRes);
+
+        //     if (uploadImageFromURLRes?.status === 'success') {
+        //       profile_pic_url = uploadImageFromURLRes?.data
+        //     }
+
+        //     let data = {
+        //       nameOnCard,
+        //       chargebee_subscription: JSON.stringify(subscriptionResult.subscription),
+        //       chargebee_subscription_id: subscriptionResult.subscription?.id,
+        //       chargebee_customer: JSON.stringify(customer.customer),
+        //       chargebee_customer_id: customer?.customer?.id,
+
+        //       username,
+        //       email: user.email,
+        //       followers: userResults?.follower_count,
+        //       following: userResults?.following_count,
+        //       // profile_pic_url: userResults?.profile_pic_url,
+        //       profile_pic_url,
+        //       is_verified: userResults?.is_verified,
+        //       biography: userResults?.biography,
+        //       start_time: getStartingDay(),
+        //       posts: userResults?.media_count,
+        //       subscribed: true,
+        //     }
+
+        //     const updateUser = await supabase
+        //       .from("users")
+        //       .update(data).eq('id', user.id);
+        //     if (updateUser.error) {
+        //       console.log(updateUser.error);
+        //       setIsModalOpen(true);
+        //       setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
+        //     }
+        //     const ref = getRefCode()
+        //     console.log('success');
+        //     if (ref) {
+        //       navigate(`/thankyou?ref=${ref}`)
+        //     } else {
+        //       navigate(`/thankyou`)
+        //     }
+        //     setLoading(false);
+        //   } else {
+        //     console.log('Error creating subscription:', subscriptionResult.error);
+        //     // alert('An error occurred, please try again or contact support')
+        //     setIsModalOpen(true);
+        //     setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+        //   }
+        // } else {
+        //   console.log('Error creating customer:', customer.error);
+        //   // alert('An error occurred, please try again or contact support')
+        //   setIsModalOpen(true);
+        //   setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+        // }
       }
+    }else{
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Authentication Error', message: 'You have to login to continue' })
     }
     setLoading(false);
   };
@@ -861,6 +909,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
         onChange={(e) => { setNameOnCard(e.target.value) }} />
       {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
     </div>
+    
     <form
       onSubmit={async (e) => {
         e.preventDefault();
@@ -909,8 +958,8 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
       </CardComponent>
     </form>
 
-    <div className="hidden lg:block">
-      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] mb-4`}
+    <div className={`${addCard ? "block" : "hidden lg:block"}`}>
+      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]": "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
         onClick={() => {
           if (Loading) {
             setIsModalOpen(true);
@@ -920,7 +969,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
           // await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
           handleCardPay();
         }}>
-        <span> {Loading ? "Processing..." : "Pay $0.00 & Start Free Trial"}  </span>
+        <span> {Loading ? "Processing..." : `${addCard ? "Add Payment Method" : "Pay $0.00 & Start Free Trial"}`}  </span>
       </button>
       {/* {showCardComponent && <></>} */}
       {Loading && <div className="flex items-center py-3 gap-2 justify-center">
