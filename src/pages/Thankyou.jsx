@@ -17,7 +17,7 @@ export default function Thankyou() {
                 .eq('user_id', user.id)
             if (error) return navigate("/login")
 
-            if (user && !data[0]?.subscribed) {
+            if (!data[0]?.subscribed) {
                 window.location.pathname = `subscriptions/${data[0].username}`;
                 return;
             }

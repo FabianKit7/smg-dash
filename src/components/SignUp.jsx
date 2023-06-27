@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getRefCode } from "../helpers";
 import { supabase } from "../supabaseClient";
 import AlertModal from "./AlertModal";
+import { BsFacebook } from "react-icons/bs";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -184,7 +185,7 @@ export default function SignUp() {
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black">OR</div>
         </div>
 
-        <div className="hidden del-flex items-center justify-center mt-8 mb-[12px]">
+        <div className="flex items-center justify-center mt-8 mb-[12px]">
           <button
             onClick={() => handleOAuthSignIn('google')}
             type="button"
@@ -197,6 +198,22 @@ export default function SignUp() {
           >
             <FcGoogle />
             <span>Continue with Google</span>
+          </button>
+        </div>
+        
+        <div className="flex items-center justify-center mt-8 mb-[12px]">
+          <button
+            onClick={() => handleOAuthSignIn('facebook')}
+            type="button"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black"
+            style={{
+              border: '1px solid #ef5f3c',
+              color: 'white',
+              boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
+            }}
+          >
+            <BsFacebook />
+            <span>Continue with Facebook</span>
           </button>
         </div>
       </div>

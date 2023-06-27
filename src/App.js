@@ -33,64 +33,17 @@ function App() {
       function () { console.log('Tracking code initialized'); }, // createCallback function
       { cookie_domain: '.sproutysocial.com', always_callback: true }, // detectOptions with always_callback set to true to ensure detectCallback is always called
       function (error, result) {
-        console.log("error: ", error);
-        console.log('Click tracked successfully');
-        console.log("result: ", result);
+        // console.log("error: ", error);
+        // console.log('Click tracked successfully');
+        // console.log("result: ", result);
         // You can set the click ID to a cookie here if necessary
       } // detectCallback function
     );
   }, [])
 
-  
-
-  // useEffect(() => {
-  //   window.Chargebee.init({
-  //     site: "honeycomics-v3-test",
-  //     publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
-  //   })
-  // }, [])
-
-  // console.log(pathname) // "/dashboard"
-
-  // useEffect(() => {
-  //   const scriptText = `
-  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){
-  //     (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-  //     tap('create', '40122-96e787', { integration: "chargebee" });
-  //     tap('detect');
-
-  //     var setupCb = function() {
-
-  //         if (typeof Chargebee === 'undefined') return;
-
-  //         var cbInstance = Chargebee.getInstance();
-  //         cbInstance.setCheckoutCallbacks(function(cart) {
-  //             return {
-  //                 success: function(hostedPageId, data) {
-  //                     tap('trial', data.subscription.customer_id);
-  //                 }
-  //             };
-  //         });
-  //     };
-
-  //     "complete"===document.readyState||"loading"!==document.readyState&&!document.documentElement.doScroll?setupCb():document.addEventListener("DOMContentLoaded",setupCb);
-  //   `
-  //   const script = document.createElement('script');
-  //   script.type = "text/javascript"
-  //   script.innerHTML = scriptText
-
-  //   if (pathname === '/dashboard/') return;
-  //   if (pathname === '/dashboard') return;
-  //   if (pathname.includes('/dashboard/edit')) return;
-  //   document.querySelector('#affiliateScript').appendChild(script)
-  // }, [])
-
-  // 40122 - 96e787
-
   const [addPadding, setAddPadding] = useState(true)
   useEffect(() => {
-    console.log(pathname);
+    // console.log(pathname);
     if (pathname.includes('/search') || pathname.startsWith('/subscriptions')){
       setAddPadding(false);
     }

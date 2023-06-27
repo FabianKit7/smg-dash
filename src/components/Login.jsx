@@ -3,9 +3,13 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../helpers";
 import { supabase } from "../supabaseClient";
+import AlertModal from "./AlertModal";
+import { BsFacebook } from "react-icons/bs";
 
 export default function Login() {
-  //   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -23,75 +27,91 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    if(loading) return;
+
+    setLoading(true);
     const authUserObj = await supabase.auth.signInWithPassword({
       email,
       password,
     })
+    if (authUserObj?.error) console.log(authUserObj?.error?.message);
+    if (authUserObj?.error?.message === 'Invalid login credentials') {
+      showErrorAlert(authUserObj?.error)
+      // alert(`${authUserObj.error.message}, please check your credentials and try again`);
+      setLoading(false);
+      return;
+    }
+    if (authUserObj.error?.message === `Cannot read properties of null (reading 'id')`) {
+      // alert('User not found please try again or register')
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Login Error', message: 'User not found please try again or register' })
+    } else {
+      // alert('An error occurred, please try again')
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Login Error', message: 'An error occurred, please try again' })
+    }
+    if (authUserObj?.error) {
+      setLoading(false);
+      return;
+    }
+    
+    const contd = await regContd(authUserObj?.data?.user)
+    contd?.status !== 200 && showErrorAlert(contd)    
+    
+    setLoading(false);
+  }
+  
+  function showErrorAlert(error) {
+    if (error) {
+      // alert("Error occurred while signing in with Google, please try again")
+      console.log(error);
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Login Error', message: error?.message })
+    }
+  }
 
-    if (authUserObj?.data?.user) {
-      const user = await getUser(authUserObj?.data?.user?.id)
+  async function handleOAuthSignIn(provider) {
+    if (loading) return;
+    
+    setLoading(true);
+    const withOAuthRes = await supabase.auth.signInWithOAuth({ provider })
+    console.log(withOAuthRes);
+    showErrorAlert(withOAuthRes.error)
+    
+    const authUser = await supabase.auth.getUser()
+    showErrorAlert(authUser?.error)
+    
+    const contd = await regContd(authUser?.data?.user)
+    contd?.status !== 200 && showErrorAlert(contd)
+    
+    setLoading(false);    
+  }
+  
+  const regContd = async (user) => {
+    // const user = await getUser(user?.id)
+    if (user) {
       if (user.status === 500) {
         console.log(user.obj);
         alert('an error occured')
+        setLoading(false);
         return
       } else {
         navigate(`/dashboard/${user?.obj?.username}`)
         // window.location = `/dashboard/${authUser?.data?.user?.username}`;
       }
+      setLoading(false);
       return;
     }
-
-    if (authUserObj.error) console.log(authUserObj.error.message);
-    if (authUserObj.error.message === 'Invalid login credentials') {
-      alert(`${authUserObj.error.message}, please check your credentials and try again`);
-      return;
-    }
-    if (authUserObj.error?.message === `Cannot read properties of null (reading 'id')`) {
-      alert('User not found please try again or register')
-    } else {
-      alert('An error occurred, please try again')
-    }
   }
-
-  async function signInWithGoogle() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    })
-    const authUser = await supabase.auth.getUser()
-    if (authUser?.data?.user) {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('user_id', authUser?.data?.user?.id)
-
-      if (data?.user) {
-        // window.location = `/dashboard/${data.user?.user_id}`;
-        window.location = `/dashboard/${authUser?.data.user?.username}`;
-      } else {
-        console.log({ error })
-        alert(error.message)
-      }
-    } else {
-      console.log({ error })
-      navigate("/search")
-      // alert(error.message)
-    }
-  }
-
-  // useEffect(() => {
-  //   const scriptText = `
-  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-  //     tap('create', '40122-96e787', { integration: "javascript" });
-  //     tap('detect');
-  //   `
-  //   const script = document.createElement('script');
-  //   script.type = "text/javascript"
-  //   script.innerHTML = scriptText
-  //   document.querySelector('#affiliateScript').appendChild(script)
-  // }, [])
 
   return (<>
+    <AlertModal
+      isOpen={isModalOpen}
+      onClose={() => { setIsModalOpen(false) }}
+      title={errorMsg?.title}
+      message={errorMsg?.message}
+    />
+
     <div id="affiliateScript"></div>
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="p-5 md:p-10 md:shadow-lg rounded-[10px] w-full md:w-[458px]">
@@ -140,7 +160,7 @@ export default function Login() {
               boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
             }}
           >
-            Continue
+            {loading ? 'Processing...' : 'Continue'}
           </button>
         </form>
 
@@ -155,11 +175,11 @@ export default function Login() {
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black">OR</div>
         </div>
 
-        <div className="hidden del-flex items-center justify-center">
+        <div className="flex items-center justify-center mt-8 mb-[12px]">
           <button
-            onClick={signInWithGoogle}
+            onClick={() => handleOAuthSignIn('google')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] mt-8 mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-72 md:w-80 font-semibold bg-white text-black"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',
@@ -168,6 +188,22 @@ export default function Login() {
           >
             <FcGoogle />
             <span>Continue with Google</span>
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center mt-8 mb-[12px]">
+          <button
+            onClick={() => handleOAuthSignIn('facebook')}
+            type="button"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black"
+            style={{
+              border: '1px solid #ef5f3c',
+              color: 'white',
+              boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
+            }}
+          >
+            <BsFacebook />
+            <span>Continue with Facebook</span>
           </button>
         </div>
 
