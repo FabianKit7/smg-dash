@@ -40,6 +40,8 @@ export default function Settings() {
       }else{
         setUser(data[0])
         
+        if (!currentUser?.chargebee_customer_id) return;
+        
         const retrieve_customer_data = {
           customerId: currentUser?.chargebee_customer_id,
         }
@@ -50,7 +52,7 @@ export default function Settings() {
             console.log(err);
           })
           
-        // console.log(chargebeeCustomerData);
+        console.log(chargebeeCustomerData);
         if (chargebeeCustomerData?.card){
           setChargebeeCustomerData(chargebeeCustomerData)
         }
