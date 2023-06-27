@@ -66,11 +66,11 @@ export default function Dashboard() {
         alert('Please finish your registration')
         setIsModalOpen(true);
         setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
-        if (data[0]?.username) {
-          window.location.pathname = `subscriptions/${data[0]?.username}`;
-        } else {
-          window.location.pathname = `search`;
-        }
+        // if (data[0]?.username) {
+        //   window.location.pathname = `subscriptions/${data[0]?.username}`;
+        // } else {
+        //   window.location.pathname = `search`;
+        // }
         return;
       }
       if (data?.[0]) {
@@ -182,11 +182,20 @@ export default function Dashboard() {
     <>
       <AlertModal
         isOpen={isModalOpen}
-        onClose={() => { setIsModalOpen(false) }}
+        onClose={() => {
+          setIsModalOpen(false)
+          if(errorMsg?.message === "Please finish your registration"){
+            if(userData?.username){
+              window.location.pathname = `subscriptions/${userData?.username}`
+            }else{
+              window.location.pathname = `search`;
+            }
+          }
+        }}
         title={errorMsg?.title}
         message={errorMsg?.message}
       />
-      
+
       <Nav setShowWelcomeModal={setShowWelcomeModal} />
 
       {/* <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)}
