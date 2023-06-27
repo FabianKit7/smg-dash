@@ -659,7 +659,7 @@ const ChargeBeeCard = ({ user, userResults, username, setIsModalOpen, setErrorMs
     if (user) {
       // if (user?.subscribed) {
       //   setIsModalOpen(true);
-      //   setErrorMsg({ title: 'Card Error', message: `You've aleady subscribed, contact support if you need a custom service` })
+      //   setErrorMsg({ title: 'Card Error', message: `You've aleady subscribed, you can add new card in the settings on the darshboard` })
       //   setLoading(false);
       //   return;
       // }
