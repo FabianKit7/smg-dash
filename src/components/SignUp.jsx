@@ -26,87 +26,80 @@ export default function SignUp() {
       password,
     });
     if (error) {
-      console.log(error.message);
-      // alert(error.message);
+      console.log(error?.message);
+      // alert(error?.message);
       setIsModalOpen(true);
-      setErrorMsg({ title: 'Registration Error', message: error.message })
+      setErrorMsg({ title: 'Registration Error', message: error?.message })
       setLoading(false);
       return;
     }
 
-    if (data) {
-      // console.log(data?.user?.username);
-      const { error } = await supabase
-        .from("users")
-        .insert({
-          user_id: data.user.id,
-          full_name: fullName,
-          email,
-          username: data?.user?.username || ''
-        });
-      if (error) {
-        console.log(error);
-        setLoading(false);
-        alert('something went wrong');
-        return
-      }
-      const ref = getRefCode()
-      if (ref) {
-        navigate(`/search?ref=${ref}`)
-      } else {
-        navigate("/search")
-      }
+    const contd = await regContd(data?.user)
+    if (contd?.status !== 200) {
+      // alert(contd?.message)
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Registration Error', message: contd?.message })
     }
     setLoading(false);
   };
 
-  async function signInWithGoogle() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    })
-    const user = await supabase.auth.getUser()
-    if (!user?.error) {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('user_id', user?.data?.user?.id)
-      console.log({ error })
-
-      if (data?.user) {
-        window.location = `/dashboard/${data.user?.user_id}`;
-        return;
-      } else {
-        // alert(error.message)
-        const { error } = await supabase
-          .from("users")
-          .insert({
-            user_id: user?.data?.user?.id,
-            full_name: fullName,
-            email: user?.data?.user?.email || '',
-            username: ''
-          });
-        if (error) return alert(error.message)
-        navigate("/search")
-      }
-    } else {
-      console.log({ error })
-      navigate("/search")
-      // alert(error.message)
+  async function handleOAuthSignIn(provider) {
+    const { error } = await supabase.auth.signInWithOAuth({provider})
+    if (error) {
+      // alert("Error occurred while signing in with Google, please try again")
+      console.log(error);
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Registration Error', message: error?.message })
     }
+
+    const getUser = await supabase.auth.getUser()
+
+    if (getUser?.error) {
+      console.log(error?.message);
+      // alert(error?.message);
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Registration Error', message: getUser?.error?.message })
+      setLoading(false);
+      return;
+    }
+
+    const contd = await regContd(getUser?.data?.user)
+    if (contd?.status !== 200) {
+      // alert(contd.message)
+      setIsModalOpen(true);
+      setErrorMsg({ title: 'Registration Error', message: contd?.message })
+    }
+    setLoading(false);
   }
 
-  // useEffect(() => {
-  //   const scriptText = `
-  //     (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-  //     tap('create', '40122-96e787', { integration: "javascript" });
-  //     tap('detect');
-  //   `
-  //   const script = document.createElement('script');
-  //   script.type = "text/javascript"
-  //   script.innerHTML = scriptText
-  //   document.querySelector('#affiliateScript').appendChild(script)
-  // }, [])
+  const regContd = async (user) => {
+    if (user) {
+      const { error } = await supabase
+        .from("users")
+        .insert({
+          user_id: user.id,
+          full_name: fullName,
+          email,
+          username: user?.username || ''
+        });
+      if (error) {
+        console.log(error);
+        setLoading(false);
+        alert('User record not recorded, try again or contact support');
+        return { status: 500, message: "User record not recorded" }
+      } else {
+        const ref = getRefCode()
+        if (ref) {
+          navigate(`/search?ref=${ref}`)
+        } else {
+          navigate("/search")
+        }
+        return { status: 200, message: "success" }
+      }
+    } else {
+      return { status: 500, message: "User not found" }
+    }
+  }
 
   return (<>
     <AlertModal
@@ -115,7 +108,7 @@ export default function SignUp() {
       title={errorMsg?.title}
       message={errorMsg?.message}
     />
-    
+
     <div id="affiliateScript"></div>
 
     <div className="flex flex-col justify-center items-center h-screen">
@@ -133,6 +126,7 @@ export default function SignUp() {
           {/* <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
           <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black max-w-[320px]">Join more than <span className="font-bold">25,000</span> users that trust SproutySocial to grow on Instagram. <br className="md:hidden" /> Create an account.</p>
         </div>
+
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleSignUp}>
           <div className="form-outline mb-3">
             <input
@@ -192,7 +186,7 @@ export default function SignUp() {
 
         <div className="hidden del-flex items-center justify-center mt-8 mb-[12px]">
           <button
-            onClick={signInWithGoogle}
+            onClick={() => handleOAuthSignIn('google')}
             type="button"
             className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black"
             style={{
