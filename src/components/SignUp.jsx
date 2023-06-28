@@ -81,7 +81,7 @@ export default function SignUp() {
           user_id: user.id,
           full_name: fullName,
           email,
-          username: user?.username || ''
+          username: ''
         });
       if (error) {
         console.log(error);

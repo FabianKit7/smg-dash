@@ -34,29 +34,34 @@ export default function Login() {
       email,
       password,
     })
-    if (authUserObj?.error) console.log(authUserObj?.error?.message);
-    if (authUserObj?.error?.message === 'Invalid login credentials') {
-      showErrorAlert(authUserObj?.error)
-      // alert(`${authUserObj.error.message}, please check your credentials and try again`);
-      setLoading(false);
-      return;
+    if (authUserObj?.error) {
+      console.log(authUserObj?.error?.message);
+      if (authUserObj?.error?.message === 'Invalid login credentials') {
+        showErrorAlert(authUserObj?.error)
+        // alert(`${authUserObj.error.message}, please check your credentials and try again`);
+        setLoading(false);
+        return;
+      }
+      if (authUserObj.error?.message === `Cannot read properties of null (reading 'id')`) {
+        // alert('User not found please try again or register')
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Login Error', message: 'User not found please try again or register' })
+        return;
+      } else {
+        // alert('An error occurred, please try again')
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Login Error', message: 'An error occurred, please try again' })
+        return;
+      }
     }
-    if (authUserObj.error?.message === `Cannot read properties of null (reading 'id')`) {
-      // alert('User not found please try again or register')
-      setIsModalOpen(true);
-      setErrorMsg({ title: 'Login Error', message: 'User not found please try again or register' })
-    } else {
-      // alert('An error occurred, please try again')
-      setIsModalOpen(true);
-      setErrorMsg({ title: 'Login Error', message: 'An error occurred, please try again' })
-    }
+    
     if (authUserObj?.error) {
       setLoading(false);
       return;
     }
     
     const contd = await regContd(authUserObj?.data?.user)
-    contd?.status !== 200 && showErrorAlert(contd)    
+    if (contd?.status !== 200) return showErrorAlert(contd)    
     
     setLoading(false);
   }
@@ -76,10 +81,10 @@ export default function Login() {
     setLoading(true);
     const withOAuthRes = await supabase.auth.signInWithOAuth({ provider })
     console.log(withOAuthRes);
-    showErrorAlert(withOAuthRes.error)
+    if (withOAuthRes.error) return showErrorAlert(withOAuthRes.error)
     
     const authUser = await supabase.auth.getUser()
-    showErrorAlert(authUser?.error)
+    if (authUser?.error) return showErrorAlert(authUser?.error)
     
     const contd = await regContd(authUser?.data?.user)
     contd?.status !== 200 && showErrorAlert(contd)
@@ -87,8 +92,8 @@ export default function Login() {
     setLoading(false);    
   }
   
-  const regContd = async (user) => {
-    // const user = await getUser(user?.id)
+  const regContd = async (authUser) => {
+    const user = await getUser(authUser?.id)
     if (user) {
       if (user.status === 500) {
         console.log(user.obj);

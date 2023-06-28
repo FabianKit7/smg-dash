@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoClose } from 'react-icons/io5';
 import { supabase } from "../../supabaseClient";
+import AlertModal from "../AlertModal";
 import { ChargeBeeCard } from "../Subscriptions";
 import InfoAlert from "./InfoAlert";
 
@@ -32,12 +33,21 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
   const [loading, setLoading] = useState(false)
   const [showCardPage, setShowCardPage] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
-    console.log(errorMsg);
+    // console.log(errorMsg);
+    setIsModalOpen(true)
   }, [errorMsg])
 
   return (<>
+    <AlertModal
+      isOpen={isModalOpen}
+      onClose={() => { setIsModalOpen(false) }}
+      title={errorMsg?.title}
+      message={errorMsg?.message}
+    />
+    
     <div className="py-4 px-2 md:px-5 lg:p-10">
       <div className="flex justify-end absolute top-5 right-5 cursor-pointer">
         <IoClose

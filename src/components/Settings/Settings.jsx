@@ -6,6 +6,7 @@ import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
 import ChangeModal from "./ChangeModal";
 import axios from "axios";
+import InfiniteRangeSlider from "../InfiniteRangeSlider";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -27,6 +28,7 @@ export default function Settings() {
   const [cancelModal, setCancelModal] = useState(false)
   const [refresh, setRefresh] = useState(false)
   const [chargebeeCustomerData, setChargebeeCustomerData] = useState()
+  const [showRangeSlider, setShowRangeSlider] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
@@ -45,12 +47,13 @@ export default function Settings() {
         const retrieve_customer_data = {
           customerId: currentUser?.chargebee_customer_id,
         }
-        
+        setShowRangeSlider(true)
         let chargebeeCustomerData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/retrieve_customer`,
           urlEncode(retrieve_customer_data))
           .then((response) => response.data).catch((err) =>{
             console.log(err);
           })
+        setShowRangeSlider(false)
           
         console.log(chargebeeCustomerData);
         if (chargebeeCustomerData?.card){
@@ -63,7 +66,8 @@ export default function Settings() {
   }, [navigate, refresh]);
 
   // console.log({user});
-  console.log(chargebeeCustomerData);
+  // console.log(chargebeeCustomerData);
+  
   return (
     <>
     <div className="max-w-[1400px] mx-auto">
@@ -147,7 +151,7 @@ export default function Settings() {
         </div>
       </div>
 
-      {chargebeeCustomerData && <div className="my-8">
+      {chargebeeCustomerData ? <div className="my-8">
         <div
           className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
           style={{
@@ -157,6 +161,7 @@ export default function Settings() {
           <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Payment and Billing Settings</h1>
         </div>
 
+          {/* payment and billing settings */}
         <div className="md:px-10">
           <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
             <div className="border-b mb-2 md:mb-0 md:border-b-0">Credit Card</div>
@@ -179,7 +184,9 @@ export default function Settings() {
             </div>
           </div>
         </div>
-      </div>}
+        </div> : <>
+            {showRangeSlider && <InfiniteRangeSlider />}
+        </>}
 
       <ChangeModal
         show={showModal}

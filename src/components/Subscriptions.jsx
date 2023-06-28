@@ -56,7 +56,7 @@ export default function Subscriptions() {
     getData();
   }, []);
 
-  let { username } = useParams();
+  var { username } = useParams();
   const [userResults, setUserResults] = useState(null);
   const navigate = useNavigate();
 
@@ -187,7 +187,7 @@ export default function Subscriptions() {
                       <div className="flex flex-col">
                         <div className="text-[12px] -mb-1">Account:</div>
                         <div className="text-[14px] text-black font-bold font-MontserratSemiBold">
-                          @{user?.username}
+                          @{userResults?.username}
                         </div>
                       </div>
                     </div>
@@ -624,7 +624,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
 
     return today
   };
-  
+
   const handleAddCard = async () => {
     setLoading(true);
     if (user) {
@@ -678,20 +678,20 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
         }
       }
-    }else{
+    } else {
       setIsModalOpen(true);
       setErrorMsg({ title: 'Authentication Error', message: 'You have to login to continue' })
     }
-    setLoading(false);    
+    setLoading(false);
   }
 
   // const handleCardPay = async (setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard) => {
   const handleCardPay = async () => {
-    if (addCard){
+    if (addCard) {
       await handleAddCard()
       return;
     }
-    
+
     setLoading(true);
     if (userResults?.name === "INVALID_USERNAME") {
       console.log("INVALID_USERNAME")
@@ -702,13 +702,19 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
     };
 
     if (user) {
-      // if (user?.subscribed) {
+      var userIsNew = true
+      // const udata = await supabase.from("users").select().eq("username", userResults?.username).eq("email", user?.email);
+      // if (udata.data?.[0]?.subscribed) {
       //   setIsModalOpen(true);
-      //   setErrorMsg({ title: 'Card Error', message: `You've aleady subscribed, you can add new card in the settings on the darshboard` })
+      //   setErrorMsg({ title: 'Card Error', message: `You are already subscribed. If you wish to add a new Instagram account, you can do so by changing your username. Alternatively, if you prefer, you can add a new card through accessing the settings on the dashboard.` })
       //   setLoading(false);
       //   return;
+      // }else{
+      //   if (udata.error){ // means that user authenticated but do not have an account with that email yet
+      //     userIsNew=false
+      //   }
       // }
-      
+
       if (cardRef) {
         const token = await cardRef.current.tokenize().then(data => {
           return data.token
@@ -741,6 +747,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         const create_customer_data = {
           allow_direct_debit: true,
           first_name: user?.full_name,
+          // last_name: userResults?.username,
           last_name: '',
           email: user.email,
           token_id: token,
@@ -749,17 +756,21 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
 
         let createCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_customer_and_subscription`,
           urlEncode(create_customer_data))
-          .then((response) => response.data).catch((err) =>{
+          .then((response) => response.data).catch((err) => {
             // console.log(err);
             setIsModalOpen(true);
             setErrorMsg({ title: 'Alert', message: err?.message })
             setLoading(false);
             return err?.response?.data.err
           })
+          
+          // console.log(createCustomer);
+          // setLoading(false);
+          // return
 
         if (createCustomer.message === 'success') {
           var profile_pic_url = '';
-          const uploadImageFromURLRes = await uploadImageFromURL(username, userResults?.profile_pic_url)
+          const uploadImageFromURLRes = await uploadImageFromURL(userResults?.username, userResults?.profile_pic_url)
 
           if (uploadImageFromURLRes?.status === 'success') {
             profile_pic_url = uploadImageFromURLRes?.data
@@ -767,16 +778,16 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
 
           let data = {
             nameOnCard,
-            chargebee_subscription: JSON.stringify(createCustomer.subscription),
-            chargebee_subscription_id: createCustomer.subscription?.id,
-            chargebee_customer: JSON.stringify(createCustomer.customer),
-            chargebee_customer_id: createCustomer?.customer?.id,
+            chargebee_subscription: JSON.stringify(createCustomer?.result?.subscription),
+            chargebee_subscription_id: createCustomer?.result?.subscription?.id,
+            chargebee_customer: JSON.stringify(createCustomer?.result?.customer),
+            chargebee_customer_id: createCustomer?.result?.customer?.id,
 
-            username,
+            username: userResults?.username,
             email: user.email,
+            full_name: user.full_name,
             followers: userResults?.follower_count,
             following: userResults?.following_count,
-            // profile_pic_url: userResults?.profile_pic_url,
             profile_pic_url,
             is_verified: userResults?.is_verified,
             biography: userResults?.biography,
@@ -785,16 +796,35 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
             subscribed: true,
           }
 
-          const updateUser = await supabase
-            .from("users")
-            .update(data).eq('id', user.id);
-          if (updateUser?.error) {
-            console.log(updateUser.error);
-            setIsModalOpen(true);
-            setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
+          if (userIsNew) {
+            if (!user) {
+              setIsModalOpen(true);
+              setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
+              setLoading(false);
+              return;
+            }
+            console.log({user});
+            const updateUser = await supabase
+              .from("users")
+              .update(data).eq('id', user.id);
+            if (updateUser?.error) {
+              console.log(updateUser.error);
+              setIsModalOpen(true);
+              setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
+              
+              return;
+            }
+          } else {
+            const addAccount = await supabase.from("users").insert({ ...data, user_id : user.id});
+            if (addAccount?.error) {
+              console.log(addAccount.error);
+              setIsModalOpen(true);
+              setErrorMsg({ title: 'Alert', message: `Error adding new account` })
+            }
           }
+
           const ref = getRefCode()
-          console.log('success');
+          // console.log('success');
           if (ref) {
             navigate(`/thankyou?ref=${ref}`)
           } else {
@@ -895,7 +925,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         //   setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
         // }
       }
-    }else{
+    } else {
       setIsModalOpen(true);
       setErrorMsg({ title: 'Authentication Error', message: 'You have to login to continue' })
     }
@@ -909,7 +939,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         onChange={(e) => { setNameOnCard(e.target.value) }} />
       {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
     </div>
-    
+
     <form
       onSubmit={async (e) => {
         e.preventDefault();
@@ -959,7 +989,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
     </form>
 
     <div className={`${addCard ? "block" : "hidden lg:block"}`}>
-      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]": "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
+      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]" : "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
         onClick={() => {
           if (Loading) {
             setIsModalOpen(true);

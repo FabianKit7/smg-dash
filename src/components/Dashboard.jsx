@@ -31,6 +31,7 @@ const Error = ({ value }) => {
 
 export default function Dashboard() {
   let { id } = useParams();
+  const currentUsername = id
   const [userData, setUserData] = useState([]);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -60,7 +61,19 @@ export default function Dashboard() {
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('user_id', user.id)
+        .eq('user_id', user?.id)
+        .eq('username', currentUsername)
+        
+        console.log(user.email);
+        console.log(data?.[0].email);
+        
+        // check if the user email match the AuthUser email
+        if(user.email !== data?.[0]?.email){
+          if (window.confirm(`You've not register this account yet, do you want to resiter it now?`)){
+              window.location.pathname = `subscriptions/${data[0]?.username}`;
+              return;
+          }
+        }
 
       if (data[0]?.subscribed !== true) {
         // alert('Please finish your registration')
@@ -87,7 +100,7 @@ export default function Dashboard() {
       getData();
     }
     setRefreshUser(false)
-  }, [id, navigate, refreshUser]);
+  }, [currentUsername, navigate, refreshUser]);
 
   // setSessionsData
   useEffect(() => {
