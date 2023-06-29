@@ -5,12 +5,26 @@ import { useClickOutside } from "react-click-outside-hook";
 import { Spinner } from 'react-bootstrap'
 import { TiTimes } from 'react-icons/ti'
 import { FaAngleRight, FaUser } from 'react-icons/fa'
-import { getAccount, getRefCode, searchAccount } from '../../helpers'
+import { getAccount, getRefCode, searchAccount, uploadImageFromURL } from '../../helpers'
 import { supabase } from '../../supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../AlertModal';
+import axios from 'axios';
+import { getStartingDay } from '../Subscriptions';
 
-export default function OnboardingSearchBox({ user }) {
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+const urlEncode = function (data) {
+  var str = [];
+  for (var p in data) {
+    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+    }
+  }
+  return str.join("&");
+}
+
+export default function OnboardingSearchBox({ user, currentUsername }) {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [processing, setProcessing] = useState(false);
@@ -42,20 +56,22 @@ export default function OnboardingSearchBox({ user }) {
 
   useEffect(() => {
     const fetch = async () => {
-      setLoadingSpinner(true)
-      const data = await searchAccount(input);
-      const users = data?.users;
-      if (users?.length > 0) {
-        const filtered = users?.filter(user => {
-          var x = (user?.username)?.toLowerCase()
-          var y = input?.toLowerCase()
-          return x?.startsWith(y)
-        })
-        // console.log(filtered);
-        setSearchedAccounts(filtered)
-        setShowResultModal(true)
+      if (input) {
+        setLoadingSpinner(true)
+        const data = await searchAccount(input);
+        const users = data?.users;
+        if (users?.length > 0) {
+          const filtered = users?.filter(user => {
+            var x = (user?.username)?.toLowerCase()
+            var y = input?.toLowerCase()
+            return x?.startsWith(y)
+          })
+          // console.log(filtered);
+          setSearchedAccounts(filtered)
+          setShowResultModal(true)
+        }
+        setLoadingSpinner(false)
       }
-      setLoadingSpinner(false)
     }
     setSearchedAccounts([])
     fetch()
@@ -82,13 +98,16 @@ export default function OnboardingSearchBox({ user }) {
           "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
         },
       };
-      // console.log(options);
       const userResults = await Axios.request(options);
-      // console.log(userResults?.data[0]?.username);
-      if (!userResults?.data[0]?.username) {
+      const vuser = userResults?.data?.[0]
+
+      // console.log(userResults);
+
+      if (!vuser?.username) {
         // alert('Username not found!');
         setIsModalOpen(true);
         setErrorMsg({ title: 'Alert', message: 'Username not found!' })
+        setProcessing(false);
         return
       }
       // const currentUser = await supabase.auth.getUser()
@@ -100,19 +119,98 @@ export default function OnboardingSearchBox({ user }) {
       // }
       // const { data: { user } } = await supabase.auth.getUser()
 
-      await supabase
-        .from("users")
-        .update({
-          username: userResults.data[0].username,
-        }).eq('user_id', user?.user_id);
-      // window.location = `/subscriptions/${userResults.data[0].username}`;
-      const ref = getRefCode()
-      if (ref) {
-        navigate(`/subscriptions/${userResults.data[0].username}?ref=${ref}`)
-      } else {
-        navigate(`/subscriptions/${userResults.data[0].username}`)
+      const checkUsername = await supabase.from("users").select().eq('email', user?.email).eq("username", vuser?.username)
+      if (checkUsername.data?.[0]) {
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: "This username name has already been registered!" })
+        setProcessing(false);
+        return;
       }
-      return;
+
+      var profile_pic_url = '';
+      // const uploadImageFromURLRes = await uploadImageFromURL(vuser?.username, vuser?.orignal_profile_pic_url)
+      const uploadImageFromURLRes = await uploadImageFromURL(vuser?.username)
+
+      if (uploadImageFromURLRes?.status === 'success') {
+        profile_pic_url = uploadImageFromURLRes?.data
+      }
+
+      if (!currentUsername) {
+        const updateUser = await supabase
+          .from("users")
+          .update({
+            username: vuser?.username,
+            profile_pic_url
+          }).eq('user_id', user?.user_id);
+        // window.location = `/subscriptions/${userResults.data[0].username}`;
+        if (!updateUser.error) {
+          const ref = getRefCode()
+          if (ref) {
+            navigate(`/subscriptions/${userResults.data[0].username}?ref=${ref}`)
+          } else {
+            navigate(`/subscriptions/${userResults.data[0].username}`)
+          }
+          return;
+        } else {
+          console.log(updateUser?.error)
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: updateUser?.error?.message })
+          setProcessing(false);
+          return;
+        }
+      } else {
+        let data = {
+          customer_id: user?.chargebee_customer_id,
+          plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
+        }
+        let createSubscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription`,
+          urlEncode(data))
+          .then((response) => response.data).catch((err) => {
+            // console.log(err);
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Alert', message: err?.message })
+            setProcessing(false);
+            return err?.response?.data.err
+          })
+
+        if (createSubscription.message === 'success') {
+          const data = {
+            ...user,
+            username: vuser?.username,
+            followers: vuser?.follower_count,
+            following: vuser?.following_count,
+            profile_pic_url,
+            is_verified: vuser?.is_verified,
+            biography: vuser?.biography,
+            start_time: getStartingDay(),
+            posts: vuser?.media_count,
+            chargebee_subscription: JSON.stringify(createSubscription?.result?.subscription),
+            chargebee_subscription_id: createSubscription?.result?.subscription?.id,
+            first_account: false
+          }
+          delete data.id
+          // console.log(data);
+          const addUser = await supabase.from("users").insert(data);
+
+          if (!addUser.error) {
+            navigate(`/dashboard/${vuser?.username}`)
+            return;
+          } else {
+            console.log(addUser?.error)
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Alert', message: addUser?.error?.message })
+            setProcessing(false);
+            return;
+          }
+        } else {
+          // console.log(createSubscription)
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: "An error occured, please try again or contact support" })
+          setProcessing(false);
+          return;
+        }
+
+      }
     } else {
       setProcessing(false);
       alert('choose your account');

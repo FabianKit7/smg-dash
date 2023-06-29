@@ -30,7 +30,10 @@ function App() {
     Tap.init(
       '40122-96e787', // your account ID
       { integration: 'javascript' }, // createOptions with cookie domain set to your main domain
-      function () { console.log('Tracking code initialized'); }, // createCallback function
+      // createCallback function
+      function () {
+        // console.log('Tracking code initialized');
+      },
       { cookie_domain: '.sproutysocial.com', always_callback: true }, // detectOptions with always_callback set to true to ensure detectCallback is always called
       function (error, result) {
         // console.log("error: ", error);
@@ -44,16 +47,16 @@ function App() {
   const [addPadding, setAddPadding] = useState(true)
   useEffect(() => {
     // console.log(pathname);
-    if (pathname.includes('/search') || pathname.startsWith('/subscriptions')){
+    if (pathname.includes('/search') || pathname.startsWith('/subscriptions')) {
       setAddPadding(false);
     }
   }, [pathname])
-  
+
 
   return (
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
-      <div className={`${addPadding ? 'p-5 max-w-[1600px] mx-auto' : 'p-0' } font-MontserratRegular`}>
+      <div className={`${addPadding ? 'p-5 max-w-[1400px] mx-auto' : 'p-0'} font-MontserratRegular`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
@@ -63,19 +66,18 @@ function App() {
           <Route path="/signUp" exact element={<SignUp />} />
           <Route path="/forget-password" exact element={<ForgetPassword />} />
           <Route path="/reset-password" exact element={<ResetPassword />} />
-          <Route
-            path="/subscriptions/:username"
-            element={<Subscriptions />}
-          />
-          <Route path="/settings" exact element={<Settings />} />
+          <Route path="/subscriptions/:username" element={<Subscriptions />} />
+          <Route path="/:username/settings" exact element={<Settings />} />
           <Route path="/thankyou" exact element={<Thankyou />} />
-          <Route path="/dashboard/:id" exact element={<Dashboard />} />
+          <Route path="/dashboard/:username" exact element={<Dashboard />} />
 
           <Route path="/admin" exact element={<Admin />} />
-          <Route path="/chat/:id" exact element={<Chat />} />
+          <Route path="/chat/:username" exact element={<Chat />} />
           <Route path="/dashboard" exact element={<DashboardApp />} />
-          <Route path="/dashboard/edit/:id" exact element={<Edit />} />
+          <Route path="/dashboard/edit/:username" exact element={<Edit />} />
           <Route path="/dashboard/login" exact element={<AdminLogin />} />
+
+          <Route path="*" exact element={<Login />} />
         </Routes>
       </div>
     </>

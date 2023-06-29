@@ -30,13 +30,12 @@ const Error = ({ value }) => {
 };
 
 export default function Dashboard() {
-  let { id } = useParams();
-  const currentUsername = id
+  let { username } = useParams();
+  const currentUsername = username
   const [userData, setUserData] = useState([]);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [, setUser] = useState(null)
   const [sessionsData, setSessionsData] = useState([])
   const [showDateOptions, setShowDateOptions] = useState(false)
   const [selectedDate, setSelectedDate] = useState({ title: "Last 7 days", value: 7 })
@@ -54,26 +53,31 @@ export default function Dashboard() {
   !!!sessionsData && console.log(sessionsData)
 
   useEffect(() => {
-    const getData = async () => {
+    console.log('data has changed1');
+    const getData = async () => {      
       const { data: { user } } = await supabase.auth.getUser()
+      console.log(user);
       if (!user) return navigate("/login")
-      setUser(user)
-      const { data, error } = await supabase
-        .from('users')
-        .select()
+      const { data, error } = await supabase.from('users').select()
         .eq('user_id', user?.id)
         .eq('username', currentUsername)
-        
-        console.log(user.email);
-        console.log(data?.[0].email);
-        
-        // check if the user email match the AuthUser email
-        if(user.email !== data?.[0]?.email){
-          if (window.confirm(`You've not register this account yet, do you want to resiter it now?`)){
-              window.location.pathname = `subscriptions/${data[0]?.username}`;
-              return;
-          }
+
+      if (error) {
+        console.log(error);
+        alert(error?.message)
+        return;
+      }
+
+      // check if the user email match the AuthUser email
+      if (data.length === 0 || user?.email !== data?.[0]?.email) {
+        if (window.confirm(`You've not registered this account yet, do you want to resiter it now?`)) {
+          // window.location.pathname = `search/?username=${currentUsername}`;
+          navigate(`/search/?username=${currentUsername}`)
+          return;
+        } else {
+          navigate("/login")
         }
+      }
 
       if (data[0]?.subscribed !== true) {
         // alert('Please finish your registration')
@@ -87,6 +91,7 @@ export default function Dashboard() {
         return;
       }
       if (data?.[0]) {
+        console.log('data has changed2');
         setUserData(data[0])
         // if (data[0].status === "pending") {
         //   setShowWelcomeModal(true)
@@ -96,9 +101,9 @@ export default function Dashboard() {
       setLoading(false)
     };
 
-    if (refreshUser) {
-      getData();
-    }
+    getData();
+    // if (refreshUser) {
+    // }
     setRefreshUser(false)
   }, [currentUsername, navigate, refreshUser]);
 
@@ -108,9 +113,10 @@ export default function Dashboard() {
       const resData = await supabase
         .from('sessions')
         .select()
-        .eq('username', userData?.username)
+        .eq('username', currentUsername)
       resData.error && console.log(resData.error);
-      var d = resData.data[0].data
+      var d = resData?.data?.[0]?.data
+      if(!d) return;
       try {
         const c = JSON.parse(resData.data[0].data);
         if (c) { d = c }
@@ -122,11 +128,10 @@ export default function Dashboard() {
       setTotalInteractions(sumTotalInteractions(d))
 
     }
-    const username = userData?.username;
-    if (username) {
+    if (currentUsername) {
       fetch()
     }
-  }, [userData])
+  }, [currentUsername])
 
   function sumTotalInteractions(arr) {
     let sum = 0;
@@ -186,7 +191,8 @@ export default function Dashboard() {
     };
   }, [userData]);
 
-  if (error) return <Error value={id} />;
+  if (error) return <Error value={username} />;
+
   if (loading) return (<>
     <h3 className="tracking-widest animate-pulse">Loading</h3>
   </>);
@@ -834,7 +840,7 @@ export default function Dashboard() {
 
           <TargetingCompt user={userData} setMobileAdd={setMobileAdd} />
 
-          <WhiteListCompt userId={userData?.user_id} setMobileAdd={setMobileAdd} />
+          <WhiteListCompt user={userData} userId={userData?.user_id} setMobileAdd={setMobileAdd} />
         </>}
       </div>
     </>
@@ -1251,6 +1257,15 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
         .order('id', { ascending: false });
 
       if (error) return console.log(error);
+      if (data.length > 0) {
+        console.log(data?.[0]?.username)
+        if (data?.[0]?.username === undefined) {
+          console.log('no username');
+        }
+
+      }
+      const filtered_accounts = data.filter(account => account.username === user.username)
+      console.log(filtered_accounts);
       setTargetingAccounts(data);
     };
 

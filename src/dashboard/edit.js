@@ -23,7 +23,7 @@ const Error = ({ value }) => {
 };
 
 export default function Edit() {
-    let { id } = useParams();
+    let { username } = useParams();
     const navigate = useNavigate();
     // const [userAuth, setUserAuth] = useState(null)
     const [user, setUser] = useState(null)
@@ -54,7 +54,7 @@ export default function Edit() {
             const { data, error } = await supabase
                 .from('users')
                 .select()
-                .eq('user_id', id).order('created_at', { ascending: false })
+                .eq('user_id', username).order('created_at', { ascending: false })
 
             // console.log(data[0]);
             if (data?.[0]){
@@ -75,7 +75,7 @@ export default function Edit() {
         };
 
         getData();
-    }, [id, navigate, refreshUser]);
+    }, [username, navigate, refreshUser]);
 
     const setFilterModalCallback = useCallback(() => {
         setFilterModal(!filterModal);
@@ -130,7 +130,7 @@ export default function Edit() {
         }
     }, [user])
 
-    if (error) return <Error value={id} />;
+    if (error) return <Error value={username} />;
     return (
         <div className="max-w-[1600px] md:min-w-[500px] mx-auto bg-white">
             <div className="flex flex-col items-center w-full py-20">
@@ -150,7 +150,7 @@ export default function Edit() {
                     setFilterModal={setFilterModal}
                     filtermodal={filterModal}
                     user={user}
-                    user_id={id}
+                    user_id={username}
                     followerMinValued={followerMinValue}
                     followerMaxValued={followerMaxValue}
                     followingMinValued={followingMinValue}
@@ -192,10 +192,10 @@ export default function Edit() {
                 </div>
 
                 <Targeting
-                    userId={id} page={'admin'}
+                    userId={username} page={'admin'}
                 />
-                <Blacklist userId={id} page={'admin'} />
-                <Whitelist userId={id} page={'admin'} />
+                <Blacklist userId={username} page={'admin'} />
+                <Whitelist userId={username} page={'admin'} />
             </div>
         </div>
     )

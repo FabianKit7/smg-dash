@@ -14,7 +14,7 @@ const options = [
 ]
 
 export default function Chat() {
-  let { id } = useParams();
+  let { username } = useParams();
   const [user, setUser] = useState()
   const [newMsg, setNewMsg] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -35,14 +35,14 @@ export default function Chat() {
       const u = await supabase
         .from('users')
         .select('*')
-        .eq('username', id)
-        console.log(id);
+        .eq('username', username)
+      // console.log(username);
       let user = u?.data.pop()
       console.log(user);
       user && setUser(user);
     }
     f()
-  }, [id])
+  }, [username])
 
   useEffect(() => {
     const channel = supabase
@@ -51,7 +51,7 @@ export default function Chat() {
         event: 'UPDATE',
         schema: 'public',
         table: 'users',
-        filter: `username=eq.${id}`
+        filter: `username=eq.${username}`
       }, payload => {
         // console.log('Change received!', payload)
         payload.new.messageSender !== 'admin' && setNewMsg(true)
@@ -63,7 +63,7 @@ export default function Chat() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [id]);
+  }, [username]);
 
   const send = async () => {
     if(selected === 'SELECT') return;
@@ -111,13 +111,13 @@ export default function Chat() {
     <div className="h-screen w-full py-6 px-4 bg-white to-black grid place-items-center">
       <div className="">
         <h5 className="font-semibold text-[2rem] text-center text-black font-MontserratBold mt-[30px] relative">
-          Connecting {id}
+          Connecting {username}
           {newMsg && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
         </h5>
         <div className="">
           <div className="flex gap-2">
             <div className="">username:</div>
-            <div className="">{id}</div>
+            <div className="">{username}</div>
           </div>
           <div className="flex gap-2">
             <div className="">status:</div>

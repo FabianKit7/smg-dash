@@ -11,6 +11,8 @@ import { MdLogout } from "react-icons/md";
 import { useClickOutside } from "react-click-outside-hook";
 
 export default function Search() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentUsername = urlParams.get("username");
   const [user, setUser] = useState(null)
   const [showMenu, setShowMenu] = useState(false)
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -100,7 +102,7 @@ export default function Search() {
           </div>
         </div>
 
-        <OnboardingSearchBox user={user} />
+        <OnboardingSearchBox user={user} currentUsername={currentUsername} />
       </div>
     </div>
   </>)

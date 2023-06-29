@@ -574,6 +574,17 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
   </>)
 }
 
+export const getStartingDay = () => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + "/" + dd + "/" + yyyy;
+
+  return today
+};
+
 export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModalOpen, setErrorMsg, mobile, Loading, setLoading, setRefresh, refresh }) => {
   const navigate = useNavigate();
   const cardRef = useRef();
@@ -613,17 +624,6 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
       },
     },
   }
-
-  const getStartingDay = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = mm + "/" + dd + "/" + yyyy;
-
-    return today
-  };
 
   const handleAddCard = async () => {
     setLoading(true);
@@ -769,12 +769,12 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           // return
 
         if (createCustomer.message === 'success') {
-          var profile_pic_url = '';
-          const uploadImageFromURLRes = await uploadImageFromURL(userResults?.username, userResults?.profile_pic_url)
+          // var profile_pic_url = '';
+          // const uploadImageFromURLRes = await uploadImageFromURL(userResults?.username, userResults?.profile_pic_url)
 
-          if (uploadImageFromURLRes?.status === 'success') {
-            profile_pic_url = uploadImageFromURLRes?.data
-          }
+          // if (uploadImageFromURLRes?.status === 'success') {
+          //   profile_pic_url = uploadImageFromURLRes?.data
+          // }
 
           let data = {
             nameOnCard,
@@ -788,12 +788,12 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
             full_name: user.full_name,
             followers: userResults?.follower_count,
             following: userResults?.following_count,
-            profile_pic_url,
+            // profile_pic_url,
             is_verified: userResults?.is_verified,
             biography: userResults?.biography,
             start_time: getStartingDay(),
             posts: userResults?.media_count,
-            subscribed: true,
+            subscribed: true
           }
 
           if (userIsNew) {
