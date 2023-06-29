@@ -143,7 +143,7 @@ export default function Nav({ setShowWelcomeModal }) {
                   </li>
                 </Link>
 
-                <Link to="/settings" className="font-normal text-sm hover:bg-[#f8f8f8]"
+                <Link to={`/${data?.username}/settings`} className="font-normal text-sm hover:bg-[#f8f8f8]"
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setActiveLink("Settings");

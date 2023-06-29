@@ -11,7 +11,8 @@ import { FaAngleLeft } from "react-icons/fa";
 import AlertModal from './AlertModal'
 import { useRef } from "react";
 import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper"
-import { getRefCode, uploadImageFromURL } from "../helpers";
+// import { getRefCode, uploadImageFromURL } from "../helpers";
+import { getRefCode } from "../helpers";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
