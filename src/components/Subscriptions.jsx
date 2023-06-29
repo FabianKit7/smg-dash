@@ -26,6 +26,8 @@ const urlEncode = function (data) {
   return str.join("&");
 }
 
+// g
+
 export default function Subscriptions() {
   const [user, setUser] = useState(null)
   const [showMenu, setShowMenu] = useState(false)
