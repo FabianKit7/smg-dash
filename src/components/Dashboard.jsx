@@ -53,10 +53,8 @@ export default function Dashboard() {
   !!!sessionsData && console.log(sessionsData)
 
   useEffect(() => {
-    console.log('data has changed1');
     const getData = async () => {      
       const { data: { user } } = await supabase.auth.getUser()
-      console.log(user);
       if (!user) return navigate("/login")
       const { data, error } = await supabase.from('users').select()
         .eq('user_id', user?.id)
@@ -91,7 +89,6 @@ export default function Dashboard() {
         return;
       }
       if (data?.[0]) {
-        console.log('data has changed2');
         setUserData(data[0])
         // if (data[0].status === "pending") {
         //   setShowWelcomeModal(true)
@@ -110,13 +107,15 @@ export default function Dashboard() {
   // setSessionsData
   useEffect(() => {
     const fetch = async () => {
+      console.log(currentUsername);
       const resData = await supabase
-        .from('sessions')
-        .select()
-        .eq('username', currentUsername)
+      .from('sessions')
+      .select()
+      .eq('username', currentUsername)
       resData.error && console.log(resData.error);
+      console.log(resData.data);
       var d = resData?.data?.[0]?.data
-      if(!d) return;
+      if (!d) return setSessionsData([]);
       try {
         const c = JSON.parse(resData.data[0].data);
         if (c) { d = c }
@@ -227,6 +226,7 @@ export default function Dashboard() {
           <AddOthers
             pageProp={mobileAdd.pageProp}
             userId={userData.user_id}
+            user={userData}
             setMobileAdd={setMobileAdd}
           />
         }
@@ -904,7 +904,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
   </>)
 }
 
-const AddOthers = ({ pageProp, userId, addSuccess, setAddSuccess, setMobileAdd }) => {
+const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobileAdd }) => {
   const buttonText = pageProp.title === 'Targeting' ? 'Add Target' : pageProp.title + " Account"
   const from = (pageProp.title).toLowerCase();
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -971,13 +971,20 @@ const AddOthers = ({ pageProp, userId, addSuccess, setAddSuccess, setMobileAdd }
       if (uploadImageFromURLRes?.status === 'success') {
         profile_pic_url = uploadImageFromURLRes?.data
       }
-
-      const res = await supabase.from(from).insert({
+      
+      const data = {
         account: filteredSelected,
         followers: theAccount.data[0].follower_count,
         avatar: profile_pic_url,
         user_id: userId,
-      });
+        main_user_username: user.username
+      }
+      
+      if (user?.first_account){
+        delete data.main_user_username
+      }
+
+      const res = await supabase.from(from).insert(data);
       res?.error && console.log(
         "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
         res.error
@@ -1206,7 +1213,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
     >
       <div className="w-[60%] flex items-center whitespace-nowrap overflow-hidden text-ellipsis justify-start md:pl-5">
         <div className="w-[40px] h-[40px] mr-[10px] relative">
-          <img alt="click" className="h-[40px] w-[40px] rounded-full" src={account?.avatar || "/avatar.svg"} onClick={async () => {
+          <img alt="click" className="h-[40px] w-[40px] rounded-full" src={account?.avatar || "/icons/default_user.png"} onClick={async () => {
             await updateUserProfilePicUrl(account, from)
             setAddSuccess(!addSuccess)
           }} />
@@ -1253,19 +1260,13 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
       const { data, error } = await supabase
         .from("targeting")
         .select()
-        .eq("user_id", user?.user_id)
+        .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+        .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
         .order('id', { ascending: false });
 
       if (error) return console.log(error);
-      if (data.length > 0) {
-        console.log(data?.[0]?.username)
-        if (data?.[0]?.username === undefined) {
-          console.log('no username');
-        }
-
-      }
-      const filtered_accounts = data.filter(account => account.username === user.username)
-      console.log(filtered_accounts);
+      
+      console.log(data);
       setTargetingAccounts(data);
     };
 
@@ -1413,6 +1414,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
           <AddOthers
             pageProp={pageProp}
             userId={userId}
+            user={user}
             addSuccess={addSuccess}
             setAddSuccess={setAddSuccess}
           />
@@ -1441,7 +1443,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
   </>)
 }
 
-const WhiteListCompt = ({ userId, setMobileAdd }) => {
+const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
   const [total, setTotal] = useState({ whitelist: 0, blacklist: 0 })
   const [pageProp, setPageProp] = useState({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue following that were followed by SproutySocial. We will never unfollow anyone you manually followed.' })
   const [showPageModal, setShowPageModal] = useState(false)
@@ -1454,12 +1456,16 @@ const WhiteListCompt = ({ userId, setMobileAdd }) => {
       const whiteList = await supabase
         .from('whitelist')
         .select()
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
+        .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+        .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
         .order('id', { ascending: false });
       const blackList = await supabase
         .from('blacklist')
         .select()
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
+        .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+        .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
         .order('id', { ascending: false });
       setTotal({ whitelist: whiteList?.data?.length, blacklist: blackList?.data?.length })
 
@@ -1469,7 +1475,7 @@ const WhiteListCompt = ({ userId, setMobileAdd }) => {
     };
 
     getTargetingAccounts();
-  }, [userId, addSuccess, pageProp]);
+  }, [user, userId, addSuccess, pageProp]);
 
   return (<>
     <div>
@@ -1631,6 +1637,7 @@ const WhiteListCompt = ({ userId, setMobileAdd }) => {
           <AddOthers
             pageProp={pageProp}
             userId={userId}
+            user={user}
             addSuccess={addSuccess}
             setAddSuccess={setAddSuccess}
           />

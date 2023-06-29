@@ -98,7 +98,7 @@ export default function Nav({ setShowWelcomeModal }) {
                           setActiveLink("Profile");
                         }}
                       >
-                        <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Profile" ? "bg-activelink" : ""}`}>
+                        <li className={`py-2 px-6 flex items-center gap-3 ${currentUsername === account?.username ? "bg-activelink" : ""}`}>
                           <img
                             src={account?.profile_pic_url}
                             className="rounded-full w-[32px] h-[32px]"
@@ -137,7 +137,7 @@ export default function Nav({ setShowWelcomeModal }) {
                     setActiveLink("Profile");
                   }}
                 >
-                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Profile" ? "bg-activelink" : ""}`}>
+                  <li className={`py-2 px-6 flex items-center gap-3`}>
                     <AiOutlinePlus size={32} className="rounded-full w-[32px] h-[32px]" />
                     Add Account
                   </li>

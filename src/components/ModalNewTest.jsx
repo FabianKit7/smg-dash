@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { IoClose, IoPowerOutline } from 'react-icons/io5';
 import { BsPersonPlus, BsPersonDash } from "react-icons/bs"
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai"
-import avatarImg from "../images/avatar.svg";
+import avatarImg from "../images/default_user.png";
 import flashImg from "../images/flash.svg"
 import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';

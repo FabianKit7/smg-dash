@@ -1,7 +1,7 @@
 import { ImBin2 } from "react-icons/im";
 import { TbRefresh } from "react-icons/tb";
 import { countDays, deleteAccount, numFormatter, updateUserProfilePicUrl } from "../helpers";
-import avatarImg from "../images/avatar.svg"
+import avatarImg from "../images/default_user.png"
 
 export default function UserCard({ item, addSuccess, setAddSuccess, from, page }) {
     return (

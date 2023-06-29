@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal"
 import { supabase } from "../supabaseClient";
 import { countDays, deleteAccount, getAccount, numFormatter, searchAccount } from "../helpers";
-import avatarImg from "../images/avatar.svg"
+import avatarImg from "../images/default_user.png"
 import { ImBin2 } from "react-icons/im"
 import { BsFillPlusSquareFill } from "react-icons/bs"
 import ModalAdd from "../components/ModalAdd"
