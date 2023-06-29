@@ -1266,7 +1266,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
 
       if (error) return console.log(error);
       
-      console.log(data);
+      // console.log(data);
       setTargetingAccounts(data);
     };
 

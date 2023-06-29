@@ -37,7 +37,9 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
 
   useEffect(() => {
     // console.log(errorMsg);
-    setIsModalOpen(true)
+    if (errorMsg) {
+      setIsModalOpen(true)
+    }
   }, [errorMsg])
 
   return (<>
@@ -47,7 +49,7 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
       title={errorMsg?.title}
       message={errorMsg?.message}
     />
-    
+
     <div className="py-4 px-2 md:px-5 lg:p-10">
       <div className="flex justify-end absolute top-5 right-5 cursor-pointer">
         <IoClose
