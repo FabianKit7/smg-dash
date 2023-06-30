@@ -146,7 +146,7 @@ export default function Settings() {
         const { data: { user } } = await supabase.auth.getUser();
         await supabase
           .from("users")
-          .update(data).eq('user_id', user.id);
+          .update(data).eq("user_id", user.id).eq('first_account', true);
         // navigate(`/dashboard/${user.id}`);
         window.location = `/dashboard/${user.id}`;
       },
@@ -165,39 +165,39 @@ export default function Settings() {
     // await supabase
     //   .from('users')
     //   .update({ onTrail: false, subscribed: true })
-    //   .eq('user_id', user.id)
+    //   .eq("user_id", user.id).eq('first_account', true)
 
   }
 
-  const cancelSubscription = async () => {
-    if (window.confirm("Are you sure you want to cancel your subscription")) {
-      setSubLoading(true)
-      try {
-        let a = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/cancel_for_items`,
-          urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
-          .then((response) => response?.data)
-          .catch((error) => {
-            console.log(error);
-          })
-        // console.log(a);
-        // if (a.subscription?.status === 'cancelled') {
-        if (a.status === 'valid') {
-          const { data: { user } } = await supabase.auth.getUser();
-          await supabase
-            .from('users')
-            .update({ onTrail: false, subscribed: false, status: 'cancelled' })
-            .eq('user_id', user.id)
-          alert('Your subscription has been successfully canceled.');
-          window.location = '/'
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setSubLoading(false)
-    } else {
-      console.log("aborted!")
-    }
-  }
+  // const cancelSubscription = async () => {
+  //   if (window.confirm("Are you sure you want to cancel your subscription")) {
+  //     setSubLoading(true)
+  //     try {
+  //       let a = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/cancel_for_items`,
+  //         urlEncode({ subscription_item_id: supaData.chargebee_subscription_id }))
+  //         .then((response) => response?.data)
+  //         .catch((error) => {
+  //           console.log(error);
+  //         })
+  //       // console.log(a);
+  //       // if (a.subscription?.status === 'cancelled') {
+  //       if (a.status === 'valid') {
+  //         const { data: { user } } = await supabase.auth.getUser();
+  //         await supabase
+  //           .from('users')
+  //           .update({ onTrail: false, subscribed: false, status: 'cancelled' })
+  //           .eq("user_id", user.id).eq('first_account', true)
+  //         alert('Your subscription has been successfully canceled.');
+  //         window.location = '/'
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     setSubLoading(false)
+  //   } else {
+  //     console.log("aborted!")
+  //   }
+  // }
 
   // useEffect(() => {
   //   const scriptText = `

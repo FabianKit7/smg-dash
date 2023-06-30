@@ -47,7 +47,7 @@ export default function DashboardApp() {
         const { data, error } = await supabase
           .from('users')
           .select()
-          .eq('user_id', user.id).order('created_at', { ascending: false })
+          .eq("user_id", user.id).eq('first_account', true).order('created_at', { ascending: false })
 
         error && console.console.log(error);
         // console.log(data[0]);
@@ -249,7 +249,7 @@ export default function DashboardApp() {
     try {
       await supabase
         .from("users")
-        .update({ userMode: mode }).eq('user_id', modeChgCaller);
+        .update({ userMode: mode }).eq('username', modeChgCaller);
       window.location.reload();
     } catch (error) {
       console.log("changeMode: ", error)
@@ -266,8 +266,8 @@ export default function DashboardApp() {
         .from("users")
         // .select()
         .update({ status })
-        .match({ user_id: statusChgCaller })
-      // .eq('user_id', statusChgCaller);
+        .match({ username: statusChgCaller })
+      // .eq('username', statusChgCaller);
 
       console.log(data, error)
       !error && window.location.reload();
@@ -590,7 +590,9 @@ export default function DashboardApp() {
                           const { data, error } = await supabase
                             .from("targeting")
                             .select()
-                            .eq("user_id", user?.user_id)
+                            // .eq("user_id", user?.user_id)
+                            .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+                            .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
                             .order('id', { ascending: false });
                           // error && console.log(
                           //   "🚀 ~ file: Targeting.jsx:63 ~ getTargetingAccounts ~ error",
@@ -633,7 +635,7 @@ export default function DashboardApp() {
                                 {user.status}
                                 <a href="#" onClick={() => {
                                   setshowStatus(!showStatus)
-                                  setStatusChgCaller(user?.user_id)
+                                  setStatusChgCaller(user?.username)
                                 }}>
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -655,7 +657,7 @@ export default function DashboardApp() {
                                 {user.userMode}
                                 <a href="#" onClick={() => {
                                   setshowModes(!showModes)
-                                  setModeChgCaller(user?.user_id)
+                                  setModeChgCaller(user?.username)
                                 }}>
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -685,8 +687,12 @@ export default function DashboardApp() {
                                 if (window.confirm("Are you sure you want to delete this account?")) {
                                   console.log(user?.user_id);
                                   // alert('processing...')
-                                  await supabaseAdmin.auth.admin.deleteUser(user?.user_id)
-                                  await deleteUserDetails(user?.user_id)
+                                  if (user.first_account && window.confirm("Deleting this account will delete all accounts related to it!")){
+                                    await supabaseAdmin.auth.admin.deleteUser(user?.user_id)                                    
+                                    await deleteUserDetails(user?.user_id)
+                                  }else{
+                                    await deleteUserDetails(user?.username, user?.first_account)                                    
+                                  }
                                   // if(!error){
                                   // }else{
                                   //   console.log('An error occurred while deleting the account', error);

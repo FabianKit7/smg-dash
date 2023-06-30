@@ -12,7 +12,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Whitelist({ userId, page }) {
+export default function Whitelist({ user, userId, page }) {
   const [whitelistAccounts, setWhitelistAccounts] = useState([]);
   const [accountName, setAccountName] = useState("");
   const [selectAccountName, setSelectedAccountName] = useState("");
@@ -22,27 +22,6 @@ export default function Whitelist({ userId, page }) {
   const [loading, setLoading] = useState(false);
   const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [addSuccess, setAddSuccess] = useState(false);
-
-  // const insertWhitelist = async () => {
-  //   setLoading(true);
-  //   if (selectAccountName.length > 0) {
-  //     const theAccount = await getAccount(selectAccountName);
-  //     const { error } = await supabase.from("whitelist").insert({
-  //       account: selectAccountName,
-  //       followers: theAccount.data[0].follower_count,
-  //       avatar: theAccount.data[0].profile_pic_url,
-  //       user_id: userId,
-  //     });
-  //     console.log(
-  //       "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
-  //       error
-  //     );
-
-  //     setAccountName("");
-  //     setSelectedAccountName("");
-  //     setLoading(false);
-  //   }
-  // };
 
   useEffect(() => {
     if (accountName.length > 0) {
@@ -63,7 +42,9 @@ export default function Whitelist({ userId, page }) {
       const { data, error } = await supabase
         .from("whitelist")
         .select()
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
+        .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+        .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
         .order('id', { ascending: false });
       error && console.log(
         "🚀 ~ file: Whitelist.jsx:55 ~ getWhitelistedAccounts ~ error",
@@ -88,6 +69,7 @@ export default function Whitelist({ userId, page }) {
         from='whitelist'
         subtitle={subtitle}
         extraSubtitle={extraSubtitle}
+        user={user}
         userId={userId}
         setAddSuccess={setAddSuccess}
         addSuccess={addSuccess}

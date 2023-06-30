@@ -3,6 +3,7 @@ import { Spinner } from "react-bootstrap";
 import { updateUserProfilePicUrl } from "../../helpers";
 import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
+import axios from "axios";
 
 export default function Admin() {
   const [files, setFiles] = useState([]);
@@ -142,11 +143,47 @@ export default function Admin() {
   //   setLoading(false);
   // }
 
+  const updateChargebeeCustomerId = async () => {
+    setLoading(true)
+    const { data, error } = await supabase.from("users").select().eq("subscribed", true).is("chargebee_customer_id", null).limit(1000)
+    if (error) {
+      console.log(error);
+      alert(error?.message)
+    }
+
+    console.log(data);
+    data.forEach(async (user) => {
+      // get chargebee_customer_id
+      let getCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`, { email: user?.email })
+      if (getCustomer?.data?.id) {
+        const update = {
+          chargebee_customer_id: getCustomer?.data?.id
+        }
+        const updateUser = await supabase
+          .from("users")
+          .update(update).eq('username', user?.username)
+        if (updateUser.error) {
+          console.log('update error for: ' + user.username);
+          setLoading(false)
+          return
+        } else {
+          console.log('update success for: ' + user.username);
+          setLoading(false)
+          return
+        }
+      } else {
+        console.log('user not found in chargebee: ' + user.username + ' ' + user.email);
+        setLoading(false)
+        return
+      }
+    });
+  }
+
 
   return (<>
     <Nav />
-    <div className="h-screen grid place-items-center">
-      <div>
+    <div className="h-screen flex flex-col">
+      <div className="w-[250px]">
         <h1 className="mb-5">Upload session file (Json)</h1>
 
         <div className="flex items-center gap-5">
@@ -154,10 +191,18 @@ export default function Admin() {
           {reading && (<Spinner animation="border" />)}
         </div>
 
-        <button className={`${files.length > 0 ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
+        <button className={`${files.length > 0 ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-4 rounded-[10px] py-4 text-base text-white font-bold`}
           onClick={handleUploadSessionFile}
         >
           {Loading ? "Loading " : "Upload"}
+        </button>
+      </div>
+
+      <div className="w-[250px]">
+        <button className={`${files.length > 0 ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] p-4 text-base text-white font-bold`}
+          onClick={updateChargebeeCustomerId}
+        >
+          {Loading ? "PROCESSING..." : "Update All user Chargebee Customer Id"}
         </button>
       </div>
     </div>
@@ -168,5 +213,9 @@ export default function Admin() {
     >
       {Loading ? "updating " : "update"}
     </button>
+
+
+
+
   </>);
 }

@@ -141,7 +141,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
           .update({
             username: vuser?.username,
             profile_pic_url
-          }).eq('user_id', user?.user_id);
+          }).eq('username', user?.username);
         // window.location = `/subscriptions/${userResults.data[0].username}`;
         if (!updateUser.error) {
           const ref = getRefCode()
@@ -159,6 +159,19 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
           return;
         }
       } else {
+        
+        
+        // console.log(user);
+        // console.log("user chargebee_customer_id: ");
+        // console.log(user?.chargebee_customer_id);
+        
+        
+        if (!user?.chargebee_customer_id) {
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Alert', message: 'No CB_ID found' })
+          setProcessing(false);
+          return;
+        }
         let data = {
           customer_id: user?.chargebee_customer_id,
           plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"

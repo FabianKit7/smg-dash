@@ -10,7 +10,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Targeting({ userId, page }) {
+export default function Targeting({ user, userId, page }) {
   const [targetingAccounts, setTargetingAccounts] = useState([]);
   // const [radioValue, setRadioValue] = useState("Account");
   // const [accountName, setAccountName] = useState("");
@@ -40,7 +40,9 @@ export default function Targeting({ userId, page }) {
       const { data, error } = await supabase
         .from("targeting")
         .select()
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
+        .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+        .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
         .order('id', { ascending: false });
 
       if(error) return console.log(error);
@@ -49,7 +51,7 @@ export default function Targeting({ userId, page }) {
     };
 
     getTargetingAccounts();
-  }, [userId, addSuccess]);
+  }, [user, userId, addSuccess]);
 
   const subtitle = "Set up your targeting by adding relevant username of an account."
   const extraSubtitle = "Add Accounts to use as sources for your targeting. Adding accounts as targets will interact with users who follow that account. For optimal results, aim for a follow-back rate of 15%+ across all targets."
@@ -63,6 +65,7 @@ export default function Targeting({ userId, page }) {
         from='targeting'
         subtitle={subtitle}
         extraSubtitle={extraSubtitle}
+        user={user}
         userId={userId}
         setAddSuccess={setAddSuccess}
         addSuccess={addSuccess}

@@ -38,7 +38,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('user_id', userId).order('created_at', { ascending: false })
+        .eq('username', user?.username).order('created_at', { ascending: false })
 
       setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
       setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
@@ -56,7 +56,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
     if (userId) {
       fetch();
     }
-  }, [filterModal, userId])
+  }, [filterModal, user, userId])
 
   const [backupCode, setBackupCode] = useState('')
   const storeBackupCode = async () => {
@@ -67,7 +67,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       .update({
         backupcode: backupCode,
         status: 'checking'
-      }).eq('user_id', userId);
+      }).eq('username', user?.username);
     setProcessing(false)
     window.location.reload()
   }

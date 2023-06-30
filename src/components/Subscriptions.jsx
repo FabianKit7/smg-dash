@@ -764,10 +764,10 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
             setLoading(false);
             return err?.response?.data.err
           })
-          
-          // console.log(createCustomer);
-          // setLoading(false);
-          // return
+
+        // console.log(createCustomer);
+        // setLoading(false);
+        // return
 
         if (createCustomer.message === 'success') {
           // var profile_pic_url = '';
@@ -777,12 +777,31 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           //   profile_pic_url = uploadImageFromURLRes?.data
           // }
 
+          var customer_id = createCustomer?.result?.customer?.id
+
+          // console.log("createCustomer: ");
+          // console.log(createCustomer);
+          // console.log("createCustomer?.result?.customer?.id");
+          // console.log(customer_id);
+
+          if (!customer_id) {
+            let getCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`, { email: user?.email })
+            if (getCustomer?.data?.id) {
+              customer_id = getCustomer?.data?.id
+            }else{
+              setIsModalOpen(true);
+              setErrorMsg({ title: 'Alert', message: "something went wrong, please try again or contact support." })
+              setLoading(false);
+              return;
+            }
+          }
+
           let data = {
             nameOnCard,
             chargebee_subscription: JSON.stringify(createCustomer?.result?.subscription),
             chargebee_subscription_id: createCustomer?.result?.subscription?.id,
             chargebee_customer: JSON.stringify(createCustomer?.result?.customer),
-            chargebee_customer_id: createCustomer?.result?.customer?.id,
+            chargebee_customer_id: customer_id,
 
             username: userResults?.username,
             email: user.email,
@@ -804,7 +823,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
               setLoading(false);
               return;
             }
-            console.log({user});
+            console.log({ user });
             const updateUser = await supabase
               .from("users")
               .update(data).eq('id', user.id);
@@ -812,11 +831,11 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
               console.log(updateUser.error);
               setIsModalOpen(true);
               setErrorMsg({ title: 'Alert', message: `Error updating user's details` })
-              
+
               return;
             }
           } else {
-            const addAccount = await supabase.from("users").insert({ ...data, user_id : user.id});
+            const addAccount = await supabase.from("users").insert({ ...data, user_id: user.id });
             if (addAccount?.error) {
               console.log(addAccount.error);
               setIsModalOpen(true);
@@ -837,7 +856,8 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           console.log('Error creating customer:', createCustomer);
           // alert('An error occurred, please try again or contact support')
           setIsModalOpen(true);
-          setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+          // setErrorMsg({ title: 'Alert', message: 'An error occurred, please try again or contact support!' })
+          setErrorMsg({ title: 'Alert', message: createCustomer?.message ?? 'An error occurred, please try again or contact support!' })
           setLoading(false);
         }
 

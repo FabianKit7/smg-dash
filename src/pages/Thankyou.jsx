@@ -15,9 +15,9 @@ export default function Thankyou() {
             const { data, error } = await supabase
             .from('users')
                 .select()
-                .eq('user_id', user.id)
+                .eq("user_id", user.id)
+                .eq('first_account', true)
             if (error) return navigate("/login")
-console.log('sdlk');
             if (!data[0]?.subscribed) {
                 window.location.pathname = `subscriptions/${data[0].username}`;
                 return;

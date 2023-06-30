@@ -191,7 +191,7 @@ export const updateUserProfilePicUrl = async (user, from) => {
             .from("users")
             .update({
               profile_pic_url: profile_pic_url,
-            }).eq('user_id', user?.user_id);
+            }).eq('username', user?.username);
 
           error && console.log(error)
           return { success: true, ppu: profile_pic_url }
@@ -271,48 +271,17 @@ export const deleteAccount = async (from, id) => {
   // }
 }
 
-export const deleteUserDetails = async (user_id) => {
-  await deleteUser(user_id);
-  await deleteUserBlacklist(user_id);
-  await deleteUserTargeting(user_id);
-  await deleteUserWhitelist(user_id);
+export const deleteUserDetails = async (user_id, first_account) => {
+  await deleteUser(user_id, first_account, 'users');
+  await deleteUser(user_id, first_account, 'targeting');
+  await deleteUser(user_id, first_account, 'whitelist');
+  await deleteUser(user_id, first_account, 'blacklist');
   return 'success'
 }
 
-export const deleteUser = async (user_id) => {
-  const { error } = await supabase
-    .from("users")
-    .delete()
-    .eq('user_id', user_id)
+export const deleteUser = async (user_id, first_account, table) => {
+  const { error } = await supabase.from(table).delete().eq(first_account ? "user_id" : table === 'users' ? "username" : "main_user_username", user_id)
   console.log(error)
-  // return data
-}
-
-export const deleteUserBlacklist = async (user_id) => {
-  const { error } = await supabase
-    .from("blacklist")
-    .delete()
-    .eq('user_id', user_id)
-  console.log(error)
-  // return data
-}
-
-export const deleteUserTargeting = async (user_id) => {
-  const { error } = await supabase
-    .from("targeting")
-    .delete()
-    .eq('user_id', user_id)
-  console.log(error)
-  // return data
-}
-
-export const deleteUserWhitelist = async (user_id) => {
-  const { error } = await supabase
-    .from("whitelist")
-    .delete()
-    .eq('user_id', user_id)
-  console.log(error)
-  // return data
 }
 
 export const getUser = async (uid) => {
@@ -321,7 +290,8 @@ export const getUser = async (uid) => {
     const userObj = await supabase
       .from('users')
       .select('*')
-      .eq('user_id', uid)
+      .eq("user_id", uid)
+      .eq('first_account', true)
     error = userObj.error
     const r = { status: 200, obj: userObj?.data?.[0] }
     // console.log(r);

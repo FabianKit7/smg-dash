@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
 import { IoClose, IoPowerOutline } from 'react-icons/io5';
 import { BsPersonPlus, BsPersonDash } from "react-icons/bs"
@@ -30,13 +30,12 @@ const urlEncode = function (data) {
 
 Modal.setAppElement('#root');
 
-const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
+const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, user, userId, u }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
-  const [instagramPasswordHolder, setInstagramPasswordHolder] = useState("");
-  const [mode, setMode] = useState('auto');
+  const [mode, setMode] = useState(user.userMode ?? "");
   const [showPassword, setShowPassword] = useState(false)
-  const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
+  const instagramPasswordHolder = user?.instagramPassword ?? ""
 
   // const BASE_URL = "http://localhost:8000" //
   // const BASE_URL = 'https://sproutysocial-api.onrender.com'
@@ -46,24 +45,9 @@ const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     setMode(mode === newValue ? '' : newValue);
   }
 
-  useEffect(() => {
-    const fetch = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select()
-        .eq('user_id', userId).order('created_at', { ascending: false })
-      setUser(data[0])
-      setMode(data?.[0]?.userMode || 'auto');
-      setInstagramPasswordHolder(data?.[0]?.instagramPassword);
-      error && console.log(error);
-    }
-    if (userId) {
-      fetch();
-    }
-  }, [userId, modalIsOpen])
-
   const [two_factor_identifier, setTwo_factor_identifier] = useState('')
   const [twoFA, setTwoFA] = useState("");
+  
   const twoFactorLogin = async () => {
     setLoading(true)
     console.log(two_factor_identifier);
@@ -73,7 +57,7 @@ const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
         .update({
           backupcode: twoFA,
           status: 'checking'
-        }).eq('user_id', userId);
+        }).eq('username', user.username);
 
       window.location.reload()
       setLoading(true)
@@ -130,7 +114,7 @@ const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, userId, u }) => {
     const { data, error } = await supabase
       .from('users')
       .update(d)
-      .eq('user_id', userId);
+      .eq('username', user?.username);
     error && console.log(data, error && error);
     setLoading(false)
     if (u === 'admin') {

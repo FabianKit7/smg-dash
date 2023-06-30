@@ -28,7 +28,8 @@ export default function AdminLogin() {
             const dbUser = await supabase
                 .from('users')
                 .select()
-                .eq('user_id', data.user.id)
+                .eq("user_id", data.user.id)
+                .eq('first_account', true)
 
             dbUser.error && console.console.log(error);
             if (!dbUser.data[0]?.admin) {

@@ -135,7 +135,7 @@ const FullName = ({ setShowModal, user, setRefresh, refresh }) => {
     const data = { full_name: value }
     const { error } = await supabase
       .from("users")
-      .update(data).eq("user_id", user.user_id);
+      .update(data).eq("username", user?.username);
 
     error && console.log(error)
     setRefresh(!refresh)
@@ -216,7 +216,7 @@ const Email = ({ setShowModal, user, setRefresh, refresh }) => {
 
       const { error } = await supabase
         .from("users")
-        .update({ email: value }).eq("user_id", user.user_id);
+        .update({ email: value }).eq("username", user?.username);
 
       error && console.log(error)
       setInfo({ title: "Email Confirmation", body: "Check your email and click on the confirmation link" })
@@ -385,7 +385,7 @@ const Phone = ({ setShowModal, user, setRefresh, refresh }) => {
     const data = { phone: value }
     const { error } = await supabase
       .from("users")
-      .update(data).eq("user_id", user.user_id);
+      .update(data).eq("username", user.username);
 
     error && console.log(error)
     setRefresh(!refresh)

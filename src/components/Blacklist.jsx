@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal"
 import { supabase } from "../supabaseClient";
-import { countDays, deleteAccount, getAccount, numFormatter, searchAccount } from "../helpers";
+import { getAccount, searchAccount } from "../helpers";
 import avatarImg from "../images/default_user.png"
 import { ImBin2 } from "react-icons/im"
 import { BsFillPlusSquareFill } from "react-icons/bs"
@@ -12,7 +12,7 @@ import UserCard from "./userCard";
 
 Modal.setAppElement('#root');
 
-export default function Blacklist({ userId, page }) {
+export default function Blacklist({ user, userId, page }) {
   const [blacklistAccounts, setBlacklistAccounts] = useState([]);
   const [accountName, setAccountName] = useState("");
   const [selectAccountName, setSelectedAccountName] = useState("");
@@ -27,12 +27,18 @@ export default function Blacklist({ userId, page }) {
     setLoading(true);
     if (selectAccountName.length > 0) {
       const theAccount = await getAccount(selectAccountName);
-      const { error } = await supabase.from("blacklist").insert({
+      const data = {
         account: selectAccountName,
         followers: theAccount.data[0].follower_count,
         avatar: theAccount.data[0].profile_pic_url,
         user_id: userId,
-      });
+        main_user_username: user.username
+      }
+
+      if (user?.first_account) {
+        delete data.main_user_username
+      }
+      const { error } = await supabase.from("blacklist").insert(data);
       console.log(
         "🚀 ~ file: Blacklist.jsx:25 ~ const{error}=awaitsupabase.from ~ error",
         error
@@ -62,7 +68,9 @@ export default function Blacklist({ userId, page }) {
       const { data, error } = await supabase
         .from("blacklist")
         .select()
-        .eq("user_id", userId)
+        // .eq("user_id", userId)
+        .eq(user?.first_account ? "user_id" : "main_user_username", user?.first_account ? user?.user_id : user?.username)
+        .eq(user?.first_account ? "main_user_username" : "", user?.first_account ? 'nil' : '')
         .order('id', { ascending: false });
       error && console.log(
         "🚀 ~ file: Blacklist.jsx:46 ~ getTargetingAccounts ~ error",
@@ -73,7 +81,7 @@ export default function Blacklist({ userId, page }) {
     };
 
     getTargetingAccounts();
-  }, [userId, selectAccountName, addSuccess]);
+  }, [user, userId, selectAccountName, addSuccess]);
 
   const subtitle = "Blacklist users that you would not like to interact with and we won't follow them when growing your account."
   const extraSubtitle = "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."
@@ -88,6 +96,7 @@ export default function Blacklist({ userId, page }) {
         from='blacklist'
         subtitle={subtitle}
         extraSubtitle={extraSubtitle}
+        user={user}
         userId={userId}
         setAddSuccess={setAddSuccess}
         addSuccess={addSuccess}

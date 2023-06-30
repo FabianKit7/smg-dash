@@ -53,12 +53,12 @@ export default function Dashboard() {
   !!!sessionsData && console.log(sessionsData)
 
   useEffect(() => {
-    const getData = async () => {      
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return navigate("/login")
-      const { data, error } = await supabase.from('users').select()
-        .eq('user_id', user?.id)
-        .eq('username', currentUsername)
+    const getData = async () => {
+      const authUserRes = await supabase.auth.getUser()
+      if (authUserRes.error) return navigate("/login")
+      const authUser = authUserRes?.data?.user
+      const { data, error } = await supabase.from('users').select().eq("user_id", authUser?.id).eq("username", currentUsername).single()
+      const cuser = data
 
       if (error) {
         console.log(error);
@@ -67,7 +67,7 @@ export default function Dashboard() {
       }
 
       // check if the user email match the AuthUser email
-      if (data.length === 0 || user?.email !== data?.[0]?.email) {
+      if (!cuser || authUser?.email !== cuser?.email) {
         if (window.confirm(`You've not registered this account yet, do you want to resiter it now?`)) {
           // window.location.pathname = `search/?username=${currentUsername}`;
           navigate(`/search/?username=${currentUsername}`)
@@ -77,20 +77,20 @@ export default function Dashboard() {
         }
       }
 
-      if (data[0]?.subscribed !== true) {
+      if (cuser?.subscribed !== true) {
         // alert('Please finish your registration')
         setIsModalOpen(true);
         setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
-        // if (data[0]?.username) {
-        //   window.location.pathname = `subscriptions/${data[0]?.username}`;
+        // if (cuser?.username) {
+        //   window.location.pathname = `subscriptions/${cuser?.username}`;
         // } else {
         //   window.location.pathname = `search`;
         // }
         return;
       }
-      if (data?.[0]) {
-        setUserData(data[0])
-        // if (data[0].status === "pending") {
+      if (cuser) {
+        setUserData(cuser)
+        // if (cuser.status === "pending") {
         //   setShowWelcomeModal(true)
         // }
       }
@@ -107,13 +107,13 @@ export default function Dashboard() {
   // setSessionsData
   useEffect(() => {
     const fetch = async () => {
-      console.log(currentUsername);
+      // console.log(currentUsername);
       const resData = await supabase
-      .from('sessions')
-      .select()
-      .eq('username', currentUsername)
+        .from('sessions')
+        .select()
+        .eq('username', currentUsername)
       resData.error && console.log(resData.error);
-      console.log(resData.data);
+      // console.log(resData.data);
       var d = resData?.data?.[0]?.data
       if (!d) return setSessionsData([]);
       try {
@@ -152,7 +152,7 @@ export default function Dashboard() {
       .update({
         backupcode: backupCode,
         status: 'checking'
-      }).eq('user_id', userData?.user_id);
+      }).eq('username', userData?.username);
     setProcessing(false)
     window.location.reload()
   }
@@ -971,7 +971,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
       if (uploadImageFromURLRes?.status === 'success') {
         profile_pic_url = uploadImageFromURLRes?.data
       }
-      
+
       const data = {
         account: filteredSelected,
         followers: theAccount.data[0].follower_count,
@@ -979,8 +979,8 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
         user_id: userId,
         main_user_username: user.username
       }
-      
-      if (user?.first_account){
+
+      if (user?.first_account) {
         delete data.main_user_username
       }
 
@@ -1265,7 +1265,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
         .order('id', { ascending: false });
 
       if (error) return console.log(error);
-      
+
       // console.log(data);
       setTargetingAccounts(data);
     };

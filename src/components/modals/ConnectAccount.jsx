@@ -39,7 +39,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                 instagramPassword: password,
                 messageSender: user.username
             })
-            .eq('user_id', user?.user_id);
+            .eq('username', user?.username);
 
         error && console.log(data, error && error);
         if (error) return alert(error.message);

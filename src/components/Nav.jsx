@@ -31,15 +31,16 @@ export default function Nav({ setShowWelcomeModal }) {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      const { data, error } = await supabase.from("users").select().eq('username', currentUsername).eq("user_id", user.id);
+      const { data, error } = await supabase.from("users").select().eq("user_id", user.id).eq('username', currentUsername).single();
       if (error) {
         console.log(error);
         setError(error);
         return;
       }
-      setData(data[0]);
-      const getAllAccounts = await supabase.from('users').select().eq('email', user.email)
-      setAccounts(getAllAccounts?.data)
+      setData(data);
+      
+      const getAllAccounts = await supabase.from('users').select().eq('email', user.email).order('created_at', { ascending: true })
+      setAccounts(getAllAccounts.data)
     };
 
     getData();

@@ -18,7 +18,7 @@ export default function TargetingFilterModal(props, { min, max }) {
   //   mediaMin: parseInt(localStorage.getItem('mediaMinValue'), 10) || 1,
   //   mediaMax: parseInt(localStorage.getItem('mediaMaxValue'), 10) || 1000,
   // }
-  const { setFilterModal, filtermodal, user_id,
+  const { setFilterModal, filtermodal, user, user_id,
     followerMinValued, followerMaxValued, followingMinValued, followingMaxValued, mediaMinValued, mediaMaxValued, margicd, privacyd, genderd, langd } = props;
 
   const [followerMinValue, setFollowerMinValue] = useState(followerMinValued);
@@ -34,10 +34,11 @@ export default function TargetingFilterModal(props, { min, max }) {
 
   useEffect(() => {
     const fetch = async () => {
+      // re-fetch user information because it might have changed while this is not updated
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('user_id', user_id).order('created_at', { ascending: false })
+        .eq('username', user?.username).order('created_at', { ascending: false })
 
       setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
       setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
@@ -56,7 +57,7 @@ export default function TargetingFilterModal(props, { min, max }) {
       // console.log(user_id);
       fetch();
     }
-  }, [user_id, filtermodal])
+  }, [user_id, user, filtermodal])
 
   const handleSaveAndClose = async () => {
     const targetingFilter = {
@@ -75,7 +76,7 @@ export default function TargetingFilterModal(props, { min, max }) {
     const { error } = await supabase
       .from('users')
       .update({ targetingFilter })
-      .eq('user_id', user_id)
+      .eq('username', user?.username)
     error && console.log(error);
     setFilterModal(false);
   }

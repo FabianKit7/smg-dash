@@ -34,27 +34,28 @@ const ModalNew = (props) => {
     setLoading(true)
     var d = { instagramPassword, userMode: mode }
     if (user?.instagramPassword !== instagramPassword && u !== "admin") {
-      try {
-        const verify = fetch("https://api.lamadava.com/s1/auth/login", {
-          body: `username=${user?.username}&password=${instagramPassword}&verification_code=&proxy=&locale=&timezone=&user_agent=`,
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
-            // 'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
-          },
-          method: "POST"
-        })
-        console.log(verify);
-      } catch (error) {
-        console.log(error);
-      }
+      // try {
+      //   fetch("https://api.lamadava.com/s1/auth/login", {
+      //     body: `username=${user?.username}&password=${instagramPassword}&verification_code=&proxy=&locale=&timezone=&user_agent=`,
+      //     headers: {
+      //       Accept: "application/json",
+      //       "Content-Type": "application/x-www-form-urlencoded",
+      //       // 'x-access-key': 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1',
+      //     },
+      //     method: "POST"
+      //   }).then(res => res.json()).then((data) => {
+      //     console.log(data);          
+      //   })
+      // } catch (error) {
+      //   console.log(error);
+      // }
       d = { ...d, status: 'checking' }
     }
 
     const { error } = await supabase
       .from('users')
       .update(d)
-      .eq('user_id', user?.user_id);
+      .eq('username', user?.username);
     error && console.log(error);
     setLoading(false)
     if (u === 'admin') {

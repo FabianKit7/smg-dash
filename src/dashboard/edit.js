@@ -54,10 +54,10 @@ export default function Edit() {
             const { data, error } = await supabase
                 .from('users')
                 .select()
-                .eq('user_id', username).order('created_at', { ascending: false })
+                .eq('username', username).order('created_at', { ascending: false })
 
             // console.log(data[0]);
-            if (data?.[0]){
+            if (data?.[0]) {
                 setUser(data?.[0])
                 setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
                 setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
@@ -65,7 +65,7 @@ export default function Edit() {
                 setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
                 setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
                 setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
-    
+
                 setMargic(data?.[0]?.targetingFilter.margicFilter || true);
                 setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
                 setGender(data?.[0]?.targetingFilter.gender || 'All');
@@ -86,7 +86,7 @@ export default function Edit() {
     //         const { data, error } = await supabase
     //             .from('users')
     //             .select()
-    //             .eq('user_id', id).order('created_at', { ascending: false })
+    //             .eq("user_id", id).eq('first_account', true).order('created_at', { ascending: false })
 
     //         setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
     //         setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
@@ -143,7 +143,7 @@ export default function Edit() {
                     u={'admin'}
                     setRefreshUser={setRefreshUser}
                 />
-                
+
                 <TargetingFilterModal
                     show={filterModal}
                     onHide={() => setFilterModal(false)}
@@ -183,7 +183,7 @@ export default function Edit() {
                         <p className="font-normal text-sm opacity-90 font-MontserratLight">Posts</p>
                     </div>
                 </div>
-                
+
                 <div className="w-[80vw]">
                     <ChartSection
                         sessionsData={sessionsData}
@@ -191,11 +191,9 @@ export default function Edit() {
                     />
                 </div>
 
-                <Targeting
-                    userId={username} page={'admin'}
-                />
-                <Blacklist userId={username} page={'admin'} />
-                <Whitelist userId={username} page={'admin'} />
+                <Targeting user={user} userId={username} page={'admin'} />
+                <Blacklist user={user} userId={username} page={'admin'} />
+                <Whitelist user={user} userId={username} page={'admin'} />
             </div>
         </div>
     )

@@ -12,7 +12,7 @@ import { FaUser } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
-const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle, userId, setAddSuccess, addSuccess }) => {
+const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle, user, userId, setAddSuccess, addSuccess }) => {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [showResultModal, setShowResultModal] = useState(false)
   const [selected, setSelected] = useState()
@@ -61,6 +61,8 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
   }, [input])
 
   const add = async () => {
+    if (!user) return alert("user not found");
+    
     var filteredSelected = selected;
     if (filteredSelected.startsWith('@')) {
       filteredSelected = filteredSelected.substring(1)
@@ -75,13 +77,20 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
       if (uploadImageFromURLRes?.status === 'success') {
         profile_pic_url = uploadImageFromURLRes?.data
       }
-
-      const res = await supabase.from(from).insert({
+      
+      const data = {
         account: filteredSelected,
         followers: theAccount.data[0].follower_count,
         avatar: profile_pic_url,
         user_id: userId,
-      });
+        main_user_username: user.username
+      }
+      
+      if (user?.first_account) {
+        delete data.main_user_username
+      }
+
+      const res = await supabase.from(from).insert(data);
       res?.error && console.log(
         "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
         res.error
