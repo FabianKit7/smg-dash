@@ -549,7 +549,7 @@ export default function DashboardApp() {
                           const resData = await supabase
                             .from('sessions')
                             .select()
-                            .eq('username', user?.username)
+                            .eq("user_id", user?.user_id).eq("username", user?.username)
                           resData.error && console.log(resData.error);
                           if (resData?.data?.[0]?.data) {
                             // console.log(resData?.data[0]?.data);

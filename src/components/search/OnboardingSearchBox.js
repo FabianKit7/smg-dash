@@ -141,7 +141,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
           .update({
             username: vuser?.username,
             profile_pic_url
-          }).eq('username', user?.username);
+          }).eq("user_id", user?.user_id).eq("username", user?.username);
         // window.location = `/subscriptions/${userResults.data[0].username}`;
         if (!updateUser.error) {
           const ref = getRefCode()

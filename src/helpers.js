@@ -191,7 +191,7 @@ export const updateUserProfilePicUrl = async (user, from) => {
             .from("users")
             .update({
               profile_pic_url: profile_pic_url,
-            }).eq('username', user?.username);
+            }).eq("user_id", user?.user_id).eq("username", user?.username);
 
           error && console.log(error)
           return { success: true, ppu: profile_pic_url }

@@ -135,7 +135,7 @@ const FullName = ({ setShowModal, user, setRefresh, refresh }) => {
     const data = { full_name: value }
     const { error } = await supabase
       .from("users")
-      .update(data).eq("username", user?.username);
+      .update(data).eq("user_id", user?.user_id).eq("username", user?.username);
 
     error && console.log(error)
     setRefresh(!refresh)
@@ -385,7 +385,7 @@ const Phone = ({ setShowModal, user, setRefresh, refresh }) => {
     const data = { phone: value }
     const { error } = await supabase
       .from("users")
-      .update(data).eq("username", user.username);
+      .update(data).eq("user_id", user?.user_id).eq("username", user?.username);
 
     error && console.log(error)
     setRefresh(!refresh)

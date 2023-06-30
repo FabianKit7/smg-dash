@@ -162,7 +162,7 @@ export default function Admin() {
         }
         const updateUser = await supabase
           .from("users")
-          .update(update).eq('username', user?.username)
+          .update(update).eq("user_id", user?.user_id).eq("username", user?.username)
         if (updateUser.error) {
           console.log('update error for: ' + user.username);
           setLoading(false)

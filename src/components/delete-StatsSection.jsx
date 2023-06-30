@@ -38,7 +38,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       const { data, error } = await supabase
         .from('users')
         .select()
-        .eq('username', user?.username).order('created_at', { ascending: false })
+        .eq("user_id", user?.user_id).eq("username", user?.username).order('created_at', { ascending: false })
 
       setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
       setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
@@ -67,7 +67,7 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
       .update({
         backupcode: backupCode,
         status: 'checking'
-      }).eq('username', user?.username);
+      }).eq("user_id", user?.user_id).eq("username", user?.username);
     setProcessing(false)
     window.location.reload()
   }

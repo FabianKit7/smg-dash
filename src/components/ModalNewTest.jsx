@@ -114,7 +114,7 @@ const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, user, userId, u }) => {
     const { data, error } = await supabase
       .from('users')
       .update(d)
-      .eq('username', user?.username);
+      .eq("user_id", user?.user_id).eq("username", user?.username);
     error && console.log(data, error && error);
     setLoading(false)
     if (u === 'admin') {
