@@ -152,6 +152,7 @@ export default function Admin() {
     }
 
     console.log(data);
+    
     data.forEach(async (user) => {
       // get chargebee_customer_id
       let getCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`, { email: user?.email })

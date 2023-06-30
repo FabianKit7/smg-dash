@@ -192,16 +192,25 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
             username: vuser?.username,
             followers: vuser?.follower_count,
             following: vuser?.following_count,
-            profile_pic_url,
             is_verified: vuser?.is_verified,
             biography: vuser?.biography,
-            start_time: getStartingDay(),
             posts: vuser?.media_count,
+            profile_pic_url,
+            start_time: getStartingDay(),
             chargebee_subscription: JSON.stringify(createSubscription?.result?.subscription),
             chargebee_subscription_id: createSubscription?.result?.subscription?.id,
+            status: 'pending',
+            userMode: 'auto',
             first_account: false
           }
           delete data.id
+          delete data.created_at
+          delete data.targetingFilter
+          delete data.profile
+          delete data.total_interactions
+          delete data.backupcode
+          delete data.messageSender
+          delete data.msg
           // console.log(data);
           const addUser = await supabase.from("users").insert(data);
 
