@@ -19,6 +19,7 @@ import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
 import { useState } from "react";
+import ManageAccounts from "./pages/ManageAccounts";
 // import { getCookie } from "./helpers";
 
 
@@ -70,6 +71,7 @@ function App() {
           <Route path="/:username/settings" exact element={<Settings />} />
           <Route path="/thankyou" exact element={<Thankyou />} />
           <Route path="/dashboard/:username" exact element={<Dashboard />} />
+          <Route path="/dashboard/:username/manage" exact element={<ManageAccounts />} />
 
           <Route path="/admin" exact element={<Admin />} />
           <Route path="/chat/:username" exact element={<Chat />} />

@@ -4,7 +4,7 @@ import { supabase } from "../supabaseClient";
 // import sproutyLogo from "../images/sprouty.svg";
 import { useClickOutside } from "react-click-outside-hook";
 import { FaAngleDown } from "react-icons/fa";
-import { FiLogOut } from "react-icons/fi";
+import { FiGrid, FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 
@@ -51,13 +51,10 @@ export default function Nav({ setShowWelcomeModal }) {
       <div
         className="flex justify-between items-center mt-2 md:mt-[20px]"
       >
-        <Link to="/" className="navbar-brand" href="#">
-          {/* <img src={sproutyLogo} alt="sprouty social" /> */}
+        <Link to={`${data?.username ? `/dashboard/${data?.username}` : "/"}`} className="navbar-brand" href="#">
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
             <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
             <img src="/sproutysocial-light.svg" alt="" className="hidden md:inline  w-[346px]" />
-            {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
-            {/* <strong className="text-left">SPROUTYSOCIAL</strong> */}
           </div>
         </Link>
 
@@ -72,6 +69,10 @@ export default function Nav({ setShowWelcomeModal }) {
               </svg>
             </svgicon>
           }
+          <Link className="w-[50px] h-[50px] p-[10px]" to={"/dashboard/" + data?.username + "/manage"}>
+            <FiGrid size={30} className="w-[30px] h-[30px]" />
+          </Link>
+          
           {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
               src={data?.profile_pic_url}
@@ -79,11 +80,12 @@ export default function Nav({ setShowWelcomeModal }) {
               alt={data?.username?.charAt(0)?.toUpperCase()}
               loading="lazy"
             />
+            
             <div className="relative flex items-center gap-2 font-MontserratRegular text-lg">
-              <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden md:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
-              <FaAngleDown className="hidden md:block" />
+              <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden lg:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
+              <FaAngleDown className="hidden lg:block" />
 
-              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-[200px] top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-MontserratBold`}
+              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-MontserratBold`}
                 style={{
                   transition: "opacity .15s ease-in"
                 }}
@@ -115,23 +117,18 @@ export default function Nav({ setShowWelcomeModal }) {
 
                 <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">Options</div>
 
-                {/* <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/dashboard/" + data?.user_id}
+                <Link className="font-normal text-sm hover:bg-[#f8f8f8] cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
                   onClick={() => {
                     setIsOpen(!isOpen);
                     setActiveLink("Profile");
                   }}
                 >
-                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Profile" ? "bg-activelink" : ""}`}>
-                    <img
-                      src={data?.profile_pic_url}
-                      className="rounded-full w-[32px] h-[32px]"
-                      alt={data?.username?.charAt(0)?.toUpperCase()}
-                      loading="lazy"
-                    />
-                    Profile
+                  <li className={`py-2 px-6 flex items-center gap-3`}>
+                    <FiGrid size={32} className="w-[32px] h-[32px]" />
+                    Manage Accounts
                   </li>
-                </Link> */}
-
+                </Link>
+                
                 <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/search/?username=add_account"}
                   onClick={() => {
                     setIsOpen(!isOpen);

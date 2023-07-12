@@ -770,13 +770,6 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         // return
 
         if (createCustomer.message === 'success') {
-          // var profile_pic_url = '';
-          // const uploadImageFromURLRes = await uploadImageFromURL(userResults?.username, userResults?.profile_pic_url)
-
-          // if (uploadImageFromURLRes?.status === 'success') {
-          //   profile_pic_url = uploadImageFromURLRes?.data
-          // }
-
           var customer_id = createCustomer?.result?.customer?.id
 
           // console.log("createCustomer: ");
@@ -808,7 +801,6 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
             full_name: user.full_name,
             followers: userResults?.follower_count,
             following: userResults?.following_count,
-            // profile_pic_url,
             is_verified: userResults?.is_verified,
             biography: userResults?.biography,
             start_time: getStartingDay(),
@@ -823,7 +815,9 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
               setLoading(false);
               return;
             }
-            console.log({ user });
+            
+            // console.log({ data });
+            
             const updateUser = await supabase
               .from("users")
               .update(data).eq('id', user.id);

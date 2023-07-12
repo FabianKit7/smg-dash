@@ -266,8 +266,8 @@ export default function DashboardApp() {
         .from("users")
         // .select()
         .update({ status })
-        .match({ username: statusChgCaller })
-      // .eq('username', statusChgCaller);
+        .eq('username', statusChgCaller);
+        // .match({ username: statusChgCaller });
 
       console.log(data, error)
       !error && window.location.reload();
