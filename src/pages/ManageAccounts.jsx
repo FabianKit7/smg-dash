@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Nav from "../components/Nav";
 import { supabase } from "../supabaseClient";
 import { AiOutlinePlus } from "react-icons/ai";
-import { numFormatter } from "../helpers";
+import { numFormatter, sumTotalInteractions } from "../helpers";
 import { FaUserCog } from "react-icons/fa";
 import ModalNew from "../components/ModalNew";
 
@@ -16,6 +16,7 @@ export default function ManageAccounts() {
     const [showSettingsModal, setShowSettingsModal] = useState(false)
     const [accountToSet, setAccountToSet] = useState()
     const [refreshUser, setRefreshUser] = useState(false)
+    // const [totalInteractions, setTotalInteractions] = useState([{ username: '', value: 0 }])
 
     useEffect(() => {
         const getData = async () => {
@@ -28,6 +29,75 @@ export default function ManageAccounts() {
         getData();
     }, [currentUsername, navigate, refreshUser]);
 
+    // // setSessionsData
+    // useEffect(() => {
+    //     const list = totalInteractions
+    //     const fetch = async () => {
+    //         if (accounts.length === 0) return;
+    //         accounts.forEach(async (account) => {
+    //             const alreadyExists = totalInteractions.find(a => a.username === account.username)
+    //             console.log(alreadyExists);
+    //             if (alreadyExists) return;
+                
+    //             const resData = await supabase
+    //                 .from('sessions')
+    //                 .select()
+    //                 .eq('username', account.username).single()
+    //             // resData.error && console.log(resData.error);
+    //             // console.log(resData.data);   
+    //             var d = resData?.data?.data
+    //             if (!d) return;
+    //             try {
+    //                 const c = JSON.parse(resData.data.data);
+    //                 if (c) { d = c }
+    //             } catch (error) {
+    //                 // console.log(error);
+    //             }
+    //             // console.log(d);
+    //             // setSessionsData(d)
+    //             list.push({ username: account.username, value: sumTotalInteractions(d) });
+    //             console.log(list);
+    //             // setTotalInteractions(sumTotalInteractions(d))
+                
+    //         });
+    //         console.log(list);
+    //         setTotalInteractions(list)
+            
+    //     }
+    //     if (currentUsername) {
+    //         fetch()
+    //         console.log('hey');
+    //         setTotalInteractions(list)
+    //     }
+    // }, [accounts, currentUsername, totalInteractions])
+    
+    
+    const getTotalInteractions = (username) => {
+        const fetch = async ()=> {
+            const resData = await supabase
+                .from('sessions')
+                .select()
+                .eq('username', username).single()
+            // resData.error && console.log(resData.error);
+            // console.log(resData.data);   
+            var d = resData?.data?.data
+            if (!d) return;
+            try {
+                const c = JSON.parse(resData.data.data);
+                if (c) { d = c }
+            } catch (error) {
+                // console.log(error);
+            }
+            // console.log(d);
+            // setSessionsData(d)
+            const result = sumTotalInteractions(d);
+            document.getElementById(`interaction_${username}`).textContent = result ? numFormatter(result) : 0;
+        }
+        fetch()
+    }
+    
+
+
     return (
         <>
             <ModalNew
@@ -39,7 +109,7 @@ export default function ManageAccounts() {
                 u={'user'}
                 setRefreshUser={setRefreshUser}
             />
-            
+
             <div className="max-w-[1400px] mx-auto">
                 <Nav />
 
@@ -62,13 +132,15 @@ export default function ManageAccounts() {
                 <div className="relative grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10 m-5 mt-0 items-center">
                     {accounts.map(account => {
                         return (
-                            <Link to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[384px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#00000040] bg-white text-black">
+                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#00000040] bg-white text-black cursor-pointer z-[5]" onClick={() => {
+                                // navigate("/dashboard/" + account?.username)
+                            }}>
                                 <div className="flex lg:flex-col w-full">
                                     <div className="hidden lg:flex justify-center items-center gap-2">
                                         <img src="/icons/instagram.svg" alt="ig" className="w-[20px] h-[20px] rounded-full" />
                                         <div className="text-[18px] font-bold">Instagram Account</div>
                                     </div>
-                                    
+
                                     <div className="flex justify-between lg:justify-center items-center w-full">
                                         <div className="flex items-center lg:flex-col gap-[14px]">
                                             <div className="relative w-[54px] h-[54px] lg:w-[160px] lg:h-[160px] lg:mt-10 lg:mx-auto">
@@ -84,11 +156,11 @@ export default function ManageAccounts() {
                                                 <div className="text-[#1B89FF] text-[12px] lg:text-[18px] leading-[0.8] font-bold">@{account?.username}</div>
                                             </div>
                                         </div>
-                                        <div className="lg:hidden w-[32px] h-[32px] rounded-lg bg-[#1B89FF] grid place-items-center cursor-pointer" onClick={() => {
+                                        <div className="lg:hidden w-[32px] h-[32px] rounded-lg bg-[#1B89FF] grid place-items-center cursor-pointer relative z-10" onClick={() => {
                                             setAccountToSet(account)
                                             setShowSettingsModal(true);
                                         }}>
-                                            <FaUserCog size={20} className="w-[19px] h-[19px] fill-white"/>
+                                            <FaUserCog size={20} className="w-[19px] h-[19px] fill-white" />
                                         </div>
                                     </div>
                                 </div>
@@ -101,17 +173,19 @@ export default function ManageAccounts() {
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px]">Following</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8]">{numFormatter(account.following)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px]">Interactions</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8]" id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                         )
                     })}
-                    
-                    <Link to={"/search/?username=add_account"} className="items-center w-full lg:w-[384px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#00000040] bg-white text-black">
+
+                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#00000040] bg-white text-black">
                         <div className="relative w-[80px] h-[80px] lg:w-[160px] lg:h-[160px] mx-auto">
                             <div className="w-full h-full rounded-full bg-black text-white grid place-items-center">
                                 <AiOutlinePlus size={50} className="w-[24px] h-[24px] lg:w-[50px] lg:h-[50px]" />

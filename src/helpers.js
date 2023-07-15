@@ -388,3 +388,14 @@ export function getRefCode() {
   }
   return ''
 }
+  
+export function sumTotalInteractions(arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    const obj = arr[i];
+    if (obj.hasOwnProperty("total_interactions")) {
+      sum += obj.total_interactions;
+    }
+  }
+  return sum;
+}

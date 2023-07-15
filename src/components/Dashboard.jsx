@@ -11,7 +11,7 @@ import { RiUserSettingsFill } from "react-icons/ri";
 import { TiTimes } from "react-icons/ti";
 import { Spinner } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { countDays, deleteAccount, getAccount, numFormatter, searchAccount, updateUserProfilePicUrl, uploadImageFromURL } from "../helpers";
+import { countDays, deleteAccount, getAccount, numFormatter, searchAccount, sumTotalInteractions, updateUserProfilePicUrl, uploadImageFromURL } from "../helpers";
 import { supabase } from "../supabaseClient";
 import Nav from "./Nav";
 import TargetingFilterModal from './TargetingFilterModal'
@@ -131,17 +131,6 @@ export default function Dashboard() {
       fetch()
     }
   }, [currentUsername])
-
-  function sumTotalInteractions(arr) {
-    let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
-      const obj = arr[i];
-      if (obj.hasOwnProperty("total_interactions")) {
-        sum += obj.total_interactions;
-      }
-    }
-    return sum;
-  }
 
   const [backupCode, setBackupCode] = useState('')
   const storeBackupCode = async () => {
