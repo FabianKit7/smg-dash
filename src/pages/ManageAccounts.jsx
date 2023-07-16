@@ -168,17 +168,17 @@ export default function ManageAccounts() {
                                 <div className="mt-5 flex justify-between items-center text-center w-full">
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px]">Followers</div>
-                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8]">{numFormatter(account.followers)}</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.followers)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px]">Following</div>
-                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8]">{numFormatter(account.following)}</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.following)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px]">Interactions</div>
-                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8]" id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold" id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
                                     </div>
                                 </div>
                             </div>
