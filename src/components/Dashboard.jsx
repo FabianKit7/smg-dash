@@ -49,6 +49,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [admin, setAdmin] = useState(false)
 
   !!!sessionsData && console.log(sessionsData)
 
@@ -57,17 +58,31 @@ export default function Dashboard() {
       const authUserRes = await supabase.auth.getUser()
       if (authUserRes.error) return navigate("/login")
       const authUser = authUserRes?.data?.user
-      const { data, error } = await supabase.from('users').select().eq("user_id", authUser?.id).eq("username", currentUsername).single()
-      const cuser = data
+      const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
+      const superUser = getSuperUser?.data?.[0]
+      var cuser
+      var errorE
+      superUser && setAdmin(superUser?.admin)
+      if (superUser.admin) {
+        const { data, error } = await supabase.from('users').select().eq("username", currentUsername).single()
+        errorE = error
+        cuser = data
+      } else {
+        const { data, error } = await supabase.from('users').select().eq("user_id", authUser?.id).eq("username", currentUsername).single()
+        errorE = error
+        cuser = data
+      }
 
-      if (error) {
-        console.log(error);
-        alert(error?.message)
+      if (errorE) {
+        console.log(errorE);
+        // alert(error?.message)
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Alert', message: errorE?.message })
         return;
       }
 
       // check if the user email match the AuthUser email
-      if (!cuser || authUser?.email !== cuser?.email) {
+      if ((!cuser || authUser?.email !== cuser?.email) && !superUser.admin) {
         if (window.confirm(`You've not registered this account yet, do you want to resiter it now?`)) {
           // window.location.pathname = `search/?username=${currentUsername}`;
           navigate(`/search/?username=${currentUsername}`)
@@ -88,13 +103,14 @@ export default function Dashboard() {
         // }
         return;
       }
+
       if (cuser) {
         setUserData(cuser)
         // if (cuser.status === "pending") {
         //   setShowWelcomeModal(true)
         // }
       }
-      setError(error)
+      setError(errorE)
       setLoading(false)
     };
 
@@ -141,7 +157,7 @@ export default function Dashboard() {
       .update({
         backupcode: backupCode,
         status: 'checking'
-      }).eq('username', userData?.username);
+      }).eq('username', currentUsername);
     setProcessing(false)
     window.location.reload()
   }
@@ -156,7 +172,7 @@ export default function Dashboard() {
         event: 'UPDATE',
         schema: 'public',
         table: 'users',
-        filter: `id=eq.${userData.id}`
+        filter: `username=eq.${currentUsername}`
       }, payload => {
         // console.log('client: Change received!', payload)
         const status = payload?.new?.status
@@ -177,7 +193,7 @@ export default function Dashboard() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [userData]);
+  }, [currentUsername, userData]);
 
   if (error) return <Error value={username} />;
 
@@ -187,6 +203,10 @@ export default function Dashboard() {
 
   return (
     <>
+      {admin && <div className="fixed top-4 left-2 text-xl text-[#8c2828] font-MontserratBold font-bold tracking-[0.6em] cursor-pointer"
+      // onClick={async () => { await supabase.auth.signOut() }}
+      >ADMIN</div>}
+
       <div className="max-w-[1400px] mx-auto">
         <AlertModal
           isOpen={isModalOpen}
@@ -204,7 +224,11 @@ export default function Dashboard() {
           message={errorMsg?.message}
         />
 
-        <Nav setShowWelcomeModal={setShowWelcomeModal} />
+        <Nav
+          setShowWelcomeModal={setShowWelcomeModal}
+          userD={userData}
+          admin={admin}
+        />
 
         {/* <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)}
         setShowWelcomeModal={setShowWelcomeModal}
@@ -217,6 +241,7 @@ export default function Dashboard() {
             userId={userData.user_id}
             user={userData}
             setMobileAdd={setMobileAdd}
+            admin={admin}
           />
         }
 

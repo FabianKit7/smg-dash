@@ -8,7 +8,7 @@ import { FiGrid, FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 
-export default function Nav({ setShowWelcomeModal }) {
+export default function Nav({ setShowWelcomeModal, userD, admin }) {
   let { username } = useParams();
   const currentUsername = username
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -28,23 +28,31 @@ export default function Nav({ setShowWelcomeModal }) {
 
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      const { data, error } = await supabase.from("users").select().eq("user_id", user.id).eq('username', currentUsername).single();
-      if (error) {
-        console.log(error);
-        setError(error);
-        return;
+      var uEmail;
+      if (!userD) {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        uEmail = user.email
+
+        const { data, error } = await supabase.from("users").select().eq("user_id", user.id).eq('username', currentUsername).single();
+        if (error) {
+          console.log(error);
+          setError(error);
+          return;
+        }
+        setData(data);
+      } else {
+        setData(userD);
+        uEmail = userD?.email
       }
-      setData(data);
-      
-      const getAllAccounts = await supabase.from('users').select().eq('email', user.email).order('created_at', { ascending: true })
-      setAccounts(getAllAccounts.data)
+
+      const getAllAccounts = await supabase.from('users').select().eq('email', uEmail).order('created_at', { ascending: true })
+      setAccounts(getAllAccounts?.data)
     };
 
     getData();
-  }, [currentUsername]);
+  }, [currentUsername, userD]);
 
   return (
     <nav className="mb-[30px]" ref={parentRef}>
@@ -69,10 +77,10 @@ export default function Nav({ setShowWelcomeModal }) {
               </svg>
             </svgicon>
           }
-          <Link className="w-[50px] h-[50px] p-[10px]" to={"/dashboard/" + data?.username + "/manage"}>
+          {!admin && <Link className="w-[50px] h-[50px] p-[10px]" to={"/dashboard/" + data?.username + "/manage"}>
             <FiGrid size={30} className="w-[30px] h-[30px]" />
-          </Link>
-          
+          </Link>}
+
           {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
               src={data?.profile_pic_url}
@@ -80,7 +88,7 @@ export default function Nav({ setShowWelcomeModal }) {
               alt={data?.username?.charAt(0)?.toUpperCase()}
               loading="lazy"
             />
-            
+
             <div className="relative flex items-center gap-2 font-MontserratRegular text-lg">
               <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden lg:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
               <FaAngleDown className="hidden lg:block" />
@@ -115,71 +123,73 @@ export default function Nav({ setShowWelcomeModal }) {
                   })}
                 </div>
 
-                <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">Options</div>
+                {!admin && <div className="">
+                  <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">Options</div>
 
-                <Link className="font-normal text-sm hover:bg-[#f8f8f8] cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                    setActiveLink("Profile");
-                  }}
-                >
-                  <li className={`py-2 px-6 flex items-center gap-3`}>
-                    <FiGrid size={32} className="w-[32px] h-[32px]" />
-                    Manage Accounts
-                  </li>
-                </Link>
-                
-                <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/search/?username=add_account"}
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                    setActiveLink("Profile");
-                  }}
-                >
-                  <li className={`py-2 px-6 flex items-center gap-3`}>
-                    <AiOutlinePlus size={32} className="rounded-full w-[32px] h-[32px]" />
-                    Add Account
-                  </li>
-                </Link>
+                  <Link className="font-normal text-sm hover:bg-[#f8f8f8] cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                      setActiveLink("Profile");
+                    }}
+                  >
+                    <li className={`py-2 px-6 flex items-center gap-3`}>
+                      <FiGrid size={32} className="w-[32px] h-[32px]" />
+                      Manage Accounts
+                    </li>
+                  </Link>
 
-                <Link to={`/${data?.username}/settings`} className="font-normal text-sm hover:bg-[#f8f8f8]"
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                    setActiveLink("Settings");
-                  }}
-                >
-                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
-                    <AiOutlineSetting size={32} className="rounded-full w-[32px] h-[32px]" />
-                    Settings
-                  </li>
-                </Link>
+                  <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/search/?username=add_account"}
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                      setActiveLink("Profile");
+                    }}
+                  >
+                    <li className={`py-2 px-6 flex items-center gap-3`}>
+                      <AiOutlinePlus size={32} className="rounded-full w-[32px] h-[32px]" />
+                      Add Account
+                    </li>
+                  </Link>
 
-                {data?.admin && <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/admin"}
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                    setActiveLink("Admin");
-                  }}
-                >
-                  <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Admin" ? "bg-activelink" : ""}`}>
-                    <MdAdminPanelSettings size={32} className="rounded-full w-[32px] h-[32px]" />
-                    Admin
-                  </li>
-                </Link>}
+                  <Link to={`/${data?.username}/settings`} className="font-normal text-sm hover:bg-[#f8f8f8]"
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                      setActiveLink("Settings");
+                    }}
+                  >
+                    <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
+                      <AiOutlineSetting size={32} className="rounded-full w-[32px] h-[32px]" />
+                      Settings
+                    </li>
+                  </Link>
 
-                <li className="py-2 px-6 cursor-pointer hover:bg-[#f8f8f8] flex items-center gap-3"
-                  onClick={async () => {
-                    setIsOpen(!isOpen);
-                    await supabase.auth.signOut();
-                    window.onbeforeunload = function () {
-                      localStorage.clear();
-                    }
-                    window.location.pathname = "/login";
-                  }}
-                >
-                  <FiLogOut size={32} className="rounded-full w-[32px] h-[32px]" />
-                  <p className="font-normal text-sm" >
-                    Log out
-                  </p>
-                </li>
+                  {data?.admin && <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/admin"}
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                      setActiveLink("Admin");
+                    }}
+                  >
+                    <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Admin" ? "bg-activelink" : ""}`}>
+                      <MdAdminPanelSettings size={32} className="rounded-full w-[32px] h-[32px]" />
+                      Admin
+                    </li>
+                  </Link>}
+
+                  <li className="py-2 px-6 cursor-pointer hover:bg-[#f8f8f8] flex items-center gap-3"
+                    onClick={async () => {
+                      setIsOpen(!isOpen);
+                      await supabase.auth.signOut();
+                      window.onbeforeunload = function () {
+                        localStorage.clear();
+                      }
+                      window.location.pathname = "/login";
+                    }}
+                  >
+                    <FiLogOut size={32} className="rounded-full w-[32px] h-[32px]" />
+                    <p className="font-normal text-sm" >
+                      Log out
+                    </p>
+                  </li>
+                </div>}
               </ul>
             </div>
           </div>}

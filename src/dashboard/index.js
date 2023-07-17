@@ -784,7 +784,7 @@ export default function DashboardApp() {
   }
 }
 
-const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
+export const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
   const [parentRef, isClickedOutside] = useClickOutside();
   const [message, setMessage] = useState('')
   const [profilePicture, setProfilePicture] = useState()
@@ -851,7 +851,7 @@ const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
   )
 }
 
-const Chargebee = ({ k, user, setShowChargebee }) => {
+export const Chargebee = ({ k, user, setShowChargebee }) => {
   const [customer, setCustomer] = useState('')
   const [subscription, setsubscription] = useState()
   const [currentUser, setCurrentUser] = useState()
