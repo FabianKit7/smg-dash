@@ -30,7 +30,7 @@ const urlEncode = function (data) {
 
 Modal.setAppElement('#root');
 
-const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, user, userId, u }) => {
+const SettingsModalTest = ({ modalIsOpen, setIsOpen, avatar, user, userId, u }) => {
   const [instagramPassword, setInstagramPassword] = useState("");
   const [mode, setMode] = useState(user.userMode ?? "");
   const [showPassword, setShowPassword] = useState(false)
@@ -251,4 +251,4 @@ const ModalNewTest = ({ modalIsOpen, setIsOpen, avatar, user, userId, u }) => {
   );
 }
 
-export default ModalNewTest
+export default SettingsModalTest

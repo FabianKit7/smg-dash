@@ -540,49 +540,6 @@ export default function DashboardApp() {
                   <tbody className=''>
                     {users && users.map((user, index) => {
                       const username = user?.username;
-                      var sessionData = '';
-
-                      const fetch = async () => {
-                        try {
-                          if((user.status).toLowerCase() === "pending") return;
-
-                          const resData = await supabase
-                            .from('sessions')
-                            .select()
-                            .eq("user_id", user?.user_id).eq("username", user?.username)
-                          resData.error && console.log(resData.error);
-                          if (resData?.data?.[0]?.data) {
-                            // console.log(resData?.data[0]?.data);
-                            // const d = JSON.parse(resData?.data[0]?.data)
-                            const d = resData?.data[0]?.data
-                            // console.log(d[0]);
-                            const followers = document.querySelector(`#followers_${index}_${user?.id}`)
-                            const following = document.querySelector(`#following_${index}_${user?.id}`)
-                            // console.log(d?.[0]?.args?.username, ":", d?.[0]?.profile?.followers);
-                            if (followers && following) {
-                              if (d?.[0]?.profile?.followers){
-                                followers.textContent = d?.[0]?.profile?.followers
-                              }else{
-                                followers.textContent = user?.profile?.followers
-                              }
-                              if (d?.[0]?.profile?.following){
-                                following.textContent = d?.[0]?.profile?.following || '';
-                              } else {
-                                following.textContent = user?.profile?.following
-                              }
-                            }
-                            sessionData = d[0]
-                          }
-                        } catch (error) {
-                          console.log("handleRefresh: ", error)
-                        }
-                      }
-
-                      if (username && user?.email) {
-                        setTimeout(async () => {
-                          await fetch()
-                        }, 500);
-                      }
 
                       const getTargetingAccounts = async () => {
                         // console.log(user);
@@ -615,13 +572,8 @@ export default function DashboardApp() {
                       if (username && user?.email) {
                         setTimeout(async () => {
                           await getTargetingAccounts();
-                        }, 500);
+                        }, 1000);
                       }
-
-
-                      // console.log(user.profile);
-
-                      sessionData && console.log(sessionData);
                       // if (username && user?.email) {
                       if (username) {
                         return (
@@ -649,8 +601,8 @@ export default function DashboardApp() {
                                 </a>
                               </div>
                             </td>
-                            <td className="px-2 max-w-[40px] break-all py-4" id={`followers_${index}_${user?.id}`}>{user.followers}</td>
-                            <td className="px-2 max-w-[40px] break-all py-4" id={`following_${index}_${user?.id}`}>{user.following}</td>
+                            <td className="px-2 max-w-[40px] break-all py-4">{user.followers}</td>
+                            <td className="px-2 max-w-[40px] break-all py-4">{user.following}</td>
                             <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${user?.id}_t`}>0</td>
                             <td className="px-6 py-4">
                               <div className="flex items-center relative">

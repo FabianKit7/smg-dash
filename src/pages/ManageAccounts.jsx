@@ -6,7 +6,7 @@ import { supabase } from "../supabaseClient";
 import { AiOutlinePlus } from "react-icons/ai";
 import { numFormatter, sumTotalInteractions } from "../helpers";
 import { FaUserCog } from "react-icons/fa";
-import ModalNew from "../components/ModalNew";
+import SettingsModal from "../components/SettingsModal";
 
 export default function ManageAccounts() {
     let { username } = useParams();
@@ -100,7 +100,7 @@ export default function ManageAccounts() {
 
     return (
         <>
-            <ModalNew
+            <SettingsModal
                 show={showSettingsModal}
                 onHide={() => setShowSettingsModal(false)}
                 modalIsOpen={showSettingsModal}

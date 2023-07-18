@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Blacklist from '../components/Blacklist';
-import ModalNew from '../components/ModalNew';
+import SettingsModal from '../components/SettingsModal';
 import Targeting from '../components/Targeting';
 import Whitelist from '../components/Whitelist';
 import { supabase } from '../supabaseClient';
@@ -134,7 +134,7 @@ export default function Edit() {
     return (
         <div className="max-w-[1600px] md:min-w-[500px] mx-auto bg-white">
             <div className="flex flex-col items-center w-full py-20">
-                <ModalNew
+                <SettingsModal
                     show={modalIsOpen}
                     onHide={() => setIsOpen(false)}
                     modalIsOpen={modalIsOpen}

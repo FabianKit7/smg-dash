@@ -13,7 +13,7 @@ axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 
-const ModalNew = (props) => {
+const SettingsModal = (props) => {
   const { modalIsOpen, setIsOpen, user, setRefreshUser, u } = props
 
   const [instagramPassword, setInstagramPassword] = useState("");
@@ -49,7 +49,7 @@ const ModalNew = (props) => {
       // } catch (error) {
       //   console.log(error);
       // }
-      d = { ...d, status: 'checking' }
+      d = { ...d, status: 'new' }
     }
 
     const { error } = await supabase
@@ -105,6 +105,7 @@ const ModalNew = (props) => {
                   // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
                   type={showPassword ? "text" : "password"}
                   placeholder='Instagram Password'
+                  autoComplete='new-password'
                   value={instagramPassword}
                   onChange={(e) => {
                     setInstagramPassword(e.target.value)
@@ -227,4 +228,4 @@ const ModalNew = (props) => {
   );
 }
 
-export default ModalNew
+export default SettingsModal

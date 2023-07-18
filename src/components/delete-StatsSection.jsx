@@ -4,8 +4,8 @@ import { RiUserSettingsFill } from "react-icons/ri"
 import { numFormatter } from "../helpers"
 import profileImg from "../images/profile.svg"
 import settingsImg from "../images/settings.svg"
-import ModalNew from "./ModalNew"
-import ModalNewTest from "./ModalNewTest"
+import SettingsModal from "./SettingsModal"
+import SettingsModalTest from "./SettingsModalTest"
 import TargetingFilterModal from "./TargetingFilterModal"
 import { supabase } from "../supabaseClient";
 import { useEffect } from "react"
@@ -244,14 +244,14 @@ const StatsSection = ({ user, userData, avatar, username, isVerified, name,
             <img className="bg-[#D9D9D9] p-3 rounded-[4px]" src={settingsImg} alt="" onClick={setFilterModalCallback} />
 
             {process.env.NODE_ENV === 'production' ?
-              <ModalNew
+              <SettingsModal
                 modalIsOpen={modalIsOpen}
                 setIsOpen={setIsOpen}
                 avatar={avatar}
                 user={user}
                 userId={userId}
               /> :
-              <ModalNewTest
+              <SettingsModalTest
                 modalIsOpen={modalIsOpen}
                 setIsOpen={setIsOpen}
                 avatar={avatar}

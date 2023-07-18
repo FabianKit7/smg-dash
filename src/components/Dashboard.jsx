@@ -15,7 +15,7 @@ import { countDays, deleteAccount, getAccount, numFormatter, searchAccount, sumT
 import { supabase } from "../supabaseClient";
 import Nav from "./Nav";
 import TargetingFilterModal from './TargetingFilterModal'
-import ModalNew from './ModalNew'
+import SettingsModal from './SettingsModal'
 import GrowthChart from "./GrowthChart";
 import ColumnChart from "./ColumnChart";
 import AlertModal from "./AlertModal";
@@ -60,24 +60,18 @@ export default function Dashboard() {
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]
+      const url = new URL(window.location.href);
+      const uuid = url.searchParams.get('uuid');
       var cuser
-      var errorE
-      superUser && setAdmin(superUser?.admin)
-      if (superUser.admin) {
-        const { data, error } = await supabase.from('users').select().eq("username", currentUsername).single()
-        errorE = error
-        cuser = data
-      } else {
-        const { data, error } = await supabase.from('users').select().eq("user_id", authUser?.id).eq("username", currentUsername).single()
-        errorE = error
-        cuser = data
-      }
+      superUser && uuid && setAdmin(superUser?.admin)
+      const { data, error } = await supabase.from('users').select().eq("user_id", (superUser.admin && uuid) ? uuid : authUser?.id).eq("username", currentUsername).single()
+      cuser = data
 
-      if (errorE) {
-        console.log(errorE);
+      if (error) {
+        console.log(error);
         // alert(error?.message)
         setIsModalOpen(true);
-        setErrorMsg({ title: 'Alert', message: errorE?.message })
+        setErrorMsg({ title: 'Alert', message: error?.message })
         return;
       }
 
@@ -110,7 +104,7 @@ export default function Dashboard() {
         //   setShowWelcomeModal(true)
         // }
       }
-      setError(errorE)
+      setError(error)
       setLoading(false)
     };
 
@@ -156,7 +150,7 @@ export default function Dashboard() {
       .from("users")
       .update({
         backupcode: backupCode,
-        status: 'checking'
+        status: 'new'
       }).eq('username', currentUsername);
     setProcessing(false)
     window.location.reload()
@@ -414,7 +408,7 @@ export default function Dashboard() {
 
           </div>
 
-          <ModalNew
+          {modalIsOpen && <SettingsModal
             show={modalIsOpen}
             onHide={() => setIsOpen(false)}
             modalIsOpen={modalIsOpen}
@@ -422,7 +416,7 @@ export default function Dashboard() {
             user={userData}
             u={'user'}
             setRefreshUser={setRefreshUser}
-          />
+          />}
 
           <div className="hidden lg:block">
             {userData?.status === 'incorrect' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
@@ -576,7 +570,7 @@ export default function Dashboard() {
               </div>
             </div>}
 
-            {userData?.status === 'checking' && <div className="flex justify-center my-6">
+            {(userData?.status === 'checking' || userData?.status === 'new') && <div className="flex justify-center my-6">
               <div className="w-[320px] md:w-[350px] rounded-[10px]">
                 <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
                   <RiUserSettingsFill />
@@ -878,9 +872,9 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
             <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">
               {numFormatter(user.followers)}
             </div>
-            <div className="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#23df85] mt-1 hidden d-flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
+            {/* <div className="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#23df85] mt-1 flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
               123 <FaCaretUp color="#1B89FF" size={12} />
-            </div>
+            </div> */}
           </div>
         </div>
 

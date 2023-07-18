@@ -27,7 +27,7 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    if(loading) return;
+    if (loading) return;
 
     setLoading(true);
     const authUserObj = await supabase.auth.signInWithPassword({
@@ -54,18 +54,18 @@ export default function Login() {
         return;
       }
     }
-    
+
     if (authUserObj?.error) {
       setLoading(false);
       return;
     }
-    
+
     const contd = await regContd(authUserObj?.data?.user)
-    if (contd?.status !== 200) return showErrorAlert(contd)    
-    
+    if (contd?.status !== 200) return showErrorAlert(contd)
+
     setLoading(false);
   }
-  
+
   function showErrorAlert(error) {
     if (error) {
       // alert("Error occurred while signing in with Google, please try again")
@@ -77,21 +77,21 @@ export default function Login() {
 
   async function handleOAuthSignIn(provider) {
     if (loading) return;
-    
+
     setLoading(true);
     const withOAuthRes = await supabase.auth.signInWithOAuth({ provider })
     console.log(withOAuthRes);
     if (withOAuthRes.error) return showErrorAlert(withOAuthRes.error)
-    
+
     const authUser = await supabase.auth.getUser()
     if (authUser?.error) return showErrorAlert(authUser?.error)
-    
+
     const contd = await regContd(authUser?.data?.user)
     contd?.status !== 200 && showErrorAlert(contd)
-    
-    setLoading(false);    
+
+    setLoading(false);
   }
-  
+
   const regContd = async (authUser) => {
     const user = await getUser(authUser?.id)
     if (user) {
@@ -175,7 +175,9 @@ export default function Login() {
           </p>
         </div>
 
-        <div className="hidden del-flex justify-center items-center relative my-8">
+        {/* login with oAuth */}
+
+        {/* <div className="hidden del-flex justify-center items-center relative my-8">
           <hr className="w-full" />
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black">OR</div>
         </div>
@@ -210,7 +212,7 @@ export default function Login() {
             <BsFacebook />
             <span>Continue with Facebook</span>
           </button>
-        </div>
+        </div> */}
 
         <br /><br />
       </div>

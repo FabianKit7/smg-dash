@@ -45,7 +45,7 @@ export default function SignUp() {
   };
 
   async function handleOAuthSignIn(provider) {
-    const { error } = await supabase.auth.signInWithOAuth({provider})
+    const { error } = await supabase.auth.signInWithOAuth({ provider })
     if (error) {
       // alert("Error occurred while signing in with Google, please try again")
       console.log(error);
@@ -78,9 +78,9 @@ export default function SignUp() {
       const { error } = await supabase
         .from("users")
         .insert({
-          user_id: user.id,
+          user_id: user?.id,
           full_name: fullName,
-          email,
+          email: email?.toLowerCase(),
           username: ''
         });
       if (error) {
@@ -180,7 +180,9 @@ export default function SignUp() {
           </p>
         </div>
 
-        <div className="hidden del-flex justify-center items-center relative my-8">
+        {/* signup with oAuth */}
+
+        {/* <div className="hidden del-flex justify-center items-center relative my-8">
           <hr className="w-full" />
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black">OR</div>
         </div>
@@ -200,7 +202,7 @@ export default function SignUp() {
             <span>Continue with Google</span>
           </button>
         </div>
-        
+
         <div className="flex items-center justify-center mt-8 mb-[12px]">
           <button
             onClick={() => handleOAuthSignIn('facebook')}
@@ -215,7 +217,7 @@ export default function SignUp() {
             <BsFacebook />
             <span>Continue with Facebook</span>
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   </>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
-import { updateUserProfilePicUrl } from "../../helpers";
+// import { updateUserProfilePicUrl } from "../../helpers";
 import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
-import axios from "axios";
+// import axios from "axios";
 
 export default function Admin() {
   const [files, setFiles] = useState([]);
@@ -55,6 +55,10 @@ export default function Admin() {
       try {
         const data = file?.data
         let lastItem = data[data?.length - 1];
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        const day = currentDate.getDate();
 
         const updateUser = await supabase
           .from("users")
@@ -62,7 +66,8 @@ export default function Admin() {
             followers: lastItem.profile.followers,
             following: lastItem.profile.following,
             posts: lastItem.profile.posts,
-            total_interactions: lastItem.total_interactions
+            total_interactions: lastItem.total_interactions,
+            session_updated_at: `${year}-${month}-${day}`
           }).eq('username', username);
 
         updateUser.error && console.log(updateUser.error);
@@ -89,38 +94,38 @@ export default function Admin() {
     setLoading(false);
   }
 
-  const updateSub = async () => {
-    setLoading(true);
+  // const updateSub = async () => {
+  //   setLoading(true);
 
-    const manulaFrom = 'targeting';
-    const { data, error } = await supabase
-      .from(manulaFrom)
-      .select('*')
-      .limit(100)
-      .eq("imageUrlChanged", false)
-    console.log(data);
+  //   const manualFrom = 'targeting';
+  //   const { data, error } = await supabase
+  //     .from(manualFrom)
+  //     .select('*')
+  //     .limit(100)
+  //     .eq("imageUrlChanged", false)
+  //   console.log(data);
 
-    error && console.log(error);
-    if (error) return;
+  //   error && console.log(error);
+  //   if (error) return;
 
-    var count = 0
-    console.log('initial: ', count);
+  //   var count = 0
+  //   console.log('initial: ', count);
 
-    await data.reduce(async (ref, user) => {
-      await ref;
-      await new Promise(resolve => setTimeout(resolve, 500));
-      user?.account && await updateUserProfilePicUrl(user, manulaFrom)
-      count += 1
-    }, Promise.resolve());
-    // if (count === data.length) return setLoading(false);
-    console.log(count);
-    setLoading(false);
-  }
+  //   await data.reduce(async (ref, user) => {
+  //     await ref;
+  //     await new Promise(resolve => setTimeout(resolve, 500));
+  //     user?.account && await updateUserProfilePicUrl(user, manualFrom)
+  //     count += 1
+  //   }, Promise.resolve());
+  //   // if (count === data.length) return setLoading(false);
+  //   console.log(count);
+  //   setLoading(false);
+  // }
 
   // const update = async () => {
   //   setLoading(true);
 
-  //   const manulaFrom = 'users';
+  //   const manualFrom = 'users';
   //   const { data, error } = await supabase
   //     .from('users')
   //     .select('profile_pic_url, status, username, user_id')
@@ -143,42 +148,42 @@ export default function Admin() {
   //   setLoading(false);
   // }
 
-  const updateChargebeeCustomerId = async () => {
-    setLoading(true)
-    const { data, error } = await supabase.from("users").select().eq("subscribed", true).is("chargebee_customer_id", null).limit(1000)
-    if (error) {
-      console.log(error);
-      alert(error?.message)
-    }
+  // const updateChargebeeCustomerId = async () => {
+  //   setLoading(true)
+  //   const { data, error } = await supabase.from("users").select().eq("subscribed", true).is("chargebee_customer_id", null).limit(1000)
+  //   if (error) {
+  //     console.log(error);
+  //     alert(error?.message)
+  //   }
 
-    console.log(data);
+  //   console.log(data);
     
-    data.forEach(async (user) => {
-      // get chargebee_customer_id
-      let getCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`, { email: user?.email })
-      if (getCustomer?.data?.id) {
-        const update = {
-          chargebee_customer_id: getCustomer?.data?.id
-        }
-        const updateUser = await supabase
-          .from("users")
-          .update(update).eq("user_id", user?.user_id).eq("username", user?.username)
-        if (updateUser.error) {
-          console.log('update error for: ' + user.username);
-          setLoading(false)
-          return
-        } else {
-          console.log('update success for: ' + user.username);
-          setLoading(false)
-          return
-        }
-      } else {
-        console.log('user not found in chargebee: ' + user.username + ' ' + user.email);
-        setLoading(false)
-        return
-      }
-    });
-  }
+  //   data.forEach(async (user) => {
+  //     // get chargebee_customer_id
+  //     let getCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`, { email: user?.email })
+  //     if (getCustomer?.data?.id) {
+  //       const update = {
+  //         chargebee_customer_id: getCustomer?.data?.id
+  //       }
+  //       const updateUser = await supabase
+  //         .from("users")
+  //         .update(update).eq("user_id", user?.user_id).eq("username", user?.username)
+  //       if (updateUser.error) {
+  //         console.log('update error for: ' + user.username);
+  //         setLoading(false)
+  //         return
+  //       } else {
+  //         console.log('update success for: ' + user.username);
+  //         setLoading(false)
+  //         return
+  //       }
+  //     } else {
+  //       console.log('user not found in chargebee: ' + user.username + ' ' + user.email);
+  //       setLoading(false)
+  //       return
+  //     }
+  //   });
+  // }
 
 
   return (<>
@@ -199,21 +204,21 @@ export default function Admin() {
         </button>
       </div>
 
-      <div className="w-[250px]">
+      {/* <div className="w-[250px]">
         <button className={`${files.length > 0 ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] p-4 text-base text-white font-bold`}
           onClick={updateChargebeeCustomerId}
         >
           {Loading ? "PROCESSING..." : "Update All user Chargebee Customer Id"}
         </button>
-      </div>
+      </div> */}
     </div>
 
 
-    <button className={`${!Loading ? 'bg-secondaryblue' : 'bg-gray-600'} hidden w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
+    {/* <button className={`${!Loading ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold`}
       onClick={updateSub}
     >
       {Loading ? "updating " : "update"}
-    </button>
+    </button> */}
 
 
 
