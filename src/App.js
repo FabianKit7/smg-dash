@@ -20,8 +20,8 @@ import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
 import { useState } from "react";
 import ManageAccounts from "./pages/ManageAccounts";
-import Retension from "./pages/admin/Retension";
 import ManagePage from "./pages/admin/ManagePage";
+import Retention from "./pages/admin/Retention";
 // import { getCookie } from "./helpers";
 
 
@@ -77,7 +77,7 @@ function App() {
 
           <Route path="/admin" exact element={<Admin />} />
           <Route path="/admin/manage" exact element={<ManagePage />} />
-          <Route path="/admin/retension" exact element={<Retension />} />
+          <Route path="/admin/retention" exact element={<Retention />} />
           
           <Route path="/chat/:username" exact element={<Chat />} />
           <Route path="/dashboard" exact element={<DashboardApp />} />

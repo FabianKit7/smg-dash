@@ -808,6 +808,7 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
   const [subscription, setsubscription] = useState()
   const [currentUser, setCurrentUser] = useState()
   const [parentRef, isClickedOutside] = useClickOutside();
+  const [message, setMessage] = useState('')
 
   const baseUrl = 'https://sproutysocial-api.up.railway.app'
   // console.log(user);
@@ -846,8 +847,6 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
       setShowChargebee(false)
     };
   }, [isClickedOutside, setShowChargebee]);
-
-  const [message, setMessage] = useState('')
 
   return (
     <div key={k} className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">

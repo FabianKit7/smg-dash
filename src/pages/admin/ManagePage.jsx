@@ -5,15 +5,17 @@ import { Chargebee } from '../../dashboard'
 import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
 import { countDays } from '../../helpers'
+import copy from 'copy-to-clipboard';
 
 export default function ManagePage() {
-  const [sectionName, setSectionName] = useState('active')
+  const [sectionName, setSectionName] = useState('new')
   const [sectionTotal, setSectionTotal] = useState(0)
   const [showSectionMenu, setShowSectionMenu] = useState(false)
   const [selectedUser, setSelectedUser] = useState()
   const [showChargebee, setShowChargebee] = useState(false)
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState({ sectionName: '', value: '' })
 
   useEffect(() => {
     const fetch = async () => {
@@ -43,9 +45,9 @@ export default function ManagePage() {
         var d = resData?.data?.[0]?.data
         // console.log(d);
         const growthDifference = calculateLast7DaysGrowth(d)
-        console.log(growthDifference);
+        // console.log(growthDifference);
         const v = `
-        <div class="${growthDifference > 0 ? `${growthDifference === 0 ? "text-[#000]": "text-[#23DF85]"}` :"text-[#E9C81B]"} font-black">${growthDifference}</div>
+        <div class="${growthDifference > 0 ? `${growthDifference === 0 ? "text-[#000]" : "text-[#23DF85]"}` : "text-[#E9C81B]"} font-black">${growthDifference}</div>
         `
         document.getElementById(`last_7_days_growth_${user?.username}`).innerHTML = v
       })
@@ -88,7 +90,7 @@ export default function ManagePage() {
         <div className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex justify-center items-center relative">
           <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setShowSectionMenu(!showSectionMenu) }}>{sectionName} <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#1B89FF] select-none ml-5">{sectionTotal}</span> <FaCaretDown size={24} className='ml-3 mr-2' /></div>
 
-          <div className={`${showSectionMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute top-full mt-2 left-0 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black w-full min-h-[100px] flex flex-col gap-3`}>
+          <div className={`${showSectionMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute z-10 top-full mt-2 left-0 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black w-full min-h-[100px] flex flex-col gap-3`}>
             <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center cursor-pointer" onClick={() => { setSectionName('active'); setShowSectionMenu(!showSectionMenu) }}>Active</div>
             <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('new'); setShowSectionMenu(!showSectionMenu) }}>new</div>
             <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('checking'); setShowSectionMenu(!showSectionMenu) }}>checking</div>
@@ -110,11 +112,10 @@ export default function ManagePage() {
             <th></th>
             <th>Account</th>
             <th>Email</th>
-            <th>Followers</th>
-            <th>Following</th>
+            <th>Password</th>
+            <th>2FA Code</th>
             <th>Last 7 Days Growth</th>
-            <th>Updated</th>
-            <th></th>
+            <th>Tags</th>
             <th></th>
           </tr>
         </thead>
@@ -130,22 +131,57 @@ export default function ManagePage() {
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
-                <td>@{user?.username}</td>
-                <td><a href={`mailto:${user?.email}`} className="">{user?.email}</a></td>
-                <td>{user?.followers}</td>
-                <td>{user?.following}</td>
+                <td>
+                  <div className="relative cursor-pointer" onClick={() => {
+                    copy(user?.username, {
+                      debug: true,
+                      message: 'Press #{key} to copy',
+                    })
+                    setMessage({ sectionName: `username-${user?.username}`, value: 'copied' })
+                    setTimeout(() => {
+                      setMessage({ sectionName: '', value: '' })
+                    }, 1000);
+                  }}>@{user?.username}
+                    {message.sectionName === `username-${user?.username}` && <div className="absolute text-black font-bold">{message.value}</div>}
+                  </div>
+                </td>
+                <td>
+                  <a href={`mailto:${user?.email}`} className="">{user?.email}</a>
+                </td>
+                <td>
+                  <div className="relative cursor-pointer" onClick={() => {
+                    copy(user?.instagramPassword, {
+                      debug: true,
+                      message: 'Press #{key} to copy',
+                    })
+                    setMessage({ sectionName: `password-${user?.username}`, value: 'copied' })
+                    setTimeout(() => {
+                      setMessage({ sectionName: '', value: '' })
+                    }, 1000);
+                  }}>*****
+                    {message.sectionName === `password-${user?.username}` && <div className="absolute text-black font-bold">{message.value}</div>}
+                  </div>
+                </td>
+                <td>
+                  <div className="relative cursor-pointer" onClick={() => {
+                    copy(user?.backupcode, {
+                      debug: true,
+                      message: 'Press #{key} to copy',
+                    })
+                    setMessage({ sectionName: `backupcode-${user?.username}`, value: 'copied' })
+                    setTimeout(() => {
+                      setMessage({ sectionName: '', value: '' })
+                    }, 1000);
+                  }}>{user?.backupcode.length > 7 ? user?.backupcode.substring(0, 6) + "..." : user?.backupcode || "N/A"}
+                    {message.sectionName === `backupcode-${user?.username}` && <div className="absolute text-black font-bold">{message.value}</div>}
+                  </div>
+                </td>
                 <td>
                   <div id={`last_7_days_growth_${user?.username}`}>N/A
                   </div>
                 </td>
-                <td>{user?.session_updated_at ? countDays(user?.session_updated_at) : "N/A"}</td>
                 <td>
-                  <div className="w-[35px] h-[35px] grid place-items-center rounded-[10px] bg-black cursor-pointer" onClick={() => {
-                    setSelectedUser(user)
-                    setShowChargebee(true)
-                  }}>
-                    <img src="/icons/monetization.svg" alt="" className="w-[18px] h-[18px]" />
-                  </div>
+                  {user?.session_updated_at ? countDays(user?.session_updated_at) : "N/A"}
                 </td>
                 <td>
                   <Link to={`/dashboard/${user?.username}?uuid=${user?.user_id}`} target='_blank' className="w-[35px] h-[35px] grid place-items-center rounded-[10px] bg-black">
