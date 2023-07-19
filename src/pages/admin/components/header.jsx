@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom'
 import { RefreshModal } from '../../../dashboard'
 import { supabase } from '../../../supabaseClient'
 
-export default function Header({ setUsers, setLoading }) {
+export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading }) {
     const [openRefreshModal, setOpenRefreshModal] = useState(false)
-    const [searchTerm, setSearchTerm] = useState('')
 
     const hangleSearch = async () => {
         var searchString = searchTerm
@@ -32,8 +31,11 @@ export default function Header({ setUsers, setLoading }) {
         // if(error) return;
         if (res.error) return;
         
-        setUsers(res.data)
-        setLoading(false)
+        setUsers([]);
+        setTimeout(() => {
+            setUsers(res?.data);
+            setLoading(false)
+        }, 500);
     }
 
     return (
@@ -67,7 +69,7 @@ export default function Header({ setUsers, setLoading }) {
                 <input
                     value={searchTerm}
                     onChange={(e) => { setSearchTerm(e.target.value) }}
-                    type="text" className="placeholder-[#C4C4C4] text-[#363636] outline-none border-none ml-5 w-full" placeholder='Search by @account, email or CB Customer ID' />
+                    type="search" className="placeholder-[#C4C4C4] text-[#363636] outline-none border-none ml-5 w-full" placeholder='Search by @account, email or CB Customer ID' />
             </form>
         </div>
     )

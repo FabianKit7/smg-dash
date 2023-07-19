@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from 'react'
 import Header from './components/header'
-import { FaCaretDown } from 'react-icons/fa'
-import { Chargebee } from '../../dashboard'
+import { FaCaretUp, FaPen, FaPlus, FaTimes } from 'react-icons/fa'
 import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
-import { countDays } from '../../helpers'
 import copy from 'copy-to-clipboard';
 
+export const calculateLast7DaysGrowth = (sessionData) => {
+  if (!sessionData) return
+  const previous7DaysGrowth = sessionData[sessionData.length - 7].profile.followers;
+  const last7DaysGrowth = sessionData[sessionData.length - 1].profile.followers;
+
+  // Calculate the growth difference and determine if it's positive, negative, or zero
+  let growthDifference;
+  if (last7DaysGrowth > previous7DaysGrowth) {
+    growthDifference = `+${last7DaysGrowth - previous7DaysGrowth}`;
+  } else if (last7DaysGrowth < previous7DaysGrowth) {
+    growthDifference = `-${previous7DaysGrowth - last7DaysGrowth}`;
+  } else {
+    growthDifference = "0";
+  }
+
+  return growthDifference
+}
+
+export const statuses = ['new', 'active', 'checking', 'pending', 'twofactor', 'incorrect', 'cancelled']
+
 export default function ManagePage() {
+  const [searchTerm, setSearchTerm] = useState('')
   const [sectionName, setSectionName] = useState('new')
   const [sectionTotal, setSectionTotal] = useState(0)
-  const [showSectionMenu, setShowSectionMenu] = useState(false)
-  const [selectedUser, setSelectedUser] = useState()
-  const [showChargebee, setShowChargebee] = useState(false)
   const [users, setUsers] = useState([])
+  const [refreshUsers, setRefreshUsers] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState({ sectionName: '', value: '' })
+  const [showAddTagModal, setShowAddTagModal] = useState(false)
+  const [userToAddTagFor, setUserToAddTagFor] = useState()
+
 
   useEffect(() => {
     const fetch = async () => {
+      setSearchTerm('')
       if (!sectionName) return;
+      setLoading(true)
       const { data, error } = await supabase
         .from('users')
         .select('*')
@@ -28,11 +50,16 @@ export default function ManagePage() {
       error && console.log(error);
       if (error) return;
 
-      setUsers(data);
-      setSectionTotal(data?.length)
+      setUsers([]);
+      setSectionTotal(0)
+      setTimeout(() => {
+        setUsers(data);        
+        setSectionTotal(data?.length)
+        setLoading(false)
+      }, 500);
     }
     fetch()
-  }, [sectionName])
+  }, [sectionName, refreshUsers])
 
   useEffect(() => {
     if (users.length > 0) {
@@ -43,50 +70,39 @@ export default function ManagePage() {
           .eq('username', user?.username)
         resData.error && console.log(resData.error);
         var d = resData?.data?.[0]?.data
-        // console.log(d);
         const growthDifference = calculateLast7DaysGrowth(d)
-        // console.log(growthDifference);
-        const v = `
-        <div class="${growthDifference > 0 ? `${growthDifference === 0 ? "text-[#000]" : "text-[#23DF85]"}` : "text-[#E9C81B]"} font-black">${growthDifference}</div>
-        `
+        var v;
+        if (growthDifference) {
+          v = `
+          <div class="${growthDifference > 0 ? "text-[#23DF85]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
+          `
+        } else {
+          v = `
+          <div class="text-[#000] font-black">N/A</div>
+          `
+        }
         document.getElementById(`last_7_days_growth_${user?.username}`).innerHTML = v
       })
     }
   }, [users])
 
-  const calculateLast7DaysGrowth = (sessionData) => {
-    // Assuming the array of objects is stored in the 'data' variable
+  return (<>
+    {showAddTagModal && <TagModal
+      setShowAddTagModal={setShowAddTagModal}
+      userToAddTagFor={userToAddTagFor}
+      refreshUsers={refreshUsers}
+      setRefreshUsers={setRefreshUsers}
+    />}
 
-    // Sort the array by finish_time in ascending order
-    sessionData.sort((a, b) => new Date(a.finish_time) - new Date(b.finish_time));
-
-    // Get the followers growth in the previous 7 days
-    const previous7DaysGrowth =
-      sessionData[sessionData.length - 1].profile.followers - sessionData[sessionData.length - 8].profile.followers;
-
-    // Get the followers growth in the last 7 days
-    const last7DaysGrowth =
-      sessionData[sessionData.length - 1].profile.followers - sessionData[sessionData.length - 2].profile.followers;
-
-    // Calculate the growth difference and determine if it's positive, negative, or zero
-    let growthDifference;
-    if (last7DaysGrowth > previous7DaysGrowth) {
-      growthDifference = `+${last7DaysGrowth - previous7DaysGrowth}`;
-    } else if (last7DaysGrowth < previous7DaysGrowth) {
-      growthDifference = `-${previous7DaysGrowth - last7DaysGrowth}`;
-    } else {
-      growthDifference = "0";
-    }
-
-    return growthDifference
-  }
-
-  return (
     <div className="font-MontserratRegular max-w-[1600px] mx-auto">
-      {showChargebee && <Chargebee k={selectedUser?.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
-      <Header setUsers={setUsers} setLoading={setLoading} />
+      <Header 
+      setUsers={setUsers} 
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      setLoading={setLoading} 
+      />
 
-      <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center">
+      {/* <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center">
         <div className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex justify-center items-center relative">
           <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setShowSectionMenu(!showSectionMenu) }}>{sectionName} <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#1B89FF] select-none ml-5">{sectionTotal}</span> <FaCaretDown size={24} className='ml-3 mr-2' /></div>
 
@@ -100,13 +116,25 @@ export default function ManagePage() {
             <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('cancelled'); setShowSectionMenu(!showSectionMenu) }}>cancelled</div>
           </div>
         </div>
+      </div> */}
+      
+      <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
+        {statuses.map(status => {
+          return (
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black px-4 flex justify-center items-center relative">
+              <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
+                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#1B89FF] select-none ml-5">{sectionTotal}</span>}
+              </div>
+            </div>
+          )
+        })}
       </div>
 
       {loading && <div className="flex justify-center items-center">
         <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
       </div>}
 
-      <table className="mt-[30px] w-full table-auto border-separate border-spacing-y-2 border-none border-slate-500">
+      <table className="mt-[30px] w-full table-auto border-separate border-spacing-y-2">
         <thead>
           <tr>
             <th></th>
@@ -116,6 +144,7 @@ export default function ManagePage() {
             <th>2FA Code</th>
             <th>Last 7 Days Growth</th>
             <th>Tags</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -132,7 +161,7 @@ export default function ManagePage() {
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
                 <td>
-                  <div className="relative cursor-pointer" onClick={() => {
+                  <div className="relative cursor-pointer max-w-[180px] break-words" onClick={() => {
                     copy(user?.username, {
                       debug: true,
                       message: 'Press #{key} to copy',
@@ -146,10 +175,12 @@ export default function ManagePage() {
                   </div>
                 </td>
                 <td>
-                  <a href={`mailto:${user?.email}`} className="">{user?.email}</a>
+                  <div className="max-w-[200px] break-words">
+                    <a href={`mailto:${user?.email}`} className="">{user?.email}</a>
+                  </div>
                 </td>
                 <td>
-                  <div className="relative cursor-pointer" onClick={() => {
+                  <div className="relative cursor-pointer min-w-[100px]" onClick={() => {
                     copy(user?.instagramPassword, {
                       debug: true,
                       message: 'Press #{key} to copy',
@@ -163,7 +194,7 @@ export default function ManagePage() {
                   </div>
                 </td>
                 <td>
-                  <div className="relative cursor-pointer" onClick={() => {
+                  <div className="relative cursor-pointer min-w-[100px]" onClick={() => {
                     copy(user?.backupcode, {
                       debug: true,
                       message: 'Press #{key} to copy',
@@ -177,22 +208,170 @@ export default function ManagePage() {
                   </div>
                 </td>
                 <td>
-                  <div id={`last_7_days_growth_${user?.username}`}>N/A
+                  <div className='min-w-[100px]' id={`last_7_days_growth_${user?.username}`}>N/A
                   </div>
                 </td>
                 <td>
-                  {user?.session_updated_at ? countDays(user?.session_updated_at) : "N/A"}
+                  <div className="relative group">
+                    {user?.tag?.tag1 && <div className="absolute top-0 left-0 w-full h-full bg-black/20 group-hover:grid hidden place-items-center">
+                      <div className="w-[30px] h-[30px] grid place-items-center rounded-lg bg-black text-white cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
+                        <FaPen />
+                      </div>
+                    </div>}
+                    {user?.tag?.tag1 ?
+                      <div className="flex items-center gap-2">
+                        <div className={`bg-[${user?.tag?.color}] text-white w-[55px] h-[30px] rounded-lg flex items-center justify-center gap-1 text-xs font-semibold`}>
+                          {user?.tag?.tag1} <FaCaretUp size={10} />
+                        </div>
+                        <div className={`bg-[${user?.tag?.color}] text-white w-[55px] h-[30px] rounded-lg flex items-center justify-center gap-1 text-xs font-semibold`}>
+                          {user?.tag?.tag2} <FaCaretUp size={10} />
+                        </div>
+                      </div>
+                      :
+                      <div className="h-7 w-7 rounded-full bg-black to-white grid place-items-center cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
+                        <FaPlus size={15} color='white' />
+                      </div>
+                    }
+                  </div>
                 </td>
                 <td>
                   <Link to={`/dashboard/${user?.username}?uuid=${user?.user_id}`} target='_blank' className="w-[35px] h-[35px] grid place-items-center rounded-[10px] bg-black">
                     <img src="/icons/user-settings.svg" alt="" className="w-[18px] h-[18px]" />
                   </Link>
                 </td>
+                <td>
+                  <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
+                </td>
               </tr>
             )
           })}
         </tbody>
       </table>
+    </div>
+  </>)
+}
+
+const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefreshUsers }) => {
+  const colors = ['#7EA3CC', "#F48668", "#73A580", "#BBC8CA", "#FDF5BF"]
+  const [color, setColor] = useState(userToAddTagFor?.tag?.color ?? '#7EA3CC')
+  const [tag1, setTag1] = useState(userToAddTagFor?.tag?.tag1 ?? '')
+  const [tag2, setTag2] = useState(userToAddTagFor?.tag?.tag2 ?? '')
+  const [processing, setProcessing] = useState(false)
+
+  const handleSave = async () => {
+    const data = { color, tag1, tag2 }
+    if (!(tag1 && tag2)) return alert('Some fields are empty!')
+
+    setProcessing(true)
+    const res = await supabase
+      .from('users')
+      .update({
+        tag: data
+      })
+      .eq('username', userToAddTagFor?.username);
+
+    // console.log(res);
+    setProcessing(false)
+    if (res.status === 204) {
+      setRefreshUsers(!refreshUsers)
+      setShowAddTagModal(false)
+    }
+  }
+
+  return (<>
+    <div className="font-MontserratRegular fixed top-0 left-0 w-full h-screen bg-black/20 z-20">
+      <div className="fixed top-0 left-0 w-full h-screen bg-black/20 z-[2] cursor-pointer" onClick={() => { setShowAddTagModal(false) }}>
+      </div>
+
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-white rounded-[10px] pb-2 px-4">
+        {processing && <div className="fixed top-0 left-0 w-full h-full bg-black/20 text-white flex justify-center items-center">
+          <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
+        </div>}
+
+        <div className="mt-1 mb-2 flex justify-between">
+          <div className="font-semibold">@{userToAddTagFor?.username}</div>
+          <FaTimes className='cursor-pointer' onClick={() => { setShowAddTagModal(false) }} />
+        </div>
+
+        <div className="">
+          <div className="flex items-center gap-2">
+            {colors.map(colorC => {
+              return (
+                <div key={colorC} className={`${color === colorC ? "border-black" : "border-transparent"} border-2 rounded-lg px-1 py-[2px] grid place-items-center`}>
+                  <label htmlFor={colorC} className={`w-8 h-3 bg-[${colorC}] cursor-pointer rounded-lg`} onClick={() => {
+                    setColor(colorC);
+                  }}></label>
+                  <input type="radio" className='hidden' name="color" id={colorC} value={colorC} defaultChecked onChange={(e) => {
+                    setColor(e.target.value);
+                  }} />
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="flex justify-between gap-3 mt-3">
+            <div className="flex flex-col">
+              <label htmlFor="inputA">Tag1</label>
+              <input type="search" name="inputA" id="inputA" className='h-[34px] w-[125px] px-2 rounded-lg border border-gray-500 outline-none shadow-2xl' minLength={1} maxLength={7} onChange={(e) => setTag1(e.target.value)} value={tag1} />
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="inputA">Tag2</label>
+              <input type="search" name="inputA" id="inputA" className='h-[34px] w-[125px] px-2 rounded-lg border border-gray-500 outline-none shadow-2xl' minLength={1} maxLength={7} onChange={(e) => setTag2(e.target.value)} value={tag2} />
+            </div>
+          </div>
+        </div>
+
+        <button className="w-full h-[25px] rounded-lg bg-blue-600 text-white mt-3" onClick={handleSave}>Save</button>
+      </div>
+    </div>
+  </>)
+}
+
+export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
+  const [showModal, setShowModal] = useState(false)
+
+useEffect(() => {
+  // console.log(showModal);
+}, [showModal])
+
+  return (
+    <div className="">
+      <div className="w-[35px] h-[35px] grid place-items-center rounded-[10px] bg-black cursor-pointer" onClick={() => {
+        setShowModal(!showModal)
+      }}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-[18px] h-[18px]"
+          aria-hidden="true"
+          fill="white"
+          viewBox="0 0 320 512"
+        >
+          <path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z" />
+        </svg>
+      </div>
+
+      {showModal && <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black min-h-[100px] flex flex-col gap-3`}>
+        {statuses.map(status => {
+          return (
+            <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] bg-[#F8F8F8]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer`}
+              onClick={async() => {
+                const res = await supabase
+                  .from("users")
+                  .update({ status })
+                  .eq('email', user?.email)
+                  .eq('username', user?.username);
+                  if(res?.error) {
+                    console.log(res);
+                    alert('an error occurred!')
+                  }
+                  setRefreshUsers(!refreshUsers)
+                  setShowModal(!showModal)
+              }}
+            >{status}</div>
+          )
+        })}
+      </div>}
     </div>
   )
 }
