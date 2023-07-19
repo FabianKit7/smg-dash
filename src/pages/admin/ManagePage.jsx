@@ -53,7 +53,7 @@ export default function ManagePage() {
       setUsers([]);
       setSectionTotal(0)
       setTimeout(() => {
-        setUsers(data);        
+        setUsers(data);
         setSectionTotal(data?.length)
         setLoading(false)
       }, 500);
@@ -95,11 +95,11 @@ export default function ManagePage() {
     />}
 
     <div className="font-MontserratRegular max-w-[1600px] mx-auto">
-      <Header 
-      setUsers={setUsers} 
+      <Header
+        setUsers={setUsers}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
-      setLoading={setLoading} 
+        setLoading={setLoading}
       />
 
       {/* <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center">
@@ -117,7 +117,7 @@ export default function ManagePage() {
           </div>
         </div>
       </div> */}
-      
+
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
@@ -220,10 +220,10 @@ export default function ManagePage() {
                     </div>}
                     {user?.tag?.tag1 ?
                       <div className="flex items-center gap-2">
-                        <div className={`bg-[${user?.tag?.color}] text-white w-[55px] h-[30px] rounded-lg flex items-center justify-center gap-1 text-xs font-semibold`}>
+                        <div style={{ backgroundColor: user?.tag?.color }} className={`text-white w-[55px] h-[30px] rounded-lg flex items-center justify-center gap-1 text-xs font-semibold`}>
                           {user?.tag?.tag1} <FaCaretUp size={10} />
                         </div>
-                        <div className={`bg-[${user?.tag?.color}] text-white w-[55px] h-[30px] rounded-lg flex items-center justify-center gap-1 text-xs font-semibold`}>
+                        <div style={{ backgroundColor: user?.tag?.color }} className={`text-white w-[55px] h-[30px] rounded-lg flex items-center justify-center gap-1 text-xs font-semibold`}>
                           {user?.tag?.tag2} <FaCaretUp size={10} />
                         </div>
                       </div>
@@ -240,9 +240,9 @@ export default function ManagePage() {
                   </Link>
                 </td>
                 <td>
-                <div className="w-full relative">
-                  <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
-                </div>
+                  <div className="w-full relative">
+                    <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
+                  </div>
                 </td>
               </tr>
             )
@@ -300,7 +300,7 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
             {colors.map(colorC => {
               return (
                 <div key={colorC} className={`${color === colorC ? "border-black" : "border-transparent"} border-2 rounded-lg px-1 py-[2px] grid place-items-center`}>
-                  <label htmlFor={colorC} className={`w-8 h-3 bg-[${colorC}] cursor-pointer rounded-lg`} onClick={() => {
+                  <label htmlFor={colorC} style={{ backgroundColor: colorC }} className={`w-8 h-3 cursor-pointer rounded-lg`} onClick={() => {
                     setColor(colorC);
                   }}></label>
                   <input type="radio" className='hidden' name="color" id={colorC} value={colorC} defaultChecked onChange={(e) => {
@@ -333,9 +333,9 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
 export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
   const [showModal, setShowModal] = useState(false)
 
-useEffect(() => {
-  // console.log(showModal);
-}, [showModal])
+  useEffect(() => {
+    // console.log(showModal);
+  }, [showModal])
 
   return (
     <div className="">
@@ -357,18 +357,18 @@ useEffect(() => {
         {statuses.map(status => {
           return (
             <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] bg-[#F8F8F8]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer`}
-              onClick={async() => {
+              onClick={async () => {
                 const res = await supabase
                   .from("users")
                   .update({ status })
                   .eq('email', user?.email)
                   .eq('username', user?.username);
-                  if(res?.error) {
-                    console.log(res);
-                    alert('an error occurred!')
-                  }
-                  setRefreshUsers(!refreshUsers)
-                  setShowModal(!showModal)
+                if (res?.error) {
+                  console.log(res);
+                  alert('an error occurred!')
+                }
+                setRefreshUsers(!refreshUsers)
+                setShowModal(!showModal)
               }}
             >{status}</div>
           )
