@@ -177,7 +177,9 @@ export default function Retention() {
                   </Link>
                 </td>
                 <td>
-                  <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
+                  <div className="w-full relative">
+                    <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
+                  </div>
                 </td>
               </tr>
             )
