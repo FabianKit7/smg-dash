@@ -847,7 +847,6 @@ export default function Dashboard() {
 
           <WhiteListCompt user={userData} userId={userData?.user_id} setMobileAdd={setMobileAdd} />
         </>}
-      </div>
     </>
   );
 }
