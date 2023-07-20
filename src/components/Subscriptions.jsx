@@ -14,6 +14,7 @@ import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/charg
 // import { getRefCode, uploadImageFromURL } from "../helpers";
 import { getRefCode } from "../helpers";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { NOT_CONNECTED_TEMPLATE } from "../config";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -839,8 +840,10 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
             }
           }
 
+          let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`, { email: user?.email, subject: "Your account is not connected", htmlContent: NOT_CONNECTED_TEMPLATE(user?.full_name) }).catch(err => err)
+          console.log(sendEmail);
+          
           const ref = getRefCode()
-          // console.log('success');
           if (ref) {
             navigate(`/thankyou?ref=${ref}`)
           } else {

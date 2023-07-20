@@ -37,10 +37,6 @@ const SettingsModalTest = ({ modalIsOpen, setIsOpen, avatar, user, userId, u }) 
   const [loading, setLoading] = useState(false)
   const instagramPasswordHolder = user?.instagramPassword ?? ""
 
-  // const BASE_URL = "http://localhost:8000" //
-  // const BASE_URL = 'https://sproutysocial-api.onrender.com'
-  // const BASE_URL = 'https://sproutysocial-api.up.railway.app'
-
   const toggleValue = (newValue) => {
     setMode(mode === newValue ? '' : newValue);
   }

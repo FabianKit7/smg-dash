@@ -4,6 +4,8 @@ import { FaCaretUp, FaPen, FaPlus, FaTimes } from 'react-icons/fa'
 import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
 import copy from 'copy-to-clipboard';
+import axios from 'axios'
+import { INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
 
 export const calculateLast7DaysGrowth = (sessionData) => {
   if (!sessionData) return
@@ -332,6 +334,7 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
 
 export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
   const [showModal, setShowModal] = useState(false)
+  const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
     // console.log(showModal);
@@ -353,27 +356,41 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
         </svg>
       </div>
 
-      {showModal && <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black min-h-[100px] flex flex-col gap-3`}>
-        {statuses.map(status => {
-          return (
-            <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] bg-[#F8F8F8]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer`}
-              onClick={async () => {
-                const res = await supabase
-                  .from("users")
-                  .update({ status })
-                  .eq('email', user?.email)
-                  .eq('username', user?.username);
-                if (res?.error) {
-                  console.log(res);
-                  alert('an error occurred!')
-                }
-                setRefreshUsers(!refreshUsers)
-                setShowModal(!showModal)
-              }}
-            >{status}</div>
-          )
-        })}
-      </div>}
+      {showModal && <div className='w-full h-full'>
+        {processing && <div className="fixed z-20 top-0 left-0 w-full h-full bg-black/20 text-white flex justify-center items-center">
+          <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
+        </div>}
+        
+        <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black min-h-[100px] flex flex-col gap-3`}>
+          {statuses.map(status => {
+            return (
+              <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] bg-[#F8F8F8]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black px-4 flex items-center capitalize cursor-pointer`}
+                onClick={async () => {
+                  setProcessing(true)
+                  const res = await supabase
+                    .from("users")
+                    .update({ status })
+                    .eq('email', user?.email)
+                    .eq('username', user?.username);
+                  if (res?.error) {
+                    console.log(res);
+                    alert('an error occurred!')
+                  }
+                  
+                  if (status === 'incorrect' || status === 'twofactor') {
+                    console.log(status);
+                    let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`, { email: user?.email, subject: "Your account has Two Factor authentication", htmlContent: status === 'incorrect' ? INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username) : TWO_FACTOR_TEMPLATE(user?.full_name, user?.username) }).catch( err => err)
+                    console.log(sendEmail);
+                  }
+                  setProcessing(false)
+                  setRefreshUsers(!refreshUsers)
+                  setShowModal(!showModal)
+                }}
+              >{status}</div>
+            )
+          })}
+        </div>
+       </div>}
     </div>
   )
 }
