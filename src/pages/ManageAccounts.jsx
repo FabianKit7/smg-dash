@@ -123,7 +123,7 @@ export default function ManageAccounts() {
                         <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Select an account</h1>
 
                         <div className="flex items-center gap-2 text-base">
-                            <BsClock size={32} className="w-[32px] h-[32px]" />
+                            <BsClock size={25} className="w-[25px] h-[25px]" />
                             <h3>Stats shown for last 30 days</h3>
                         </div>
                     </div>
