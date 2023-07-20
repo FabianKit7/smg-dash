@@ -360,7 +360,7 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
         {processing && <div className="fixed z-20 top-0 left-0 w-full h-full bg-black/20 text-white flex justify-center items-center">
           <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
         </div>}
-        
+
         <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black min-h-[100px] flex flex-col gap-3`}>
           {statuses.map(status => {
             return (
@@ -376,11 +376,12 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
                     console.log(res);
                     alert('an error occurred!')
                   }
-                  
+
                   if (status === 'incorrect' || status === 'twofactor') {
-                    console.log(status);
-                    let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`, { email: user?.email, subject: "Your account has Two Factor authentication", htmlContent: status === 'incorrect' ? INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username) : TWO_FACTOR_TEMPLATE(user?.full_name, user?.username) }).catch( err => err)
-                    console.log(sendEmail);
+                    let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`, { email: user?.email, subject: "Your account has Two Factor authentication", htmlContent: status === 'incorrect' ? INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username) : TWO_FACTOR_TEMPLATE(user?.full_name, user?.username) }).catch(err => err)
+                    if (sendEmail.status !== 200) {
+                      console.log(sendEmail);
+                    }
                   }
                   setProcessing(false)
                   setRefreshUsers(!refreshUsers)
@@ -390,7 +391,7 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
             )
           })}
         </div>
-       </div>}
+      </div>}
     </div>
   )
 }

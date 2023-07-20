@@ -784,7 +784,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
             let getCustomer = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/customer_list`, { email: user?.email })
             if (getCustomer?.data?.id) {
               customer_id = getCustomer?.data?.id
-            }else{
+            } else {
               setIsModalOpen(true);
               setErrorMsg({ title: 'Alert', message: "something went wrong, please try again or contact support." })
               setLoading(false);
@@ -818,9 +818,9 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
               setLoading(false);
               return;
             }
-            
+
             // console.log({ data });
-            
+
             const updateUser = await supabase
               .from("users")
               .update(data).eq('id', user.id);
@@ -841,8 +841,10 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           }
 
           let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`, { email: user?.email, subject: "Your account is not connected", htmlContent: NOT_CONNECTED_TEMPLATE(user?.full_name) }).catch(err => err)
-          console.log(sendEmail);
-          
+          if (sendEmail.status !== 200) {
+            console.log(sendEmail);
+          }
+
           const ref = getRefCode()
           if (ref) {
             navigate(`/thankyou?ref=${ref}`)
