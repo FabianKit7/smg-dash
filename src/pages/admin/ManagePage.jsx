@@ -379,6 +379,7 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
 
                   if (status === 'incorrect' || status === 'twofactor') {
                     let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`, { email: user?.email, subject: "Your account has Two Factor authentication", htmlContent: status === 'incorrect' ? INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username) : TWO_FACTOR_TEMPLATE(user?.full_name, user?.username) }).catch(err => err)
+                    console.log(sendEmail);
                     if (sendEmail.status !== 200) {
                       console.log(sendEmail);
                     }

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { getRefCode } from "../helpers";
 import { supabase } from "../supabaseClient";
 import AlertModal from "./AlertModal";
-import { BsFacebook } from "react-icons/bs";
+// import { BsFacebook } from "react-icons/bs";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -44,34 +44,34 @@ export default function SignUp() {
     setLoading(false);
   };
 
-  async function handleOAuthSignIn(provider) {
-    const { error } = await supabase.auth.signInWithOAuth({ provider })
-    if (error) {
-      // alert("Error occurred while signing in with Google, please try again")
-      console.log(error);
-      setIsModalOpen(true);
-      setErrorMsg({ title: 'Registration Error', message: error?.message })
-    }
+  // async function handleOAuthSignIn(provider) {
+  //   const { error } = await supabase.auth.signInWithOAuth({ provider })
+  //   if (error) {
+  //     // alert("Error occurred while signing in with Google, please try again")
+  //     console.log(error);
+  //     setIsModalOpen(true);
+  //     setErrorMsg({ title: 'Registration Error', message: error?.message })
+  //   }
 
-    const getUser = await supabase.auth.getUser()
+  //   const getUser = await supabase.auth.getUser()
 
-    if (getUser?.error) {
-      console.log(error?.message);
-      // alert(error?.message);
-      setIsModalOpen(true);
-      setErrorMsg({ title: 'Registration Error', message: getUser?.error?.message })
-      setLoading(false);
-      return;
-    }
+  //   if (getUser?.error) {
+  //     console.log(error?.message);
+  //     // alert(error?.message);
+  //     setIsModalOpen(true);
+  //     setErrorMsg({ title: 'Registration Error', message: getUser?.error?.message })
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    const contd = await regContd(getUser?.data?.user)
-    if (contd?.status !== 200) {
-      // alert(contd.message)
-      setIsModalOpen(true);
-      setErrorMsg({ title: 'Registration Error', message: contd?.message })
-    }
-    setLoading(false);
-  }
+  //   const contd = await regContd(getUser?.data?.user)
+  //   if (contd?.status !== 200) {
+  //     // alert(contd.message)
+  //     setIsModalOpen(true);
+  //     setErrorMsg({ title: 'Registration Error', message: contd?.message })
+  //   }
+  //   setLoading(false);
+  // }
 
   const regContd = async (user) => {
     if (user) {

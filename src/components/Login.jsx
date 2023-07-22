@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../helpers";
 import { supabase } from "../supabaseClient";
 import AlertModal from "./AlertModal";
-import { BsFacebook } from "react-icons/bs";
+// import { BsFacebook } from "react-icons/bs";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -75,22 +75,22 @@ export default function Login() {
     }
   }
 
-  async function handleOAuthSignIn(provider) {
-    if (loading) return;
+  // async function handleOAuthSignIn(provider) {
+  //   if (loading) return;
 
-    setLoading(true);
-    const withOAuthRes = await supabase.auth.signInWithOAuth({ provider })
-    console.log(withOAuthRes);
-    if (withOAuthRes.error) return showErrorAlert(withOAuthRes.error)
+  //   setLoading(true);
+  //   const withOAuthRes = await supabase.auth.signInWithOAuth({ provider })
+  //   console.log(withOAuthRes);
+  //   if (withOAuthRes.error) return showErrorAlert(withOAuthRes.error)
 
-    const authUser = await supabase.auth.getUser()
-    if (authUser?.error) return showErrorAlert(authUser?.error)
+  //   const authUser = await supabase.auth.getUser()
+  //   if (authUser?.error) return showErrorAlert(authUser?.error)
 
-    const contd = await regContd(authUser?.data?.user)
-    contd?.status !== 200 && showErrorAlert(contd)
+  //   const contd = await regContd(authUser?.data?.user)
+  //   contd?.status !== 200 && showErrorAlert(contd)
 
-    setLoading(false);
-  }
+  //   setLoading(false);
+  // }
 
   const regContd = async (authUser) => {
     const user = await getUser(authUser?.id)
