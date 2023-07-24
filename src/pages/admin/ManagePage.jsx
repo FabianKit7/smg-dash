@@ -5,7 +5,7 @@ import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
 import copy from 'copy-to-clipboard';
 import axios from 'axios'
-import { INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
+import { ACTIVE_TEMPLATE, INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
 
 export const calculateLast7DaysGrowth = (sessionData) => {
   if (!sessionData) return
@@ -378,11 +378,26 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
                   }
 
                   if (status === 'incorrect' || status === 'twofactor') {
+                    var htmlContent = ''
+                    var subject = ''
+                    if (status === 'active') {
+                      subject = "Your account has been activated"
+                      htmlContent = ACTIVE_TEMPLATE(user?.full_name, user?.username)
+                    }
+                    if (status === 'twofactor') {
+                      subject = "Your account has Two Factor authentication"
+                      htmlContent = TWO_FACTOR_TEMPLATE(user?.full_name, user?.username)
+                    }
+                    if (status === 'incorrect') {
+                      subject = "Your account has incorrect password"
+                      htmlContent = INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username)
+                    }
+                    
                     let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`,
                       {
                         email: user?.email,
-                        subject: status === 'incorrect' ? "Your account has incorrect password" : "Your account has Two Factor authentication",
-                        htmlContent: status === 'incorrect' ? INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username) : TWO_FACTOR_TEMPLATE(user?.full_name, user?.username)
+                        subject,
+                        htmlContent
                       }).catch(err => err)
                     if (sendEmail.status !== 200) {
                       console.log(sendEmail);
