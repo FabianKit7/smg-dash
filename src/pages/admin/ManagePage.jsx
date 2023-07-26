@@ -377,7 +377,7 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
                     alert('an error occurred!')
                   }
 
-                  if (status === 'incorrect' || status === 'twofactor') {
+                  if (status === 'incorrect' || status === 'twofactor' || status === 'active') {
                     var htmlContent = ''
                     var subject = ''
                     if (status === 'active') {
