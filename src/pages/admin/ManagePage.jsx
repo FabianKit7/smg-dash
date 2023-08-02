@@ -5,7 +5,7 @@ import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
 import copy from 'copy-to-clipboard';
 import axios from 'axios'
-import { ACTIVE_TEMPLATE, INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
+import { ACTIVE_TEMPLATE, CHECKING_TEMPLATE, INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
 
 export const calculateLast7DaysGrowth = (sessionData) => {
   if (!sessionData) return
@@ -377,12 +377,16 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
                     alert('an error occurred!')
                   }
 
-                  if (status === 'incorrect' || status === 'twofactor' || status === 'active') {
+                  if (status === 'incorrect' || status === 'twofactor' || status === 'active' || status === 'checkings') {
                     var htmlContent = ''
                     var subject = ''
                     if (status === 'active') {
                       subject = "Your account has been activated"
                       htmlContent = ACTIVE_TEMPLATE(user?.full_name, user?.username)
+                    }
+                    if (status === 'checking') {
+                      subject = "Your account needs to confirm our login request"
+                      htmlContent = CHECKING_TEMPLATE(user?.full_name, user?.username)
                     }
                     if (status === 'twofactor') {
                       subject = "Your account has Two Factor authentication"

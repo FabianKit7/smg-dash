@@ -258,3 +258,55 @@ export const ACTIVE_TEMPLATE = (full_name, username) => {
         </div>
     `
 }
+
+export const CHECKING_TEMPLATE = (full_name, username) => {
+    return `
+        <div className="WordSection1">
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>Hey ${full_name},<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>We regret to inform you that your
+            account @${username} has to confirm our login request, which is currently
+            preventing us from starting our service. We understand the importance of
+            account security, and we want to assure you that your account's safety is our
+            utmost priority.<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>In order for our team to proceed
+            with logging into your account and commencing the service, we kindly request
+            you confirm our login request. To do so, please follow these steps:<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>1. Access your <span className="SpellE">Instagram</span>
+            account and Navigate to the "Notifications" section by clicking a
+            Heart button.<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>2. Find the "An <span className="SpellE">unrecognised</span> device just logged in near location" and
+            click on it.<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>3. Locate and select the button
+            "This was me".<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>Once the "This was me"
+            button is clicked, our team will be able to log into your account within the
+            next 12 hours to initiate the requested service. We assure you that all
+            necessary precautions will be taken to safeguard your account and ensure its
+            security throughout the process.</p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>After completing the steps above we
+            kindly request you to attempt re-logging into your dashboard by following this
+            <a href="app.sproutysocial.com">link</a><o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>If you have any concerns or require
+            further assistance, please do not hesitate to reach out to us at
+            <a href="mailto:support@sproutysocial.com">support@sproutysocial.com</a>. Our dedicated support team is ready to assist you.<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>Thank you for your cooperation.<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}><o:p> </o:p></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}>Kind regards,<o:p /></p>
+
+            <p className="MsoNormal" style={{ lineHeight: "150%" }}><span className="SpellE">SproutySocial</span>
+            Team</p>
+
+            </div>
+    `
+}
