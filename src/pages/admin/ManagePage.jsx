@@ -335,6 +335,7 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
 export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
   const [showModal, setShowModal] = useState(false)
   const [processing, setProcessing] = useState(false)
+  const oldStatus = user?.status
 
   useEffect(() => {
     // console.log(showModal);
@@ -377,16 +378,16 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
                     alert('an error occurred!')
                   }
 
-                  if (status === 'incorrect' || status === 'twofactor' || status === 'active' || status === 'checkings') {
+                  if (status === 'incorrect' || status === 'twofactor' || status === 'active' || status === 'checking') {
                     var htmlContent = ''
                     var subject = ''
+                    if (oldStatus && oldStatus === 'new' && status === 'checking') {
+                      subject = "Your account needs to confirm our login request"
+                      htmlContent = CHECKING_TEMPLATE(user?.full_name, user?.username)
+                    }
                     if (status === 'active') {
                       subject = "Your account has been activated"
                       htmlContent = ACTIVE_TEMPLATE(user?.full_name, user?.username)
-                    }
-                    if (status === 'checking') {
-                      subject = "Your account needs to confirm our login request"
-                      htmlContent = CHECKING_TEMPLATE(user?.full_name, user?.username)
                     }
                     if (status === 'twofactor') {
                       subject = "Your account has Two Factor authentication"
