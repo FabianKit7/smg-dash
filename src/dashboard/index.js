@@ -849,9 +849,9 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
   }, [isClickedOutside, setShowChargebee]);
 
   return (
-    <div key={k} className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
+    <div key={k} className="fixed z-50 top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
       <div className="absolute top-3 right-3 text-green-400">{message}</div>
-      <div className="bg-white w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
+      <div className="bg-white w-[300px] md:w-[500px] min-h-[400px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
         <div className="py-2 px-6 border-b flex justify-between">
           <div className="font-bold text-lg">User Chargebee details</div>
           <FaTimes className='cursor-pointer' onClick={() => setShowChargebee(false)} />
@@ -867,7 +867,15 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
           </div>
           <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">SUBSCRIPTION STATUS:</div>
-            <div className="">{subscription?.status}</div>
+            <div className={`
+            ${(subscription?.status === 'active' && subscription?.due_invoices_count === 0) && "text-green-600"} 
+            ${(subscription?.status === 'active' && subscription?.due_invoices_count > 0) && "text-red-600"} 
+            ${subscription?.status === 'in_trial' && "text-orange-600"} 
+            ${subscription?.status === 'cancelled' && "text-red-600"} 
+            font-semibold capitalize`}>{
+                (subscription?.status === 'active' && subscription?.due_invoices_count > 0) ? 
+                  `Invoice Due ( ${subscription?.due_invoices_count} )` : subscription?.status
+            }</div>
           </div>
           <div className="flex flex-col md:flex-row justify-between border-b gap-10">
             <div className="">NAME:</div>
