@@ -241,7 +241,7 @@ export default function Dashboard() {
             <div
               className="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
               style={{
-                boxShadow: '0 0 3px #00000040',
+                boxShadow: '0 0 3px #ffffff40',
               }}
             >
               <div className="ml-3 flex items-center gap-[10px]">
@@ -252,7 +252,7 @@ export default function Dashboard() {
                   width="28px"
                   height="28px"
                 />
-                <div className="font-black text-base lg:text-2xl text-black font-MontserratBold capitalize">
+                <div className="font-black text-base lg:text-2xl text-black-r font-MontserratBold capitalize">
                   {userData?.username}
                 </div>
               </div>
@@ -269,7 +269,7 @@ export default function Dashboard() {
                   />
                 </div>
 
-                <div className="hidden lg:block relative rounded-[10px] bg-black text-white text-lg font-bold">
+                <div className="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-white text-black text-lg font-bold">
                   <div
                     className="flex items-center justify-center h-[52px] cursor-pointer"
                     onClick={() => setShowDateOptions(!showDateOptions)}
@@ -284,16 +284,16 @@ export default function Dashboard() {
                     <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
                   </div>
                   <div
-                    className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black bg-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
+                    className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black-r bg-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
                       }`}
                     style={{
-                      boxShadow: '0 0 3px #00000040',
+                      boxShadow: '0 0 3px #ffffff40',
                       transform: 'translteY(8px)',
                       transition: 'opacity .15s ease-in',
                     }}
                   >
                     <div
-                      className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                      className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                       onClick={() => {
                         setSelectedDate({ title: 'Last 7 days', value: 7 });
                         setShowDateOptions(false);
@@ -302,7 +302,7 @@ export default function Dashboard() {
                       Last 7 days
                     </div>
                     <div
-                      className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                      className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                       onClick={() => {
                         setSelectedDate({ title: 'Last 30 days', value: 30 });
                         setShowDateOptions(false);
@@ -311,7 +311,7 @@ export default function Dashboard() {
                       Last 30 days
                     </div>
                     <div
-                      className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                      className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                       onClick={() => {
                         setSelectedDate({ title: 'Last 60 days', value: 60 });
                         setShowDateOptions(false);
@@ -320,7 +320,7 @@ export default function Dashboard() {
                       Last 60 days
                     </div>
                     <div
-                      className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                      className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                       onClick={() => {
                         setSelectedDate({ title: 'Last 90 days', value: 90 });
                         setShowDateOptions(false);
@@ -337,7 +337,7 @@ export default function Dashboard() {
           <div className="lg:hidden flex flex-col items-center mb-5">
             <div className="flex items-center gap-[8px]">
               <img alt="" src="/ic_summary.svg" className="bg-black p-[8px] rounded-[8px]" />
-              <h3 className="text-[24px] font-bold font-MontserratBold text-black"> Account Summary </h3>
+              <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> Account Summary </h3>
             </div>
 
             <div className="relative rounded-[10px] w-fit text-[#1b89ff] text-lg font-bold">
@@ -356,16 +356,16 @@ export default function Dashboard() {
               </div>
 
               <div
-                className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black bg-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
+                className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black-r bg-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
                   }`}
                 style={{
-                  boxShadow: '0 0 3px #00000040',
+                  boxShadow: '0 0 3px #ffffff40',
                   transform: 'translteY(8px)',
                   transition: 'opacity .15s ease-in',
                 }}
               >
                 <div
-                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                   onClick={() => {
                     setSelectedDate({ title: 'Last 7 days', value: 7 });
                     setShowDateOptions(false);
@@ -374,7 +374,7 @@ export default function Dashboard() {
                   Last 7 days
                 </div>
                 <div
-                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                   onClick={() => {
                     setSelectedDate({ title: 'Last 30 days', value: 30 });
                     setShowDateOptions(false);
@@ -383,7 +383,7 @@ export default function Dashboard() {
                   Last 30 days
                 </div>
                 <div
-                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                   onClick={() => {
                     setSelectedDate({ title: 'Last 60 days', value: 60 });
                     setShowDateOptions(false);
@@ -392,7 +392,7 @@ export default function Dashboard() {
                   Last 60 days
                 </div>
                 <div
-                  className="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
+                  className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                   onClick={() => {
                     setSelectedDate({ title: 'Last 90 days', value: 90 });
                     setShowDateOptions(false);
@@ -417,12 +417,12 @@ export default function Dashboard() {
 
           <div className="hidden lg:block">
             {userData?.status === 'incorrect' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
-              <div className="px-8 h-full rounded-l-[10px] bg-[#ff8c00] text-white grid place-items-center">
+              <div className="px-8 h-full rounded-l-[10px] bg-[#ff8c00] grid place-items-center">
                 <RiUserSettingsFill size={30} />
               </div>
               <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
                 <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">Your password is incorrect</div>
-                <p className="font-MontserratSemiBold text-[1.125rem]">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
+                <p className="font-MontserratSemiBold text-[1.125rem] text-black">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
               </div>
               <button
                 onClick={() => { setIsOpen(true) }}
@@ -438,14 +438,14 @@ export default function Dashboard() {
             </div>}
 
             {userData?.status === 'twofactor' && <div className="flex items-center h-[170px] xl:h-[150px] rounded-[10px] overflow-hidden my-5">
-              <div className="px-8 h-full rounded-l-[10px] bg-[#ff8c00] text-white grid place-items-center">
+              <div className="px-8 h-full rounded-l-[10px] bg-[#ff8c00] grid place-items-center">
                 <RiUserSettingsFill size={30} />
               </div>
               <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
                 <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">
                   Two-Factor Authentication Enabled
                 </div>
-                <p className="font-MontserratSemiBold text-[1.125rem]">
+                <p className="font-MontserratSemiBold text-[1.125rem] text-black">
                   Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code or accept our login request to get your account started.
                 </p>
               </div>
@@ -471,14 +471,14 @@ export default function Dashboard() {
             </div>}
 
             {userData?.status === 'checking' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
-              <div className="px-8 h-full rounded-l-[10px] bg-[#ffd12c] text-white grid place-items-center">
+              <div className="px-8 h-full rounded-l-[10px] bg-[#ffd12c] grid place-items-center">
                 <RiUserSettingsFill size={30} />
               </div>
               <div className="py-2 px-3 bg-[#fffbeb] h-full w-full">
                 <div className="font-bold text-[.8rem] text-[#ffd12c] md:text-[1.3rem] capitalize font-MontserratBold">
                   Connecting Your Account
                 </div>
-                <p className="font-MontserratSemiBold text-[1.125rem]">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
+                <p className="font-MontserratSemiBold text-[1.125rem] text-black">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
               </div>
               <button
                 // className="mt-3 bg-[#ffd12c] text-white rounded-md py-3 text-center w-full font-bold capitalize"
@@ -492,14 +492,14 @@ export default function Dashboard() {
             </div>}
 
             {userData?.status === 'pending' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
-              <div className="px-8 h-full rounded-l-[10px] bg-[#ff2c55] text-white grid place-items-center">
+              <div className="px-8 h-full rounded-l-[10px] bg-[#ff2c55] grid place-items-center">
                 <RiUserSettingsFill size={30} />
               </div>
               <div className="py-2 px-3 bg-[#ffebf0] h-full w-full">
                 <div className="font-bold text-[.8rem] text-[#ff2c55] md:text-[1.3rem] capitalize font-MontserratBold">
                   Connect Your Account
                 </div>
-                <p className="font-MontserratSemiBold text-[1.125rem]">Your account is currently not connected to our
+                <p className="font-MontserratSemiBold text-[1.125rem] text-black">Your account is currently not connected to our
                   growth system. To get started, please connect your
                   account now.</p>
               </div>
@@ -707,7 +707,7 @@ export default function Dashboard() {
             </div>
 
             <div className="lg:hidden w-full">
-              <div className="shadow-[0_0_3px_#00000040] rounded-[10px] p-5 relative">
+              <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
                 <apptooltip className="absolute top-5 right-5 group cursor-pointer">
                   <div className="flex items-center">
                     <svgicon
@@ -739,7 +739,7 @@ export default function Dashboard() {
                   <div>
                     <div
                       _ngcontent-cuk-c74=""
-                      className="font-bold font-MontserratBold text-base lg:text-2xl text-black flex items-center gap-1"
+                      className="font-bold font-MontserratBold text-base lg:text-2xl text-black-r flex items-center gap-1"
                     >
                       Mike P
                       <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
@@ -752,8 +752,8 @@ export default function Dashboard() {
               </div>
 
               {showMobileManager && <div className="">
-                <div className="shadow-[0_0_3px_#00000040] rounded-[10px] p-5 relative">
-                  <div className="text-black text-sm font-normal font-MontserratRegular">
+                <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
+                  <div className="text-black-r text-sm font-normal font-MontserratRegular">
                     Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
                   </div>
                 </div>
@@ -781,7 +781,7 @@ export default function Dashboard() {
               <div>
                 <div
                   className="p-[35px] relative rounded-[10px] w-[450px]"
-                  style={{ boxShadow: '0 0 3px #00000040' }}
+                  style={{ boxShadow: '0 0 3px #ffffff40' }}
                 >
 
                   <apptooltip className="absolute top-[25px] right-[20px] ml-[8px] group cursor-pointer">
@@ -816,7 +816,7 @@ export default function Dashboard() {
                       <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
                       <div
                         _ngcontent-cuk-c74=""
-                        className="font-bold font-MontserratBold text-base lg:text-2xl text-black"
+                        className="font-bold font-MontserratBold text-base lg:text-2xl text-black-r"
                       >
                         Mike P
                       </div>
@@ -825,7 +825,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-5 text-black text-sm font-normal">
+                  <div className="mt-5 text-black-r text-sm font-normal">
                     Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
                   </div>
                 </div>
@@ -854,10 +854,10 @@ export default function Dashboard() {
 const Starts = ({ user, setChart, chart, totalInteractions }) => {
   // console.log(user);
   return (<>
-    <div className="mt-4 bg-[#f8f8f8] text-[#757575] md:text-black md:bg-transparent lg:mt-0 w-full rounded-[10px]">
+    <div className="mt-4 bg-white text-black text-[#757575] md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
       <div className="flex justify-between items-center gap-1 lg:gap-4 w-full text-center">
         <div
-          className={`${chart === 1 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
+          className={`${chart === 1 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
           onClick={() => setChart(1)}
           style={{
             transition: 'all .15s ease-in',
@@ -875,7 +875,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
         </div>
 
         <div
-          className={`${chart === 2 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
+          className={`${chart === 2 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
           onClick={() => setChart(2)}
           style={{
             transition: 'all .15s ease-in',
@@ -890,7 +890,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
         </div>
 
         <div
-          className={`${chart === 3 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]`}
+          className={`${chart === 3 ? "bg-black lg:bg-[#1b89ff] text-white" : "text-[#757575] md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
           onClick={() => setChart(3)}
           style={{
             transition: 'all .15s ease-in',
@@ -1018,7 +1018,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
               {pageProp.title === "blacklist" && <img alt="" src="/ic_blacklist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
             </div>
             <div className="">
-              <div className="font-bold font-MontserratBold text-base lg:text-2xl text-black">
+              <div className="font-bold font-MontserratBold text-base lg:text-2xl text-black-r">
                 Add {pageProp.title} {pageProp.title !== "Targeting" && "Accounts"}
               </div>
               <div className="font-normal text-[14px]">
@@ -1031,11 +1031,11 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
         </div>
 
         <div className="mt-5 relative" ref={parentRef}>
-          <div className="flex items-center text-base font-medium text-black border border-black h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
+          <div className="flex items-center text-base font-medium text-black-r border border-[#ffffff40] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
             <input
               type="text"
               placeholder="@accountname"
-              className="border-none outline-none w-full"
+              className="border-none outline-none w-full bg-transparent"
               value={debouncedQuery}
               ref={inputRef}
               onChange={(e) => {
@@ -1054,22 +1054,22 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
           <div className={`${!selectedData.username && "hidden"} -top-2 opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white border-2 border-[#23df85]`}
             style={{
               pointerEvents: 'all',
-              // boxShadow: '0 0 3px #00000040',
+              // boxShadow: '0 0 3px #ffffff40',
               transition: 'opacity .15s ease-in',
             }}
           >
-            <div className="cursor-pointer hover:bg-[#c4c4c4]/20 py-5 px-[30px] flex items-center justify-between">
+            <div className="cursor-pointer hover:bg-[#c4c4c4]/20 py-5 px-[30px] flex items-center justify-between text-black">
               <div className="flex items-center">
                 {selectedData.profile_pic_url !== "default" ? <img
                   alt=""
                   className="w-[46px] h-[46px] bg-[#c4c4c4] rounded-full mr-[12px]"
                   src={selectedData?.profile_pic_url}
-                /> : <div className="p-3 rounded-full bg-black text-white mr-[12px]">
+                /> : <div className="p-3 rounded-full bg-black-r text-white-r bg-black text-white mr-[12px]">
                   <FaUser size={14} color="white w-[46px] h-[46px]" />
                 </div>}
                 <div className="flex flex-col">
                   <div className="flex items-center">
-                    <div className="text-black text-base font-medium ">
+                    <div className="text-black-r text-base font-medium ">
                       {selectedData?.full_name}
                     </div>
                     {selectedData?.is_verified && <MdVerified
@@ -1091,10 +1091,10 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
             </div>
           </div>
 
-          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white`}
+          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white text-black`}
             style={{
               pointerEvents: 'all',
-              boxShadow: '0 0 3px #00000040',
+              boxShadow: '0 0 3px #ffffff40',
               transition: 'opacity .15s ease-in',
             }}
           >
@@ -1107,7 +1107,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                 setShowResultModal(false);
               }}
             >
-              <div className="p-3 rounded-full bg-black text-white">
+              <div className="p-3 rounded-full bg-black-r text-white-r bg-white text-black">
                 <FaUser size={14} color="white w-[46px] h-[46px]" />
               </div>
               <div className="">
@@ -1135,7 +1135,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                       />
                       <div className="flex flex-col">
                         <div className="flex items-center">
-                          <div className="text-black text-base font-medium ">
+                          <div className="text-black-r text-base font-medium ">
                             {account?.full_name}
                           </div>
                           {account?.is_verified && <MdVerified
@@ -1212,7 +1212,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
     </div>}
 
     <div
-      className="bg-[#f8f8f8] text-[#757575] flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
+      className="bg-white text-black text-[#757575] flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
       style={{ transition: 'all .1s ease-in' }}
     >
       <div className="w-[60%] flex items-center whitespace-nowrap overflow-hidden text-ellipsis justify-start md:pl-5">
@@ -1222,7 +1222,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
             setAddSuccess(!addSuccess)
           }} />
         </div>
-        <div className="font-normal text-[12px] md:text-base text-black whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="font-normal text-[12px] md:text-base text-black-r whitespace-nowrap overflow-hidden text-ellipsis">
           @{account?.account}
         </div>
       </div>
@@ -1298,11 +1298,11 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
       <div>
         <div className="hidden lg:flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
           style={{
-            boxShadow: '0 0 3px #00000040',
+            boxShadow: '0 0 3px #ffffff40',
           }}
         >
           <div className="flex items-center">
-            <div className="bg-[#f8f8f8] font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
+            <div className="bg-white text-black font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
               Targeting
               <span className="bg-[#23df85] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                 {targetingAccounts.length}
@@ -1341,7 +1341,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
         <div className="lg:hidden mt-[30px] mb-[12px]">
           <div className="flex items-center justify-center gap-[8px]">
             <img alt="" src="/ic_targeting.svg" className="bg-[#23df85] p-[8px] rounded-[8px]" />
-            <h3 className="text-[24px] font-bold font-MontserratBold text-black"> Targeting </h3>
+            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> Targeting </h3>
             <apptooltip className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <svgicon
@@ -1365,7 +1365,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
             </apptooltip>
           </div>
           <div className="mt-[30px] flex items-center">
-            <div className="w-full flex justify-center bg-[#f8f8f8]">
+            <div className="w-full flex justify-center bg-white text-black">
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-6">
                 Targeting
                 <span className="bg-[#23df85] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
@@ -1486,12 +1486,12 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
       <div>
         <div className="hidden lg:flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
           style={{
-            boxShadow: '0 0 3px #00000040',
+            boxShadow: '0 0 3px #ffffff40',
           }}
         >
           <div className="flex items-center">
             <div className="relative">
-              <div className="bg-[#f8f8f8] font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
+              <div className="bg-white text-black font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
                 onClick={() => setShowPageModal(true)}
               >
                 {pageProp.title}
@@ -1501,11 +1501,11 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                 <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
               </div>
               <div className={`${showPageModal ? 'opacity-100 z-10' : 'opacity-0 -z-10'} absolute top-0 left-0 w-full bg-white rounded-[10px]`} style={{
-                boxShadow: "0 0 3px #00000040",
+                boxShadow: "0 0 3px #ffffff40",
                 transform: 'translteY(8px)',
                 transition: 'opacity .15s ease-in',
               }}>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-[#f8f8f8]"
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-white text-black"
                   onClick={() => {
                     setPageProp({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by SproutySocial. We will never unfollow anyone you manually followed.' })
                     setShowPageModal(false)
@@ -1516,7 +1516,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                   </span>
                   <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
                 </div>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-[#f8f8f8]"
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-white text-black"
                   onClick={() => {
                     setPageProp({
                       id: 3, title: "Blacklist", addDescription: "Blacklist users that you would not like to interact with and we won't follow them when growing your account."
@@ -1558,7 +1558,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
         <div className="lg:hidden mt-[30px] mb-[12px]">
           <div className="flex items-center justify-center gap-[8px]">
             <img alt="" src={`/ic_${(pageProp.title).toLowerCase()}.svg`} className="rounded-[8px]" />
-            <h3 className="text-[24px] font-bold font-MontserratBold text-black"> {pageProp.title} </h3>
+            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {pageProp.title} </h3>
             <apptooltip className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <svgicon
@@ -1583,7 +1583,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
           </div>
 
           <div className="mt-[30px] flex items-center">
-            <div className={`${pageProp.title === "Whitelist" && "bg-[#f8f8f8]"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
+            <div className={`${pageProp.title === "Whitelist" && "bg-white text-black"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
                 Whitelist
                 <span className="bg-[#23df85] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
@@ -1591,7 +1591,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                 </span>
               </div>
             </div>
-            <div className={`${pageProp.title === "Blacklist" && "bg-[#f8f8f8]"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
+            <div className={`${pageProp.title === "Blacklist" && "bg-white text-black"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
                 Blacklist
                 <span className="bg-[#23df85] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">

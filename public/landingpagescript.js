@@ -594,12 +594,12 @@ window.addEventListener('DOMContentLoaded', async () => {
                             <div class="ml-3 flex items-center gap-[10px]">
                                 <img alt="" class="platform-logo" src="https://app.SproutySocial.com/instagram.svg"
                                     width="28px" height="28px">
-                                <div class="font-black text-base lg:text-2xl text-black font-MontserratBold">
+                                <div class="font-black text-base lg:text-2xl text-black-r font-MontserratBold">
                                     Growth Trajectory for @${user.username}
                                 </div>
                             </div>
     
-                            <div class="hidden lg:block relative rounded-[10px] bg-black text-white text-lg font-bold">
+                            <div class="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-white text-black text-lg font-bold">
                                 <div class="flex items-center justify-center h-[52px] cursor-pointer"
                                     onclick="chartRangetoggleDropdown()">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024"
@@ -621,7 +621,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                         </path>
                                     </svg>
                                 </div>
-                                <div class="chartRangeDropdown absolute w-full top-full left-0 rounded-[10px] z-[2] text-black bg-white opacity-0 pointer-events-none"
+                                <div class="chartRangeDropdown absolute w-full top-full left-0 rounded-[10px] z-[2] text-black-r bg-white opacity-0 pointer-events-none"
                                     style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px; transition: opacity 0.15s ease-in 0s;">
                                     <div class="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
                                         onclick="toggleChartRangeDropdown('Monthly')" id="Monthly">Monthly</div>
@@ -658,7 +658,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                     </div>
                                 </div>
                                 <div class="relative lg:hidden">
-                                    <div class="lg:hidden px-[13px] ml-2 h-[32px] rounded-[10px] flex items-center justify-center cursor-pointer bg-black text-white"
+                                    <div class="lg:hidden px-[13px] ml-2 h-[32px] rounded-[10px] flex items-center justify-center cursor-pointer bg-black-r text-white-r bg-white text-black"
                                         onclick="chartRangetoggleDropdown()">
                                         <strong class="text-[12px]">Monthly</strong>
                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -669,7 +669,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                             </path>
                                         </svg>
                                     </div>
-                                    <div class="chartRangeDropdown absolute w-full top-full left-0 rounded-[10px] z-[2] text-black bg-white opacity-0 pointer-events-none"
+                                    <div class="chartRangeDropdown absolute w-full top-full left-0 rounded-[10px] z-[2] text-black-r bg-white opacity-0 pointer-events-none"
                                         style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 3px; transition: opacity 0.15s ease-in 0s;">
                                         <div class="py-4 px-[30px] hover:bg-[#f8f8f8] cursor-pointer"
                                             onclick="toggleChartRangeDropdown('Monthly')" id="Monthly">Monthly</div>
@@ -681,9 +681,9 @@ window.addEventListener('DOMContentLoaded', async () => {
                                 </div>
                             </div>
                             <div
-                                class="mt-4 bg-[#f8f8f8] text-[#757575] md:text-black md:bg-transparent lg:mt-0 w-full rounded-[10px]">
+                                class="mt-4 bg-[#f8f8f8] text-[#757575] md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
                                 <div class="flex justify-between items-center gap-1 lg:gap-4 w-full text-center">
-                                    <div class="text-[#757575] md:text-black md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]"
+                                    <div class="text-[#757575] md:text-black-r md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]"
                                         style="transition: all 0.15s ease-in 0s;">
                                         <div class="text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] false">
                                             Followers
@@ -703,7 +703,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                                 </svg></div>
                                         </div>
                                     </div>
-                                    <div class="bg-[#EF5F3C] text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]"
+                                    <div class="bg-[#EF5F3C] text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]"
                                         style="transition: all 0.15s ease-in 0s;">
                                         <div
                                             class="text-[12px] font-MontserratSemiBold lg:text-[16px] font-[600]">
@@ -713,7 +713,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                             ${numFormatter(withSprouty)}${withSprouty >= 1000000 ? '+' : ''}
                                         </div>
                                     </div>
-                                    <div class="text-[#757575] md:text-black md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#00000040]"
+                                    <div class="text-[#757575] md:text-black-r md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]"
                                         style="transition: all 0.15s ease-in 0s;">
                                         <div
                                             class="text-[12px] font-MontserratSemiBold lg:text-[16px] font-[600] text-[#333]">

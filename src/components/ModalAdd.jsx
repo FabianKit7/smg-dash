@@ -123,7 +123,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           />
         </div>
         <div className="grid grid-cols-1 justify-center items-center">
-          <h1 className='font-bold text-black text-[36px] md:text-[40px] text-center pb-3 font-MADEOKINESANSPERSONALUSE'>{title}</h1>
+          <h1 className='font-bold text-black-r text-[36px] md:text-[40px] text-center pb-3 font-MADEOKINESANSPERSONALUSE'>{title}</h1>
           <p className='font-bold font-MontserratSemiBold text-[#333] text-sm text-center lg:px-[100px]'>{subtitle}</p>
           <div className="flex items-center justify-center w-full mt-4">
 

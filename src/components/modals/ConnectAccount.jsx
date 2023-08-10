@@ -165,10 +165,10 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                         />
                     </div>
                     <div className="">
-                        <h5 className="font-semibold text-[2rem] text-center text-black font-MontserratBold mt-[30px]">
+                        <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratBold mt-[30px]">
                             Connect your profile
                         </h5>
-                        <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black max-w-[80%] mx-auto">
+                        <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[80%] mx-auto">
                             Let's get you up and running! Enter your instagram password to
                             connect your profile.
                         </p>
@@ -389,7 +389,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                     </div>}
 
                     <div className="text-center">
-                        <p className="text-sm text-black font-MontserratRegular flex items-center gap-2 justify-center">
+                        <p className="text-sm text-black-r font-MontserratRegular flex items-center gap-2 justify-center">
                             Forgot Password?
                             <a
                                 href="https://www.instagram.com/accounts/password/reset/"

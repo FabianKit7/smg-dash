@@ -86,10 +86,10 @@ export default function Settings() {
           <div
             className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
             style={{
-              boxShadow: '0 0 3px #00000040',
+              boxShadow: '0 0 3px #ffffff40',
             }}
           >
-            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Profile settings</h1>
+            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Profile settings</h1>
 
             <div className="flex items-center gap-2 text-base cursor-pointer" onClick={() => navigate(-1)}>
               <h3>Close</h3>
@@ -165,10 +165,10 @@ export default function Settings() {
             <div
               className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
               style={{
-                boxShadow: '0 0 3px #00000040',
+                boxShadow: '0 0 3px #ffffff40',
               }}
             >
-              <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Payment and Billing Settings</h1>
+              <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Payment and Billing Settings</h1>
             </div>
 
             {/* payment and billing settings */}
@@ -203,10 +203,10 @@ export default function Settings() {
           <div
             className="flex flex-col md:flex-row justify-between items-center rounded-[10px] md:h-[84px] py-3 md:py-0 px-5 md:px-[30px] mb-10"
             style={{
-              boxShadow: '0 0 3px #00000040',
+              boxShadow: '0 0 3px #ffffff40',
             }}
           >
-            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Accounts</h1>
+            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Accounts</h1>
             <Link to={`/search/?username=add_account`}
               className="px-[32px] md:h-[52px] py-2 md:py-0 text-sm md:text-base mt-2 md:mt-0 w-full md:w-fit grid place-items-center whitespace-nowrap rounded-[10px] bg-[#1b89ff] text-white font-bold"
             >Add Account</Link>

@@ -123,14 +123,18 @@ export default function Login() {
         <div className="flex flex-col justify-center items-center">
           {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[28px]">
-            <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" />
+            <div className="hidden md:flex items-center gap-2">
+              <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
+              <b className="text-[32px]">propels</b>
+            </div>
+            {/* <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" /> */}
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
             {/* <strong className="text-[25px] text-left">SPROUTYSOCIAL</strong> */}
           </div>
-          <hr className="mb-7 w-full border-[#ef5f3c]" />
+          {/* <hr className="mb-7 w-full border-[#ef5f3c]" /> */}
 
-          <h5 className="font-semibold text-[2rem] text-center text-black font-MontserratSemiBold mt-[30px]">Welcome Back</h5>
-          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black max-w-[320px]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <span className="font-bold">followers</span> every month.</p>
+          <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratSemiBold mt-[30px]">Welcome Back</h5>
+          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <span className="font-bold">followers</span> every month.</p>
         </div>
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleLogin}>
           <div className="form-outline mb-3 font-MontserratRegular">
@@ -170,7 +174,7 @@ export default function Login() {
         </form>
 
         <div className="text-center">
-          <p className="text-sm text-black font-MontserratRegular">
+          <p className="text-sm text-black-r font-MontserratRegular">
             Don't have an account? <Link to="/SignUp"><span className="font-MontserratSemiBold text-[#1b89ff]">Sign Up</span></Link>
           </p>
         </div>
@@ -179,14 +183,14 @@ export default function Login() {
 
         {/* <div className="hidden del-flex justify-center items-center relative my-8">
           <hr className="w-full" />
-          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black">OR</div>
+          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black-r">OR</div>
         </div>
 
         <div className="flex items-center justify-center mt-8 mb-[12px]">
           <button
             onClick={() => handleOAuthSignIn('google')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black-r"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',
@@ -202,7 +206,7 @@ export default function Login() {
           <button
             onClick={() => handleOAuthSignIn('facebook')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black-r"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',

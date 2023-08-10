@@ -117,10 +117,10 @@ export default function ManageAccounts() {
                     <div
                         className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
                         style={{
-                            boxShadow: '0 0 3px #00000040',
+                            boxShadow: '0 0 3px #ffffff40',
                         }}
                     >
-                        <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black">Select an account</h1>
+                        <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Select an account</h1>
 
                         <div className="flex items-center gap-2 text-base">
                             <BsClock size={25} className="w-[25px] h-[25px]" />
@@ -132,7 +132,7 @@ export default function ManageAccounts() {
                 <div className="relative grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10 m-5 mt-0 items-center">
                     {accounts.map(account => {
                         return (
-                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#00000040] bg-white text-black cursor-pointer z-[5]" onClick={() => {
+                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black-r cursor-pointer z-[5]" onClick={() => {
                                 // navigate("/dashboard/" + account?.username)
                             }}>
                                 <div className="flex lg:flex-col w-full">
@@ -185,9 +185,9 @@ export default function ManageAccounts() {
                         )
                     })}
 
-                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#00000040] bg-white text-black">
+                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black-r">
                         <div className="relative w-[80px] h-[80px] lg:w-[160px] lg:h-[160px] mx-auto">
-                            <div className="w-full h-full rounded-full bg-black text-white grid place-items-center">
+                            <div className="w-full h-full rounded-full bg-black-r text-white-r bg-white text-black grid place-items-center">
                                 <AiOutlinePlus size={50} className="w-[24px] h-[24px] lg:w-[50px] lg:h-[50px]" />
                             </div>
                             <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-2 lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 bg-[#23df85]"></div>

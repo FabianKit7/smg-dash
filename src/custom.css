@@ -232,7 +232,7 @@ input {
 .settings__card {
   border-radius: 10px;
   margin-bottom: 20px;
-  box-shadow: 0 0 3px #00000040;
+  box-shadow: 0 0 3px #ffffff40;
   background: #ffffff;
   display: flex;
   gap: 1rem;

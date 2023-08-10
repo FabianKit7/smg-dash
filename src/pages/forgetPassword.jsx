@@ -64,7 +64,7 @@ export default function ForgetPassword() {
                     <div className="font-MADEOKINESANSPERSONALUSE text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
                     <hr className="mb-7 w-full border-[#ef5f3c]" />
 
-                    <h5 className="font-bold text-[2.625rem] text-black font-MADEOKINESANSPERSONALUSE">Forgot Password?</h5>
+                    <h5 className="font-bold text-[2.625rem] text-black-r font-MADEOKINESANSPERSONALUSE">Forgot Password?</h5>
                     <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333] max-w-[320px]">Enter your email address and we will send you instructions to reset your password.</p>
                 </div>
                 {page === 0 ?

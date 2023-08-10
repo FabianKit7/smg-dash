@@ -84,12 +84,12 @@ export default function Search() {
                 <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
               </div>
               <div className="">
-                <div className="text-black font-bold font-MontserratSemiBold text-[14px]">{user?.full_name}</div>
+                <div className="text-black-r font-bold font-MontserratSemiBold text-[14px]">{user?.full_name}</div>
                 <div className="text-[12px]">{user?.email}</div>
               </div>
             </div>
 
-            <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
+            <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
               setShowMenu(!showMenu)
               await supabase.auth.signOut();
               window.onbeforeunload = function () {

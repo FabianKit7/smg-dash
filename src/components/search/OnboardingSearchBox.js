@@ -259,20 +259,20 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
 
         <div className="pb-4 flex flex-col justify-between lg:justify-center lg:items-center h-full text-start lg:text-center px-5 lg:px-0">
           <div className="block lg:flex flex-col lg:justify-center lg:items-center pb-[80px]">
-            <h1 className='font-bold text-black font-MontserratBold text-[26px] pb-3'>Search your account</h1>
+            <h1 className='font-bold text-black-r font-MontserratBold text-[26px] pb-3'>Search your account</h1>
             <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>Find your Instagram account and start growing followers with <br className='hidden lg:block' /> Sprouty Social</p>
 
             <div className="lg:block flex flex-col justify-between mt-3">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
                 <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-all duration-300 ease-in`}>
-                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#00000040] bg-[#f8f8f8]`}>
+                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#ffffff40] bg-[#f8f8f8]`}>
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <img src={selectedAccount?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
                       </div>
                       <div className="">
-                        <h3 className='font-bold text-black font-MontserratSemiBold'>{selectedAccount?.username}</h3>
+                        <h3 className='font-bold text-black-r font-MontserratSemiBold'>{selectedAccount?.username}</h3>
                         <h3 className=''>{selectedAccount?.full_name}</h3>
                       </div>
                     </div>
@@ -285,7 +285,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                     }} />
                   </div>}
 
-                  {!selected && <div className={`p-5 h-full flex items-center border border-black text-black rounded-[10px]`}>
+                  {!selected && <div className={`p-5 h-full flex items-center border border-black text-black-r rounded-[10px]`}>
                     <input
                       type="text"
                       className="w-full outline-none placeholder-black/75"

@@ -95,7 +95,7 @@ export default function Search() {
         </div>
 
         <div className="grid justify-center items-center">
-          <h1 className='font-bold text-black text-[40px] text-center pb-3'>Search your account</h1>
+          <h1 className='font-bold text-black-r text-[40px] text-center pb-3'>Search your account</h1>
           <p className='font-bold text-sm opacity-40 text-center md:px-[100px]'>Find your Instagram account and start growing followers with Sprouty Social</p>
           <div className="flex justify-center items-center relative pt-8">
             {/* <Typeahead
@@ -229,7 +229,7 @@ export default function Search() {
 //         </div>
 
 //         <div className="grid justify-center items-center">
-//           <h1 className='font-bold text-black text-[40px] text-center pb-3'>Search your account</h1>
+//           <h1 className='font-bold text-black-r text-[40px] text-center pb-3'>Search your account</h1>
 //           <p className='font-bold text-sm opacity-40 text-center md:px-[100px]'>Find your Instagram account and start growing followers with Sprouty Social</p>
 //           <Search />
 //           <p className='font-bold text-sm opacity-40 text-center md:px-[120px] pt-14'>Don’t worry. You will be able to check if you’ve entered in a correct format in the next step.</p>

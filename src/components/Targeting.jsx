@@ -81,7 +81,7 @@ export default function Targeting({ user, userId, page }) {
             </div>
             {loadingSpinner && (<Spinner animation="border" />)}
           </div>
-          <div className="flex gap-3 text-black">
+          <div className="flex gap-3 text-black-r">
             <div className="rounded-[4px] bg-[#D9D9D9] p-3 relative w-10 h-10 cursor-pointer" onClick={() => { setIsOpen(!modalIsOpen) }}>
               <BsFillPlusSquareFill className="absolute text-[#8C8C8C] font-semibold" />
             </div>

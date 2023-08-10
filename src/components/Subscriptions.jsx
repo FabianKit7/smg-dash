@@ -190,7 +190,7 @@ export default function Subscriptions() {
                       />
                       <div className="flex flex-col">
                         <div className="text-[12px] -mb-1">Account:</div>
-                        <div className="text-[14px] text-black font-bold font-MontserratSemiBold">
+                        <div className="text-[14px] text-black-r font-bold font-MontserratSemiBold">
                           @{userResults?.username}
                         </div>
                       </div>
@@ -203,7 +203,7 @@ export default function Subscriptions() {
                     <div className="flex items-center gap-[10px]">
                       <div className="flex flex-col">
                         <div className="text-[12px] -mb-1">Plan:</div>
-                        <div className="text-[14px] text-black font-bold font-MontserratSemiBold">
+                        <div className="text-[14px] text-black-r font-bold font-MontserratSemiBold">
                           Monthly Plan
                         </div>
                       </div>
@@ -213,11 +213,11 @@ export default function Subscriptions() {
               </div>
 
               <div className="pt-4 bg-white px-5">
-                <h1 className="text-black text-[20px] font-bold font-MontserratSemiBold">
+                <h1 className="text-black-r text-[20px] font-bold font-MontserratSemiBold">
                   {' '}
                   Start Your Free 7-Day Trial
                 </h1>
-                <p className="mt-1 mb-3 text-black text-[14px] font-normal">
+                <p className="mt-1 mb-3 text-black-r text-[14px] font-normal">
                   Grow ~1-10k Real & Targeted Followers Every Month. Analytics &
                   Results Tracking. Boost Likes, Comments & DMs. Automated 24/7
                   Growth, Set & Forget. Personal Account Manager. No Fakes Or
@@ -297,7 +297,7 @@ export default function Subscriptions() {
                   >
                     <div className="">{Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}</div>
                   </button>
-                  <div className="text-center mt-2 text-black">
+                  <div className="text-center mt-2 text-black-r">
                     Then $24.99 per week, billed monthly. <br /> Cancel any time, no
                     risk.
                   </div>
@@ -313,7 +313,7 @@ export default function Subscriptions() {
                   >
                     <img src={'/icons/paypal-btn.svg'} alt="" className="h-[25px]" />
                   </button>
-                  <div className="text-center mt-2 text-black">
+                  <div className="text-center mt-2 text-black-r">
                     Start Free 7-Day Trial. Then $24.99 per week, billed monthly. Cancel any time, no risk.
                   </div>
                 </div>
@@ -348,7 +348,7 @@ export default function Subscriptions() {
                     </span>
                   </div>
                   <div className="">
-                    <div className="text-black font-bold font-MontserratSemiBold text-[14px]">
+                    <div className="text-black-r font-bold font-MontserratSemiBold text-[14px]">
                       {user?.full_name}
                     </div>
                     <div className="text-[12px]">{user?.email}</div>
@@ -356,7 +356,7 @@ export default function Subscriptions() {
                 </div>
 
                 <div
-                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black px-5 cursor-pointer hover:bg-blue-gray-100"
+                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-blue-gray-100"
                   onClick={async () => {
                     setShowMenu(!showMenu);
                     await supabase.auth.signOut();
@@ -416,7 +416,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
                       </div>
                       <div className="">
-                        <div className="font-bold text-black">{userResults?.username}</div>
+                        <div className="font-bold text-black-r">{userResults?.username}</div>
                         <div className="">{userResults?.full_name}</div>
                       </div>
                     </div>
@@ -428,7 +428,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
 
                 <div className="pt-[32px] pb-3 px-5 lg:px-[50px] -mt-5 rounded-bl-[20px] rounded-br-[20px] shadow-[0_3px_8px_#0000001a] bg-[#f8f8f8]">
                   <div className="flex text-[12px]">Select plan</div>
-                  <div className="flex font-bold text-black">Monthly Plan</div>
+                  <div className="flex font-bold text-black-r">Monthly Plan</div>
                 </div>
               </div>
 
@@ -438,7 +438,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { setShowCreaditCardInput(false) }}>
                       <FaAngleLeft className="text-[#8C8C8C] font-semibold" />
                     </div>}
-                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black font-MontserratBold">Payment method</h1>
+                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black-r font-MontserratBold">Payment method</h1>
                   </div>
                   <p className="pt-2 pb-4 text-sm font-MontserratRegular text-start">You may cancel during your free trial and won't be billed, no risk.</p>
 
@@ -477,16 +477,16 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
             <div className="basis-[60%] grow-[4] rounded-[20px] shadow-[0_5px_10px_#0a17530d] p-4 lg:p-[50px_50px_50px] bg-white relative">
               <div className="w-full h-full overflow-auto">
                 <span className="text-[14px] py-[5px] px-3 mb-3 rounded-[8px] text-[#23df85] bg-[#23df8533]">7-Days Free Trial</span>
-                <div className="text-[20px] lg:text-[26px] font-bold text-black font-MontserratBold">Start Your 7-Days Trial</div>
+                <div className="text-[20px] lg:text-[26px] font-bold text-black-r font-MontserratBold">Start Your 7-Days Trial</div>
                 <p className="text-[14px] mt-2 mb-5">
                   It's time to get the real exposure you've been waiting for. After signing up, you will be introduced to your personal account manager and start growing in under 2 minutes.
                 </p>
-                <div className="text-[72px] leading-[70px] text-black font-bold font-MontserratBold">Free</div>
+                <div className="text-[72px] leading-[70px] text-black-r font-bold font-MontserratBold">Free</div>
                 <p className="text-[14px] mb-5">
                   Then $24.99 per week, billed monthly.
                 </p>
 
-                <div className="flex flex-col gap-4 text-black text-base">
+                <div className="flex flex-col gap-4 text-black-r text-base">
                   <div className="flex items-center gap-2">
                     <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" _ngcontent-gsj-c72="" aria-hidden="true">

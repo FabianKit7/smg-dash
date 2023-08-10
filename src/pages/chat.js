@@ -110,7 +110,7 @@ export default function Chat() {
   return (
     <div className="h-screen w-full py-6 px-4 bg-white to-black grid place-items-center">
       <div className="">
-        <h5 className="font-semibold text-[2rem] text-center text-black font-MontserratBold mt-[30px] relative">
+        <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratBold mt-[30px] relative">
           Connecting {username}
           {newMsg && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
         </h5>

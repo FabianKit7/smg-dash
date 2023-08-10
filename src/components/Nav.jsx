@@ -62,7 +62,10 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
         <Link to={`${data?.username ? `/dashboard/${data?.username}` : "/"}`} className="navbar-brand" href="#">
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
             <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
-            <img src="/sproutysocial-light.svg" alt="" className="hidden md:inline  w-[346px]" />
+            <div className="hidden md:flex items-center gap-2">
+              <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
+              <b className="text-[32px]">propels</b>
+            </div>
           </div>
         </Link>
 
@@ -93,7 +96,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden lg:inline font-MontserratSemiBold text-lg">@{data?.username}</span></p>
               <FaAngleDown className="hidden lg:block" />
 
-              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#00000040] rounded-[10px] font-MontserratBold`}
+              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white text-black py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#ffffff40] rounded-[10px] font-MontserratBold`}
                 style={{
                   transition: "opacity .15s ease-in"
                 }}
