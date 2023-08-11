@@ -85,14 +85,14 @@ const MultiRangeSlider = ({ min, max, onChange, margic, setMargic }) => {
 
       <div className="slider">
         <div className="absolute z-50 -top-[12px] -right-[25%]">
-          <div className={`${margic ? "bg-[#23DF85]" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer`} onClick={() => {setMargic(!margic)}}>
+          <div className={`${margic ? "button-gradient" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer`} onClick={() => {setMargic(!margic)}}>
               <FaMagic className="absolute text-white"/>
             </div>
         </div>
         <div className="slider__track" />
-        <div ref={range} className={`slider__range ${margic ? "bg-[#23DF85]" : "bg-gray-600"}`}></div>
-        <div className={`slider__left-value ${margic ? "text-[#23DF85]" : "text-gray-600"}`}>{minVal}</div>
-        <div className={`slider__right-value ${margic ? "text-[#23DF85]" : "text-gray-600"}`}>{maxVal}</div>
+        <div ref={range} className={`slider__range ${margic ? "button-gradient" : "bg-gray-600"}`}></div>
+        <div className={`slider__left-value ${margic ? "text-[#ff5e69]" : "text-gray-600"}`}>{minVal}</div>
+        <div className={`slider__right-value ${margic ? "text-[#ff5e69]" : "text-gray-600"}`}>{maxVal}</div>
       </div>
     </div>
   );

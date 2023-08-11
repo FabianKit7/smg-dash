@@ -132,7 +132,7 @@ export default function ManageAccounts() {
                 <div className="relative grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10 m-5 mt-0 items-center">
                     {accounts.map(account => {
                         return (
-                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black-r cursor-pointer z-[5]" onClick={() => {
+                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black cursor-pointer z-[5]" onClick={() => {
                                 // navigate("/dashboard/" + account?.username)
                             }}>
                                 <div className="flex lg:flex-col w-full">
@@ -145,7 +145,7 @@ export default function ManageAccounts() {
                                         <div className="flex items-center lg:flex-col gap-[14px]">
                                             <div className="relative w-[54px] h-[54px] lg:w-[160px] lg:h-[160px] lg:mt-10 lg:mx-auto">
                                                 <img src={account?.profile_pic_url} alt="" className="w-full h-full rounded-full p-[3px]" />
-                                                <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-[3px] lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 bg-[#23df85]"></div>
+                                                <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-[3px] lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 button-gradient"></div>
                                             </div>
                                             <div className="lg:text-center">
                                                 <div className="lg:hidden flex justify-center items-center gap-2">
@@ -153,10 +153,10 @@ export default function ManageAccounts() {
                                                     <div className="text-[12px] lg:text-[18px] font-bold">Instagram Account</div>
                                                 </div>
                                                 <div className="lg:mt-5 text-[16px] lg:text-[24px] font-bold">{account?.full_name}</div>
-                                                <div className="text-[#1B89FF] text-[12px] lg:text-[18px] leading-[0.8] font-bold">@{account?.username}</div>
+                                                <div className="text-[#b16cea] text-[12px] lg:text-[18px] leading-[0.8] font-bold">@{account?.username}</div>
                                             </div>
                                         </div>
-                                        <div className="lg:hidden w-[32px] h-[32px] rounded-lg bg-[#1B89FF] grid place-items-center cursor-pointer relative z-10" onClick={() => {
+                                        <div className="lg:hidden w-[32px] h-[32px] rounded-lg bg-[#b16cea] grid place-items-center cursor-pointer relative z-10" onClick={() => {
                                             setAccountToSet(account)
                                             setShowSettingsModal(true);
                                         }}>
@@ -185,12 +185,12 @@ export default function ManageAccounts() {
                         )
                     })}
 
-                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black-r">
+                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black">
                         <div className="relative w-[80px] h-[80px] lg:w-[160px] lg:h-[160px] mx-auto">
-                            <div className="w-full h-full rounded-full bg-black-r text-white-r bg-white text-black grid place-items-center">
+                            <div className="w-full h-full rounded-full bg-black-r text-white-r bg-black text-white grid place-items-center">
                                 <AiOutlinePlus size={50} className="w-[24px] h-[24px] lg:w-[50px] lg:h-[50px]" />
                             </div>
-                            <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-2 lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 bg-[#23df85]"></div>
+                            <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-2 lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 button-gradient"></div>
                         </div>
                         <div className="mt-2 lg:mt-[32px] text-[16px] lg:text-[24px] font-bold text-center">Add Account</div>
                     </Link>

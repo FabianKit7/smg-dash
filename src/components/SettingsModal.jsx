@@ -97,7 +97,7 @@ const SettingsModal = (props) => {
               <div className="w-5 h-5 rounded-full bg-green-600 absolute bottom-[10px] right-[10px]"></div>
             </div>
             <h2 className='font-bold text-[#757575] text-[24px] my-1 font-MontserratBold'>{user?.full_name}</h2>
-            <h2 className='font-bold text-[#1b89ff] text-[20px] my-1 font-MontserratBold'>@{user?.username}</h2>
+            <h2 className='font-bold text-[#b16cea] text-[20px] my-1 font-MontserratBold'>@{user?.username}</h2>
             <div className="relative w-full md:w-[403px] flex justify-center mt-4">
               <div className="flex items-center justify-center gap-2 rounded-[10px] py-4 px-4 text-[1.25rem] border shadow-[inset_0_0px_2px_rgba(0,0,0,0.4)] ">
                 <input
@@ -125,7 +125,7 @@ const SettingsModal = (props) => {
             <div className="flex flex-col gap-5">
               <div className="xl:mb-[10px] mt-4 xl:mt-0 text-[18px] xl:font-bold xl:font-MontserratBold">Interaction settings</div>
 
-              <div className={`${mode === "auto" ? "border-[4px] border-[#1b89ff] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "auto" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("auto")}>
                 <img className={`${mode === "auto" ? "w-[60px] h-[60px] lg:w-[100px] lg:h-[100px]" : "w-[20px] h-[20px] lg:w-[30px] lg:h-[30px]"}`} src={flashImg} alt="" style={{
@@ -141,7 +141,7 @@ const SettingsModal = (props) => {
                 </div>
               </div>
 
-              <div className={`${mode === "follow" ? "border-[4px] border-[#1b89ff] h-[270px] sm:h-[200px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "follow" ? "border-[4px] border-[#b16cea] h-[270px] sm:h-[200px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("follow")}>
                 <svgicon className={`${mode === "follow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
@@ -166,7 +166,7 @@ const SettingsModal = (props) => {
                 </div>
               </div>
 
-              <div className={`${mode === "unfollow" ? "border-[4px] border-[#1b89ff] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "unfollow" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("unfollow")}>
                 <svgicon className={`${mode === "unfollow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
@@ -190,7 +190,7 @@ const SettingsModal = (props) => {
                 </div>
               </div>
 
-              <div className={`${mode === "off" ? "border-[4px] border-[#1b89ff] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "off" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("off")}>
                 <svgicon className={`${mode === "off" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
@@ -216,7 +216,7 @@ const SettingsModal = (props) => {
             </div>
 
             <div className="flex justify-center my-4">
-              <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-full xl:w-[300px] h-[72px] bg-[#1b89ff] text-white' onClick={(e) => {
+              <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-full xl:w-[300px] h-[72px] bg-[#b16cea] text-white' onClick={(e) => {
                 e.preventDefault()
                 !loading && handleSave();
               }}>{loading ? 'Saving...' : 'Apply and Close'}</button>

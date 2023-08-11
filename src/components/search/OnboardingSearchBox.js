@@ -81,10 +81,12 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
     if (!user?.user_id) {
       alert('please login first')
     }
+
     var filteredSelected = selected;
     if (filteredSelected.startsWith('@')) {
       filteredSelected = filteredSelected.substring(1)
     }
+
     if (selected) {
       setProcessing(true);
       const params = { ig: filteredSelected, response_type: "short", corsEnabled: "false", storageEnabled: "true" };
@@ -101,8 +103,6 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
       const userResults = await Axios.request(options);
       const vuser = userResults?.data?.[0]
 
-      // console.log(userResults);
-
       if (!vuser?.username) {
         // alert('Username not found!');
         setIsModalOpen(true);
@@ -110,29 +110,23 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
         setProcessing(false);
         return
       }
-      // const currentUser = await supabase.auth.getUser()
-      // const userId = currentUser?.data?.user?.id
-      // if (!userId) {
-      //   // alert('Username not found!');
-      //   setIsModalOpen(true);
-      //   setErrorMsg({ title: 'Alert', message: 'Username not found!' })
-      // }
-      // const { data: { user } } = await supabase.auth.getUser()
 
       const checkUsername = await supabase.from("users").select().eq('email', user?.email).eq("username", vuser?.username)
       if (checkUsername.data?.[0]) {
-        setIsModalOpen(true);
-        setErrorMsg({ title: 'Alert', message: "This username name has already been registered!" })
-        setProcessing(false);
+        const ref = getRefCode()
+        if (ref) {
+          navigate(`/subscriptions/${checkUsername.data[0].username}?ref=${ref}`)
+        } else {
+          navigate(`/subscriptions/${checkUsername.data[0].username}`)
+        }
         return;
       }
 
       var profile_pic_url = '';
-      // const uploadImageFromURLRes = await uploadImageFromURL(vuser?.username, vuser?.orignal_profile_pic_url)
       const uploadImageFromURLRes = await uploadImageFromURL(vuser?.username)
 
       if (uploadImageFromURLRes?.status === 'success') {
-        profile_pic_url = uploadImageFromURLRes?.data
+        profile_pic_url = uploadImageFromURLRes?.data ?? ''
       }
 
       if (!currentUsername) {
@@ -158,20 +152,14 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
           setProcessing(false);
           return;
         }
-      } else {
-        
-        
-        // console.log(user);
-        // console.log("user chargebee_customer_id: ");
-        // console.log(user?.chargebee_customer_id);
-        
-        
+      } else {        
         if (!user?.chargebee_customer_id) {
           setIsModalOpen(true);
           setErrorMsg({ title: 'Alert', message: 'No CB_ID found' })
           setProcessing(false);
           return;
         }
+        
         let data = {
           customer_id: user?.chargebee_customer_id,
           plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
@@ -247,10 +235,10 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
       message={errorMsg?.message}
     />
 
-    <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-[#f8f8f8]">
-      <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] my-auto 2xl:grid max-h-full lg:mx-auto relative rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-white">
+    <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-black">
+      <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] my-auto 2xl:grid max-h-full lg:mx-auto relative rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-[#242424]">
         <div className="absolute -top-10 left-0 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
-          <div className="text-[#1B89FF]">Select Your Account</div>
+          <div className="text-[#b16cea]">Select Your Account</div>
           <div className="">{`>`}</div>
           <div className="">Complete Setup</div>
           <div className="">{`>`}</div>
@@ -265,7 +253,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
             <div className="lg:block flex flex-col justify-between mt-3">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
                 <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-all duration-300 ease-in`}>
-                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#ffffff40] bg-[#f8f8f8]`}>
+                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#ffffff40] bg-[#f8f8f8] text-black`}>
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <img src={selectedAccount?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />
@@ -288,7 +276,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                   {!selected && <div className={`p-5 h-full flex items-center border border-black text-black-r rounded-[10px]`}>
                     <input
                       type="text"
-                      className="w-full outline-none placeholder-black/75"
+                      className="w-full outline-none placeholder-white bg-transparent"
                       placeholder="@username"
                       value={debouncedQuery}
                       ref={inputRef}
@@ -309,7 +297,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                   </div>}
                 </div>
 
-                {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border rounded-md bg-white py-3 px-4 flex flex-col gap-4">
+                {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border borderD-[#ff5e69] rounded-md bg-black py-3 px-4 flex flex-col gap-4">
                   {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
                     onClick={async () => {
                       setProcessing(true)
@@ -328,8 +316,8 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                       setShowResultModal(false);
                     }}
                   >
-                    <div className="p-3 rounded-full bg-black">
-                      <FaUser size={14} color="white" />
+                    <div className="p-3 rounded-full bg-white text-black">
+                      <FaUser size={14} />
                     </div>
                     <div className="">
                       <div className="flex">{debouncedQuery}</div>
@@ -339,7 +327,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                   {searchedAccounts.map((data, index) => {
                     return (<>
                       <div
-                        key={index}
+                        key={`searchedAccounts-${index+1}`}
                         className='accounts w-full flex items-center cursor-pointer hover:bg-[#02a1fd]/20'
                         onClick={() => {
                           setDebouncedQuery(data?.username)
@@ -369,7 +357,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                   })}
                 </div>}
 
-                <button className={`${selected ? 'bg-[#ef5f3c]' : 'bg-[#C4C4C4]'} hidden lg:block mt-[40px] w-full lg:w-[350px] h-[60px] py-[15px] rounded-[10px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
+                <button className={`${selected ? 'button-gradient2' : 'bg-[#C4C4C4]'} hidden lg:block mt-[40px] w-full lg:w-[350px] h-[60px] py-[15px] rounded-[10px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
                   onClick={() => { (selected && !processing) && handleSubmit() }}
                 >
                   {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>Select Account <FaAngleRight size={25} /></div>}
@@ -379,7 +367,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
           </div>
 
           <div className="fixed bottom-6 left-0 w-full px-5">
-            <button className={`${selected ? 'bg-[#ef5f3c]' : 'bg-[#C4C4C4]'} lg:hidden w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
+            <button className={`${selected ? 'button-gradient2' : 'bg-[#C4C4C4]'} lg:hidden w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
               onClick={() => { (selected && !processing) && handleSubmit() }}
             >
               {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>Select Account <FaAngleRight size={20} /></div>}

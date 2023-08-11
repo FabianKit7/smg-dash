@@ -76,7 +76,7 @@ export default function ManagePage() {
         var v;
         if (growthDifference) {
           v = `
-          <div class="${growthDifference > 0 ? "text-[#23DF85]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
+          <div class="${growthDifference > 0 ? "text-[#ff5e69]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
           `
         } else {
           v = `
@@ -106,7 +106,7 @@ export default function ManagePage() {
 
       {/* <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center">
         <div className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
-          <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setShowSectionMenu(!showSectionMenu) }}>{sectionName} <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#1B89FF] select-none ml-5">{sectionTotal}</span> <FaCaretDown size={24} className='ml-3 mr-2' /></div>
+          <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setShowSectionMenu(!showSectionMenu) }}>{sectionName} <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#b16cea] select-none ml-5">{sectionTotal}</span> <FaCaretDown size={24} className='ml-3 mr-2' /></div>
 
           <div className={`${showSectionMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute z-10 top-full mt-2 left-0 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black-r w-full min-h-[100px] flex flex-col gap-3`}>
             <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center cursor-pointer" onClick={() => { setSectionName('active'); setShowSectionMenu(!showSectionMenu) }}>Active</div>
@@ -125,7 +125,7 @@ export default function ManagePage() {
           return (
             <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
               <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
-                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#1B89FF] select-none ml-5">{sectionTotal}</span>}
+                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#b16cea] select-none ml-5">{sectionTotal}</span>}
               </div>
             </div>
           )

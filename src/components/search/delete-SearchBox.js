@@ -199,10 +199,8 @@ export default function SearchBox() {
         })}
       </div>}
 
-      <button className={`bg-[#ef5f3c] mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
+      <button className={`button-gradient2 mt-4 w-80 py-[15px] rounded-[5px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
         style={{
-          // backgroundColor: '#ef5f3c',
-          color: 'white',
           boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
         }}
         onClick={() => { !processing && handleSubmit() }}

@@ -693,9 +693,9 @@ window.addEventListener('DOMContentLoaded', async () => {
                                             <div
                                                 class="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">${numFormatter(user.follower_count)}</div>
                                             <div
-                                                class="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#23df85] mt-1 hidden d-flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
+                                                class="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#ff5e69] mt-1 hidden d-flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
                                                 123 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                                    viewBox="0 0 320 512" color="#1B89FF" height="12" width="12"
+                                                    viewBox="0 0 320 512" color="#b16cea" height="12" width="12"
                                                     xmlns="http://www.w3.org/2000/svg" style="color: rgb(27, 137, 255);">
                                                     <path
                                                         d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z">
@@ -703,7 +703,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                                                 </svg></div>
                                         </div>
                                     </div>
-                                    <div class="bg-[#EF5F3C] text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]"
+                                    <div class="button-gradient2 text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]"
                                         style="transition: all 0.15s ease-in 0s;">
                                         <div
                                             class="text-[12px] font-MontserratSemiBold lg:text-[16px] font-[600]">

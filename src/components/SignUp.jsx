@@ -146,7 +146,7 @@ export default function SignUp() {
           <div className="form-outline mb-3">
             <input
               type="email"
-              id="form2Example1"
+              id="form2Example2"
               className="rounded-[5px] h-[52px] px-4 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
               value={email}
               placeholder="Email Address"
@@ -157,7 +157,7 @@ export default function SignUp() {
           <div className="form-outline">
             <input
               type="password"
-              id="form2Example2"
+              id="form2Example3"
               className="rounded-[5px] h-[52px] px-4 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
               value={password}
               placeholder="Password"
@@ -167,10 +167,8 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] h-[52px] px-4 w-72 md:w-80 font-semibold"
+            className="button-gradient2 text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] h-[52px] px-4 w-72 md:w-80 font-semibold"
             style={{
-              backgroundColor: '#ef5f3c',
-              color: 'white',
               boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
             }}
           >
@@ -180,7 +178,7 @@ export default function SignUp() {
 
         <div className="text-center">
           <p className="text-sm text-black-r font-MontserratRegular">
-            Already have an account? <Link to="/login"><span className="font-MontserratSemiBold text-[#1b89ff]">Sign in</span></Link>
+            Already have an account? <Link to="/login"><span className="font-MontserratSemiBold text-[#b16cea]">Sign in</span></Link>
           </p>
         </div>
 

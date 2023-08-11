@@ -24,14 +24,14 @@
   }
   
   .slider__range {
-    background-color: #23DF85;
+    background-color: #ff5e69;
     z-index: 2;
     position: relative;
   }
   
   .slider__left-value,
   .slider__right-value {
-    color: #23DF85;
+    color: #ff5e69;
     font-size: 12px;
     margin-top: 8px;
     margin-bottom: 24px;
@@ -74,10 +74,10 @@
   
   /* For Chrome browsers */
   .thumb::-webkit-slider-thumb {
-    background-color: #23DF85;
+    background-color: #ff5e69;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #23DF85;
+    box-shadow: 0 0 1px 1px #ff5e69;
     cursor: pointer;
     height: 18px;
     width: 18px;
@@ -88,10 +88,10 @@
   
   /* For Firefox browsers */
   .thumb::-moz-range-thumb {
-    background-color: #23DF85;
+    background-color: #ff5e69;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #23DF85;
+    box-shadow: 0 0 1px 1px #ff5e69;
     cursor: pointer;
     height: 18px;
     width: 18px;

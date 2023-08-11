@@ -123,9 +123,9 @@ export default function Subscriptions() {
 
       <script src="https://js.chargebee.com/v2/chargebee.js"></script>
 
-      <div className="text-[#757575] relative bg-[#f8f8f8]">
+      <div className="bg-white-r text-[#757575]-r bg-black text-white relative">
         <div className="max-w-[1600px] mx-auto">
-          <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer bg-white rounded-full pl-4">
+          <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer bg-[#242424] rounded-full pl-4">
             <div
               className="flex items-center gap-3"
               onClick={() => {
@@ -138,7 +138,7 @@ export default function Subscriptions() {
                   } border-2 rounded-full`}
               >
                 <div
-                  className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center`}
+                  className={`w-[32px] h-[32px] rounded-full button-gradient text-white grid place-items-center`}
                 >
                   <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">
                     {user?.full_name && user?.full_name?.charAt(0)}
@@ -151,7 +151,7 @@ export default function Subscriptions() {
           {/* mobile start */}
           <div className="lg:hidden">
             <div
-              className="fixed h-[65px] top-0 left-0 z-[50] bg-white flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]"
+              className="fixed h-[65px] top-0 left-0 z-[50] bg-[#242424] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]"
               onClick={() => {
                 showMenu && setShowMenu(false);
               }}
@@ -164,7 +164,7 @@ export default function Subscriptions() {
                   } border-2 rounded-full`}
               >
                 <div
-                  className={`w-[32px] h-[32px] rounded-full bg-[#23DF85] text-white grid place-items-center cursor-pointer`}
+                  className={`w-[32px] h-[32px] rounded-full button-gradient text-white grid place-items-center cursor-pointer`}
                   onClick={() => {
                     setShowMenu(!showMenu);
                   }}
@@ -181,12 +181,12 @@ export default function Subscriptions() {
             <div className="mt-[65px] mb-[150px]">
               <div className="lg:hidden bg-white">
                 <div className="flex flex-col gap-[1px]">
-                  <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
+                  <div className="border-l-8 border-l-[#ff5e69] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
                     <div className="flex items-center gap-[10px]">
                       <img
                         src={userResults?.profile_pic_url}
                         alt=""
-                        className="w-[38px] h-[38px] rounded-full"
+                        className="w-[38px] h-[38px] rounded-full border-2 border-white"
                       />
                       <div className="flex flex-col">
                         <div className="text-[12px] -mb-1">Account:</div>
@@ -199,7 +199,7 @@ export default function Subscriptions() {
                     <TbRefresh className="cursor-pointer" onClick={() => { navigate(`/search`) }} />
                   </div>
 
-                  <div className="border-l-8 border-l-[#23DF85] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-[#f8f8f8]">
+                  <div className="border-l-8 border-l-[#ff5e69] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
                     <div className="flex items-center gap-[10px]">
                       <div className="flex flex-col">
                         <div className="text-[12px] -mb-1">Plan:</div>
@@ -212,7 +212,7 @@ export default function Subscriptions() {
                 </div>
               </div>
 
-              <div className="pt-4 bg-white px-5">
+              <div className="pt-4 bg-black px-5">
                 <h1 className="text-black-r text-[20px] font-bold font-MontserratSemiBold">
                   {' '}
                   Start Your Free 7-Day Trial
@@ -225,12 +225,12 @@ export default function Subscriptions() {
                 </p>
 
                 <div className="mb-[11px] flex gap-[10px] h-[80px] items-center">
-                  <div className={`flex-1 bg-[#f8f8f8] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'card' && "border-[#1b89ff] border-2"}`}
+                  <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'card' && "border-[#b16cea] border-2"}`}
                     onClick={() => { setPaymentMethod({ id: 1, name: 'card' }) }}
                   >
                     <svgicon
                       className={`${paymentMethod.name === 'card' ? 'top-[13px] left-[10px] w-[22px] h-[18px] translate-x-0 translate-y-0' : 'h-[25.5px] w-[32px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
-                        absolute transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                        absolute transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
                     >
                       <svg
                         viewBox="0 0 28 28"
@@ -245,26 +245,26 @@ export default function Subscriptions() {
                     </svgicon>
 
                     <div
-                      className={`${paymentMethod.name === 'card' ? "opacity-100 translate-y-0 text-[#1b89ff]" : 'opacity-0 translate-y-full'}
-                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                      className={`${paymentMethod.name === 'card' ? "opacity-100 translate-y-0 text-[#b16cea]" : 'opacity-0 translate-y-full'}
+                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
                     >
                       Card
                     </div>
                   </div>
 
-                  <div className={`flex-1 bg-[#f8f8f8] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'paypal' && "border-[#1b89ff] border-2"}`}
+                  <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'paypal' && "border-[#b16cea] border-2"}`}
                     onClick={() => { setPaymentMethod({ id: 1, name: 'paypal' }) }}
                   >
                     <svgicon
                       className={`${paymentMethod.name === 'paypal' ? 'top-[13px] left-[10px] translate-x-0 translate-y-0' : 'top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
-                        absolute transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                        absolute transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
                     >
                       <img src={'/icons/paypal-icon.svg'} alt="" className={`${paymentMethod.name === 'paypal' ? "h-[23.7px]" : "h-[37px]"}`} />
                     </svgicon>
 
                     <div
-                      className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#1b89ff]" : 'opacity-0 translate-y-full'}
-                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#1b89ff] font-[none]`}
+                      className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#b16cea]" : 'opacity-0 translate-y-full'}
+                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
                     >
                       PayPal
                     </div>
@@ -286,11 +286,11 @@ export default function Subscriptions() {
               </div>
             </div>
 
-            <div className="fixed bottom-0 left-0 w-full min-h-[85px] p-5 text-[14px] bg-white">
+            <div className="fixed bottom-0 left-0 w-full min-h-[85px] p-5 text-[14px] bg-black">
               {paymentMethod.name === 'card' ?
                 <div className="">
                   <button
-                    className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
+                    className={`${Loading ? 'button-gradient cursor-wait' : 'bg-[#b16cea] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
                     type="submit"
                     form="cardForm"
                   // onClick={() => { }}
@@ -337,12 +337,12 @@ export default function Subscriptions() {
 
               <div
                 className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
-                  } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-white w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
+                  } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-[#242424] w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
                 ref={parentRef}
                 tabIndex={0}
               >
                 <div className="flex items-center gap-3 p-5">
-                  <div className="w-[50px] h-[50px] rounded-full bg-[#23DF85] text-white grid place-items-center">
+                  <div className="w-[50px] h-[50px] rounded-full button-gradient text-white grid place-items-center">
                     <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">
                       {user?.full_name && user?.full_name?.charAt(0)}
                     </span>
@@ -356,7 +356,7 @@ export default function Subscriptions() {
                 </div>
 
                 <div
-                  className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-blue-gray-100"
+                  className="border-t border-white flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-blue-gray-100"
                   onClick={async () => {
                     setShowMenu(!showMenu);
                     await supabase.auth.signOut();
@@ -394,12 +394,12 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
   const [showCreaditCardInput, setShowCreaditCardInput] = useState(false)
 
   return (<>
-    <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[20px] lg:px-[100px] bg-[#f8f8f8]">
+    <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[20px] lg:px-[100px] bg-black">
       <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] overflow-auto my-auto 2xl:grid max-h-full lg:mx-auto relative">
         <div className="mb-4 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
           <div className="">Select Your Account</div>
           <div className="">{`>`}</div>
-          <div className="text-[#1B89FF]">Complete Setup</div>
+          <div className="text-[#b16cea]">Complete Setup</div>
           <div className="">{`>`}</div>
           <div className="">Enter Dashboard</div>
         </div>
@@ -408,7 +408,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
           <div className="flex flex-col lg:flex-row gap-5 w-full">
             <div className="basis-[45%] grow-[3] rounded-[20px] flex gap-5 flex-col">
               <div className="rounded-[20px]">
-                <div className="text-start w-full h-[110px] shadow-[0_5px_10px_#0a17530d] rounded-[20px] py-[25px] px-4 lg:px-[50px] relative flex items-center justify-between bg-white">
+                <div className="text-start w-full h-[110px] shadow-[0_5px_10px_#0a17530d] rounded-[20px] py-[25px] px-4 lg:px-[50px] relative flex items-center justify-between bg-[#242424]">
                   <div className="w-full max-w-[420px] relative overflow-hidden flex items-center text-start py-5 pr-[30px]">
                     <div className="w-full flex gap-4 items-center ">
                       <div className="h-[60px] relative">
@@ -421,29 +421,29 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                       </div>
                     </div>
                   </div>
-                  <div className="w-[40px] h-[40px] rounded-[10px] grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { navigate(`/search`) }}>
-                    <TbRefresh className="text-[#8C8C8C] font-semibold" />
+                  <div className="w-[40px] h-[40px] rounded-[10px] grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-white text-[#242424]" onClick={() => { navigate(`/search`) }}>
+                    <TbRefresh className="font-semibold" />
                   </div>
                 </div>
 
-                <div className="pt-[32px] pb-3 px-5 lg:px-[50px] -mt-5 rounded-bl-[20px] rounded-br-[20px] shadow-[0_3px_8px_#0000001a] bg-[#f8f8f8]">
+                <div className="pt-[32px] pb-3 px-5 lg:px-[50px] -mt-5 rounded-bl-[20px] rounded-br-[20px] shadow-[0_3px_8px_#ffffff75] bg-black">
                   <div className="flex text-[12px]">Select plan</div>
                   <div className="flex font-bold text-black-r">Monthly Plan</div>
                 </div>
               </div>
 
-              <div className="overflow-auto basis-[100%] rounded-[20px] py-10 px-4 lg:px-[50px] shadow-[0_5px_10px_#0a17530d] bg-[#ffffff]">
+              <div className="overflow-auto basis-[100%] rounded-[20px] py-10 px-4 lg:px-[50px] shadow-[0_5px_10px_#0a17530d] bg-[#242424]">
                 <div className="">
                   <div className="flex items-center gap-3">
-                    {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-[#f8f8f8]" onClick={() => { setShowCreaditCardInput(false) }}>
-                      <FaAngleLeft className="text-[#8C8C8C] font-semibold" />
+                    {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-white text-[#242424]" onClick={() => { setShowCreaditCardInput(false) }}>
+                      <FaAngleLeft className="font-semibold" />
                     </div>}
                     <h1 className="text-[20px] lg:text-[20px] font-bold text-black-r font-MontserratBold">Payment method</h1>
                   </div>
                   <p className="pt-2 pb-4 text-sm font-MontserratRegular text-start">You may cancel during your free trial and won't be billed, no risk.</p>
 
                   {!showCreaditCardInput && <div className="flex flex-col gap-4 mb-4">
-                    <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#1b89ff] text-white flex items-center justify-center gap-2" onClick={() => { setShowCreaditCardInput(true) }}>
+                    <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#b16cea] text-white flex items-center justify-center gap-2" onClick={() => { setShowCreaditCardInput(true) }}>
                       <svgicon className="w-[28px] h-[28px] rounded-[8px] fill-white">
                         <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                           <path d="M0 7C0 6.07174 0.368749 5.1815 1.02513 4.52513C1.6815 3.86875 2.57174 3.5 3.5 3.5H24.5C25.4283 3.5 26.3185 3.86875 26.9749 4.52513C27.6313 5.1815 28 6.07174 28 7V15.75H0V7ZM20.125 8.75C19.8929 8.75 19.6704 8.84219 19.5063 9.00628C19.3422 9.17038 19.25 9.39294 19.25 9.625V11.375C19.25 11.6071 19.3422 11.8296 19.5063 11.9937C19.6704 12.1578 19.8929 12.25 20.125 12.25H23.625C23.8571 12.25 24.0796 12.1578 24.2437 11.9937C24.4078 11.8296 24.5 11.6071 24.5 11.375V9.625C24.5 9.39294 24.4078 9.17038 24.2437 9.00628C24.0796 8.84219 23.8571 8.75 23.625 8.75H20.125ZM0 19.25V21C0 21.9283 0.368749 22.8185 1.02513 23.4749C1.6815 24.1313 2.57174 24.5 3.5 24.5H24.5C25.4283 24.5 26.3185 24.1313 26.9749 23.4749C27.6313 22.8185 28 21.9283 28 21V19.25H0Z" ></path>
@@ -474,9 +474,9 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
               </div>
             </div>
 
-            <div className="basis-[60%] grow-[4] rounded-[20px] shadow-[0_5px_10px_#0a17530d] p-4 lg:p-[50px_50px_50px] bg-white relative">
+            <div className="basis-[60%] grow-[4] rounded-[20px] shadow-[0_5px_10px_#0a17530d] p-4 lg:p-[50px_50px_50px] bg-[#242424] relative">
               <div className="w-full h-full overflow-auto">
-                <span className="text-[14px] py-[5px] px-3 mb-3 rounded-[8px] text-[#23df85] bg-[#23df8533]">7-Days Free Trial</span>
+                <span className="text-[14px] py-[5px] px-3 mb-3 rounded-[8px] text-[#ff5e69] bg-[#ff5e6933]">7-Days Free Trial</span>
                 <div className="text-[20px] lg:text-[26px] font-bold text-black-r font-MontserratBold">Start Your 7-Days Trial</div>
                 <p className="text-[14px] mt-2 mb-5">
                   It's time to get the real exposure you've been waiting for. After signing up, you will be introduced to your personal account manager and start growing in under 2 minutes.
@@ -488,7 +488,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
 
                 <div className="flex flex-col gap-4 text-black-r text-base">
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" _ngcontent-gsj-c72="" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5" _ngcontent-gsj-c72=""></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5" _ngcontent-gsj-c72=""></rect>
@@ -497,7 +497,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p className="">Grow ~1-10k Real Monthly Followers</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -506,7 +506,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>Target Followers Relevant To You</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -515,7 +515,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>Detailed Analytics & Results Tracking</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -524,7 +524,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>Automated 24/7 Growth, Set & Forget</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -533,7 +533,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>No Fakes Or Bots, 100% Real People</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -542,7 +542,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>Personal Account Manager</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -551,7 +551,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>Boost Likes, Comments & DMs</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -560,7 +560,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     <p>Safest Instagram Growth Service</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#23df85] sroke-green font-[none]">
+                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
@@ -955,7 +955,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
   };
 
   return (<>
-    <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5`} id='num'>
+    <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-white text-black font-[500] transition-all duration-280 ease mb-5`} id='num'>
       <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard}
         // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
         onChange={(e) => { setNameOnCard(e.target.value) }} />
@@ -985,7 +985,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         placeholder={'placeholder'}
         fonts={fonts}
       >
-        <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease mb-5" id='num'>
+        <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease mb-5" id='num'>
           <CardNumber className="ex1-input"
             // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
             onChange={(e) => { }} />
@@ -993,14 +993,14 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         </div>
 
         <div className="ex1-fields flex items-center gap-4 mb-5">
-          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease">
+          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease">
             <CardExpiry className="ex1-input"
               // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
               onChange={(e) => { }} />
             {/* <label className="ex1-label font-MontserratLight">Expiry</label><i className="ex1-bar"></i> */}
           </div>
 
-          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-[#f8f8f8] font-[500] transition-all duration-280 ease">
+          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease">
             <CardCVV className="ex1-input"
               // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
               onChange={(e) => { }} />
@@ -1011,7 +1011,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
     </form>
 
     <div className={`${addCard ? "block" : "hidden lg:block"}`}>
-      <button className={`${Loading ? 'bg-[#23DF85] cursor-wait' : 'bg-[#1b89ff] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]" : "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
+      <button className={`${Loading ? 'button-gradient cursor-wait' : 'bg-[#b16cea] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]" : "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
         onClick={() => {
           if (Loading) {
             setIsModalOpen(true);
@@ -1026,7 +1026,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
       {/* {showCardComponent && <></>} */}
       {Loading && <div className="flex items-center py-3 gap-2 justify-center">
         <AiOutlineLoading3Quarters className="animate-spin" />
-        <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#333] animate-pulse">
+        <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#757575] animate-pulse">
           We're processing your request, please wait...
         </p>
       </div>}

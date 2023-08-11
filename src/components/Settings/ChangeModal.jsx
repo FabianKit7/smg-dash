@@ -106,7 +106,7 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
             })}
           </div>
 
-          <div className={`mt-2 text-[#23df85] font-bold font-MontserratBold flex items-center justify-center gap-2 rounded-[10px] h-[52px] w-full cursor-pointer`} onClick={() => {
+          <div className={`mt-2 text-[#ff5e69] font-bold font-MontserratBold flex items-center justify-center gap-2 rounded-[10px] h-[52px] w-full cursor-pointer`} onClick={() => {
             // show card page
             setShowCardPage(true)
           }}>
@@ -114,7 +114,7 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
           </div>
         </form>
 
-        <button type="button" className={`bg-[#23df85] mt-[65px] text-white font-bold font-MontserratBold flex items-center justify-center gap-2 rounded-[10px] h-[52px] w-full cursor-pointer`} onClick={() => {
+        <button type="button" className={`button-gradient mt-[65px] text-white font-bold font-MontserratBold flex items-center justify-center gap-2 rounded-[10px] h-[52px] w-full cursor-pointer`} onClick={() => {
           setShowModal(false);
         }}>
           <span>Close</span>
@@ -160,11 +160,11 @@ const FullName = ({ setShowModal, user, setRefresh, refresh }) => {
 
       <form className="h-[52px] flex items-center gap-3 mt-5">
         <input type="text" placeholder="Enter your name here..."
-          className={`${value ? "border-[#23df85]" : "border-[#c4c4c4]"} h-full border p-3 rounded-[10px] w-full outline-none`}
+          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-full border p-3 rounded-[10px] w-full outline-none`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button type="submit" className={`${value ? "bg-[#23df85]" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-full rounded-[10px] min-w-[132px] w-[132px] cursor-pointer`} onClick={(e) => {
+        <button type="submit" className={`${value ? "button-gradient" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-full rounded-[10px] min-w-[132px] w-[132px] cursor-pointer`} onClick={(e) => {
           e.preventDefault()
           handleSaveAndClose('full_name')
         }}>
@@ -267,11 +267,11 @@ const Email = ({ setShowModal, user, setRefresh, refresh }) => {
 
       <form className="flex flex-col items-center gap-5 mt-5 ">
         <input type="text" placeholder="Enter your name here..."
-          className={`${value ? "border-[#23df85]" : "border-[#c4c4c4]"} h-[52px] text-center border p-3 rounded-[10px] w-full outline-none`}
+          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] text-center border p-3 rounded-[10px] w-full outline-none`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button className={`${value ? "bg-[#23df85]" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-[52px] min-h-[52px] rounded-[10px] min-w-[200px] w-[200px] cursor-pointer`} onClick={(e) => {
+        <button className={`${value ? "button-gradient" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-[52px] min-h-[52px] rounded-[10px] min-w-[200px] w-[200px] cursor-pointer`} onClick={(e) => {
           e.preventDefault()
           handleSaveAndClose()
         }}>
@@ -344,7 +344,7 @@ const Password = ({ setShowModal, user, setRefresh, refresh }) => {
       <form className="flex flex-col items-center gap-5 mt-5 ">
         <div className="relative w-full">
           <input type={valueShow ? "text" : "password"} placeholder="New Password"
-            className={`${value && value === confirm ? "border-[#23df85]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none pr-10`}
+            className={`${value && value === confirm ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none pr-10`}
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
@@ -354,7 +354,7 @@ const Password = ({ setShowModal, user, setRefresh, refresh }) => {
         </div>
         <div className="relative w-full">
           <input type={confirmShow ? "text" : "password"} placeholder="Confirm Password"
-            className={`${value && value === confirm ? "border-[#23df85]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none pr-10`}
+            className={`${value && value === confirm ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none pr-10`}
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
           />
@@ -362,7 +362,7 @@ const Password = ({ setShowModal, user, setRefresh, refresh }) => {
             {confirmShow ? <FaEye className="" /> : <FaEyeSlash className="" />}
           </div>
         </div>
-        <button className={`${value && value === confirm ? "bg-[#23df85]" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-[52px] min-h-[52px] rounded-[10px] min-w-[200px] w-[200px] cursor-pointer`} onClick={(e) => {
+        <button className={`${value && value === confirm ? "button-gradient" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-[52px] min-h-[52px] rounded-[10px] min-w-[200px] w-[200px] cursor-pointer`} onClick={(e) => {
           e.preventDefault()
           handleSaveAndClose()
         }}>
@@ -410,11 +410,11 @@ const Phone = ({ setShowModal, user, setRefresh, refresh }) => {
 
       <form className="flex flex-col items-center gap-3 mt-5">
         <input type="tel" placeholder="e.g: +2348112659304"
-          className={`${value ? "border-[#23df85]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none`}
+          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button type="submit" className={`${value ? "bg-[#23df85]" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-[52px] min-h-[52px] rounded-[10px] min-w-[200px] w-[200px] cursor-pointer`} onClick={(e) => {
+        <button type="submit" className={`${value ? "button-gradient" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-[52px] min-h-[52px] rounded-[10px] min-w-[200px] w-[200px] cursor-pointer`} onClick={(e) => {
           e.preventDefault()
           handleSaveAndClose()
         }}>

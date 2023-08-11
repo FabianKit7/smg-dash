@@ -157,15 +157,13 @@ export default function Login() {
               placeholder="Password"
               onChange={({ target }) => setPassword(target.value)}
             /> <br />
-            <Link to="/forget-password"><span className="text-[#1b89ff] font-MontserratSemiBold font-[600] text-[14px] mt-3">Forgot Password?</span></Link>
+            <Link to="/forget-password"><span className="text-[#b16cea] font-MontserratSemiBold font-[600] text-[14px] mt-3">Forgot Password?</span></Link>
           </div>
 
           <button
             type="submit"
-            className="text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] py-2 px-6 h-[52px] w-72 md:w-80 font-semibold"
+            className="button-gradient2 text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] py-2 px-6 h-[52px] w-72 md:w-80 font-semibold"
             style={{
-              backgroundColor: '#ef5f3c',
-              color: 'white',
               boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
             }}
           >
@@ -175,7 +173,7 @@ export default function Login() {
 
         <div className="text-center">
           <p className="text-sm text-black-r font-MontserratRegular">
-            Don't have an account? <Link to="/SignUp"><span className="font-MontserratSemiBold text-[#1b89ff]">Sign Up</span></Link>
+            Don't have an account? <Link to="/SignUp"><span className="font-MontserratSemiBold text-[#b16cea]">Sign Up</span></Link>
           </p>
         </div>
 

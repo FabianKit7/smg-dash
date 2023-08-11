@@ -84,10 +84,8 @@ export default function ForgetPassword() {
 
                             <button
                                 type="submit"
-                                className="text-white font-MontserratSemiBold text-[16px] mt-[14px] mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-80 font-semibold"
+                                className="button-gradient2 text-white font-MontserratSemiBold text-[16px] mt-[14px] mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-80 font-semibold"
                                 style={{
-                                    backgroundColor: '#ef5f3c',
-                                    color: 'white',
                                     boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                                 }}
                             >
@@ -97,7 +95,7 @@ export default function ForgetPassword() {
 
                         <div className="text-center font-MontserratSemiBold">
                             <p className="font-bold text-sm text-[#333]">
-                                Go back to <Link to="/SignUp"><span className="text-[#1b89ff]">Sign Up</span></Link>
+                                Go back to <Link to="/SignUp"><span className="text-[#b16cea]">Sign Up</span></Link>
                             </p>
                         </div>
                     </> :
