@@ -7,22 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function GrowthChart({ isPrivate, sessionsData, days }) {
   const [followersData, setFollowersData] = useState([])
   const [categories, setCategories] = useState([])
-
-  // useEffect(() => {
-  //   let followersData = []
-  //   let categories = []
-  //   sessionsData?.slice(-days).forEach(items => {
-  //     // console.log(items.start_time);
-  //     const day = new Date((items?.start_time)?.replace(/-/g, "/")).getDate()
-  //     const month = new Date((items?.start_time)?.replace(/-/g, "/")).getMonth()
-  //     const monthName = monthNames[month]
-  //     categories.push(`${monthName} ${day}`);
-  //     followersData.push(items.profile.followers);
-  //   })
-  //   setCategories(categories);
-  //   setFollowersData(followersData)
-
-  // }, [sessionsData, days])
   
   useEffect(() => {
     let followersData = [];
@@ -105,7 +89,7 @@ export default function GrowthChart({ isPrivate, sessionsData, days }) {
         (
           <Fragment>
               <div>
-                <div className="rounded-md text-gray20 w-full">
+                <div className="w-full text-white rounded-md">
                   <div className="md:px-3">
                     <Chart
                       options={options}

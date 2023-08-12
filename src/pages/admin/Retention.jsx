@@ -60,7 +60,7 @@ export default function Retention() {
           `
         } else {
           v = `
-          <div class="text-[#000] font-black">N/A</div>
+          <div class="font-black">N/A</div>
           `
         }
         document.getElementById(`last_7_days_growth_${user?.username}`).innerHTML = v
@@ -78,36 +78,20 @@ export default function Retention() {
         setLoading={setLoading}
       />
 
-      {/* <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center">
-        <div className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
-          <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setShowSectionMenu(!showSectionMenu) }}>{sectionName} <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#b16cea] select-none ml-5">{sectionTotal}</span> <FaCaretDown size={24} className='ml-3 mr-2' /></div>
-
-          <div className={`${showSectionMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute z-10 top-full mt-2 left-0 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black-r w-full min-h-[100px] flex flex-col gap-3`}>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center cursor-pointer" onClick={() => { setSectionName('active'); setShowSectionMenu(!showSectionMenu) }}>Active</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('new'); setShowSectionMenu(!showSectionMenu) }}>new</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('checking'); setShowSectionMenu(!showSectionMenu) }}>checking</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('pending'); setShowSectionMenu(!showSectionMenu) }}>pending</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('twofactor'); setShowSectionMenu(!showSectionMenu) }}>twofactor</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('incorrect'); setShowSectionMenu(!showSectionMenu) }}>incorrect</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('cancelled'); setShowSectionMenu(!showSectionMenu) }}>cancelled</div>
-          </div>
-        </div>
-      </div> */}
-
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
-            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
-              <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
-                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#b16cea] select-none ml-5">{sectionTotal}</span>}
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#242424] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
+              <div className="flex items-center justify-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
+                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white button-gradient select-none ml-5">{sectionTotal}</span>}
               </div>
             </div>
           )
         })}
       </div>
 
-      {loading && <div className="flex justify-center items-center">
-        <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
+      {loading && <div className="flex items-center justify-center">
+        <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
       </div>}
 
       <table className="mt-[30px] w-full table-auto border-separate border-spacing-y-2">
@@ -133,7 +117,7 @@ export default function Retention() {
             }
 
             return (
-              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#F8F8F8] h-[64px] w-full'>
+              <tr key={`${user?.username}_row`} className='rounded-[10px] button-gradient h-[64px] w-full'>
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
@@ -148,7 +132,7 @@ export default function Retention() {
                       setMessage({ sectionName: '', value: '' })
                     }, 1000);
                   }}>@{user?.username}
-                    {message.sectionName === `username-${user?.username}` && <div className="absolute text-black-r font-bold">{message.value}</div>}
+                    {message.sectionName === `username-${user?.username}` && <div className="absolute font-bold text-black-r">{message.value}</div>}
                   </div>
                 </td>
                 <td>
@@ -177,7 +161,7 @@ export default function Retention() {
                   </Link>
                 </td>
                 <td>
-                  <div className="w-full relative">
+                  <div className="relative w-full">
                     <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
                   </div>
                 </td>

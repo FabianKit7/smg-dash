@@ -90,7 +90,7 @@ const SettingsModal = (props) => {
           />
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-between gap-2 p-7 md:p-10">
+        <div className="flex flex-col xl:flex-row justify-between gap-2 p-7 md:p-10 bg-[#242424] rounded-lg">
           <div className="flex flex-col justify-center md:justify-start items-center md:mt-[39px]">
             <div className="relative w-[100px] h-[100px] md:w-[140px] md:h-[140px] rounded-full">
               <img className='h-full w-full mb-1 rounded-full' src={user?.profile_pic_url} alt="" />
@@ -101,7 +101,7 @@ const SettingsModal = (props) => {
             <div className="relative w-full md:w-[403px] flex justify-center mt-4">
               <div className="flex items-center justify-center gap-2 rounded-[10px] py-4 px-4 text-[1.25rem] border shadow-[inset_0_0px_2px_rgba(0,0,0,0.4)] ">
                 <input
-                  className='w-full md:w-80 placeholder:text-center text-center outline-none'
+                  className='w-full md:w-80 placeholder:text-center text-center outline-none bg-transparent'
                   // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
                   type={showPassword ? "text" : "password"}
                   placeholder='Instagram Password'
@@ -216,7 +216,7 @@ const SettingsModal = (props) => {
             </div>
 
             <div className="flex justify-center my-4">
-              <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-full xl:w-[300px] h-[72px] bg-[#b16cea] text-white' onClick={(e) => {
+              <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-full xl:w-[300px] h-[72px] button-gradient2 text-white' onClick={(e) => {
                 e.preventDefault()
                 !loading && handleSave();
               }}>{loading ? 'Saving...' : 'Apply and Close'}</button>

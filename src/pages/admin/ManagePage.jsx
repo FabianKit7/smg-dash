@@ -80,7 +80,7 @@ export default function ManagePage() {
           `
         } else {
           v = `
-          <div class="text-[#000] font-black">N/A</div>
+          <div class="font-black">N/A</div>
           `
         }
         document.getElementById(`last_7_days_growth_${user?.username}`).innerHTML = v
@@ -104,36 +104,20 @@ export default function ManagePage() {
         setLoading={setLoading}
       />
 
-      {/* <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center">
-        <div className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
-          <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setShowSectionMenu(!showSectionMenu) }}>{sectionName} <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#b16cea] select-none ml-5">{sectionTotal}</span> <FaCaretDown size={24} className='ml-3 mr-2' /></div>
-
-          <div className={`${showSectionMenu ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute z-10 top-full mt-2 left-0 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black-r w-full min-h-[100px] flex flex-col gap-3`}>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center cursor-pointer" onClick={() => { setSectionName('active'); setShowSectionMenu(!showSectionMenu) }}>Active</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('new'); setShowSectionMenu(!showSectionMenu) }}>new</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('checking'); setShowSectionMenu(!showSectionMenu) }}>checking</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('pending'); setShowSectionMenu(!showSectionMenu) }}>pending</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('twofactor'); setShowSectionMenu(!showSectionMenu) }}>twofactor</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('incorrect'); setShowSectionMenu(!showSectionMenu) }}>incorrect</div>
-            <div className="h-[59px] rounded-[10px] hover:bg-[#cdcdcd] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer" onClick={() => { setSectionName('cancelled'); setShowSectionMenu(!showSectionMenu) }}>cancelled</div>
-          </div>
-        </div>
-      </div> */}
-
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
-            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#F8F8F8] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
-              <div className="flex justify-center items-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
-                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white bg-[#b16cea] select-none ml-5">{sectionTotal}</span>}
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#242424] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
+              <div className="flex items-center justify-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
+                {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white button-gradient select-none ml-5">{sectionTotal}</span>}
               </div>
             </div>
           )
         })}
       </div>
 
-      {loading && <div className="flex justify-center items-center">
-        <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
+      {loading && <div className="flex items-center justify-center">
+        <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
       </div>}
 
       <table className="mt-[30px] w-full table-auto border-separate border-spacing-y-2">
@@ -158,7 +142,7 @@ export default function ManagePage() {
             }
 
             return (
-              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#F8F8F8] h-[64px] w-full'>
+              <tr key={`${user?.username}_row`} className='rounded-[10px] button-gradient h-[64px] w-full'>
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
@@ -173,7 +157,7 @@ export default function ManagePage() {
                       setMessage({ sectionName: '', value: '' })
                     }, 1000);
                   }}>@{user?.username}
-                    {message.sectionName === `username-${user?.username}` && <div className="absolute text-black-r font-bold">{message.value}</div>}
+                    {message.sectionName === `username-${user?.username}` && <div className="absolute font-bold text-black-r">{message.value}</div>}
                   </div>
                 </td>
                 <td>
@@ -192,7 +176,7 @@ export default function ManagePage() {
                       setMessage({ sectionName: '', value: '' })
                     }, 1000);
                   }}>*****
-                    {message.sectionName === `password-${user?.username}` && <div className="absolute text-black-r font-bold">{message.value}</div>}
+                    {message.sectionName === `password-${user?.username}` && <div className="absolute font-bold text-black-r">{message.value}</div>}
                   </div>
                 </td>
                 <td>
@@ -206,7 +190,7 @@ export default function ManagePage() {
                       setMessage({ sectionName: '', value: '' })
                     }, 1000);
                   }}>{user?.backupcode.length > 7 ? user?.backupcode.substring(0, 6) + "..." : user?.backupcode || "N/A"}
-                    {message.sectionName === `backupcode-${user?.username}` && <div className="absolute text-black-r font-bold">{message.value}</div>}
+                    {message.sectionName === `backupcode-${user?.username}` && <div className="absolute font-bold text-black-r">{message.value}</div>}
                   </div>
                 </td>
                 <td>
@@ -215,7 +199,7 @@ export default function ManagePage() {
                 </td>
                 <td>
                   <div className="relative group">
-                    {user?.tag?.tag1 && <div className="absolute top-0 left-0 w-full h-full bg-black/20 group-hover:grid hidden place-items-center">
+                    {user?.tag?.tag1 && <div className="absolute top-0 left-0 hidden w-full h-full bg-black/20 group-hover:grid place-items-center">
                       <div className="w-[30px] h-[30px] grid place-items-center rounded-lg bg-black-r text-white-r bg-white text-black cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
                         <FaPen />
                       </div>
@@ -230,7 +214,7 @@ export default function ManagePage() {
                         </div>
                       </div>
                       :
-                      <div className="h-7 w-7 rounded-full bg-black to-white grid place-items-center cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
+                      <div className="grid bg-black rounded-full cursor-pointer h-7 w-7 to-white place-items-center" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
                         <FaPlus size={15} color='white' />
                       </div>
                     }
@@ -242,7 +226,7 @@ export default function ManagePage() {
                   </Link>
                 </td>
                 <td>
-                  <div className="w-full relative">
+                  <div className="relative w-full">
                     <ChangeStatusModal user={user} refreshUsers={refreshUsers} setRefreshUsers={setRefreshUsers} />
                   </div>
                 </td>
@@ -283,16 +267,16 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
   }
 
   return (<>
-    <div className="font-MontserratRegular fixed top-0 left-0 w-full h-screen bg-black/20 z-20">
+    <div className="fixed top-0 left-0 z-20 w-full h-screen font-MontserratRegular bg-black/20">
       <div className="fixed top-0 left-0 w-full h-screen bg-black/20 z-[2] cursor-pointer" onClick={() => { setShowAddTagModal(false) }}>
       </div>
 
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-white rounded-[10px] pb-2 px-4">
-        {processing && <div className="fixed top-0 left-0 w-full h-full bg-black/20 text-white flex justify-center items-center">
-          <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
+        {processing && <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full text-white bg-black/20">
+          <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}
 
-        <div className="mt-1 mb-2 flex justify-between">
+        <div className="flex justify-between mt-1 mb-2">
           <div className="font-semibold">@{userToAddTagFor?.username}</div>
           <FaTimes className='cursor-pointer' onClick={() => { setShowAddTagModal(false) }} />
         </div>
@@ -358,8 +342,8 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
       </div>
 
       {showModal && <div className='w-full h-full'>
-        {processing && <div className="fixed z-20 top-0 left-0 w-full h-full bg-black/20 text-white flex justify-center items-center">
-          <img src="/logo.png" alt="Loading" className="animate-spin w-10 h-10" />
+        {processing && <div className="fixed top-0 left-0 z-20 flex items-center justify-center w-full h-full text-white bg-black/20">
+          <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}
 
         <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black-r min-h-[100px] flex flex-col gap-3`}>

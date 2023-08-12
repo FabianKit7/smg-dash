@@ -42,11 +42,14 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
         <div className="">
             {openRefreshModal && <RefreshModal openRefreshModal={openRefreshModal} setOpenRefreshModal={setOpenRefreshModal} />}
 
-            <nav className="flex justify-between items-center">
+            <nav className="flex items-center justify-between">
                 <Link to={"/"} className="navbar-brand" href="#">
                     <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
                         <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
-                        <img src="/sproutysocial-light.svg" alt="" className="hidden md:inline  w-[346px]" />
+                        <div className="items-center hidden gap-2 md:flex">
+                            <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
+                            <b className="text-[32px]">propels</b>
+                        </div>
                     </div>
                 </Link>
 
@@ -69,7 +72,7 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
                 <input
                     value={searchTerm}
                     onChange={(e) => { setSearchTerm(e.target.value) }}
-                    type="search" className="placeholder-[#C4C4C4] text-[#363636] outline-none border-none ml-5 w-full" placeholder='Search by @account, email or CB Customer ID' />
+                    type="search" className="placeholder-[#C4C4C4] bg-transparent text-[#363636] outline-none border-none ml-5 w-full" placeholder='Search by @account, email or CB Customer ID' />
             </form>
         </div>
     )

@@ -32,6 +32,11 @@ body {
     color: white;
 }
 
+.modal-content {
+    background-color: #242424 !important;
+    color: white !important;
+}
+
 .button-gradient {
     background-color: #f3f3f3;
     background-image: linear-gradient(90deg, #b16cea 20%, #ff5e69 60%, #ff8a56 80%, #ffa84b);

@@ -280,9 +280,9 @@ export default function DashboardApp() {
     return (<>
       <div className="bg-[#F8F8F8]">
         <div className="max-w-[1600px] mx-auto flex gap-2 md:gap-6 h-screen">
-          <div className="flex-1 bg-white py-10 px-3">
+          <div className="flex-1 px-3 py-10 bg-white">
             <img src="/sprouty.svg" alt="" className="mx-auto" />
-            <div className="flex flex-col gap-9 lg:gap-4 mt-10 font-semibold">
+            <div className="flex flex-col mt-10 font-semibold gap-9 lg:gap-4">
               <Link to="/dashboard" className="flex flex-col lg:flex-row items-center gap-3 py-2 px-4 bg-[#F8F8F8] hover:bg-[#F8F8F8]/70 cursor-pointer rounded-lg">
                 <AiOutlineDashboard size={30} className="w-[24px] md:w-[30px]" />
                 <span className="hidden md:block text-md">Dashboard</span>
@@ -305,7 +305,7 @@ export default function DashboardApp() {
           </div>
           <div className="flex-[5] pb-4 h-screen overflow-auto">
             <div className="">
-              <div className="flex overflow-auto flex-wrap justify-evenly items-center py-6 lg:px-2 gap-2 bg-white">
+              <div className="flex flex-wrap items-center gap-2 py-6 overflow-auto bg-white justify-evenly lg:px-2">
                 <div className="w-[30%] lg:w-[260px] py-[8px] lg:py-[20px] px-[10px] md:px-[14px] lg:px-[32px] bg-[#314796] text-white rounded-[8px]">
                   <div className="flex items-center gap-1 md:gap-3">
                     <FaUserCheck
@@ -350,15 +350,15 @@ export default function DashboardApp() {
 
             <div className="bg-white text-[#626262] pr-5">
               <div className="wrapper2 max-h-[calc(100vh-200px)] relative overflow-auto shadow-md sm:rounded-lg">
-                <div className="py-4 bg-white dark:bg-gray-900 flex justify-between gap-4  px-4">
-                  <div className="flex gap-4 items-center">
+                <div className="flex justify-between gap-4 px-4 py-4 bg-white dark:bg-gray-900">
+                  <div className="flex items-center gap-4">
                     <div className="">
                       <label htmlFor="table-search" className="sr-only">Search</label>
                       <div className="relative mt-1">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                           <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
                         </div>
-                        <input type="text" id="table-search" className="w-40 md:w-60 lg:w-80 block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by email"
+                        <input type="text" id="table-search" className="block w-40 p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg md:w-60 lg:w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by email"
                           onChange={(e) => {
                             setSearchTerm(e.target.value)
                           }}
@@ -376,7 +376,7 @@ export default function DashboardApp() {
                     </div>
                   </div>
 
-                  <div className="py-1 px-4 rounded-md bg-gray-50 text-red-700 flex items-center gap-2 cursor-pointer" onClick={() => {
+                  <div className="flex items-center gap-2 px-4 py-1 text-red-700 rounded-md cursor-pointer bg-gray-50" onClick={() => {
                     document.getElementById("datepickerId").value = ''
                     document.getElementById("table-search").value = ''
                     setUsers(originalUsers)
@@ -400,12 +400,12 @@ export default function DashboardApp() {
                   <thead className="text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
-                        <div className="flex gap-1 items-center">
+                        <div className="flex items-center gap-1">
                           Email
                         </div>
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        <div className="flex gap-1 items-center">
+                        <div className="flex items-center gap-1">
                           Users
                           <a href="#" onClick={(e) => {
                             e.preventDefault()
@@ -433,7 +433,7 @@ export default function DashboardApp() {
                         </div>
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        <div className="flex items-center relative">
+                        <div className="relative flex items-center">
                           <div className="flex flex-col">
                             <span>Status</span>
                             <span className='text-[10px] font-extralight'>{sortByStatus}</span>
@@ -452,7 +452,7 @@ export default function DashboardApp() {
                             </svg>
                           </a>
                           {showStatusOptions && <div className="z-50 absolute top-12 -left-4 py-3 w-[130px] px-4 bg-white text-gray-600 shadow-2xl flex flex-col gap-6">
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 document.getElementById("datepickerId").value = ''
                                 document.getElementById("table-search").value = ''
@@ -461,42 +461,42 @@ export default function DashboardApp() {
                                 setShowStatusOptions(false)
                               }}
                             >All</div>
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 setSortByStatus("Active")
                                 filterByStatus("Active")
                                 setShowStatusOptions(false)
                               }}
                             >Active</div>
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 setSortByStatus("Pending")
                                 filterByStatus("Pending")
                                 setShowStatusOptions(false)
                               }}
                             >Pending</div>
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 setSortByStatus("Checking")
                                 filterByStatus("Checking")
                                 setShowStatusOptions(false)
                               }}
                             >Checking</div>
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 setSortByStatus("Twofactor")
                                 filterByStatus("Twofactor")
                                 setShowStatusOptions(false)
                               }}
                             >Twofactor</div>
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 setSortByStatus("Incorrect")
                                 filterByStatus("Incorrect")
                                 setShowStatusOptions(false)
                               }}
                             >Incorrect</div>
-                            <div className="hover:text-gray-400 cursor-pointer"
+                            <div className="cursor-pointer hover:text-gray-400"
                               onClick={() => {
                                 setSortByStatus("Cancelled")
                                 filterByStatus("Cancelled")
@@ -583,7 +583,7 @@ export default function DashboardApp() {
                             >{user.email}</td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[200px] overflow-x-auto">@{username}</td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center relative">
+                              <div className="relative flex items-center">
                                 {user.status}
                                 <a href="#" onClick={() => {
                                   setshowStatus(!showStatus)
@@ -603,9 +603,9 @@ export default function DashboardApp() {
                             </td>
                             <td className="px-2 max-w-[40px] break-all py-4">{user.followers}</td>
                             <td className="px-2 max-w-[40px] break-all py-4">{user.following}</td>
-                            <td className="px-6 py-4 w-full flex justify-center" id={`targeting_${index}_${user?.id}_t`}>0</td>
+                            <td className="flex justify-center w-full px-6 py-4" id={`targeting_${index}_${user?.id}_t`}>0</td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center relative">
+                              <div className="relative flex items-center">
                                 {user.userMode}
                                 <a href="#" onClick={() => {
                                   setshowModes(!showModes)
@@ -629,7 +629,7 @@ export default function DashboardApp() {
                                 setShowChargebee(true)
                               }} />
                             </td>
-                            <td className=" py-4 text-right flex items-center gap-4">
+                            <td className="flex items-center gap-4 py-4 text-right ">
                               <Link to={`/dashboard/edit/${user?.user_id}`} target="_blank" rel="noopener noreferrer"
                                 className="font-medium"
                               >
@@ -666,7 +666,7 @@ export default function DashboardApp() {
               </div>
 
 
-              {users?.length > 100 && <nav className="mb-10 px-4 flex items-center justify-between pt-4" aria-label="Table navigation">
+              {users?.length > 100 && <nav className="flex items-center justify-between px-4 pt-4 mb-10" aria-label="Table navigation">
                 <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span className="font-semibold text-gray-900 dark:text-white">1-20</span> of <span className="font-semibold text-gray-900 dark:text-white">{users?.length}</span></span>
                 <ul className="inline-flex items-center -space-x-px">
                   <li>
@@ -705,26 +705,26 @@ export default function DashboardApp() {
         </div>
         {showChargebee && <Chargebee key={selectedUser.id} k={selectedUser.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
 
-        {showStatus && <div className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
+        {showStatus && <div className="fixed top-0 left-0 grid w-full h-screen place-items-center bg-black/70">
           <div className="z-50 py-3 w-[130px] px-4 bg-white text-gray-600 shadow-2xl flex flex-col gap-6 relative">
             <FaTimes className='absolute top-0 right-0 cursor-pointer' onClick={() => setshowStatus(false)} />
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('active'); setStatusChgCaller(''); setshowStatus(false) }}>Active</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('pending'); setStatusChgCaller(''); setshowStatus(false) }}>Pending</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('checking'); setStatusChgCaller(''); setshowStatus(false) }}>Checking</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('twofactor'); setStatusChgCaller(''); setshowStatus(false) }}>Twofactor</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('incorrect'); setStatusChgCaller(''); setshowStatus(false) }}>Incorrect</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeStatus('cancelled'); setStatusChgCaller(''); setshowStatus(false) }}>Cancelled</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeStatus('active'); setStatusChgCaller(''); setshowStatus(false) }}>Active</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeStatus('pending'); setStatusChgCaller(''); setshowStatus(false) }}>Pending</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeStatus('checking'); setStatusChgCaller(''); setshowStatus(false) }}>Checking</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeStatus('twofactor'); setStatusChgCaller(''); setshowStatus(false) }}>Twofactor</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeStatus('incorrect'); setStatusChgCaller(''); setshowStatus(false) }}>Incorrect</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeStatus('cancelled'); setStatusChgCaller(''); setshowStatus(false) }}>Cancelled</div>
           </div>
         </div>}
 
-        {showModes && <div className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
+        {showModes && <div className="fixed top-0 left-0 grid w-full h-screen place-items-center bg-black/70">
           <div className="z-50 py-3 w-[130px] px-4 bg-white text-gray-600 shadow-2xl flex flex-col gap-6 relative">
             <FaTimes className='absolute top-0 right-0 cursor-pointer' onClick={() => setshowModes(false)} />
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('auto'); setModeChgCaller(''); setshowModes(false) }}>auto</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('follow'); setModeChgCaller(''); setshowModes(false) }}>follow</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('unfollow'); setModeChgCaller(''); setshowModes(false) }}>unfollow</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('pause'); setModeChgCaller(''); setshowModes(false) }}>pause</div>
-            <div className="hover:text-gray-400 cursor-pointer" onClick={() => { changeMode('off'); setModeChgCaller(''); setshowModes(false) }}>off</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeMode('auto'); setModeChgCaller(''); setshowModes(false) }}>auto</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeMode('follow'); setModeChgCaller(''); setshowModes(false) }}>follow</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeMode('unfollow'); setModeChgCaller(''); setshowModes(false) }}>unfollow</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeMode('pause'); setModeChgCaller(''); setshowModes(false) }}>pause</div>
+            <div className="cursor-pointer hover:text-gray-400" onClick={() => { changeMode('off'); setModeChgCaller(''); setshowModes(false) }}>off</div>
           </div>
         </div>}
       </div>
@@ -785,18 +785,18 @@ export const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
   }
 
   return (
-    <div className="fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/70 z-50">
-      <div className="bg-white w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
-        <div className="py-2 px-6 border-b flex justify-between">
+    <div className="fixed top-0 left-0 z-50 grid w-full h-screen place-items-center bg-black/70">
+      <div className="bg-[#242424] pb-4 w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
+        <div className="flex justify-between px-6 py-2 border-b">
           <div className="text-green-400">{message}</div>
           <FaTimes className='cursor-pointer' onClick={() => setOpenRefreshModal(false)} />
         </div>
-        <div className="mt-4 flex flex-col items-center gap-4 px-6">
-          <div className="w-[60px] h-[60px] rounded-full bg-red-600">
+        <div className="flex flex-col items-center gap-4 px-6 mt-4">
+          <div className="w-[60px] h-[60px] rounded-full button-gradient2">
             <img src={profilePicture} className="w-full h-full rounded-full" alt="" />
           </div>
-          <input type="text" className="w-52 border border-black px-2" placeholder='enter username' onChange={(e) => setUsername(e.target.value)} />
-          <button onClick={() => { !loading && handleRefresh() }} className="w-[200px] py-2 bg-blue-500 text-white">{loading ? 'refreshing...' : 'refresh'}</button>
+          <input type="text" className="p-3 bg-transparent border border-black rounded-lg w-52" placeholder='enter username' onChange={(e) => setUsername(e.target.value)} />
+          <button onClick={() => { !loading && handleRefresh() }} className="w-[200px] py-2 mb-4 button-gradient text-white">{loading ? 'refreshing...' : 'refresh'}</button>
         </div>
       </div>
     </div>
@@ -849,23 +849,23 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
   }, [isClickedOutside, setShowChargebee]);
 
   return (
-    <div key={k} className="fixed z-50 top-0 left-0 h-screen w-full grid place-items-center bg-black/70">
-      <div className="absolute top-3 right-3 text-green-400">{message}</div>
+    <div key={k} className="fixed top-0 left-0 z-50 grid w-full h-screen place-items-center bg-black/70">
+      <div className="absolute text-green-400 top-3 right-3">{message}</div>
       <div className="bg-white w-[300px] md:w-[500px] min-h-[400px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
-        <div className="py-2 px-6 border-b flex justify-between">
-          <div className="font-bold text-lg">User Chargebee details</div>
+        <div className="flex justify-between px-6 py-2 border-b">
+          <div className="text-lg font-bold">User Chargebee details</div>
           <FaTimes className='cursor-pointer' onClick={() => setShowChargebee(false)} />
         </div>
-        <div className="mt-4 flex flex-col gap-4 px-6">
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+        <div className="flex flex-col gap-4 px-6 mt-4">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">USERNAME:</div>
             <div className="">{user?.username}</div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">ACCOUNT STATUS:</div>
             <div className="">{user?.status}</div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">SUBSCRIPTION STATUS:</div>
             <div className={`
             ${(subscription?.status === 'active' && subscription?.due_invoices_count === 0) && "text-green-600"} 
@@ -877,11 +877,11 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
                   `Invoice Due ( ${subscription?.due_invoices_count} )` : subscription?.status
             }</div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">NAME:</div>
             <div className="">{user?.full_name}</div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">EMAIL:</div>
             <div className="cursor-pointer" onClick={() => {
               copy(currentUser?.email, {
@@ -894,7 +894,7 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
               }, 1000);
             }}>{currentUser?.email}</div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">CUSTOMER_ID:</div>
             {/* <div className="">{d?.customer_id}</div> */}
             <div className="cursor-pointer" onClick={() => {
@@ -908,7 +908,7 @@ export const Chargebee = ({ k, user, setShowChargebee }) => {
               }, 1000);
             }}>{customer?.id}</div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between border-b gap-10">
+          <div className="flex flex-col justify-between gap-10 border-b md:flex-row">
             <div className="">SUBSCRIPTION_ID:</div>
             <div className="cursor-pointer" onClick={() => {
               copy(subscription?.id, {
