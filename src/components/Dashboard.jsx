@@ -868,7 +868,7 @@ export default function Dashboard() {
 const Starts = ({ user, setChart, chart, totalInteractions }) => {
   // console.log(user);
   return (<>
-    <div className="mt-4 bg-white text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
+    <div className="mt-4 text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
       <div className="flex items-center justify-between w-full gap-1 text-center lg:gap-4">
         <div
           className={`${chart === 1 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
