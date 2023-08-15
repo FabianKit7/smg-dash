@@ -160,7 +160,7 @@ const FullName = ({ setShowModal, user, setRefresh, refresh }) => {
 
       <form className="h-[52px] flex items-center gap-3 mt-5">
         <input type="text" placeholder="Enter your name here..."
-          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-full border p-3 rounded-[10px] w-full outline-none`}
+          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-full border p-3 rounded-[10px] w-full outline-none bg-transparent`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
@@ -267,7 +267,7 @@ const Email = ({ setShowModal, user, setRefresh, refresh }) => {
 
       <form className="flex flex-col items-center gap-5 mt-5 ">
         <input type="text" placeholder="Enter your name here..."
-          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] text-center border p-3 rounded-[10px] w-full outline-none`}
+          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] text-center border p-3 rounded-[10px] w-full outline-none bg-transparent`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
@@ -344,7 +344,7 @@ const Password = ({ setShowModal, user, setRefresh, refresh }) => {
       <form className="flex flex-col items-center gap-5 mt-5 ">
         <div className="relative w-full">
           <input type={valueShow ? "text" : "password"} placeholder="New Password"
-            className={`${value && value === confirm ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none pr-10`}
+            className={`${value && value === confirm ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none bg-transparent pr-10`}
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
@@ -354,7 +354,7 @@ const Password = ({ setShowModal, user, setRefresh, refresh }) => {
         </div>
         <div className="relative w-full">
           <input type={confirmShow ? "text" : "password"} placeholder="Confirm Password"
-            className={`${value && value === confirm ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none pr-10`}
+            className={`${value && value === confirm ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none bg-transparent pr-10`}
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
           />
@@ -410,7 +410,7 @@ const Phone = ({ setShowModal, user, setRefresh, refresh }) => {
 
       <form className="flex flex-col items-center gap-3 mt-5">
         <input type="tel" placeholder="e.g: +2348112659304"
-          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none`}
+          className={`${value ? "border-[#ff5e69]" : "border-[#c4c4c4]"} h-[52px] border p-3 rounded-[10px] w-full outline-none bg-transparent`}
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />

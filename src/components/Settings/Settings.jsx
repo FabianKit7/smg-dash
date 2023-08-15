@@ -150,13 +150,13 @@ export default function Settings() {
                 >Change</div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
+            {/* <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
               <div className="mb-2 border-b md:mb-0 md:border-b-0">Subscription</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">Active</div>
                 <div className="text-[#b16cea] cursor-pointer" onClick={() => setCancelModal(true)}>Cancel</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
