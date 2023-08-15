@@ -267,14 +267,14 @@ export default function Settings() {
             <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold text-[#333]">Submit your cancellation request</h1>
             <div className="text-[.8rem] md:text-base">
               <p className="text-center">
-                All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:doug@psychicaccess.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
+                All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
               </p>
               <br />
               <p className="text-center">
                 Our expert account managers are always on standby and ready to help. If you are not getting results, or need help, schedule a time to speak with our expert team who can help you reach your full instagram growth potential.
               </p>
             </div>
-            <a href="mailto:doug@psychicaccess.com" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
+            <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
               <BsFillEnvelopeFill />
               Send an email
             </a>

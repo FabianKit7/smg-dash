@@ -157,7 +157,7 @@ export const TWO_FACTOR_TEMPLATE = (full_name, username) => {
 
         <p class="MsoNormal"><span lang="EN">If you have any concerns or require further
         assistance, please do not hesitate to reach out to us at
-        <a href="mailto:doug@psychicaccess.com">support@sproutysocial.com</a>. Our dedicated support team is ready to assist you. <o:p /></span></p>
+        <a href="mailto:support@sproutysocial.com">support@sproutysocial.com</a>. Our dedicated support team is ready to assist you. <o:p /></span></p>
 
         <p class="MsoNormal"><span lang="EN"><o:p> </o:p></span></p>
 
@@ -242,7 +242,7 @@ export const ACTIVE_TEMPLATE = (full_name, username) => {
             account <b>@${username}</b> has been successfully linked with <span className="SpellE">SproutySocial</span>!
             You can expect to witness growth within just 12 hours on your account. Should
             you have any inquiries or require any assistance, please don't hesitate to
-            reach out to us at <a href='mailto:doug@psychicaccess.com'>support@sproutysocial.com</a>.<o:p /></span></p>
+            reach out to us at <a href='mailto:support@sproutysocial.com'>support@sproutysocial.com</a>.<o:p /></span></p>
 
             <p className="MsoNormal"><span lang="EN"><o:p> </o:p></span></p>
 
@@ -296,7 +296,7 @@ export const CHECKING_TEMPLATE = (full_name, username) => {
 
             <p className="MsoNormal" style={{ lineHeight: "150%" }}>If you have any concerns or require
             further assistance, please do not hesitate to reach out to us at
-            <a href="mailto:doug@psychicaccess.com">support@sproutysocial.com</a>. Our dedicated support team is ready to assist you.<o:p /></p>
+            <a href="mailto:support@sproutysocial.com">support@sproutysocial.com</a>. Our dedicated support team is ready to assist you.<o:p /></p>
 
             <p className="MsoNormal" style={{ lineHeight: "150%" }}>Thank you for your cooperation.<o:p /></p>
 

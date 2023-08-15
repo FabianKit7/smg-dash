@@ -151,7 +151,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
     }
 
     return (
-        <div className="fixed top-0 left-0 w-full h-screen z-50">
+        <div className="fixed top-0 left-0 z-50 w-full h-screen">
             <div
                 className="absolute top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.5)]"
                 onClick={() => setShow(false)}
@@ -174,7 +174,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                         </p>
                     </div>
 
-                    <div className="w-72 md:w-80 mx-auto mb-3 py-4 px-6 bg-gray-100 rounded-md flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-6 py-4 mx-auto mb-3 bg-gray-100 rounded-md w-72 md:w-80">
                         <img
                             src={user?.profile_pic_url}
                             className="rounded-full"
@@ -183,7 +183,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                             alt={user?.username?.charAt(0)?.toUpperCase()}
                             loading="lazy"
                         />
-                        <div className="font-MontserratSemiBold font-semibold">
+                        <div className="font-semibold font-MontserratSemiBold">
                             {user?.username}
                         </div>
                     </div>
@@ -198,7 +198,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
 
                     {(defualt || message?.code === "incorrect") && <form className="flex flex-col items-center justify-start" onSubmit={connectAc}
                     >
-                        <div className="form-outline relative">
+                        <div className="relative form-outline">
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 id="form2Example2"
@@ -253,7 +253,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
 
                     {message?.code === 'code sent 2FA off' && <form className="flex flex-col items-center justify-start" onSubmit={verificationCode}
                     >
-                        <div className="form-outline relative">
+                        <div className="relative form-outline">
                             <input
                                 type="text"
                                 id="form2Example2"
@@ -284,7 +284,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
 
                     {message?.code === 'code sent 2FA on' && <form className="flex flex-col items-center justify-start" onSubmit={verificationCode}
                     >
-                        <div className="form-outline relative">
+                        <div className="relative form-outline">
                             <input
                                 type="text"
                                 id="form2Example2"
@@ -314,10 +314,10 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                     </form>}
 
                     {drc && <div className="mb-3">
-                        <div className="text-center my-3">
+                        <div className="my-3 text-center">
                             {`Under notifications tab on Instagram you can approve our foreign login request by clicking "This was me"`}
                         </div>
-                        <div className="flex gap-2 justify-center w-full">
+                        <div className="flex justify-center w-full gap-2">
                             <button
                                 type="button"
                                 className="text-white button-gradient2 font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
@@ -329,14 +329,14 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                     </div>}
 
                     {message?.code === "unsuccessful" && <div className="mb-3">
-                        <div className="text-center my-3">
-                            Something went wrong and we couldn't login to your Instagram account. Please try again or contact our support at <a href='mailto:doug@psychicaccess.com'>support@sproutysocial.com</a>
+                        <div className="my-3 text-center">
+                            Something went wrong and we couldn't login to your Instagram account. Please try again or contact our support at <a href='mailto:support@sproutysocial.com'>support@sproutysocial.com</a>
                         </div>
                     </div>}
 
                     {message?.code === 'verification method 2FA off' && <div className="mb-3">
-                        <div className="text-center my-3">Please choose a way to send you the verification code to login to your account.</div>
-                        <div className="flex gap-2 justify-center w-full">
+                        <div className="my-3 text-center">Please choose a way to send you the verification code to login to your account.</div>
+                        <div className="flex justify-center w-full gap-2">
                             <button
                                 type="button"
                                 className="text-white button-gradient2 font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
@@ -356,8 +356,8 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                     </div>}
 
                     {message?.code === 'verification method 2FA on' && <div className="mb-3">
-                        <div className="text-center my-3">You can approve our login request under your Notifications tab on Instagram.</div>
-                        <div className="flex flex-col items-center gap-2 justify-center w-full">
+                        <div className="my-3 text-center">You can approve our login request under your Notifications tab on Instagram.</div>
+                        <div className="flex flex-col items-center justify-center w-full gap-2">
                             <button
                                 type="button"
                                 className="text-white button-gradient2 font-MontserratSemiBold text-[16px] rounded-[5px] py-2 px-6 h-[52px] w-fit font-semibold"
@@ -385,7 +385,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
                     </div>}
 
                     <div className="text-center">
-                        <p className="text-sm text-black-r font-MontserratRegular flex items-center gap-2 justify-center">
+                        <p className="flex items-center justify-center gap-2 text-sm text-black-r font-MontserratRegular">
                             Forgot Password?
                             <a
                                 href="https://www.instagram.com/accounts/password/reset/"
