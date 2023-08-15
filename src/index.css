@@ -47,6 +47,11 @@ body {
     background-image: linear-gradient(150deg, #b16cea 20%, #ff5e69 60%, #ff8a56 80%, #ffa84b);
 }
 
+.apexcharts-tooltip.apexcharts-theme-light,
+.apexcharts-tooltip-title {
+    background-color: black !important;
+}
+
 .grid-cols-7 {
     grid-template-columns: repeat(7, 1fr);
 }
