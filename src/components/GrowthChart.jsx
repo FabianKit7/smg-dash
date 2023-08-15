@@ -35,7 +35,7 @@ export default function GrowthChart({ isPrivate, sessionsData, days }) {
       enabled: false,
     },
     // colors: ["#0087fe"],
-    colors: ["#7ea5ff"],
+    colors: ["#FF6367", '#FF9C50'],
     fill: {
       type: "gradient",
       gradient: {

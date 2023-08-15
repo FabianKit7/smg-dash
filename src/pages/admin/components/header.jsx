@@ -48,7 +48,7 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
                         <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
                         <div className="items-center hidden gap-2 md:flex">
                             <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
-                            <b className="text-[32px]">propels</b>
+                            <b className="text-[32px]">Propulse</b>
                         </div>
                     </div>
                 </Link>
@@ -72,7 +72,7 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
                 <input
                     value={searchTerm}
                     onChange={(e) => { setSearchTerm(e.target.value) }}
-                    type="search" className="placeholder-[#C4C4C4] bg-transparent text-[#363636] outline-none border-none ml-5 w-full" placeholder='Search by @account, email or CB Customer ID' />
+                    type="search" className="placeholder-[#C4C4C4] bg-transparent text-white outline-none border-none ml-5 w-full" placeholder='Search by @account, email or CB Customer ID' />
             </form>
         </div>
     )

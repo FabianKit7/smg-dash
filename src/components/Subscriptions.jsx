@@ -228,7 +228,7 @@ export default function Subscriptions() {
                   <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'card' && "border-[#b16cea] border-2"}`}
                     onClick={() => { setPaymentMethod({ id: 1, name: 'card' }) }}
                   >
-                    <svgicon
+                    <span
                       className={`${paymentMethod.name === 'card' ? 'top-[13px] left-[10px] w-[22px] h-[18px] translate-x-0 translate-y-0' : 'h-[25.5px] w-[32px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
                         absolute transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
                     >
@@ -242,7 +242,7 @@ export default function Subscriptions() {
                           _ngcontent-esd-c92=""
                         ></path>
                       </svg>
-                    </svgicon>
+                    </span>
 
                     <div
                       className={`${paymentMethod.name === 'card' ? "opacity-100 translate-y-0 text-[#b16cea]" : 'opacity-0 translate-y-full'}
@@ -255,12 +255,12 @@ export default function Subscriptions() {
                   <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'paypal' && "border-[#b16cea] border-2"}`}
                     onClick={() => { setPaymentMethod({ id: 1, name: 'paypal' }) }}
                   >
-                    <svgicon
+                    <span
                       className={`${paymentMethod.name === 'paypal' ? 'top-[13px] left-[10px] translate-x-0 translate-y-0' : 'top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
                         absolute transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
                     >
                       <img src={'/icons/paypal-icon.svg'} alt="" className={`${paymentMethod.name === 'paypal' ? "h-[23.7px]" : "h-[37px]"}`} />
-                    </svgicon>
+                    </span>
 
                     <div
                       className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#b16cea]" : 'opacity-0 translate-y-full'}
@@ -444,11 +444,11 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
 
                   {!showCreaditCardInput && <div className="flex flex-col gap-4 mb-4">
                     <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#b16cea] text-white flex items-center justify-center gap-2" onClick={() => { setShowCreaditCardInput(true) }}>
-                      <svgicon className="w-[28px] h-[28px] rounded-[8px] fill-white">
+                      <span className="w-[28px] h-[28px] rounded-[8px] fill-white">
                         <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                           <path d="M0 7C0 6.07174 0.368749 5.1815 1.02513 4.52513C1.6815 3.86875 2.57174 3.5 3.5 3.5H24.5C25.4283 3.5 26.3185 3.86875 26.9749 4.52513C27.6313 5.1815 28 6.07174 28 7V15.75H0V7ZM20.125 8.75C19.8929 8.75 19.6704 8.84219 19.5063 9.00628C19.3422 9.17038 19.25 9.39294 19.25 9.625V11.375C19.25 11.6071 19.3422 11.8296 19.5063 11.9937C19.6704 12.1578 19.8929 12.25 20.125 12.25H23.625C23.8571 12.25 24.0796 12.1578 24.2437 11.9937C24.4078 11.8296 24.5 11.6071 24.5 11.375V9.625C24.5 9.39294 24.4078 9.17038 24.2437 9.00628C24.0796 8.84219 23.8571 8.75 23.625 8.75H20.125ZM0 19.25V21C0 21.9283 0.368749 22.8185 1.02513 23.4749C1.6815 24.1313 2.57174 24.5 3.5 24.5H24.5C25.4283 24.5 26.3185 24.1313 26.9749 23.4749C27.6313 22.8185 28 21.9283 28 21V19.25H0Z" ></path>
                         </svg>
-                      </svgicon>
+                      </span>
                       <div className="">Card / Debit Card</div>
                     </div>
                     <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#ffc439] text-white flex items-center justify-center gap-2" onClick={() => {
@@ -488,84 +488,84 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
 
                 <div className="flex flex-col gap-4 text-black-r text-base">
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" _ngcontent-gsj-c72="" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5" _ngcontent-gsj-c72=""></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5" _ngcontent-gsj-c72=""></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p className="">Grow ~1-10k Real Monthly Followers</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Target Followers Relevant To You</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Detailed Analytics & Results Tracking</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Automated 24/7 Growth, Set & Forget</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>No Fakes Or Bots, 100% Real People</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Personal Account Manager</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Boost Likes, Comments & DMs</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Safest Instagram Growth Service</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <svgicon className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                    <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect opacity="0.2" x="0.5" y="0.5" width="19" height="19" rx="9.5"></rect>
                         <rect x="4.5" y="4.5" width="11" height="11" rx="5.5"></rect>
                       </svg>
-                    </svgicon>
+                    </span>
                     <p>Access Dashboard On All Devices</p>
                   </div>
                 </div>

@@ -266,7 +266,7 @@ export default function Dashboard() {
                 width="28px"
                 height="28px"
               />
-              <div className="font-black text-base lg:text-2xl text-black-r font-MontserratBold capitalize">
+              <div className="text-base font-black capitalize lg:text-2xl text-black-r font-MontserratBold">
                 {userData?.username}
               </div>
             </div>
@@ -292,7 +292,7 @@ export default function Dashboard() {
                     size={28}
                     className="mr-[10px] ml-[16px]"
                   />
-                  <span className="p-0 flex items-center">
+                  <span className="flex items-center p-0">
                     {selectedDate?.title}
                   </span>
                   <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
@@ -348,7 +348,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="lg:hidden flex flex-col items-center mb-5">
+        <div className="flex flex-col items-center mb-5 lg:hidden">
           <div className="flex items-center gap-[8px]">
             <img alt="" src="/ic_summary.svg" className="bg-black p-[8px] rounded-[8px]" />
             <h3 className="text-[22px] font-bold font-MontserratBold text-black-r"> Account Summary </h3>
@@ -363,7 +363,7 @@ export default function Dashboard() {
                 size={15}
                 className="mr-[10px] ml-[16px]"
               />
-              <span className="p-0 flex items-center">
+              <span className="flex items-center p-0">
                 {selectedDate?.title}
               </span>
               <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
@@ -527,7 +527,7 @@ export default function Dashboard() {
                 // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
               }}
             >connect account
-              {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}</button>
+              {message?.text && <span className="absolute w-3 h-3 bg-red-900 rounded-full -top-2 -right-2"></span>}</button>
           </div>}
         </div>
 
@@ -623,7 +623,7 @@ export default function Dashboard() {
                   onClick={() => setIsOpen(true)}
                 // onClick={() => setOpenCA(true)}
                 >connect account
-                  {message?.text && <span className="w-3 h-3 rounded-full bg-red-900 absolute -top-2 -right-2"></span>}
+                  {message?.text && <span className="absolute w-3 h-3 bg-red-900 rounded-full -top-2 -right-2"></span>}
                 </button>
               </div>
             </div>
@@ -632,7 +632,7 @@ export default function Dashboard() {
 
         <div>
           <div className="lg:mx-[40px] flex flex-col lg:flex-row justify-between items-center font-MontserratRegular">
-            <div className="w-full flex justify-between items-center">
+            <div className="flex items-center justify-between w-full">
               <div className="flex items-center">
                 <img
                   className="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] rounded-[10px] lg:rounded-full mr-[12px] lg:mr-[20px]"
@@ -659,7 +659,7 @@ export default function Dashboard() {
 
                     <span className="hidden lg:block ml-[8px] cursor-pointer group relative">
                       <div className="flex items-center">
-                        <svgicon
+                        <span
                           className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                           style={{
                             transition: 'all .1s ease-in',
@@ -672,10 +672,10 @@ export default function Dashboard() {
                           >
                             <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                           </svg>
-                          <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                          <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                             transition: 'all .5s ease-in-out',
                           }}>How your account is currently interacting with new users. You can change this in your interaction settings.</span>
-                        </svgicon>
+                        </span>
                       </div>
                     </span>
                   </div>
@@ -699,7 +699,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center lg:px-10">
+        <div className="flex flex-col items-center lg:flex-row lg:px-10">
           <div
             className="min-w-[calc(100%-450px)] w-full lg:py-5 lg:pr-10 pl-0"
           >
@@ -720,11 +720,11 @@ export default function Dashboard() {
             />}
           </div>
 
-          <div className="lg:hidden w-full">
+          <div className="w-full lg:hidden">
             <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
-              <span className="absolute top-5 right-5 group cursor-pointer">
+              <span className="absolute cursor-pointer top-5 right-5 group">
                 <div className="flex items-center">
-                  <svgicon
+                  <span
                     className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                     style={{
                       transition: 'all .1s ease-in',
@@ -737,10 +737,10 @@ export default function Dashboard() {
                     >
                       <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                     </svg>
-                    <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext2 opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                    <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
                       transition: 'all .5s ease-in-out',
                     }}>'Mike', your personal account analyst and growth consultant, who happens to be our most experienced Instagram marketing expert with over 5 years of proficiency. Don't hesitate to contact him for assistance with selecting the best targets, navigating the dashboard, generating content, engaging your followers, and much more. Mike is committed to sharing his knowledge and expertise to help you make the most of your time with us.</span>
-                  </svgicon>
+                  </span>
                 </div>
               </span>
 
@@ -753,12 +753,12 @@ export default function Dashboard() {
                 <div>
                   <div
                     _ngcontent-cuk-c74=""
-                    className="font-bold font-MontserratBold text-base lg:text-2xl text-black-r flex items-center gap-1"
+                    className="flex items-center gap-1 text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
                   >
                     Mike P
                     <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
                   </div>
-                  <div className="font-normal text-base">
+                  <div className="text-base font-normal">
                     Personal Account Analyst
                   </div>
                 </div>
@@ -767,7 +767,7 @@ export default function Dashboard() {
 
             {showMobileManager && <div className="">
               <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
-                <div className="text-black-r text-sm font-normal font-MontserratRegular">
+                <div className="text-sm font-normal text-black-r font-MontserratRegular">
                   Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
                 </div>
               </div>
@@ -791,7 +791,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="hidden lg:block my-10">
+          <div className="hidden my-10 lg:block">
             <div>
               <div
                 className="p-[35px] relative rounded-[10px] w-[450px]"
@@ -800,7 +800,7 @@ export default function Dashboard() {
 
                 <span className="absolute top-[25px] right-[20px] ml-[8px] group cursor-pointer">
                   <div className="flex items-center">
-                    <svgicon
+                    <span
                       className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                       style={{
                         transition: 'all .1s ease-in',
@@ -813,10 +813,10 @@ export default function Dashboard() {
                       >
                         <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                       </svg>
-                      <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext2 opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                      <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
                         transition: 'all .5s ease-in-out',
                       }}>'Mike', your personal account analyst and growth consultant, who happens to be our most experienced Instagram marketing expert with over 5 years of proficiency. Don't hesitate to contact him for assistance with selecting the best targets, navigating the dashboard, generating content, engaging your followers, and much more. Mike is committed to sharing his knowledge and expertise to help you make the most of your time with us.</span>
-                    </svgicon>
+                    </span>
                   </div>
                 </span>
 
@@ -830,16 +830,16 @@ export default function Dashboard() {
                     <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
                     <div
                       _ngcontent-cuk-c74=""
-                      className="font-bold font-MontserratBold text-base lg:text-2xl text-black-r"
+                      className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
                     >
                       Mike P
                     </div>
-                    <div className="font-normal text-base">
+                    <div className="text-base font-normal">
                       Personal Account Analyst
                     </div>
                   </div>
                 </div>
-                <div className="mt-5 text-black-r text-sm font-normal">
+                <div className="mt-5 text-sm font-normal text-black-r">
                   Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
                 </div>
               </div>
@@ -869,16 +869,16 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
   // console.log(user);
   return (<>
     <div className="mt-4 bg-white text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
-      <div className="flex justify-between items-center gap-1 lg:gap-4 w-full text-center">
+      <div className="flex items-center justify-between w-full gap-1 text-center lg:gap-4">
         <div
-          className={`${chart === 1 ? "bg-black lg:button-gradient text-white" : "text-[#757575] md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
+          className={`${chart === 1 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
           onClick={() => setChart(1)}
           style={{
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 1 && "text-[#757575]"}`}>Followers</div>
-          <div className="flex flex-col lg:flex-row justify-between items-center text-center relative">
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 1 && ""}`}>Followers</div>
+          <div className="relative flex flex-col items-center justify-between text-center lg:flex-row">
             <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">
               {numFormatter(user.followers)}
             </div>
@@ -889,13 +889,13 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
         </div>
 
         <div
-          className={`${chart === 2 ? "bg-black lg:button-gradient text-white" : "text-[#757575] md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
+          className={`${chart === 2 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
           onClick={() => setChart(2)}
           style={{
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 2 && "text-[#757575]"}`}>
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 2 && ""}`}>
             Followings
           </div>
           <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
@@ -904,13 +904,13 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
         </div>
 
         <div
-          className={`${chart === 3 ? "bg-black lg:button-gradient text-white" : "text-[#757575] md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
+          className={`${chart === 3 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
           onClick={() => setChart(3)}
           style={{
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 3 && "text-[#757575]"}`}>
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 3 && ""}`}>
             Interactions
           </div>
           <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
@@ -1021,10 +1021,10 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
   return (<>
     <div key={pageProp.id} className="w-full lg:w-[430px] mt-8 lg:mt-[50px] pl-4 h-[380px] relative">
       <div
-        className="h-full relative"
+        className="relative h-full"
         style={{ transition: 'opacity .25s ease-in' }}
       >
-        <div className="flex justify-between items-center gap-3">
+        <div className="flex items-center justify-between gap-3">
           <div className="flex items-center">
             <div className="lg:hidden mr-[12px]">
               {pageProp.title === "Targeting" && <img alt="" src="/ic_targeting.svg" className="button-gradient p-[8px] rounded-[8px]" />}
@@ -1032,7 +1032,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
               {pageProp.title === "blacklist" && <img alt="" src="/ic_blacklist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
             </div>
             <div className="">
-              <div className="font-bold font-MontserratBold text-base lg:text-2xl text-black-r">
+              <div className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r">
                 Add {pageProp.title} {pageProp.title !== "Targeting" && "Accounts"}
               </div>
               <div className="font-normal text-[14px]">
@@ -1044,12 +1044,12 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
           <FaTimes className="lg:hidden w-7 h-7 text-[#757575] cursor-pointer" onClick={() => setMobileAdd({ show: false, pageProp: {} })} />
         </div>
 
-        <div className="mt-5 relative" ref={parentRef}>
+        <div className="relative mt-5" ref={parentRef}>
           <div className="flex items-center text-base font-medium text-black-r border border-[#ffffff40] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
             <input
               type="text"
               placeholder="@accountname"
-              className="border-none outline-none w-full bg-transparent"
+              className="w-full bg-transparent border-none outline-none"
               value={debouncedQuery}
               ref={inputRef}
               onChange={(e) => {
@@ -1083,7 +1083,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                 </div>}
                 <div className="flex flex-col">
                   <div className="flex items-center">
-                    <div className="text-black-r text-base font-medium ">
+                    <div className="text-base font-medium text-black-r ">
                       {selectedData?.full_name}
                     </div>
                     {selectedData?.is_verified && <MdVerified
@@ -1121,7 +1121,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                 setShowResultModal(false);
               }}
             >
-              <div className="p-3 rounded-full bg-black-r text-white-r bg-black text-white">
+              <div className="p-3 text-white bg-black rounded-full bg-black-r text-white-r">
                 <FaUser size={14} color="white w-[46px] h-[46px]" />
               </div>
               <div className="text-black">
@@ -1149,7 +1149,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                       />
                       <div className="flex flex-col">
                         <div className="flex items-center">
-                          <div className="text-black-r text-base font-medium ">
+                          <div className="text-base font-medium text-black-r ">
                             {account?.full_name}
                           </div>
                           {account?.is_verified && <MdVerified
@@ -1191,23 +1191,23 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
   const [confirm, setConfirm] = useState({ title: '', description: '' })
 
   return (<>
-    {confirm.title && <div className="antialiased bg-gray-200/20 text-gray-900 font-sans overflow-x-hidden fixed top-0 left-0 w-full h-screen z-10">
-      <div className="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
-        <div className="bg-black opacity-25 w-full h-full absolute z-10 inset-0" />
-        <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
-          <div className="md:flex items-center">
-            <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
-              {/* <i className="bx bx-error text-3xl" /> */}
+    {confirm.title && <div className="fixed top-0 left-0 z-10 w-full h-screen overflow-x-hidden font-sans antialiased text-gray-900 bg-gray-200/20">
+      <div className="relative min-h-screen px-4 md:flex md:items-center md:justify-center">
+        <div className="absolute inset-0 z-10 w-full h-full bg-black opacity-25" />
+        <div className="fixed inset-x-0 bottom-0 z-50 p-4 mx-4 mb-4 bg-white rounded-lg md:max-w-md md:mx-auto md:relative">
+          <div className="items-center md:flex">
+            <div className="flex items-center justify-center flex-shrink-0 w-16 h-16 mx-auto border border-gray-300 rounded-full">
+              {/* <i className="text-3xl bx bx-error" /> */}
               <CgDanger />
             </div>
-            <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+            <div className="mt-4 text-center md:mt-0 md:ml-6 md:text-left">
               <p className="font-bold">{confirm.title}</p>
-              <p className="text-sm text-gray-700 mt-1">{confirm.description}
+              <p className="mt-1 text-sm text-gray-700">{confirm.description}
               </p>
             </div>
           </div>
-          <div className="text-center md:text-right mt-4 md:flex md:justify-end">
-            <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+          <div className="mt-4 text-center md:text-right md:flex md:justify-end">
+            <button className="block w-full px-4 py-3 text-sm font-semibold text-red-700 bg-red-200 rounded-lg md:inline-block md:w-auto md:py-2 md:ml-2 md:order-2"
               onClick={async () => {
                 await deleteAccount(from, account.id);
                 setAddSuccess(!addSuccess)
@@ -1215,7 +1215,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
               }}
             >Delete
               Account</button>
-            <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4 md:mt-0 md:order-1"
+            <button className="block w-full px-4 py-3 mt-4 text-sm font-semibold bg-gray-200 rounded-lg md:inline-block md:w-auto md:py-2 md:mt-0 md:order-1"
               onClick={() => {
                 setConfirm({ title: "", description: "" })
               }}
@@ -1325,7 +1325,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
 
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
-                <svgicon
+                <span
                   className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                   style={{
                     transition: 'all .1s ease-in',
@@ -1338,10 +1338,10 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>Once you've added your targets, you can monitor their progress and make modifications, as all of them will be displayed here. To achieve maximum outcomes, aim to achieve a follow-back rate of 15% or higher for all targets.</span>
-                </svgicon>
+                </span>
               </div>
             </span>
           </div>
@@ -1358,7 +1358,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
             <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> Targeting </h3>
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
-                <svgicon
+                <span
                   className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                   style={{
                     transition: 'all .1s ease-in',
@@ -1371,15 +1371,15 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>Once you've added your targets, you can monitor their progress and make modifications, as all of them will be displayed here. To achieve maximum outcomes, aim to achieve a follow-back rate of 15% or higher for all targets.</span>
-                </svgicon>
+                </span>
               </div>
             </span>
           </div>
           <div className="mt-[30px] flex items-center">
-            <div className="w-full flex justify-center bg-white text-black">
+            <div className="flex justify-center w-full text-black bg-white">
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-6">
                 Targeting
                 <span className="button-gradient2 text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
@@ -1391,8 +1391,8 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
         </div>
       </div>
 
-      <div className="lg:m-10 mt-0 flex flex-col lg:flex-row items-center">
-        <div className="grow w-full lg:w-auto">
+      <div className="flex flex-col items-center mt-0 lg:m-10 lg:flex-row">
+        <div className="w-full grow lg:w-auto">
           <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[30px]">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">Account</span>
@@ -1417,7 +1417,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
           </div>
         </div>
 
-        <div className="lg:hidden flex items-center gap-2 w-full mt-4">
+        <div className="flex items-center w-full gap-2 mt-4 lg:hidden">
           <button className={`button-gradient text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
@@ -1547,7 +1547,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
 
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
-                <svgicon
+                <span
                   className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                   style={{
                     transition: 'all .1s ease-in',
@@ -1560,10 +1560,10 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{pageProp.title === "Whitelist" ? "If you wish to continue following a user that we automatically followed for you, add them here and we won’t unfollow them. Remember, we will never unfollow anyone you manually followed before or after using our service - this only applies to users we followed for you." : "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."}</span>
-                </svgicon>
+                </span>
               </div>
             </span>
           </div>
@@ -1575,7 +1575,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
             <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {pageProp.title} </h3>
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
-                <svgicon
+                <span
                   className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
                   style={{
                     transition: 'all .1s ease-in',
@@ -1588,10 +1588,10 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium font-MontserratSemiBold leading-5 tooltiptext opacity-0 group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{pageProp.title === "Whitelist" ? "If you wish to continue following a user that we automatically followed for you, add them here and we won’t unfollow them. Remember, we will never unfollow anyone you manually followed before or after using our service - this only applies to users we followed for you." : "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."}</span>
-                </svgicon>
+                </span>
               </div>
             </span>
           </div>
@@ -1617,8 +1617,8 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
         </div>
       </div>
 
-      <div className="lg:m-10 mt-0 flex flex-col lg:flex-row items-center">
-        <div className="grow w-full lg:w-auto">
+      <div className="flex flex-col items-center mt-0 lg:m-10 lg:flex-row">
+        <div className="w-full grow lg:w-auto">
           <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[30px]">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">Account</span>
@@ -1643,7 +1643,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
           </div>
         </div>
 
-        <div className="lg:hidden flex items-center gap-2 w-full my-4">
+        <div className="flex items-center w-full gap-2 my-4 lg:hidden">
           <button className={`button-gradient text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >

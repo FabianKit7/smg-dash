@@ -22,7 +22,7 @@ export default function CustomSettingsModal(props) {
       <Modal.Body>
         <Row>
           <Col>
-            <div className="d-flex flex-column align-items-center gap-2">
+            <div className="gap-2 d-flex flex-column align-items-center">
               <h5 className="">Instagram Account</h5>
               <img
                 src={props.avatar}
@@ -47,7 +47,7 @@ export default function CustomSettingsModal(props) {
                 onClick={() => setValue("Recommended")}
               >
                 <RecommendedIcon size={value === "Recommended" ? 320 : 60} />
-                <div className="d-flex flex-column gap-3">
+                <div className="gap-3 d-flex flex-column">
                   <p>Recommended</p>
                   {value === "Recommended" && (
                     <>
@@ -70,7 +70,7 @@ export default function CustomSettingsModal(props) {
                 onClick={() => setValue("Follow")}
               >
                 <FollowIcon size={value === "Follow" ? 320 : 60} />
-                <div className="d-flex flex-column gap-3">
+                <div className="gap-3 d-flex flex-column">
                   <p>Follow</p>
                   {value === "Follow" && (
                     <>
@@ -94,7 +94,7 @@ export default function CustomSettingsModal(props) {
                 onClick={() => setValue("Unfollow")}
               >
                 <UnFollowIcon size={value === "Unfollow" ? 320 : 60} />
-                <div className="d-flex flex-column gap-3">
+                <div className="gap-3 d-flex flex-column">
                   <p>Unfollow</p>
                   {value === "Unfollow" && (
                     <>
@@ -117,7 +117,7 @@ export default function CustomSettingsModal(props) {
                 onClick={() => setValue("Interactions_OFF")}
               >
                 <TurnIcon size={value === "Interactions_OFF" ? 320 : 60} />
-                <div className="d-flex flex-column gap-3">
+                <div className="gap-3 d-flex flex-column">
                   <p>Unfollow</p>
                   {value === "Interactions_OFF" && (
                     <>

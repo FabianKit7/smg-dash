@@ -125,7 +125,7 @@ export default function Login() {
           <div className="font-MADEOKINESANSPERSONALUSE text-[28px]">
             <div className="hidden md:flex items-center gap-2">
               <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
-              <b className="text-[32px]">propels</b>
+              <b className="text-[32px]">Propulse</b>
             </div>
             {/* <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" /> */}
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}

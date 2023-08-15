@@ -271,7 +271,7 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
       <div className="fixed top-0 left-0 w-full h-screen bg-black/20 z-[2] cursor-pointer" onClick={() => { setShowAddTagModal(false) }}>
       </div>
 
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-white rounded-[10px] pb-2 px-4">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-[#242424] rounded-[10px] pb-2 px-4">
         {processing && <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full text-white bg-black/20">
           <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}
@@ -300,17 +300,17 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
           <div className="flex justify-between gap-3 mt-3">
             <div className="flex flex-col">
               <label htmlFor="inputA">Tag1</label>
-              <input type="search" name="inputA" id="inputA" className='h-[34px] w-[125px] px-2 rounded-lg border border-gray-500 outline-none shadow-2xl' minLength={1} maxLength={7} onChange={(e) => setTag1(e.target.value)} value={tag1} />
+              <input type="search" name="inputA" id="inputA" className='h-[34px] w-[125px] px-2 rounded-lg border border-gray-500 outline-none shadow-2xl bg-transparent' minLength={1} maxLength={7} onChange={(e) => setTag1(e.target.value)} value={tag1} />
             </div>
 
             <div className="flex flex-col">
               <label htmlFor="inputA">Tag2</label>
-              <input type="search" name="inputA" id="inputA" className='h-[34px] w-[125px] px-2 rounded-lg border border-gray-500 outline-none shadow-2xl' minLength={1} maxLength={7} onChange={(e) => setTag2(e.target.value)} value={tag2} />
+              <input type="search" name="inputA" id="inputA" className='h-[34px] w-[125px] px-2 rounded-lg border border-gray-500 outline-none shadow-2xl bg-transparent' minLength={1} maxLength={7} onChange={(e) => setTag2(e.target.value)} value={tag2} />
             </div>
           </div>
         </div>
 
-        <button className="w-full h-[25px] rounded-lg bg-blue-600 text-white mt-3" onClick={handleSave}>Save</button>
+        <button className="w-full h-[34px] rounded-lg button-gradient text-white mt-3 mb-4" onClick={handleSave}>Save</button>
       </div>
     </div>
   </>)
@@ -346,10 +346,10 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
           <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}
 
-        <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#fff] text-[25px] font-bold font-MontserratBold text-black-r min-h-[100px] flex flex-col gap-3`}>
+        <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#000] text-[25px] font-bold font-MontserratBold text-black-r min-h-[100px] flex flex-col gap-3`}>
           {statuses.map(status => {
             return (
-              <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] bg-[#F8F8F8]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer`}
+              <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] text-black hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] hover:text-black bg-[#242424]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer`}
                 onClick={async () => {
                   setProcessing(true)
                   const res = await supabase

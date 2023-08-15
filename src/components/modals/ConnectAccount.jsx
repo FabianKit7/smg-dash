@@ -330,7 +330,7 @@ export default function ConnectAccount({ show, setShow, user, message, setMessag
 
                     {message?.code === "unsuccessful" && <div className="mb-3">
                         <div className="text-center my-3">
-                            Something went wrong and we couldn't login to your Instagram account. Please try again or contact our support at <a href='mailto:support@sproutysocial.com'>support@sproutysocial.com</a>
+                            Something went wrong and we couldn't login to your Instagram account. Please try again or contact our support at <a href='mailto:doug@psychicaccess.com'>support@sproutysocial.com</a>
                         </div>
                     </div>}
 

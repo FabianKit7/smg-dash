@@ -55,7 +55,7 @@ export default function ColumnChart({ type, sessionsData, days }) {
   }, [sessionsData, days, type]);
 
 
-  var colors = ["#7ea5ff"]
+  var colors = ["#FA5F71"]
 
   var options = {
     // series: [{
@@ -141,7 +141,7 @@ export default function ColumnChart({ type, sessionsData, days }) {
 
   return (
     <div className="w-full rounded-lg">
-      <div className="rounded-md text-gray20 w-full">
+      <div className="w-full text-white rounded-md">
         <div className="md:px-3">
           <Chart
             options={options}
