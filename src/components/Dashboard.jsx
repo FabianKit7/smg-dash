@@ -1310,7 +1310,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
   return (<>
     <div>
       <div>
-        <div className="hidden lg:flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
+        <div className="hidden lg:flex justify-between items-center rounded-[10px] h-[84px] px-4 lg:px-10 mb-10"
           style={{
             boxShadow: '0 0 3px #ffffff40',
           }}
@@ -1393,7 +1393,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
 
       <div className="flex flex-col items-center mt-0 lg:m-10 lg:flex-row">
         <div className="w-full grow lg:w-auto">
-          <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[30px]">
+          <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[16px] pr-base">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">Account</span>
             </div>
@@ -1619,7 +1619,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
 
       <div className="flex flex-col items-center mt-0 lg:m-10 lg:flex-row">
         <div className="w-full grow lg:w-auto">
-          <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[30px]">
+          <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[16px] pr-base">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">Account</span>
             </div>
