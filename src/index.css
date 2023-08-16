@@ -51,6 +51,7 @@ body {
 .apexcharts-tooltip-title,
 .apexcharts-xaxistooltip {
     background-color: #242424 !important;
+    color: #fff !important;
 }
 
 .grid-cols-7 {

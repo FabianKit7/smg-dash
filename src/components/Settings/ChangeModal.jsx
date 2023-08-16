@@ -65,9 +65,9 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
           </div>}
           <Modal.Title className="font-bold text-[20px] font-MontserratBold">Payment method</Modal.Title>
         </div>
-        <p className="font-bold text-base text-[#757575] w-full font-MontserratRegular">
+        {/* <p className="font-bold text-base text-[#757575] w-full font-MontserratRegular">
           You may cancel during your free trial and won't be billed, no risk.
-        </p>
+        </p> */}
       </div>
 
       <div className={`${showCardPage ? "opacity-100 pointer-events-all" : "opacity-0 pointer-events-none hidden"} transition-all mt-3`}>
@@ -108,7 +108,10 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
 
           <div className={`mt-2 text-[#ff5e69] font-bold font-MontserratBold flex items-center justify-center gap-2 rounded-[10px] h-[52px] w-full cursor-pointer`} onClick={() => {
             // show card page
-            setShowCardPage(true)
+            // setShowCardPage(true)
+
+            setIsModalOpen(true);
+            setErrorMsg({ title: 'Alert', message: 'Not available yet!' })
           }}>
             <span>+ Add a new payment method</span>
           </div>

@@ -1240,7 +1240,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
           @{account?.account}
         </div>
       </div>
-      <div className="w-[35%] md:w-[15%] flex items-center justify-end text-[#757575] text-[12px] md:text-base font-normal">
+      <div className="w-[35%] md:w-[15%] flex items-center justify-center text-[#757575] text-[12px] md:text-base font-normal">
         {numFormatter(account?.followers)}
       </div>
       <div className="w-[21%] hidden md:flex items-center justify-end text-[12px]">
@@ -1397,7 +1397,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">Account</span>
             </div>
-            <div className="w-[35%] md:w-[15%] flex items-center justify-end">
+            <div className="w-[35%] md:w-[15%] flex items-center justify-center">
               Followers
             </div>
             <div className="w-[20%] hidden md:flex items-center justify-end">Added</div>
@@ -1623,7 +1623,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">Account</span>
             </div>
-            <div className="w-[35%] md:w-[15%] flex items-center justify-end">
+            <div className="w-[35%] md:w-[15%] flex items-center justify-center">
               Followers
             </div>
             <div className="w-[20%] hidden md:flex items-center justify-end">Added</div>
