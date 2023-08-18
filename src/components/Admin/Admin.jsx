@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
+import { useNavigate } from "react-router-dom";
 
 export default function Admin() {
+  const navigate = useNavigate();
+  const [fetchingUser, setFetchingUser] = useState(true)
   const [files, setFiles] = useState([]);
   const [Loading, setLoading] = useState(false);
   const [reading, setReading] = useState(false);
+
+  // verity user
+  useEffect(() => {
+    const getData = async () => {
+      const authUserRes = await supabase.auth.getUser()
+      if (authUserRes.error) return navigate("/login")
+      const authUser = authUserRes?.data?.user
+      const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
+      const superUser = getSuperUser?.data?.[0]
+      if (!superUser || !superUser?.admin) return navigate("/login")
+      setFetchingUser(false)
+    };
+
+    getData();
+  }, [navigate]);
 
   let receipts = [];
   let receiptsRead = [];
@@ -87,6 +105,12 @@ export default function Admin() {
     document.getElementById('input').value = '';
     setFiles([])
     setLoading(false);
+  }
+
+  if (fetchingUser) {
+    return (<>
+      Loading...
+    </>)
   }
 
   return (<>

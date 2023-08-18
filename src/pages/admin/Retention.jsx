@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Header from './components/header'
 import { Chargebee } from '../../dashboard'
 import { supabase } from '../../supabaseClient'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { countDays } from '../../helpers'
 import copy from 'copy-to-clipboard';
 import { ChangeStatusModal, calculateLast7DaysGrowth, statuses } from './ManagePage'
 
 export default function Retention() {
+  const navigate = useNavigate();
+  const [fetchingUser, setFetchingUser] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sectionName, setSectionName] = useState('active')
   const [sectionTotal, setSectionTotal] = useState(0)
@@ -17,6 +19,21 @@ export default function Retention() {
   const [refreshUsers, setRefreshUsers] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState({ sectionName: '', value: '' })
+
+  // verity user
+  useEffect(() => {
+    const getData = async () => {
+      const authUserRes = await supabase.auth.getUser()
+      if (authUserRes.error) return navigate("/login")
+      const authUser = authUserRes?.data?.user
+      const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
+      const superUser = getSuperUser?.data?.[0]
+      if (!superUser || !superUser?.admin) return navigate("/login")
+      setFetchingUser(false)
+    };
+
+    getData();
+  }, [navigate]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -67,6 +84,12 @@ export default function Retention() {
       })
     }
   }, [users])
+
+  if (fetchingUser) {
+    return (<>
+      Loading...
+    </>)
+  }
 
   return (
     <div className="font-MontserratRegular max-w-[1600px] mx-auto">

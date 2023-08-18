@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from './components/header'
 import { FaCaretUp, FaPen, FaPlus, FaTimes } from 'react-icons/fa'
 import { supabase } from '../../supabaseClient'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import copy from 'copy-to-clipboard';
 import axios from 'axios'
 import { ACTIVE_TEMPLATE, CHECKING_TEMPLATE, INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
@@ -28,6 +28,8 @@ export const calculateLast7DaysGrowth = (sessionData) => {
 export const statuses = ['new', 'active', 'checking', 'pending', 'twofactor', 'incorrect', 'cancelled']
 
 export default function ManagePage() {
+  const navigate = useNavigate();
+  const [fetchingUser, setFetchingUser] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sectionName, setSectionName] = useState('new')
   const [sectionTotal, setSectionTotal] = useState(0)
@@ -38,6 +40,20 @@ export default function ManagePage() {
   const [showAddTagModal, setShowAddTagModal] = useState(false)
   const [userToAddTagFor, setUserToAddTagFor] = useState()
 
+  // verity user
+  useEffect(() => {
+    const getData = async () => {
+      const authUserRes = await supabase.auth.getUser()
+      if (authUserRes.error) return navigate("/login")
+      const authUser = authUserRes?.data?.user
+      const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
+      const superUser = getSuperUser?.data?.[0]
+      if (!superUser || !superUser?.admin) return navigate("/login")
+      setFetchingUser(false)
+    };
+
+    getData();
+  }, [navigate]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -87,6 +103,12 @@ export default function ManagePage() {
       })
     }
   }, [users])
+
+  if (fetchingUser) {
+    return (<>
+      Loading...
+    </>)
+  }
 
   return (<>
     {showAddTagModal && <TagModal
