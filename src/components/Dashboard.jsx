@@ -755,7 +755,7 @@ export default function Dashboard() {
                     _ngcontent-cuk-c74=""
                     className="flex items-center gap-1 text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
                   >
-                    Mike P
+                    Mathieu P
                     <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
                   </div>
                   <div className="text-base font-normal">
@@ -768,7 +768,7 @@ export default function Dashboard() {
             {showMobileManager && <div className="">
               <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
                 <div className="text-sm font-normal text-black-r font-MontserratRegular">
-                  Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
+                  En tant que consultant en marketing Instagram depuis 2017, mon objectif est de vous aider à atteindre la croissance authentique et ciblée à laquelle vous aspirez. N'hésitez pas à vous renseigner sur le ciblage, les paramètres du compte, la création de contenu et d'autres préoccupations connexes.
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex flex-col items-center">
@@ -832,7 +832,7 @@ export default function Dashboard() {
                       _ngcontent-cuk-c74=""
                       className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
                     >
-                      Mike P
+                      Mathieu P
                     </div>
                     <div className="text-base font-normal">
                       Personal Account Analyst
@@ -840,7 +840,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="mt-5 text-sm font-normal text-black-r">
-                  Greetings! I am Mike, and I am thrilled to serve as your dedicated account analyst. As an Instagram marketing consultant since 2015, my aim is to assist you in achieving the authentic and focused growth you have been longing for. Feel free to inquire about targeting, account settings, content creation, and other related concerns.
+                  En tant que consultant en marketing Instagram depuis 2017, mon objectif est de vous aider à atteindre la croissance authentique et ciblée à laquelle vous aspirez. N'hésitez pas à vous renseigner sur le ciblage, les paramètres du compte, la création de contenu et d'autres préoccupations connexes.
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex items-center">
