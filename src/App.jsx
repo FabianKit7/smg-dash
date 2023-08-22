@@ -22,11 +22,10 @@ import { useState } from "react";
 import ManageAccounts from "./pages/ManageAccounts";
 import ManagePage from "./pages/admin/ManagePage";
 import Retention from "./pages/admin/Retention";
-// import { getCookie } from "./helpers";
-
 
 function App() {
-  const pathname = window.location.pathname;
+  const pathname = window.location.pathname;  
+    
   useEffect(() => {
     // const clickId = getCookie('_vid_t')
     // console.log(clickId);

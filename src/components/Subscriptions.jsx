@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useTransition } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { TbRefresh } from "react-icons/tb";
@@ -179,7 +179,7 @@ export default function Subscriptions() {
             </div>
 
             <div className="mt-[65px] mb-[150px]">
-              <div className="lg:hidden bg-white">
+              <div className="bg-white lg:hidden">
                 <div className="flex flex-col gap-[1px]">
                   <div className="border-l-8 border-l-[#ff5e69] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
                     <div className="flex items-center gap-[10px]">
@@ -212,7 +212,7 @@ export default function Subscriptions() {
                 </div>
               </div>
 
-              <div className="pt-4 bg-black px-5">
+              <div className="px-5 pt-4 bg-black">
                 <h1 className="text-black-r text-[20px] font-bold font-MontserratSemiBold">
                   {' '}
                   Start Your Free 7-Day Trial
@@ -297,7 +297,7 @@ export default function Subscriptions() {
                   >
                     <div className="">{Loading ? "Loading..." : "Pay $0.00 & Start Free Trial"}</div>
                   </button>
-                  <div className="text-center mt-2 text-black-r">
+                  <div className="mt-2 text-center text-black-r">
                     Then $24.99 per week, billed monthly. <br /> Cancel any time, no
                     risk.
                   </div>
@@ -313,7 +313,7 @@ export default function Subscriptions() {
                   >
                     <img src={'/icons/paypal-btn.svg'} alt="" className="h-[25px]" />
                   </button>
-                  <div className="text-center mt-2 text-black-r">
+                  <div className="mt-2 text-center text-black-r">
                     Start Free 7-Day Trial. Then $24.99 per week, billed monthly. Cancel any time, no risk.
                   </div>
                 </div>
@@ -392,25 +392,26 @@ export default function Subscriptions() {
 
 const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, username, Loading, setLoading }) => {
   const [showCreaditCardInput, setShowCreaditCardInput] = useState(false)
+  const {t} = useTransition()
 
   return (<>
     <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[20px] lg:px-[100px] bg-black">
       <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] overflow-auto my-auto 2xl:grid max-h-full lg:mx-auto relative">
         <div className="mb-4 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
-          <div className="">Select Your Account</div>
+          <div className="">{t("Select Your Account")}</div>
           <div className="">{`>`}</div>
-          <div className="text-[#b16cea]">Complete Setup</div>
+          <div className="text-[#b16cea]">{t("Complete registration")}</div>
           <div className="">{`>`}</div>
-          <div className="">Enter Dashboard</div>
+          <div className="">{t("Go to your dashboard")}</div>
         </div>
 
-        <div className="pb-4 hidden lg:flex flex-col justify-between lg:justify-start lg:items-center h-full text-start px-5 lg:px-0">
-          <div className="flex flex-col lg:flex-row gap-5 w-full">
+        <div className="flex-col justify-between hidden h-full px-5 pb-4 lg:flex lg:justify-start lg:items-center text-start lg:px-0">
+          <div className="flex flex-col w-full gap-5 lg:flex-row">
             <div className="basis-[45%] grow-[3] rounded-[20px] flex gap-5 flex-col">
               <div className="rounded-[20px]">
                 <div className="text-start w-full h-[110px] shadow-[0_5px_10px_#0a17530d] rounded-[20px] py-[25px] px-4 lg:px-[50px] relative flex items-center justify-between bg-[#242424]">
                   <div className="w-full max-w-[420px] relative overflow-hidden flex items-center text-start py-5 pr-[30px]">
-                    <div className="w-full flex gap-4 items-center ">
+                    <div className="flex items-center w-full gap-4 ">
                       <div className="h-[60px] relative">
                         <img src={userResults?.profile_pic_url} alt="" className='w-[60px] h-[60px] min-w-[60px] min-h-[60px] rounded-full' />
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
@@ -486,7 +487,7 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                   Then $24.99 per week, billed monthly.
                 </p>
 
-                <div className="flex flex-col gap-4 text-black-r text-base">
+                <div className="flex flex-col gap-4 text-base text-black-r">
                   <div className="flex items-center gap-2">
                     <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
                       <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" _ngcontent-gsj-c72="" aria-hidden="true">
@@ -956,7 +957,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
 
   return (<>
     <div className={`ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm ${mobile ? 'placeholder-[#333]' : 'placeholder-[#757575]'} bg-white text-black font-[500] transition-all duration-280 ease mb-5`} id='num'>
-      <input type="text" className="w-full bg-transparent outline-none border-none" placeholder="Name on Card" value={nameOnCard}
+      <input type="text" className="w-full bg-transparent border-none outline-none" placeholder="Name on Card" value={nameOnCard}
         // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
         onChange={(e) => { setNameOnCard(e.target.value) }} />
       {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
@@ -992,7 +993,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           {/* <label className="ex1-label font-MontserratLight">Card Number</label><i className="ex1-bar"></i> */}
         </div>
 
-        <div className="ex1-fields flex items-center gap-4 mb-5">
+        <div className="flex items-center gap-4 mb-5 ex1-fields">
           <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease">
             <CardExpiry className="ex1-input"
               // onFocus={(e) => { console.log(e) }} onBlur={(e) => { console.log(e) }}
@@ -1024,7 +1025,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         <span> {Loading ? "Processing..." : `${addCard ? "Add Payment Method" : "Pay $0.00 & Start Free Trial"}`}  </span>
       </button>
       {/* {showCardComponent && <></>} */}
-      {Loading && <div className="flex items-center py-3 gap-2 justify-center">
+      {Loading && <div className="flex items-center justify-center gap-2 py-3">
         <AiOutlineLoading3Quarters className="animate-spin" />
         <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#757575] animate-pulse">
           We're processing your request, please wait...

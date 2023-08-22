@@ -7,6 +7,7 @@ import "../../src/modalsettings.css"
 import { supabase } from '../supabaseClient';
 import { FaLock } from 'react-icons/fa';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 axios.defaults.headers.post['accept'] = 'application/json';
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
@@ -14,6 +15,7 @@ axios.defaults.headers.post['x-access-key'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1'
 axios.defaults.headers.post['x-lama-reqid'] = 'e1GKaU1YPsJNZlY1qTyj9i4J4yTIM7r1';
 
 const SettingsModal = (props) => {
+  const { t } = useTranslation()
   const { modalIsOpen, setIsOpen, user, setRefreshUser, u } = props
 
   const [instagramPassword, setInstagramPassword] = useState("");
@@ -104,7 +106,7 @@ const SettingsModal = (props) => {
                   className='w-full text-center bg-transparent outline-none md:w-80 placeholder:text-center'
                   // className='bg-white text-center rounded-[10px] shadow-md w-full placeholder:text-center py-3 outline-none'
                   type={showPassword ? "text" : "password"}
-                  placeholder='Instagram Password'
+                  placeholder={t('Instagram Password')}
                   autoComplete='new-password'
                   value={instagramPassword}
                   onChange={(e) => {
@@ -117,13 +119,13 @@ const SettingsModal = (props) => {
             </div>
 
             <p className="mt-1 text-xs font-normal md:text-sm font-MontserratLight opacity-90">
-              <span className="">Your password is 100% protected and encrypted.</span> <FaLock className='inline' />
+              <span className="">{t("pass_is_protected")}</span> <FaLock className='inline' />
             </p>
           </div>
 
           <div className="w-full">
             <div className="flex flex-col gap-5">
-              <div className="xl:mb-[10px] mt-4 xl:mt-0 text-[18px] xl:font-bold xl:font-MontserratBold">Interaction settings</div>
+              <div className="xl:mb-[10px] mt-4 xl:mt-0 text-[18px] xl:font-bold xl:font-MontserratBold">{t("Interaction settings")}</div>
 
               <div className={`${mode === "auto" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
@@ -132,39 +134,14 @@ const SettingsModal = (props) => {
                   transition: "all .3s linear"
                 }} />
                 <div className="">
-                  <h3 className={`${mode === "auto" ? "text-[18px] lg:text-[24px]" : "text-[16px] lg:text-[18px]"} font-bold font-MontserratBold`}>Auto Mode</h3>
+                  <h3 className={`${mode === "auto" ? "text-[18px] lg:text-[24px]" : "text-[16px] lg:text-[18px]"} font-bold font-MontserratBold`}>{t("Auto Mode")}</h3>
                   <p className={`${mode === "auto" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
-                    This setting will follow and unfollow relevant users using the targets you have selected. We will automatically unfollow users after 3 days to keep your following number low and healthy. We will never unfollow anyone that you manually followed yourself.
+                    {t('auto_mode_text')}
                   </p>
                 </div>
               </div>
-
-              {/* <div className={`hidden ${mode === "follow" ? "border-[4px] border-[#b16cea] h-[270px] sm:h-[200px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
-                transition: 'all .3s ease-in,border .1s ease-in'
-              }} onClick={() => toggleValue("follow")}>
-                <span className={`${mode === "follow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
-                  transition: "all .3s linear"
-                }}>
-                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M10.5985 10.0375C10.9767 9.83438 11.4095 9.71875 11.8704 9.71875H11.872C11.9188 9.71875 11.9407 9.6625 11.9064 9.63125C11.427 9.20106 10.8794 8.85361 10.286 8.60312C10.2798 8.6 10.2735 8.59844 10.2673 8.59531C11.2376 7.89062 11.8688 6.74531 11.8688 5.45312C11.8688 3.3125 10.1376 1.57812 8.00166 1.57812C5.86572 1.57812 4.13604 3.3125 4.13604 5.45312C4.13604 6.74531 4.76729 7.89062 5.73916 8.59531C5.73291 8.59844 5.72666 8.6 5.72041 8.60312C5.02198 8.89844 4.39541 9.32188 3.85635 9.8625C3.3204 10.3975 2.89372 11.0317 2.6001 11.7297C2.31121 12.4132 2.15531 13.1456 2.14073 13.8875C2.14031 13.9042 2.14323 13.9208 2.14933 13.9363C2.15542 13.9518 2.16456 13.966 2.17621 13.9779C2.18786 13.9899 2.20178 13.9993 2.21716 14.0058C2.23253 14.0123 2.24904 14.0156 2.26573 14.0156H3.20166C3.26885 14.0156 3.3251 13.9609 3.32666 13.8938C3.35791 12.6875 3.84073 11.5578 4.69541 10.7016C5.57823 9.81563 6.75323 9.32812 8.00323 9.32812C8.88916 9.32812 9.73916 9.57344 10.472 10.0328C10.4908 10.0446 10.5124 10.0513 10.5346 10.0521C10.5568 10.0529 10.5789 10.0479 10.5985 10.0375ZM8.00323 8.14062C7.2876 8.14062 6.61416 7.86094 6.10635 7.35313C5.8565 7.10392 5.65842 6.80774 5.52354 6.48165C5.38865 6.15557 5.31962 5.80601 5.32041 5.45312C5.32041 4.73594 5.6001 4.06094 6.10635 3.55312C6.6126 3.04531 7.28604 2.76562 8.00323 2.76562C8.72041 2.76562 9.39229 3.04531 9.9001 3.55312C10.15 3.80233 10.348 4.09851 10.4829 4.4246C10.6178 4.75068 10.6868 5.10024 10.686 5.45312C10.686 6.17031 10.4064 6.84531 9.9001 7.35313C9.39229 7.86094 8.71885 8.14062 8.00323 8.14062ZM13.7501 11.8594H12.4376V10.5469C12.4376 10.4781 12.3814 10.4219 12.3126 10.4219H11.4376C11.3688 10.4219 11.3126 10.4781 11.3126 10.5469V11.8594H10.0001C9.93135 11.8594 9.8751 11.9156 9.8751 11.9844V12.8594C9.8751 12.9281 9.93135 12.9844 10.0001 12.9844H11.3126V14.2969C11.3126 14.3656 11.3688 14.4219 11.4376 14.4219H12.3126C12.3814 14.4219 12.4376 14.3656 12.4376 14.2969V12.9844H13.7501C13.8189 12.9844 13.8751 12.9281 13.8751 12.8594V11.9844C13.8751 11.9156 13.8189 11.8594 13.7501 11.8594Z"></path>
-                  </svg>
-                </span>
-                <div className="">
-                  <h3 className={`${mode === "follow" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>Follow Mode</h3>
-                  <p className={`${mode === "follow" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base xl:text-[14px] font-MontserratRegular`} style={{
-                    transition: "all .3s linear .2s"
-                  }}>
-                    In ‘Follow Mode,’ your account will continue following
-                    users until it reaches Instagram's maximum ‘Following’
-                    limit (which is 7500). From there, interactions on our end
-                    will stop and you will have to manually change your
-                    interaction settings to continue experiencing results (to
-                    either ‘Recommended’ or ‘Unfollow Mode’)
-                  </p>
-                </div>
-              </div> */}
 
               <div className={`${mode === "unfollow" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
@@ -177,15 +154,11 @@ const SettingsModal = (props) => {
                   </svg>
                 </span>
                 <div className="">
-                  <h3 className={`${mode === "unfollow" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>Unfollow Mode</h3>
+                  <h3 className={`${mode === "unfollow" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>{t("Unfollow Mode")}</h3>
                   <p className={`${mode === "unfollow" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
-                    In ‘Unfollow Mode,’ your account will unfollow all of the
-                    users we automatically followed for you. This will not
-                    unfollow users that you personally followed, before or
-                    after joining us. If you want to unfollow every account,
-                    please contact your account manager.
+                    {t("unfollow_mode_text")}
                   </p>
                 </div>
               </div>
@@ -201,15 +174,11 @@ const SettingsModal = (props) => {
                   </svg>
                 </span>
                 <div className="">
-                  <h3 className={`${mode === "off" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>Off Mode</h3>
+                  <h3 className={`${mode === "off" ? "text-[18px] lg:text-[24px]" : "text-base lg:text-[18px]"} font-bold font-MontserratBold`}>{t("Off Mode")}</h3>
                   <p className={`${mode === "off" ? "opacity-100" : "opacity-0 max-h-0"} text-[12px] lg:text-base font-MontserratRegular`} style={{
                     transition: "all .3s linear .2s"
                   }}>
-                    In ‘off Mode,’ your account will off all of the
-                    users we automatically followed for you. This will not
-                    off users that you personally followed, before or
-                    after joining us. If you want to off every account,
-                    please contact your account manager.
+                    {t('off_mode_text')}
                   </p>
                 </div>
               </div>
@@ -219,7 +188,7 @@ const SettingsModal = (props) => {
               <button className='rounded-[10px] mx-auto font-MontserratSemiBold font-bold text-base py-4 w-full xl:w-[300px] h-[72px] button-gradient2 text-white' onClick={(e) => {
                 e.preventDefault()
                 !loading && handleSave();
-              }}>{loading ? 'Saving...' : 'Apply and Close'}</button>
+              }}>{loading ? 'Saving...' : t('Apply and Close')}</button>
             </div>
           </div>
         </div>

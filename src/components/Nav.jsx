@@ -7,6 +7,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { FiGrid, FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 export default function Nav({ setShowWelcomeModal, userD, admin }) {
   let { username } = useParams();
@@ -19,6 +20,8 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
   const [pending] = useState(false)
   const [accounts, setAccounts] = useState([])
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -54,6 +57,30 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
     getData();
   }, [currentUsername, userD]);
 
+  const languages = [
+    { value: 'fr', text: "French", flag: '/french_flag.png' },
+    { value: 'en', text: "English", flag: '/british_flag.svg' },
+  ]
+
+  const [lang, setLang] = useState({ value: 'fr', text: "French", flag: '/french_flag.png' });
+  const [showLangOptions, setShowLangOptions] = useState(false)
+
+  useEffect(() => {
+    var urlParams = new URLSearchParams(window.location.search);
+    var lng = urlParams.get('lng');
+    if (lng) {
+      const selectedLang = languages.find(l => l.value === lng)
+      setLang(selectedLang)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
+
+  const handleChange = e => {
+    setLang(e);
+    window.location = `?lng=${e.value}`;
+  }
+
   return (
     <nav className="mb-[30px]" ref={parentRef}>
       <div
@@ -83,6 +110,37 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
           {!admin && <Link className="w-[50px] h-[50px] p-[10px]" to={"/dashboard/" + data?.username + "/manage"}>
             <FiGrid size={30} className="w-[30px] h-[30px]" />
           </Link>}
+
+          <div className="relative text-sm transition-all bg-gray-600 rounded-lg">
+            <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => setShowLangOptions(!showLangOptions)}>
+              <img src={lang.flag} alt={lang.value} className="w-[20px] h-[20px]" />
+              <span className="font-bold capitalize">{lang.value}</span>
+              <FaAngleDown />
+            </div>
+
+            <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 mt-3`}>
+              {languages.map(item => {
+                return (<div
+                  key={`lang-${item.value}`}
+                  value={item.value}
+                  className="flex items-center gap-3 p-1 cursor-pointer hover:bg-gray-700"
+                  onClick={() => {
+                    handleChange(item)
+                    setShowLangOptions(!showLangOptions);
+                  }}>
+                  {item.text}
+                </div>);
+              })}
+            </div>
+          </div>
+
+          {/* <select value={lang} onChange={handleChange} className="bg-[#242424] text-white">
+            {languages.map(item => {
+              return (<option key={`lang-${item.value}`} value={item.value} className="flex items-center gap-3">
+                {item.text}
+              </option>);
+            })}
+          </select> */}
 
           {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
@@ -137,7 +195,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   >
                     <li className={`py-2 px-6 flex items-center gap-3`}>
                       <FiGrid size={32} className="w-[32px] h-[32px]" />
-                      Manage Accounts
+                      {t('Manage Accounts')}
                     </li>
                   </Link>
 
@@ -149,7 +207,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   >
                     <li className={`py-2 px-6 flex items-center gap-3`}>
                       <AiOutlinePlus size={32} className="rounded-full w-[32px] h-[32px]" />
-                      Add Account
+                      {t('Add Account')}
                     </li>
                   </Link>
 
@@ -161,7 +219,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   >
                     <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Settings" ? "bg-activelink" : ""}`}>
                       <AiOutlineSetting size={32} className="rounded-full w-[32px] h-[32px]" />
-                      Settings
+                      {t('Settings')}
                     </li>
                   </Link>
 
@@ -173,7 +231,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   >
                     <li className={`py-2 px-6 flex items-center gap-3 ${activeLink === "Admin" ? "bg-activelink" : ""}`}>
                       <MdAdminPanelSettings size={32} className="rounded-full w-[32px] h-[32px]" />
-                      Admin
+                      {t('Admin')}
                     </li>
                   </Link>}
 
@@ -189,7 +247,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   >
                     <FiLogOut size={32} className="rounded-full w-[32px] h-[32px]" />
                     <p className="text-sm font-normal" >
-                      Log out
+                      {t('Log out')}                      
                     </p>
                   </li>
                 </div>}

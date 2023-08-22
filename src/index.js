@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 /* import "./custom.css"; */
 import App from "./App";
@@ -9,16 +9,19 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; */
 import "./index.css";
 import { ThemeProvider } from "@material-tailwind/react";
+import './i18n.js';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   // <React.StrictMode>
+  <Suspense fallback="Loading...">
     <BrowserRouter>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
+  </Suspense>
   // </React.StrictMode>
 );
 

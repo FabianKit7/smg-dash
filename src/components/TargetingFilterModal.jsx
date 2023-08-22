@@ -7,17 +7,11 @@ import { FaMagic } from "react-icons/fa"
 import "../modalsettings.css"
 import "../MultiRangeSlider.css"
 import { supabase } from "../supabaseClient";
+import { useTranslation } from "react-i18next";
 
 
 export default function TargetingFilterModal(props, { min, max }) {
-  // const stored = {
-  //   followerMin: parseInt(localStorage.getItem('followerMinValue'), 10) || 1,
-  //   followerMax: parseInt(localStorage.getItem('followerMaxValue'), 10) || 20000,
-  //   followingMin: parseInt(localStorage.getItem('followingMinValue'), 10) || 1,
-  //   followingMax: parseInt(localStorage.getItem('followingMaxValue'), 10) || 10000,
-  //   mediaMin: parseInt(localStorage.getItem('mediaMinValue'), 10) || 1,
-  //   mediaMax: parseInt(localStorage.getItem('mediaMaxValue'), 10) || 1000,
-  // }
+  const { t } = useTranslation();
   const { setFilterModal, filtermodal, user, user_id,
     followerMinValued, followerMaxValued, followingMinValued, followingMaxValued, mediaMinValued, mediaMaxValued, margicd, privacyd, genderd, langd } = props;
 
@@ -90,9 +84,9 @@ export default function TargetingFilterModal(props, { min, max }) {
     >
       <Modal.Header id="custom-header" closeButton={false}>
         <div className="flex flex-col">
-          <Modal.Title className="font-bold text-[20px] mb-2 font-MontserratBold">Targeting Filters</Modal.Title>
+          <Modal.Title className="font-bold text-[20px] mb-2 font-MontserratBold">{t("Targeting Filters (beta)")}</Modal.Title>
           <p className="w-full text-sm font-bold font-MontserratRegular">
-            Here you can add preferences for your ideal follower. Before any follow or like we do, target will be checked if it complies to your liking.
+            {t("targeting_filters_text")}
           </p>
         </div>
         <div className="flex justify-end cursor-pointer">
@@ -108,7 +102,7 @@ export default function TargetingFilterModal(props, { min, max }) {
           <div className="grid w-full grid-cols-1 gap-12 p-3 lg:grid-cols-2 font-MontserratRegular">
             <div className="flex flex-col justify-content-between">
               <div className="flex flex-col w-[80%] relative">
-                <label className="text-base font-semibold font-MontserratSemiBold">Followers</label>
+                <label className="text-base font-semibold font-MontserratSemiBold">{t("Followers")}</label>
                 <div className="relative mrslider">
                   <div className={`${margic ? "button-gradient" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
                     <FaMagic className="text-white" />
@@ -132,7 +126,7 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div className="flex flex-col w-[80%]">
-                <label className="mt-4 text-base font-semibold font-MontserratSemiBold">Following</label>
+                <label className="mt-4 text-base font-semibold font-MontserratSemiBold">{t("Followings")}</label>
                 <div className="relative mrslider">
                   <div className={`${margic ? "button-gradient" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
                     <FaMagic className="text-white" />
@@ -179,41 +173,41 @@ export default function TargetingFilterModal(props, { min, max }) {
               <button
                 className={`${margic ? "button-gradient" : "bg-gray-600"} font-MontserratSemiBold w-full mt-5 rounded-[10px] py-4 text-base text-white font-bold`}
                 onClick={() => { setMargic(!margic) }}
-              >Magic Filters: {margic ? 'ON' : 'OFF'}</button>
+              >{t("Magic filters")}: {margic ? 'ON' : 'OFF'}</button>
             </div>
 
             <Col>
               <div>
-                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">Privacy</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label="Privacy"
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">{t("confidentiality")}</label>
+                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label={t("confidentiality")}
                   value={privacy}
                   // defaultValue={privacy}
                   onChange={(e) => {
                     setPrivacy(e.target.value);
                   }}
                 >
-                  <option value="All">All</option>
-                  <option value="Public">Public</option>
-                  <option value="Private">Private</option>
+                  <option value={t("Indifferent")}>{t("Indifferent")}</option>
+                  <option value={t("public")}>{t("public")}</option>
+                  <option value={t("Private")}>{t("Private")}</option>
                 </Form.Select>
               </div>
 
               <div>
-                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">Gender</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label="Gender"
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">{t("gender")}</label>
+                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label={t("gender")}
                   value={gender}
                   onChange={(e) => {
                     setGender(e.target.value);
                   }}
                 >
-                  <option value="All">All</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value={t("Indifferent")}>{t("Indifferent")}</option>
+                  <option value={t("Man")}>{t("Man")}</option>
+                  <option value={t("Women")}>{t("Women")}</option>
                 </Form.Select>
               </div>
 
               <div>
-                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">Language</label>
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">{t("language")}</label>
                 <Form.Select className="shadow-filter rounded-[10px] pl-5" aria-label="Privacy"
                   value={lang}
                   onChange={(e) => {
@@ -221,9 +215,9 @@ export default function TargetingFilterModal(props, { min, max }) {
                   }}
                 >
                   {/* <option>Open this select menu</option> */}
-                  <option value="All">All</option>
-                  <option value="English">English</option>
-                  <option value="French">French</option>
+                  <option value={t("Indifferent")}>{t("Indifferent")}</option>
+                  <option value={t("English")}>{t("English")}</option>
+                  <option value={t("French")}>{t("French")}</option>
                 </Form.Select>
               </div>
 
@@ -231,7 +225,7 @@ export default function TargetingFilterModal(props, { min, max }) {
                 <button className="bg-secondaryblue font-MontserratSemiBold w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold"
                   onClick={handleSaveAndClose}
                 >
-                  Save And Close
+                  {t("Save and Close")}
                 </button>
               </div>
             </Col>

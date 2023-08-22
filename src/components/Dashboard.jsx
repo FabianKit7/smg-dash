@@ -19,6 +19,7 @@ import SettingsModal from './SettingsModal'
 import GrowthChart from "./GrowthChart";
 import ColumnChart from "./ColumnChart";
 import AlertModal from "./AlertModal";
+import { useTranslation } from "react-i18next";
 // import WelcomeModal from "./WelcomeModal";
 
 const Error = ({ value }) => {
@@ -30,6 +31,7 @@ const Error = ({ value }) => {
 };
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   let { username } = useParams();
   const currentUsername = username
   const [userData, setUserData] = useState([]);
@@ -38,7 +40,7 @@ export default function Dashboard() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [sessionsData, setSessionsData] = useState([])
   const [showDateOptions, setShowDateOptions] = useState(false)
-  const [selectedDate, setSelectedDate] = useState({ title: "Last 7 days", value: 7 })
+  const [selectedDate, setSelectedDate] = useState({ title: t('Last 7 days'), value: 7 })
   const [showMobileManager, setShowMobileManager] = useState(false)
   const [mobileAdd, setMobileAdd] = useState({ show: false, pageProp: {} })
   const [chart, setChart] = useState(1)
@@ -247,6 +249,7 @@ export default function Dashboard() {
           user={userData}
           setMobileAdd={setMobileAdd}
           admin={admin}
+          t={t}
         />
       }
 
@@ -309,38 +312,38 @@ export default function Dashboard() {
                   <div
                     className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                     onClick={() => {
-                      setSelectedDate({ title: 'Last 7 days', value: 7 });
+                      setSelectedDate({ title: t('Last 7 days'), value: 7 });
                       setShowDateOptions(false);
                     }}
                   >
-                    Last 7 days
+                    {t('Last 7 days')}
                   </div>
                   <div
                     className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                     onClick={() => {
-                      setSelectedDate({ title: 'Last 30 days', value: 30 });
+                      setSelectedDate({ title: t('Last 30 days'), value: 30 });
                       setShowDateOptions(false);
                     }}
                   >
-                    Last 30 days
+                    {t('Last 30 days')}
                   </div>
                   <div
                     className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                     onClick={() => {
-                      setSelectedDate({ title: 'Last 60 days', value: 60 });
+                      setSelectedDate({ title: t('Last 60 days'), value: 60 });
                       setShowDateOptions(false);
                     }}
                   >
-                    Last 60 days
+                    {t('Last 60 days')}
                   </div>
                   <div
                     className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                     onClick={() => {
-                      setSelectedDate({ title: 'Last 90 days', value: 90 });
+                      setSelectedDate({ title: t('Last 90 days'), value: 90 });
                       setShowDateOptions(false);
                     }}
                   >
-                    Last 90 days
+                    {t('Last 90 days')}
                   </div>
                 </div>
               </div>
@@ -381,38 +384,38 @@ export default function Dashboard() {
               <div
                 className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                 onClick={() => {
-                  setSelectedDate({ title: 'Last 7 days', value: 7 });
+                  setSelectedDate({ title: t('Last 7 days'), value: 7 });
                   setShowDateOptions(false);
                 }}
               >
-                Last 7 days
+                {t('Last 7 days')}
               </div>
               <div
                 className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                 onClick={() => {
-                  setSelectedDate({ title: 'Last 30 days', value: 30 });
+                  setSelectedDate({ title: t('Last 30 days'), value: 30 });
                   setShowDateOptions(false);
                 }}
               >
-                Last 30 days
+                {t('Last 30 days')}
               </div>
               <div
                 className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                 onClick={() => {
-                  setSelectedDate({ title: 'Last 60 days', value: 60 });
+                  setSelectedDate({ title: t('Last 60 days'), value: 60 });
                   setShowDateOptions(false);
                 }}
               >
-                Last 60 days
+                {t('Last 60 days')}
               </div>
               <div
                 className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
                 onClick={() => {
-                  setSelectedDate({ title: 'Last 90 days', value: 90 });
+                  setSelectedDate({ title: t('Last 90 days'), value: 90 });
                   setShowDateOptions(false);
                 }}
               >
-                Last 90 days
+                {t('Last 90 days')}
               </div>
             </div>
           </div>
@@ -490,9 +493,9 @@ export default function Dashboard() {
             </div>
             <div className="py-2 px-3 bg-[#fffbeb] h-full w-full">
               <div className="font-bold text-[.8rem] text-[#ffd12c] md:text-[1.3rem] capitalize font-MontserratBold">
-                Connecting Your Account
+                {t('Connecting Your Account')}
               </div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
+              <p className="font-MontserratSemiBold text-[1.125rem] text-black">{t('connect_your_acc_string1')}</p>
             </div>
             <button
               // className="mt-3 bg-[#ffd12c] text-white rounded-md py-3 text-center w-full font-bold capitalize"
@@ -511,11 +514,9 @@ export default function Dashboard() {
             </div>
             <div className="py-2 px-3 bg-[#ffebf0] h-full w-full">
               <div className="font-bold text-[.8rem] text-[#ff2c55] md:text-[1.3rem] capitalize font-MontserratBold">
-                Connect Your Account
+                {t('Connect Your Account')}
               </div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">Your account is currently not connected to our
-                growth system. To get started, please connect your
-                account now.</p>
+              <p className="font-MontserratSemiBold text-[1.125rem] text-black">{t('connect_your_acc_string2')}</p>
             </div>
             <button
               onClick={() => setIsOpen(true)}
@@ -526,7 +527,7 @@ export default function Dashboard() {
                 color: 'white',
                 // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
               }}
-            >connect account
+            >{t('Connect Account')}
               {message?.text && <span className="absolute w-3 h-3 bg-red-900 rounded-full -top-2 -right-2"></span>}</button>
           </div>}
         </div>
@@ -585,10 +586,10 @@ export default function Dashboard() {
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
               <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
                 <RiUserSettingsFill />
-                Connecting Your Account
+                {t('Connecting Your Account')}
               </div>
               <div className="bg-[#fffbeb] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">Your account is in the process of logging in. please click "This was me" if you see a pop up screen on your Instagram.</p>
+                <p className="font-MontserratSemiBold">{t('connect_your_acc_string1')}</p>
                 <button
                   // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
                   className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize cursor-text"
@@ -606,12 +607,10 @@ export default function Dashboard() {
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
               <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
                 <RiUserSettingsFill />
-                Connect Your Account
+                {t('Connect Your Account')}
               </div>
               <div className="bg-[#ffebf0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">Your account is currently not connected to our
-                  growth system. To get started, please connect your
-                  account now.</p>
+                <p className="font-MontserratSemiBold">{t('connect_your_acc_string2')}</p>
                 <button
                   // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
                   className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize relative"
@@ -622,7 +621,7 @@ export default function Dashboard() {
                   }}
                   onClick={() => setIsOpen(true)}
                 // onClick={() => setOpenCA(true)}
-                >connect account
+                >{t('Connect Account')}
                   {message?.text && <span className="absolute w-3 h-3 bg-red-900 rounded-full -top-2 -right-2"></span>}
                 </button>
               </div>
@@ -674,7 +673,7 @@ export default function Dashboard() {
                           </svg>
                           <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                             transition: 'all .5s ease-in-out',
-                          }}>How your account is currently interacting with new users. You can change this in your interaction settings.</span>
+                          }}>{t('interaction-settings')}</span>
                         </span>
                       </div>
                     </span>
@@ -695,7 +694,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <Starts user={userData} chart={chart} setChart={setChart} totalInteractions={totalInteractions} />
+            <Starts user={userData} chart={chart} setChart={setChart} totalInteractions={totalInteractions} t={t} />
           </div>
         </div>
 
@@ -739,7 +738,7 @@ export default function Dashboard() {
                     </svg>
                     <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
                       transition: 'all .5s ease-in-out',
-                    }}>'Mike', your personal account analyst and growth consultant, who happens to be our most experienced Instagram marketing expert with over 5 years of proficiency. Don't hesitate to contact him for assistance with selecting the best targets, navigating the dashboard, generating content, engaging your followers, and much more. Mike is committed to sharing his knowledge and expertise to help you make the most of your time with us.</span>
+                    }}>{t('analyst_into_popup')}</span>
                   </span>
                 </div>
               </span>
@@ -768,17 +767,17 @@ export default function Dashboard() {
             {showMobileManager && <div className="">
               <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
                 <div className="text-sm font-normal text-black-r font-MontserratRegular">
-                  En tant que consultant en marketing Instagram depuis 2017, mon objectif est de vous aider à atteindre la croissance authentique et ciblée à laquelle vous aspirez. N'hésitez pas à vous renseigner sur le ciblage, les paramètres du compte, la création de contenu et d'autres préoccupations connexes.
+                  {t('analyst_greetings')}
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex flex-col items-center">
                 <Link to="https://calendly.com/sproutysocial/30min" className="bg-[#b16cea] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BsHeadset size={18} className="mr-1" />
-                  <span>Schedule A Call</span>
+                  <span>{t("Schedule A Call")}</span>
                 </Link>
                 <a href="mailto:analyst@sproutysocial.com" className="button-gradient text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BiMessageSquareDots size={18} className="mr-1" />
-                  <span>Send An Email</span>
+                  <span>{t("Send An Email")}</span>
                 </a>
               </div>
             </div>}
@@ -815,7 +814,7 @@ export default function Dashboard() {
                       </svg>
                       <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
                         transition: 'all .5s ease-in-out',
-                      }}>'Mike', your personal account analyst and growth consultant, who happens to be our most experienced Instagram marketing expert with over 5 years of proficiency. Don't hesitate to contact him for assistance with selecting the best targets, navigating the dashboard, generating content, engaging your followers, and much more. Mike is committed to sharing his knowledge and expertise to help you make the most of your time with us.</span>
+                      }}>{t('analyst_into_popup')}</span>
                     </span>
                   </div>
                 </span>
@@ -840,32 +839,32 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="mt-5 text-sm font-normal text-black-r">
-                  En tant que consultant en marketing Instagram depuis 2017, mon objectif est de vous aider à atteindre la croissance authentique et ciblée à laquelle vous aspirez. N'hésitez pas à vous renseigner sur le ciblage, les paramètres du compte, la création de contenu et d'autres préoccupations connexes.
+                  {t('analyst_greetings')}
                 </div>
               </div>
               <div className="mt-[10px] gap-[10px] flex items-center">
                 <Link to="https://calendly.com/sproutysocial/30min" className="bg-[#b16cea] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BsHeadset size={18} className="mr-1" />
-                  <span>Schedule A Call</span>
+                  <span>{t("Schedule A Call")}</span>
                 </Link>
                 <a href="mailto:analyst@sproutysocial.com" className="button-gradient text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
                   <BiMessageSquareDots size={18} className="mr-1" />
-                  <span>Send An Email</span>
+                  <span>{t("Send An Email")}</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
 
-        <TargetingCompt user={userData} setMobileAdd={setMobileAdd} />
+        <TargetingCompt user={userData} setMobileAdd={setMobileAdd} t={t} />
 
-        <WhiteListCompt user={userData} userId={userData?.user_id} setMobileAdd={setMobileAdd} />
+        <WhiteListCompt user={userData} userId={userData?.user_id} setMobileAdd={setMobileAdd} t={t} />
       </>}
     </div>
   );
 }
 
-const Starts = ({ user, setChart, chart, totalInteractions }) => {
+const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
   // console.log(user);
   return (<>
     <div className="mt-4 text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
@@ -877,7 +876,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 1 && ""}`}>Followers</div>
+          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 1 && ""}`}>{t('Followers')}</div>
           <div className="relative flex flex-col items-center justify-between text-center lg:flex-row">
             <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">
               {numFormatter(user.followers)}
@@ -896,7 +895,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
           }}
         >
           <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 2 && ""}`}>
-            Followings
+            {t('Followings')}
           </div>
           <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
             {numFormatter(user.following)}
@@ -911,7 +910,7 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
           }}
         >
           <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 3 && ""}`}>
-            Interactions
+            {t("Interactions")}
           </div>
           <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
             {numFormatter(totalInteractions)}
@@ -922,8 +921,8 @@ const Starts = ({ user, setChart, chart, totalInteractions }) => {
   </>)
 }
 
-const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobileAdd }) => {
-  const buttonText = pageProp.title === 'Targeting' ? 'Add Target' : pageProp.title + " Account"
+const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobileAdd, t }) => {
+  const buttonText = pageProp.title === 'Targeting' ? t('Add Target') : pageProp.title === 'Blacklist' ? "Blacklist Account" : "Whitelist Account"
   const from = (pageProp.title).toLowerCase();
   const [parentRef, isClickedOutside] = useClickOutside();
   const [showResultModal, setShowResultModal] = useState(false)
@@ -1033,10 +1032,10 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
             </div>
             <div className="">
               <div className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r">
-                Add {pageProp.title} {pageProp.title !== "Targeting" && "Accounts"}
+                {pageProp.title !== t("Add Targeting") && t(`Add ${pageProp.title} Accounts`)}
               </div>
               <div className="font-normal text-[14px]">
-                {pageProp.addDescription}
+                {t(pageProp.addDescription)}
               </div>
             </div>
           </div>
@@ -1048,7 +1047,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
           <div className="flex items-center text-base font-medium text-black-r border border-[#ffffff40] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
             <input
               type="text"
-              placeholder="@accountname"
+              placeholder={`@${t('accountname')}`}
               className="w-full bg-transparent border-none outline-none"
               value={debouncedQuery}
               ref={inputRef}
@@ -1168,10 +1167,6 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
               </div>
             })}
           </div>
-
-          {/* {pageProp.title === 'Targeting' && <div className="text-[#ff5e69] cursor-pointer mt-2 ml-5 text-[14px] font-medium font-MontserratSemiBold">
-            Need help picking targets?
-          </div>} */}
         </div>
 
         <button
@@ -1180,7 +1175,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
           style={{ transition: 'background-color .15s ease-in' }}
           onClick={() => add()}
         >
-          {processing ? <span className="animate-pulse">Processing…</span> : buttonText}
+          {processing ? <span className="animate-pulse">Processing…</span> : t(buttonText)}
         </button>
       </div>
     </div>
@@ -1255,9 +1250,9 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
   </>)
 }
 
-const TargetingCompt = ({ user, setMobileAdd }) => {
+const TargetingCompt = ({ user, setMobileAdd, t }) => {
   const userId = user?.user_id
-  const pageProp = { id: 1, title: "Targeting", addDescription: 'Set up your targeting by adding relevant Usernames and Hashtags.' }
+  const pageProp = { id: 1, title: "Targeting", addDescription: t('targeting_text') }
   const [targetingAccounts, setTargetingAccounts] = useState([]);
   const [addSuccess, setAddSuccess] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
@@ -1317,7 +1312,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
         >
           <div className="flex items-center">
             <div className="bg-white text-black font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
-              Targeting
+              {t("Targeting")}
               <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                 {targetingAccounts.length}
               </span>
@@ -1340,14 +1335,14 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>Once you've added your targets, you can monitor their progress and make modifications, as all of them will be displayed here. To achieve maximum outcomes, aim to achieve a follow-back rate of 15% or higher for all targets.</span>
+                  }}>{t('targetting_info')}</span>
                 </span>
               </div>
             </span>
           </div>
 
           <button className="button-gradient text-white font-bold font-MontserratBold text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
-            Targeting Filters
+            {t('Targeting Filters')}
             <img alt="" className="ml-2" src="/ic_filters.svg" />
           </button>
         </div>
@@ -1373,7 +1368,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>Once you've added your targets, you can monitor their progress and make modifications, as all of them will be displayed here. To achieve maximum outcomes, aim to achieve a follow-back rate of 15% or higher for all targets.</span>
+                  }}>{t('targetting_info')}</span>
                 </span>
               </div>
             </span>
@@ -1395,12 +1390,12 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
         <div className="w-full grow lg:w-auto">
           <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[16px] pr-base">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
-              <span className="ml-[60px]">Account</span>
+              <span className="ml-[60px]">{t("Account")}</span>
             </div>
             <div className="w-[35%] md:w-[15%] flex items-center justify-center">
-              Followers
+              {t('Followers')}
             </div>
-            <div className="w-[20%] hidden md:flex items-center justify-end">Added</div>
+            <div className="w-[20%] hidden md:flex items-center justify-end">{t("Added")}</div>
             <div className="w-[4%] md:w-[5%]"></div>
           </div>
 
@@ -1435,6 +1430,7 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
             user={user}
             addSuccess={addSuccess}
             setAddSuccess={setAddSuccess}
+            t={t}
           />
         </div>
       </div>
@@ -1461,9 +1457,9 @@ const TargetingCompt = ({ user, setMobileAdd }) => {
   </>)
 }
 
-const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
+const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
   const [total, setTotal] = useState({ whitelist: 0, blacklist: 0 })
-  const [pageProp, setPageProp] = useState({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue following that were followed by SproutySocial. We will never unfollow anyone you manually followed.' })
+  const [pageProp, setPageProp] = useState({ id: 2, title: "Whitelist", addDescription: 'whitelist_text' })
   const [showPageModal, setShowPageModal] = useState(false)
   const [targetingAccounts, setTargetingAccounts] = useState([]);
   const [addSuccess, setAddSuccess] = useState(false);
@@ -1508,7 +1504,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
               <div className="bg-white text-black font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
                 onClick={() => setShowPageModal(true)}
               >
-                {pageProp.title}
+                {t(pageProp.title)}
                 <span className={`${pageProp.title === "Whitelist" ? "button-gradient" : "bg-[#000]"} text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]`}>
                   {total[(pageProp.title).toLowerCase()]}
                 </span>
@@ -1519,25 +1515,25 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                 transform: 'translteY(8px)',
                 transition: 'opacity .15s ease-in',
               }}>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-white text-black"
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-white text-black hover:bg-black hover:text-white border-b"
                   onClick={() => {
-                    setPageProp({ id: 2, title: "Whitelist", addDescription: 'Add users you wish to continue followingthat were followed by SproutySocial. We will never unfollow anyone you manually followed.' })
+                    setPageProp({ id: 2, title: "Whitelist", addDescription: t('whitelist_text') })
                     setShowPageModal(false)
                   }}>
-                  Whitelist
+                  {t("Whitelist")}
                   <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                     {total?.whitelist}
                   </span>
                   <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
                 </div>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 hover:bg-white text-black"
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-white text-black hover:bg-black hover:text-white"
                   onClick={() => {
                     setPageProp({
-                      id: 3, title: "Blacklist", addDescription: "Blacklist users that you would not like to interact with and we won't follow them when growing your account."
+                      id: 3, title: "Blacklist", addDescription: t('Blacklist_text'),
                     })
                     setShowPageModal(false)
                   }}>
-                  Blacklist
+                  {t("Blacklist")}
                   <span className="bg-[#000] text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                     {total?.blacklist}
                   </span>
@@ -1562,7 +1558,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>{pageProp.title === "Whitelist" ? "If you wish to continue following a user that we automatically followed for you, add them here and we won’t unfollow them. Remember, we will never unfollow anyone you manually followed before or after using our service - this only applies to users we followed for you." : "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."}</span>
+                  }}>{pageProp.title === "Whitelist" ? t('whitelist_info') : t('Blacklist_info')}</span>
                 </span>
               </div>
             </span>
@@ -1572,7 +1568,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
         <div className="lg:hidden mt-[30px] mb-[12px]">
           <div className="flex items-center justify-center gap-[8px]">
             <img alt="" src={`/ic_${(pageProp.title).toLowerCase()}.svg`} className="rounded-[8px]" />
-            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {pageProp.title} </h3>
+            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {t(pageProp.title)} </h3>
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <span
@@ -1590,7 +1586,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
                   </svg>
                   <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
-                  }}>{pageProp.title === "Whitelist" ? "If you wish to continue following a user that we automatically followed for you, add them here and we won’t unfollow them. Remember, we will never unfollow anyone you manually followed before or after using our service - this only applies to users we followed for you." : "Add accounts that you never want us to follow. Our system will ensure to avoid interacting with every user you blacklist."}</span>
+                  }}>{pageProp.title === "Whitelist" ? t('whitelist_info') : t('Blacklist_info')}</span>
                 </span>
               </div>
             </span>
@@ -1621,12 +1617,12 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
         <div className="w-full grow lg:w-auto">
           <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[16px] pr-base">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
-              <span className="ml-[60px]">Account</span>
+              <span className="ml-[60px]">{t("Account")}</span>
             </div>
             <div className="w-[35%] md:w-[15%] flex items-center justify-center">
-              Followers
+              {t("Followers")}
             </div>
-            <div className="w-[20%] hidden md:flex items-center justify-end">Added</div>
+            <div className="w-[20%] hidden md:flex items-center justify-end">{t("Added")}</div>
             <div className="w-[4%] md:w-[5%]"></div>
           </div>
 
@@ -1658,6 +1654,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd }) => {
             user={user}
             addSuccess={addSuccess}
             setAddSuccess={setAddSuccess}
+            t={t}
           />
         </div>
       </div>

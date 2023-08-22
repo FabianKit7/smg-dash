@@ -7,8 +7,10 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { numFormatter, sumTotalInteractions } from "../helpers";
 import { FaUserCog } from "react-icons/fa";
 import SettingsModal from "../components/SettingsModal";
+import { useTranslation } from "react-i18next";
 
 export default function ManageAccounts() {
+    const { t } = useTranslation()
     let { username } = useParams();
     const currentUsername = username
     const navigate = useNavigate()
@@ -38,7 +40,7 @@ export default function ManageAccounts() {
     //             const alreadyExists = totalInteractions.find(a => a.username === account.username)
     //             console.log(alreadyExists);
     //             if (alreadyExists) return;
-                
+
     //             const resData = await supabase
     //                 .from('sessions')
     //                 .select()
@@ -58,11 +60,11 @@ export default function ManageAccounts() {
     //             list.push({ username: account.username, value: sumTotalInteractions(d) });
     //             console.log(list);
     //             // setTotalInteractions(sumTotalInteractions(d))
-                
+
     //         });
     //         console.log(list);
     //         setTotalInteractions(list)
-            
+
     //     }
     //     if (currentUsername) {
     //         fetch()
@@ -70,10 +72,10 @@ export default function ManageAccounts() {
     //         setTotalInteractions(list)
     //     }
     // }, [accounts, currentUsername, totalInteractions])
-    
-    
+
+
     const getTotalInteractions = (username) => {
-        const fetch = async ()=> {
+        const fetch = async () => {
             const resData = await supabase
                 .from('sessions')
                 .select()
@@ -95,7 +97,7 @@ export default function ManageAccounts() {
         }
         fetch()
     }
-    
+
 
 
     return (
@@ -120,35 +122,35 @@ export default function ManageAccounts() {
                             boxShadow: '0 0 3px #ffffff40',
                         }}
                     >
-                        <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Select an account</h1>
+                        <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Select an account")}</h1>
 
                         <div className="flex items-center gap-2 text-base">
                             <BsClock size={25} className="w-[25px] h-[25px]" />
-                            <h3>Stats shown for last 30 days</h3>
+                            <h3>{t("Stats shown for last 30 days")}</h3>
                         </div>
                     </div>
                 </div>
 
-                <div className="relative grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10 m-5 mt-0 items-center">
+                <div className="relative grid items-center grid-cols-1 m-5 mt-0 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10">
                     {accounts.map(account => {
                         return (
                             <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black cursor-pointer z-[5]" onClick={() => {
                                 // navigate("/dashboard/" + account?.username)
                             }}>
-                                <div className="flex lg:flex-col w-full">
-                                    <div className="hidden lg:flex justify-center items-center gap-2">
+                                <div className="flex w-full lg:flex-col">
+                                    <div className="items-center justify-center hidden gap-2 lg:flex">
                                         <img src="/icons/instagram.svg" alt="ig" className="w-[20px] h-[20px] rounded-full" />
                                         <div className="text-[18px] font-bold">Instagram Account</div>
                                     </div>
 
-                                    <div className="flex justify-between lg:justify-center items-center w-full">
+                                    <div className="flex items-center justify-between w-full lg:justify-center">
                                         <div className="flex items-center lg:flex-col gap-[14px]">
                                             <div className="relative w-[54px] h-[54px] lg:w-[160px] lg:h-[160px] lg:mt-10 lg:mx-auto">
                                                 <img src={account?.profile_pic_url} alt="" className="w-full h-full rounded-full p-[3px]" />
                                                 <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-[3px] lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 button-gradient"></div>
                                             </div>
                                             <div className="lg:text-center">
-                                                <div className="lg:hidden flex justify-center items-center gap-2">
+                                                <div className="flex items-center justify-center gap-2 lg:hidden">
                                                     <img src="/icons/instagram.svg" alt="ig" className="w-[20px] h-[20px] rounded-full" />
                                                     <div className="text-[12px] lg:text-[18px] font-bold">Instagram Account</div>
                                                 </div>
@@ -165,19 +167,19 @@ export default function ManageAccounts() {
                                     </div>
                                 </div>
 
-                                <div className="mt-5 flex justify-between items-center text-center w-full">
+                                <div className="flex items-center justify-between w-full mt-5 text-center">
                                     <div className="">
-                                        <div className="text-[14px] lg:text-[16px]">Followers</div>
+                                        <div className="text-[14px] lg:text-[16px]">{t("Followers")}</div>
                                         <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.followers)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
-                                        <div className="text-[14px] lg:text-[16px]">Following</div>
+                                        <div className="text-[14px] lg:text-[16px]">{t("Following")}</div>
                                         <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.following)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
-                                        <div className="text-[14px] lg:text-[16px]">Interactions</div>
+                                        <div className="text-[14px] lg:text-[16px]">{t("Interactions")}</div>
                                         <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold" id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
                                     </div>
                                 </div>
@@ -187,12 +189,12 @@ export default function ManageAccounts() {
 
                     <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black">
                         <div className="relative w-[80px] h-[80px] lg:w-[160px] lg:h-[160px] mx-auto">
-                            <div className="w-full h-full rounded-full bg-black-r text-white-r bg-black text-white grid place-items-center">
+                            <div className="grid w-full h-full text-white bg-black rounded-full bg-black-r text-white-r place-items-center">
                                 <AiOutlinePlus size={50} className="w-[24px] h-[24px] lg:w-[50px] lg:h-[50px]" />
                             </div>
                             <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-2 lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 button-gradient"></div>
                         </div>
-                        <div className="mt-2 lg:mt-[32px] text-[16px] lg:text-[24px] font-bold text-center">Add Account</div>
+                        <div className="mt-2 lg:mt-[32px] text-[16px] lg:text-[24px] font-bold text-center">{t("Add Account")}</div>
                     </Link>
                 </div>
 

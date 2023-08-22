@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import AlertModal from '../AlertModal';
 import axios from 'axios';
 import { getStartingDay } from '../Subscriptions';
+import { useTranslation } from 'react-i18next';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -25,6 +26,7 @@ const urlEncode = function (data) {
 }
 
 export default function OnboardingSearchBox({ user, currentUsername }) {
+  const {t} = useTranslation()
   const [parentRef, isClickedOutside] = useClickOutside();
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [processing, setProcessing] = useState(false);
@@ -238,19 +240,19 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
     <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-black">
       <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] my-auto 2xl:grid max-h-full lg:mx-auto relative rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-[#242424]">
         <div className="absolute -top-10 left-0 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
-          <div className="text-[#b16cea]">Select Your Account</div>
+          <div className="text-[#b16cea]">{t("Select Your Account")}</div>
           <div className="">{`>`}</div>
-          <div className="">Complete Setup</div>
+          <div className="">{t("Complete registration")}</div>
           <div className="">{`>`}</div>
-          <div className="">Enter Dashboard</div>
+          <div className="">{t("Go to your dashboard")}</div>
         </div>
 
-        <div className="pb-4 flex flex-col justify-between lg:justify-center lg:items-center h-full text-start lg:text-center px-5 lg:px-0">
+        <div className="flex flex-col justify-between h-full px-5 pb-4 lg:justify-center lg:items-center text-start lg:text-center lg:px-0">
           <div className="block lg:flex flex-col lg:justify-center lg:items-center pb-[80px]">
-            <h1 className='font-bold text-black-r font-MontserratBold text-[26px] pb-3'>Search your account</h1>
-            <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>Find your Instagram account and start growing followers with <br className='hidden lg:block' /> Sprouty Social</p>
+            <h1 className='font-bold text-black-r font-MontserratBold text-[26px] pb-3'>{t("Search your account")}</h1>
+            <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>{t("search_acc_text")} <br className='hidden lg:block' /> Propulse</p>
 
-            <div className="lg:block flex flex-col justify-between mt-3">
+            <div className="flex flex-col justify-between mt-3 lg:block">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
                 <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-all duration-300 ease-in`}>
                   {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#ffffff40] bg-[#f8f8f8] text-black`}>
@@ -276,8 +278,8 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                   {!selected && <div className={`p-5 h-full flex items-center border border-black text-black-r rounded-[10px]`}>
                     <input
                       type="text"
-                      className="w-full outline-none placeholder-white bg-transparent"
-                      placeholder="@username"
+                      className="w-full placeholder-white bg-transparent outline-none"
+                      placeholder={`@${t("username")}`}
                       value={debouncedQuery}
                       ref={inputRef}
                       onChange={(e) => {
@@ -298,7 +300,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                 </div>
 
                 {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border borderD-[#ff5e69] rounded-md bg-black py-3 px-4 flex flex-col gap-4">
-                  {debouncedQuery && <div className="flex items-center gap-2 border-b pb-2 cursor-pointer"
+                  {debouncedQuery && <div className="flex items-center gap-2 pb-2 border-b cursor-pointer"
                     onClick={async () => {
                       setProcessing(true)
                       const a = await getAccount(debouncedQuery)
@@ -316,7 +318,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                       setShowResultModal(false);
                     }}
                   >
-                    <div className="p-3 rounded-full bg-white text-black">
+                    <div className="p-3 text-black bg-white rounded-full">
                       <FaUser size={14} />
                     </div>
                     <div className="">
@@ -360,17 +362,17 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                 <button className={`${selected ? 'button-gradient2' : 'bg-[#C4C4C4]'} hidden lg:block mt-[40px] w-full lg:w-[350px] h-[60px] py-[15px] rounded-[10px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
                   onClick={() => { (selected && !processing) && handleSubmit() }}
                 >
-                  {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>Select Account <FaAngleRight size={25} /></div>}
+                  {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>{t("Select Account")} <FaAngleRight size={25} /></div>}
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="fixed bottom-6 left-0 w-full px-5">
+          <div className="fixed left-0 w-full px-5 bottom-6">
             <button className={`${selected ? 'button-gradient2' : 'bg-[#C4C4C4]'} lg:hidden w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
               onClick={() => { (selected && !processing) && handleSubmit() }}
             >
-              {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>Select Account <FaAngleRight size={20} /></div>}
+              {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>{t("Select Account")} <FaAngleRight size={20} /></div>}
             </button>
           </div>
         </div>
