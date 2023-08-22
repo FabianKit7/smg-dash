@@ -7,6 +7,7 @@ import Nav from "../Nav";
 import ChangeModal from "./ChangeModal";
 import axios from "axios";
 import InfiniteRangeSlider from "../InfiniteRangeSlider";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -22,6 +23,7 @@ const urlEncode = function (data) {
 
 export default function Settings() {
   let { username } = useParams();
+  const { t } = useTranslation();
   const currentUsername = username
   const navigate = useNavigate()
   const [user, setUser] = useState()
@@ -89,17 +91,17 @@ export default function Settings() {
               boxShadow: '0 0 3px #ffffff40',
             }}
           >
-            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Profile settings</h1>
+            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Profile settings")}</h1>
 
             <div className="flex items-center gap-2 text-base cursor-pointer" onClick={() => navigate(-1)}>
-              <h3>Close</h3>
+              <h3>{t("Close")}</h3>
               <FaTimes size={18} />
             </div>
           </div>
 
           <div className="md:px-10">
             <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-              <div className="mb-2 border-b md:mb-0 md:border-b-0">Full Name</div>
+              <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Full Name")}</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">{user?.full_name}</div>
                 <div className="text-[#b16cea] cursor-pointer"
@@ -108,11 +110,11 @@ export default function Settings() {
                     setRefresh(!refresh)
                     setModalToShow('fullname');
                   }}
-                >Change</div>
+                >{t("Change")}</div>
               </div>
             </div>
             <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-              <div className="mb-2 border-b md:mb-0 md:border-b-0">Email</div>
+              <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Email")}</div>
               <div className="flex flex-col md:flex-row md:items-center md:gap-3">
                 <div className="text-[#757575]">{user?.email}</div>
                 <div className="text-[#b16cea] cursor-pointer"
@@ -121,11 +123,11 @@ export default function Settings() {
                     setRefresh(!refresh)
                     setModalToShow('email');
                   }}
-                >Change</div>
+                >{t("Change")}</div>
               </div>
             </div>
             <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-              <div className="mb-2 border-b md:mb-0 md:border-b-0">Password</div>
+              <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Password")}</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">************</div>
                 <div className="text-[#b16cea] cursor-pointer"
@@ -134,11 +136,11 @@ export default function Settings() {
                     setRefresh(!refresh)
                     setModalToShow('password');
                   }}
-                >Change</div>
+                >{t("Change")}</div>
               </div>
             </div>
             <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-              <div className="mb-2 border-b md:mb-0 md:border-b-0">Phone number</div>
+              <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Phone number")}</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">{user?.phone}</div>
                 <div className="text-[#b16cea] cursor-pointer"
@@ -147,7 +149,7 @@ export default function Settings() {
                     setRefresh(!refresh)
                     setModalToShow('phone');
                   }}
-                >Change</div>
+                >{t("Change")}</div>
               </div>
             </div>
             {/* <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
@@ -168,13 +170,13 @@ export default function Settings() {
                 boxShadow: '0 0 3px #ffffff40',
               }}
             >
-              <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Payment and Billing Settings</h1>
+              <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Payment and Billing Settings")}</h1>
             </div>
 
             {/* payment and billing settings */}
             <div className="md:px-10">
               <div className="flex flex-col md:flex-row justify-between md:items-center md:h-[70px] text-[18px] mb-3 md:mb-0">
-                <div className="mb-2 border-b md:mb-0 md:border-b-0">Credit Card</div>
+                <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Credit Card")}</div>
 
                 <div className="flex items-center justify-between gap-3 md:justify-end">
                   <div className="text-[#757575] flex items-center gap-3">
@@ -182,7 +184,7 @@ export default function Settings() {
                     {chargebeeCustomerData?.card?.card_type === 'mastercard' && <img src="/icons/mastercard.svg" alt="visa" className="w-[36px] h-fit" />}
                     {chargebeeCustomerData?.card?.card_type === 'maestro' && <img src="/icons/maestro.svg" alt="visa" className="w-[36px] h-fit" />}
                     {!(['visa', 'mastercard', 'maestro'].includes(chargebeeCustomerData?.card?.card_type)) && <>({chargebeeCustomerData?.card?.card_type})</>}
-                    <span className="">card ending with {chargebeeCustomerData?.card?.last4}</span>
+                    <span className="">{t("card ending with")} {chargebeeCustomerData?.card?.last4}</span>
                   </div>
                   <div className="text-[#b16cea] cursor-pointer"
                     onClick={() => {
@@ -190,7 +192,7 @@ export default function Settings() {
                       setRefresh(!refresh)
                       setModalToShow('updatePayment');
                     }}
-                  >Update</div>
+                  >{t("Update")}</div>
                 </div>
               </div>
             </div>
@@ -206,10 +208,10 @@ export default function Settings() {
               boxShadow: '0 0 3px #ffffff40',
             }}
           >
-            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">Accounts</h1>
+            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Accounts")}</h1>
             <Link to={`/search/?username=add_account`}
               className="px-[32px] md:h-[52px] py-2 md:py-0 text-sm md:text-base mt-2 md:mt-0 w-full md:w-fit grid place-items-center whitespace-nowrap rounded-[10px] button-gradient text-white font-bold"
-            >Add Account</Link>
+            >{t("Add Account")}</Link>
           </div>
 
           {/* payment and billing settings */}
@@ -264,17 +266,18 @@ export default function Settings() {
               onClick={() => {
                 setCancelModal(false)
               }} />
-            <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold text-[#333]">Submit your cancellation request</h1>
+            <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold text-[#333]">{t("cancel_sub_title")}</h1>
             <div className="text-[.8rem] md:text-base">
               <p className="text-center">
-                All cancellations requests have to be processed by our support team. Please request a cancellation and provide us with your reason for cancelling by emailing <a href="mailto:support@sproutysocial.com" className="text-blue-500">support@sproutysocial.com</a>. We appreciate your feedback and are always looking to improve
+                {t("cancel_sub_text1a")} <a href="mailto:support@propulse.me" className="text-blue-500">support@propulse.me</a>. 
+                {t("cancel_sub_text1b")}
               </p>
               <br />
               <p className="text-center">
-                Our expert account managers are always on standby and ready to help. If you are not getting results, or need help, schedule a time to speak with our expert team who can help you reach your full instagram growth potential.
+                {t("cancel_sub_text2")}
               </p>
             </div>
-            <a href="mailto:support@sproutysocial.com" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
+            <a href="mailto:support@propulse.me" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
               <BsFillEnvelopeFill />
               Send an email
             </a>

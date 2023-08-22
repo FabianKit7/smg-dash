@@ -758,7 +758,7 @@ export default function Dashboard() {
                     <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
                   </div>
                   <div className="text-base font-normal">
-                    Personal Account Analyst
+                    {t("Personal Account Analyst")}
                   </div>
                 </div>
               </div>
@@ -834,7 +834,7 @@ export default function Dashboard() {
                       Mathieu P
                     </div>
                     <div className="text-base font-normal">
-                      Personal Account Analyst
+                      {t("Personal Account Analyst")}
                     </div>
                   </div>
                 </div>

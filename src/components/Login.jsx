@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { getUser } from "../helpers";
 import { supabase } from "../supabaseClient";
 import AlertModal from "./AlertModal";
+import { useTranslation } from "react-i18next";
 // import { BsFacebook } from "react-icons/bs";
 
 export default function Login() {
+  const {t} = useTranslation()
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -118,26 +120,22 @@ export default function Login() {
     />
 
     <div id="affiliateScript"></div>
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
       <div className="p-5 md:p-10 md:shadow-lg rounded-[10px] w-full md:w-[458px]">
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
           {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
           <div className="font-MADEOKINESANSPERSONALUSE text-[28px]">
-            <div className="hidden md:flex items-center gap-2">
+            <div className="items-center hidden gap-2 md:flex">
               <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
               <b className="text-[32px]">Propulse</b>
             </div>
-            {/* <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" /> */}
-            {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
-            {/* <strong className="text-[25px] text-left">SPROUTYSOCIAL</strong> */}
           </div>
-          {/* <hr className="mb-7 w-full border-[#ef5f3c]" /> */}
 
-          <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratSemiBold mt-[30px]">Welcome Back</h5>
-          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <span className="font-bold">followers</span> every month.</p>
+          <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratSemiBold mt-[30px]">{t("Welcome Back")}</h5>
+          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">{t("Start growing")} <span className="font-bold">{t("~1-10k")}</span> {t("real and targeted Instagram")} <span className="font-bold">{t("followers")}</span> {t("every month")}.</p>
         </div>
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleLogin}>
-          <div className="form-outline mb-3 font-MontserratRegular">
+          <div className="mb-3 form-outline font-MontserratRegular">
             <input
               type="email"
               id="form2Example1"
@@ -179,7 +177,7 @@ export default function Login() {
 
         {/* login with oAuth */}
 
-        {/* <div className="hidden del-flex justify-center items-center relative my-8">
+        {/* <div className="relative items-center justify-center hidden my-8 del-flex">
           <hr className="w-full" />
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black-r">OR</div>
         </div>

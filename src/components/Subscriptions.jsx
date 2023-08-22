@@ -439,9 +439,9 @@ const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, use
                     {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-white text-[#242424]" onClick={() => { setShowCreaditCardInput(false) }}>
                       <FaAngleLeft className="font-semibold" />
                     </div>}
-                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black-r font-MontserratBold">Payment method</h1>
+                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black-r font-MontserratBold">{t("Payment method")}</h1>
                   </div>
-                  <p className="pt-2 pb-4 text-sm font-MontserratRegular text-start">You may cancel during your free trial and won't be billed, no risk.</p>
+                  <p className="pt-2 pb-4 text-sm font-MontserratRegular text-start">{t("payment_method_text")}</p>
 
                   {!showCreaditCardInput && <div className="flex flex-col gap-4 mb-4">
                     <div className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#b16cea] text-white flex items-center justify-center gap-2" onClick={() => { setShowCreaditCardInput(true) }}>

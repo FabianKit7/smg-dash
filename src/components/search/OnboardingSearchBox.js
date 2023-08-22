@@ -323,7 +323,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                     </div>
                     <div className="">
                       <div className="flex">{debouncedQuery}</div>
-                      <div className="flex mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
+                      <div className="flex mt-1 opacity-40 text-[.9rem]">{t("click here to open account profile")}</div>
                     </div>
                   </div>}
                   {searchedAccounts.map((data, index) => {
@@ -362,7 +362,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                 <button className={`${selected ? 'button-gradient2' : 'bg-[#C4C4C4]'} hidden lg:block mt-[40px] w-full lg:w-[350px] h-[60px] py-[15px] rounded-[10px] text-[1.125rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
                   onClick={() => { (selected && !processing) && handleSubmit() }}
                 >
-                  {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>{t("Select Account")} <FaAngleRight size={25} /></div>}
+                  {processing ? <span className="animate-pulse">{t("Processing your account")}…</span> : <div className='flex items-center justify-center gap-2'>{t("Select Account")} <FaAngleRight size={25} /></div>}
                 </button>
               </div>
             </div>
@@ -372,7 +372,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
             <button className={`${selected ? 'button-gradient2' : 'bg-[#C4C4C4]'} lg:hidden w-full lg:w-[350px] h-[50px] py-[15px] rounded-[10px] text-[.8rem] font-semibold text-white ${processing && 'cursor-wait bg-[#ffa58e]'}`}
               onClick={() => { (selected && !processing) && handleSubmit() }}
             >
-              {processing ? <span className="animate-pulse">Processing your account…</span> : <div className='flex items-center justify-center gap-2'>{t("Select Account")} <FaAngleRight size={20} /></div>}
+              {processing ? <span className="animate-pulse">{t("Processing your account")}…</span> : <div className='flex items-center justify-center gap-2'>{t("Select Account")} <FaAngleRight size={20} /></div>}
             </button>
           </div>
         </div>
