@@ -3,7 +3,7 @@ import axios from "axios"
 import _ from 'lodash';
 // import { slackClient } from "./slackClient";
 import { supabase } from "./supabaseClient"
-const scraperAPI = "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile"
+import { SCRAPER_API_URL, X_RAPID_API_HOST, X_RAPID_API_KEY } from "./config";
 
 export const numFormatter = (num = 0) => {
   if (num > 999 && num <= 999949) {
@@ -130,11 +130,11 @@ export const countDays = (day) => {
 export const getAccount = async (account) => {
   const options = {
     method: "GET",
-    url: scraperAPI,
+    url: SCRAPER_API_URL,
     params: { ig: account, response_type: "short", corsEnabled: "true" },
     headers: {
-      "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-      "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+      "X-RapidAPI-Key": X_RAPID_API_KEY,
+      "X-RapidAPI-Host": X_RAPID_API_HOST,
     },
   }
 
@@ -146,12 +146,12 @@ export const getAccount = async (account) => {
 export const searchAccount = _.memoize(async (username) => {
   const options = {
     method: "GET",
-    url: scraperAPI,
+    url: SCRAPER_API_URL,
     // params: { ig: username, response_type: "search", corsEnabled: "true", storageEnabled: "true" },
     params: { ig: username, response_type: "search", corsEnabled: "true" },
     headers: {
-      "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-      "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+      "X-RapidAPI-Key": X_RAPID_API_KEY,
+      "X-RapidAPI-Host": X_RAPID_API_HOST,
     },
   }
 
@@ -217,8 +217,8 @@ export async function instabulkProfileAPI(ig) {
       url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
       params,
       headers: {
-        "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-        "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+        "X-RapidAPI-Key": X_RAPID_API_KEY,
+        "X-RapidAPI-Host": X_RAPID_API_HOST,
       },
     };
     return await axios.request(options);
@@ -231,11 +231,11 @@ export const totalLikes = (name) => {
   try {
     const options = {
       method: "GET",
-      url: scraperAPI,
+      url: SCRAPER_API_URL,
       params: { ig: name, response_type: "feeds" },
       headers: {
-        "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-        "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+        "X-RapidAPI-Key": X_RAPID_API_KEY,
+        "X-RapidAPI-Host": X_RAPID_API_HOST,
       },
     }
 

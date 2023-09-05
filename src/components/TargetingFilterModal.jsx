@@ -34,17 +34,17 @@ export default function TargetingFilterModal(props, { min, max }) {
         .select()
         .eq("user_id", user?.user_id).eq("username", user?.username).order('created_at', { ascending: false })
 
-      setFollowerMinValue(data?.[0]?.targetingFilter.followersMin);
-      setFollowerMaxValue(data?.[0]?.targetingFilter.followersMax);
-      setFollowingMinValue(data?.[0]?.targetingFilter.followingMin);
-      setFollowingMaxValue(data?.[0]?.targetingFilter.followingMax);
-      setMediaMinValue(data?.[0]?.targetingFilter.mediaMin);
-      setMediaMaxValue(data?.[0]?.targetingFilter.mediaMax);
+      setFollowerMinValue(data?.[0]?.targetingFilter?.followersMin);
+      setFollowerMaxValue(data?.[0]?.targetingFilter?.followersMax);
+      setFollowingMinValue(data?.[0]?.targetingFilter?.followingMin);
+      setFollowingMaxValue(data?.[0]?.targetingFilter?.followingMax);
+      setMediaMinValue(data?.[0]?.targetingFilter?.mediaMin);
+      setMediaMaxValue(data?.[0]?.targetingFilter?.mediaMax);
 
-      setMargic(data?.[0]?.targetingFilter.margicFilter || true);
-      setPrivacy(data?.[0]?.targetingFilter.privacy || 'All');
-      setGender(data?.[0]?.targetingFilter.gender || 'All');
-      setLang(data?.[0]?.targetingFilter.lang || 'All');
+      setMargic(data?.[0]?.targetingFilter?.margicFilter || true);
+      setPrivacy(data?.[0]?.targetingFilter?.privacy || 'All');
+      setGender(data?.[0]?.targetingFilter?.gender || 'All');
+      setLang(data?.[0]?.targetingFilter?.lang || 'All');
       error && console.log(error);
     }
     if (user_id) {

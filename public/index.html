@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -35,30 +35,13 @@
     -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/datepicker.min.js"></script>
-    <!-- <script src="https://js.chargebee.com/v2/chargebee.js"></script> -->
-    <!-- <script>
-      Chargebee.init({
-        // site: 'Sprouty social', // 'your-site'
-        // publishableKey: 'live_JtEKTrE7pAsvrOJar1Oc8zhdk5IbvWzE' // 'your-publishable-key'
-        site: "honeycomics-v3-test",
-        publishableKey: "test_qoH22RugUvm5IcxoqUD5Svdcu9mX5figf"
-      })
-      console.log(Chargebee);
-    </script> -->
-    <!-- <script src="https://script.tapfiliate.com/tapfiliate.js" type="text/javascript" async></script>
-    <script type="text/javascript">
-      (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-      tap('create', '40122-96e787', { integration: "javascript" });
-      tap('detect');
-    </script> -->
 
     <script src="https://script.tapfiliate.com/tapfiliate.js" type="text/javascript" async></script>
     <script type="text/javascript">
       (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){
       (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
 
-      tap('create', '40122-96e787', { integration: "javascript" });
+      tap('create', 'YOUR_ACCOUNT_ID', { integration: "javascript" });
       tap('detect', {cookie_domain: '.sproutysocial.com'});
     </script>
 

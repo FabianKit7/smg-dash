@@ -9,6 +9,7 @@ import { supabase } from "../supabaseClient";
 import { useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { useClickOutside } from "react-click-outside-hook";
+import { LangSwitcher } from "./Login";
 
 export default function Search() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -46,8 +47,12 @@ export default function Search() {
 
     <div className="bg-black text-[#757575]-r text-white relative">
       <div className="max-w-[1600px] mx-auto ">
-        <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer">
-          <div className="flex items-center gap-3" onClick={() => {
+        <div className="hidden absolute top-[14px] right-[14px] z-[1] bg-[#242424] rounded-[30px] lg:flex">
+          <LangSwitcher />
+
+          <div className="w-1 my-auto h-[20px] mr-3 bg-white border-2 border-white"></div>
+
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => {
             setShowMenu(!showMenu);
           }}>
             <span className=""> {user?.full_name} </span>
@@ -65,17 +70,20 @@ export default function Search() {
           <div className="flex">
             <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
           </div>
-          <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
-            <div className={`w-[32px] h-[32px] rounded-full button-gradient text-white grid place-items-center cursor-pointer`} onClick={() => {
-              setShowMenu(!showMenu);
-            }}>
-              <span className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}>{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+          <div className="flex items-center">
+            <LangSwitcher />
+            <div className={`${showMenu && ' border-red-300'} border-2 rounded-full`}>
+              <div className={`w-[32px] h-[32px] rounded-full button-gradient text-white grid place-items-center cursor-pointer`} onClick={() => {
+                setShowMenu(!showMenu);
+              }}>
+                <span className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}>{user?.full_name && (user?.full_name)?.charAt(0)}</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 left-0 w-full h-screen z-10`}>
-          <div className="absolute top-0 left-0 w-full h-screen bg-black/0 z-10 cursor-pointer" onClick={() => {
+          <div className="absolute top-0 left-0 z-10 w-full h-screen cursor-pointer bg-black/0" onClick={() => {
             setShowMenu(!showMenu);
           }}></div>
           <div className={`${!showMenu && 'opacity-0 pointer-events-none hidden'} absolute top-0 lg:top-14 z-10 left-5 lg:left-[unset] right-5 bg-black w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`} ref={parentRef} tabIndex={0}>

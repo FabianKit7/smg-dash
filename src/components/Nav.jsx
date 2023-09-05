@@ -8,6 +8,7 @@ import { FiGrid, FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import { LOGO } from "../config";
 
 export default function Nav({ setShowWelcomeModal, userD, admin }) {
   let { username } = useParams();
@@ -62,7 +63,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
     { value: 'en', text: "English", flag: '/british_flag.svg' },
   ]
 
-  const [lang, setLang] = useState({ value: 'fr', text: "French", flag: '/french_flag.png' });
+  const [lng, setLang] = useState({ value: 'fr', text: "French", flag: '/french_flag.png' });
   const [showLangOptions, setShowLangOptions] = useState(false)
 
   useEffect(() => {
@@ -72,13 +73,14 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
       const selectedLang = languages.find(l => l.value === lng)
       setLang(selectedLang)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
 
   const handleChange = e => {
     setLang(e);
     window.location = `?lng=${e.value}`;
+    setShowLangOptions(false)
   }
 
   return (
@@ -90,7 +92,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
           <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
             <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
             <div className="items-center hidden gap-2 md:flex">
-              <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
+              <img src={LOGO} alt="" className="w-[38px] h-[34.26px]" />
               <b className="text-[32px]">Propulse</b>
             </div>
           </div>
@@ -113,15 +115,15 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
 
           <div className="relative text-sm transition-all bg-gray-600 rounded-lg">
             <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => setShowLangOptions(!showLangOptions)}>
-              <img src={lang.flag} alt={lang.value} className="w-[20px] h-[20px]" />
-              <span className="font-bold capitalize">{lang.value}</span>
+              <img src={lng.flag} alt={lng.value} className="w-[20px] h-[20px]" />
+              <span className="font-bold capitalize">{lng.value}</span>
               <FaAngleDown />
             </div>
 
             <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 mt-3`}>
               {languages.map(item => {
                 return (<div
-                  key={`lang-${item.value}`}
+                  key={`lng-${item.value}`}
                   value={item.value}
                   className="flex items-center gap-3 p-1 cursor-pointer hover:bg-gray-700"
                   onClick={() => {
@@ -134,9 +136,9 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
             </div>
           </div>
 
-          {/* <select value={lang} onChange={handleChange} className="bg-[#242424] text-white">
+          {/* <select value={lng} onChange={handleChange} className="bg-[#242424] text-white">
             {languages.map(item => {
-              return (<option key={`lang-${item.value}`} value={item.value} className="flex items-center gap-3">
+              return (<option key={`lng-${item.value}`} value={item.value} className="flex items-center gap-3">
                 {item.text}
               </option>);
             })}
@@ -247,7 +249,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   >
                     <FiLogOut size={32} className="rounded-full w-[32px] h-[32px]" />
                     <p className="text-sm font-normal" >
-                      {t('Log out')}                      
+                      {t('Log out')}
                     </p>
                   </li>
                 </div>}

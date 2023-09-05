@@ -12,6 +12,7 @@ import AlertModal from '../AlertModal';
 import axios from 'axios';
 import { getStartingDay } from '../Subscriptions';
 import { useTranslation } from 'react-i18next';
+import { X_RAPID_API_HOST, X_RAPID_API_KEY } from '../../config';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -98,8 +99,8 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
         url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
         params,
         headers: {
-          "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-          "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+          "X-RapidAPI-Key": X_RAPID_API_KEY,
+          "X-RapidAPI-Host": X_RAPID_API_HOST,
         },
       };
       const userResults = await Axios.request(options);
@@ -248,7 +249,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
         </div>
 
         <div className="flex flex-col justify-between h-full px-5 pb-4 lg:justify-center lg:items-center text-start lg:text-center lg:px-0">
-          <div className="block lg:flex flex-col lg:justify-center lg:items-center pb-[80px]">
+          <div className="block lg:flex flex-col lg:justify-center lg:items-center pt-6 md:pt-0 pb-[80px]">
             <h1 className='font-bold text-black-r font-MontserratBold text-[26px] pb-3'>{t("Search your account")}</h1>
             <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>{t("search_acc_text")} <br className='hidden lg:block' /> Propulse</p>
 

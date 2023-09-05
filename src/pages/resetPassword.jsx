@@ -20,25 +20,12 @@ export default function ResetPassword() {
         if (error) alert("There was an error updating your password.")
     }
 
-//     useEffect(() => {
-//     const scriptText = `
-//       (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){ (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
-
-//       tap('create', '40122-96e787', { integration: "javascript" });
-//       tap('detect');
-//     `
-//     const script = document.createElement('script');
-//     script.type = "text/javascript"
-//     script.innerHTML = scriptText
-//     document.querySelector('#affiliateScript').appendChild(script)
-//   }, [])
-
     return (<>
         <div id="affiliateScript"></div>
 
-        <div className="flex flex-col justify-center items-center h-screen">
-            <div className="p-5 shadow-lg rounded-lg">
-                <div className="flex flex-col justify-center items-center pb-10">
+        <div className="flex flex-col items-center justify-center h-screen">
+            <div className="p-5 rounded-lg shadow-lg">
+                <div className="flex flex-col items-center justify-center pb-10">
                     {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
                     <div className="font-MADEOKINESANSPERSONALUSE text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
                     <hr className="mb-7 w-full border-[#ef5f3c]" />
@@ -47,7 +34,7 @@ export default function ResetPassword() {
                     <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333] max-w-[320px]">Enter your new password below to reset your password.</p>
                 </div>
                 <form action="" className="flex flex-col items-center justify-start" onSubmit={handleResetPassword}>
-                    <div className="form-outline mb-4">
+                    <div className="mb-4 form-outline">
                         <input
                             type="password"
                             id="form2Example2"
@@ -58,7 +45,7 @@ export default function ResetPassword() {
                             required
                         />
                     </div>
-                    <div className="form-outline mb-4">
+                    <div className="mb-4 form-outline">
                         <input
                             type="password"
                             id="form2Example2"

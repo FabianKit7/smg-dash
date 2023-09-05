@@ -1,4 +1,11 @@
 
+export const LOGO = "/logo.png";
+
+export const SCRAPER_API_URL = process.env.REACT_APP_SCRAPER_API_URL
+export const X_RAPID_API_KEY = process.env.REACT_APP_X_RAPID_API_KEY
+export const X_RAPID_API_HOST = process.env.REACT_APP_X_RAPID_API_HOST
+
+
 // email templates
 export const INCORRECT_PASSWORD_TEMPLATE = (full_name, username) => {
     return `
@@ -26,73 +33,6 @@ do not hesitate to contact us at support@sproutysocial.com.</span></p>
 </div>
 `
 }
-
-// export const TWO_FACTOR_TEMPLATE = (full_name, username) => {
-//     return `
-// <div>
-// <p class="MsoNormal"><span lang="EN">Hey <b>${full_name}</b>,</span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">We regret to inform you that your account @<b>${username}</b>
-// has two-factor authentication enabled, which is currently preventing us from
-// accessing the necessary information to initiate our service. We understand the
-// importance of account security, and we want to assure you that your account's
-// safety is our utmost priority.</span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">In order for our team to proceed with logging
-// into your account and commencing the service, we kindly request you to
-// temporarily disable the two-factor authentication feature. To do so, please
-// follow these steps:</span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">Access your Instagram account.</span></p>
-
-// <p class="MsoNormal"><span lang="EN">Navigate to the "Settings" section.</span></p>
-
-// <p class="MsoNormal"><span lang="EN">Locate and select the "Security"
-// option.</span></p>
-
-// <p class="MsoNormal"><span lang="EN">Find the "Two-Factor Authentication"
-// settings.</span></p>
-
-// <p class="MsoNormal"><span lang="EN">Disable the two-factor authentication feature.</span></p>
-
-// <p class="MsoNormal"><span lang="EN">Once the two-factor authentication is
-// disabled, our team will be able to log into your account within the next 24
-// hours to initiate the requested service. We assure you that all necessary
-// precautions will be taken to safeguard your account and ensure its security
-// throughout the process.</span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">After completing the steps above we kindly
-// request you to attempt re-logging into your dashboard by following this <a href="http://app.sproutysocial.com"><span style="color:#1155CC">link</span></a></span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">If you have any concerns or require further
-// assistance, please do not hesitate to reach out to us at
-// support@sproutysocial.com. Our dedicated support team is ready to assist you.</span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">Thank you for your cooperation.</span></p>
-
-// <p class="MsoNormal"><span lang="EN"><o:p>&nbsp;</o:p></span></p>
-
-// <p class="MsoNormal"><span lang="EN">Kind regards,</span></p>
-
-// <p class="MsoNormal"><span class="SpellE"><span lang="EN">SproutySocial</span></span><span lang="EN"> Team</span></p>
-// </div>
-
-// `
-// }
 
 export const TWO_FACTOR_TEMPLATE = (full_name, username) => {
     return `

@@ -5,10 +5,11 @@ import { getUser } from "../helpers";
 import { supabase } from "../supabaseClient";
 import AlertModal from "./AlertModal";
 import { useTranslation } from "react-i18next";
+import { FaAngleDown } from "react-icons/fa";
 // import { BsFacebook } from "react-icons/bs";
 
 export default function Login() {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,12 +17,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // check_auth
   useEffect(() => {
     const getData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       const u = user ? await getUser(user?.id) : null
-      if (u.status === 200) return navigate(`/dashboard/${u?.obj.username}`)
-      console.log(u);
+      if (u?.status === 200) return navigate(`/dashboard/${u?.obj.username}`)
+      // console.log(u);
     };
 
     getData();
@@ -112,6 +114,10 @@ export default function Login() {
   }
 
   return (<>
+    <div className="fixed z-50 text-xs rounded-lg shadow-2xl shadow-white w-fit h-fit top-1 md:top-4 right-4 backdrop-blur-md md:text-base">
+      <LangSwitcher />
+    </div>
+
     <AlertModal
       isOpen={isModalOpen}
       onClose={() => { setIsModalOpen(false) }}
@@ -132,7 +138,8 @@ export default function Login() {
           </div>
 
           <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratSemiBold mt-[30px]">{t("Welcome Back")}</h5>
-          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">{t("Start growing")} <span className="font-bold">{t("~1-10k")}</span> {t("real and targeted Instagram")} <span className="font-bold">{t("followers")}</span> {t("every month")}.</p>
+          {/* <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">{t("Start growing")} <span className="font-bold">{t("~1-10k")}</span> {t("real and targeted Instagram")} <span className="font-bold">{t("followers")}</span> {t("every month")}.</p> */}
+          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">{t("login_page_desc")}</p>
         </div>
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleLogin}>
           <div className="mb-3 form-outline font-MontserratRegular">
@@ -141,7 +148,7 @@ export default function Login() {
               id="form2Example1"
               className="rounded-[5px] h-[52px] px-4 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
               value={email}
-              placeholder="Email Address"
+              placeholder={t("email_address")}
               onChange={({ target }) => setEmail(target.value)}
             />
           </div>
@@ -152,10 +159,10 @@ export default function Login() {
               id="form2Example2"
               className="rounded-[5px] h-[52px] px-4 w-72 md:w-80 text-[1rem] bg-transparent border shadow-[inset_0_0px_1px_rgba(0,0,0,0.4)]"
               value={password}
-              placeholder="Password"
+              placeholder={t("Password")}
               onChange={({ target }) => setPassword(target.value)}
             /> <br />
-            <Link to="/forget-password"><span className="text-[#b16cea] font-MontserratSemiBold font-[600] text-[14px] mt-3">Forgot Password?</span></Link>
+            <Link to="/forget-password"><span className="text-[#b16cea] font-MontserratSemiBold font-[600] text-[14px] mt-3">{t('Forgot_Password')}</span></Link>
           </div>
 
           <button
@@ -165,13 +172,13 @@ export default function Login() {
               boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
             }}
           >
-            {loading ? 'Processing...' : 'Continue'}
+            {loading ? `${t('Processing')}...` : `${t('Continue')}`}
           </button>
         </form>
 
         <div className="text-center">
           <p className="text-sm text-black-r font-MontserratRegular">
-            Don't have an account? <Link to="/SignUp"><span className="font-MontserratSemiBold text-[#b16cea]">Sign Up</span></Link>
+            {t('dont-have-an-account')} <Link to="/SignUp"><span className="font-MontserratSemiBold text-[#b16cea] capitalize">{t('Sign_Up')}</span></Link>
           </p>
         </div>
 
@@ -219,4 +226,43 @@ export default function Login() {
     </div>
   </>
   );
+}
+
+export const LangSwitcher = () => {
+  const languages = [
+    { value: 'fr', text: "French", flag: '/french_flag.png' },
+    { value: 'en', text: "English", flag: '/british_flag.svg' },
+  ]
+
+  const [lng, setLang] = useState('fr');
+  const [showLangOptions, setShowLangOptions] = useState(false)
+
+  useEffect(() => {
+    var urlParams = new URLSearchParams(window.location.search);
+    var lng = urlParams.get('lng');
+    if (lng) {
+      const selectedLang = languages.find(l => l.value === lng)
+      setLang(selectedLang?.value)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleChange = lng => {
+    setLang(lng);
+    window.location = `?lng=${lng}`;
+    setShowLangOptions(false)
+  }
+
+  return (
+    <div className="relative">
+      <div className="flex items-center gap-1 p-3 uppercase" onClick={() => setShowLangOptions(!showLangOptions)}>
+        {lng} <FaAngleDown />
+      </div>
+
+      {showLangOptions && <div className="absolute top-0 flex flex-col right-full bg-[#242424]">
+        <button className="p-3 border-b border-gray20 hover:bg-[#242424]" onClick={() => handleChange('en')}>EN</button>
+        <button className="p-3 hover:bg-[#242424]" onClick={() => handleChange('fr')}>FR</button>
+      </div>}
+    </div>
+  )
 }

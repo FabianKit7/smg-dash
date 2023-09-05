@@ -74,8 +74,8 @@ export default function SearchBox() {
         url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
         params,
         headers: {
-          "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-          "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+          "X-RapidAPI-Key": X_RAPID_API_KEY,
+          "X-RapidAPI-Host": X_RAPID_API_HOST,
         },
       };
       // console.log(options);

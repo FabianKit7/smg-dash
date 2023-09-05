@@ -30,7 +30,7 @@ function App() {
     // const clickId = getCookie('_vid_t')
     // console.log(clickId);
     Tap.init(
-      '40122-96e787', // your account ID
+      process.env.REACT_APP_TAPFILIATE_ACCOUNT_ID, // your account ID
       { integration: 'javascript' }, // createOptions with cookie domain set to your main domain
       // createCallback function
       function () {
@@ -53,6 +53,18 @@ function App() {
       setAddPadding(false);
     }
   }, [pathname])
+
+  useEffect(() => {
+    var urlParams = new URLSearchParams(window.location.search);
+    var lng = urlParams.get('lng');
+      const el = document.getElementsByTagName('html')[0]
+    if (lng) {
+      el.lng = lng;
+    }else{
+      el.lng = 'fr';
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   return (

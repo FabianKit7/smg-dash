@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useState, useEffect, useCallback, useTransition } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { TbRefresh } from "react-icons/tb";
@@ -14,7 +14,9 @@ import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/charg
 // import { getRefCode, uploadImageFromURL } from "../helpers";
 import { getRefCode } from "../helpers";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { NOT_CONNECTED_TEMPLATE } from "../config";
+import { NOT_CONNECTED_TEMPLATE, X_RAPID_API_HOST, X_RAPID_API_KEY } from "../config";
+import { useTranslation } from 'react-i18next';
+import { LangSwitcher } from "./Login";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -28,9 +30,8 @@ const urlEncode = function (data) {
   return str.join("&");
 }
 
-// g
-
 export default function Subscriptions() {
+  const { t } = useTranslation()
   const [user, setUser] = useState(null)
   const [showMenu, setShowMenu] = useState(false)
   const [parentRef, isClickedOutside] = useClickOutside();
@@ -91,8 +92,8 @@ export default function Subscriptions() {
       url: "https://instagram-bulk-profile-scrapper.p.rapidapi.com/clients/api/ig/ig_profile",
       params: { ig: username, response_type: "short", corsEnabled: "true" },
       headers: {
-        "X-RapidAPI-Key": "47e2a82623msh562f6553fe3aae6p10b5f4jsn431fcca8b82e",
-        "X-RapidAPI-Host": "instagram-bulk-profile-scrapper.p.rapidapi.com",
+        "X-RapidAPI-Key": X_RAPID_API_KEY,
+        "X-RapidAPI-Host": X_RAPID_API_HOST,
       },
     };
 
@@ -125,9 +126,13 @@ export default function Subscriptions() {
 
       <div className="bg-white-r text-[#757575]-r bg-black text-white relative">
         <div className="max-w-[1600px] mx-auto">
-          <div className="hidden lg:block absolute top-[14px] right-[14px] z-[1] cursor-pointer bg-[#242424] rounded-full pl-4">
+          <div className="hidden absolute top-[14px] right-[14px] z-[1] bg-[#242424] rounded-[30px] pl-4 lg:flex">
+            <LangSwitcher />
+
+            <div className="w-1 my-auto h-[20px] mr-3 bg-white border-2 border-white"></div>
+
             <div
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 cursor-pointer"
               onClick={() => {
                 setShowMenu(!showMenu);
               }}
@@ -159,21 +164,24 @@ export default function Subscriptions() {
               <div className="flex">
                 <img alt="" className="w-[36px] h-[36px]" src="/logo.png" />
               </div>
-              <div
-                className={`${showMenu && ' border-red-300'
-                  } border-2 rounded-full`}
-              >
+              <div className="flex items-center">
+                <LangSwitcher />
                 <div
-                  className={`w-[32px] h-[32px] rounded-full button-gradient text-white grid place-items-center cursor-pointer`}
-                  onClick={() => {
-                    setShowMenu(!showMenu);
-                  }}
+                  className={`${showMenu && ' border-red-300'
+                    } border-2 rounded-full`}
                 >
-                  <span
-                    className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}
+                  <div
+                    className={`w-[32px] h-[32px] rounded-full button-gradient text-white grid place-items-center cursor-pointer`}
+                    onClick={() => {
+                      setShowMenu(!showMenu);
+                    }}
                   >
-                    {user?.full_name && user?.full_name?.charAt(0)}
-                  </span>
+                    <span
+                      className={`text-[22px] pointer-events-none select-none font-[400] uppercase`}
+                    >
+                      {user?.full_name && user?.full_name?.charAt(0)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -335,6 +343,7 @@ export default function Subscriptions() {
                 }}
               ></div>
 
+
               <div
                 className={`${!showMenu && 'opacity-0 pointer-events-none hidden'
                   } absolute top-0 lg:top-14 z-[99] left-5 lg:left-[unset] right-5 bg-[#242424] w-[calc(100%-40px)] lg:w-[350px] lg:max-w-[400px] rounded-[10px] shadow-[0_5px_10px_#0a17530d] transition-all duration-150 ease-in`}
@@ -381,6 +390,7 @@ export default function Subscriptions() {
                 username={username}
                 Loading={Loading}
                 setLoading={setLoading}
+                t={t}
               />
             </div>
           </div>
@@ -390,9 +400,8 @@ export default function Subscriptions() {
   );
 }
 
-const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, username, Loading, setLoading }) => {
+const Content = ({ user, userResults, navigate, setIsModalOpen, setErrorMsg, username, Loading, setLoading, t }) => {
   const [showCreaditCardInput, setShowCreaditCardInput] = useState(false)
-  const {t} = useTransition()
 
   return (<>
     <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[20px] lg:px-[100px] bg-black">
@@ -591,6 +600,7 @@ export const getStartingDay = () => {
 };
 
 export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModalOpen, setErrorMsg, mobile, Loading, setLoading, setRefresh, refresh }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate();
   const cardRef = useRef();
   const [nameOnCard, setNameOnCard] = useState('')
@@ -1022,7 +1032,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
           // await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
           handleCardPay();
         }}>
-        <span> {Loading ? "Processing..." : `${addCard ? "Add Payment Method" : "Pay $0.00 & Start Free Trial"}`}  </span>
+        <span> {Loading ? "Processing..." : `${addCard ? t("Add Payment Method") : t("Finalize registration")}`}  </span>
       </button>
       {/* {showCardComponent && <></>} */}
       {Loading && <div className="flex items-center justify-center gap-2 py-3">

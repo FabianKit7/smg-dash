@@ -1221,7 +1221,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
     </div>}
 
     <div
-      className="bg-white text-black text-[#757575] flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
+      className="bg-white text-black flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
       style={{ transition: 'all .1s ease-in' }}
     >
       <div className="w-[60%] flex items-center whitespace-nowrap overflow-hidden text-ellipsis justify-start md:pl-5">
