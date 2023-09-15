@@ -8,6 +8,8 @@ import ChangeModal from "./ChangeModal";
 import axios from "axios";
 import InfiniteRangeSlider from "../InfiniteRangeSlider";
 import { useTranslation } from "react-i18next";
+import { BACKEND_URL } from "../../config";
+import AlertModal from "../AlertModal";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -31,9 +33,12 @@ export default function Settings() {
   const [modalToShow, setModalToShow] = useState('')
   const [cancelModal, setCancelModal] = useState(false)
   const [refresh, setRefresh] = useState(false)
-  const [chargebeeCustomerData, setChargebeeCustomerData] = useState()
+  const [paymentMethods, setPaymentMethods] = useState([])
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState('')
   const [showRangeSlider, setShowRangeSlider] = useState(false)
   const [accounts, setAccounts] = useState([])
+  const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -53,23 +58,23 @@ export default function Settings() {
       } else {
         setUser(data[0])
 
-        if (!currentUser?.chargebee_customer_id) return;
+        if (!currentUser?.customer_id) return;
 
-        const retrieve_customer_data = {
-          customerId: currentUser?.chargebee_customer_id,
-        }
         setShowRangeSlider(true)
-        let chargebeeCustomerData = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/retrieve_customer`,
-          urlEncode(retrieve_customer_data))
-          .then((response) => response.data).catch((err) => {
-            console.log(err);
-          })
+        try {
+          let customer_payment_methods = await axios.post(`${BACKEND_URL}/api/stripe/list_payment_methods`,{ customer_id: currentUser?.customer_id })
+            .then((response) => response.data).catch(err => err)
+
+          let stripeCustomer = await axios.post(`${BACKEND_URL}/api/stripe/retrieve_customer`, { customer_id: currentUser?.customer_id }).then((response) => response.data).catch(err => err)
+          const defaultPaymentMethodId = stripeCustomer?.invoice_settings?.default_payment_method
+          setDefaultPaymentMethod(customer_payment_methods?.data?.find(pm => pm.id === defaultPaymentMethodId))
+          setPaymentMethods(customer_payment_methods?.data)
+        } catch (error) {
+          setIsModalOpen(true);
+          setErrorMsg({ title: 'Failed to create subscription', message: `An error occured: ${error.message}` })
+        }
         setShowRangeSlider(false)
 
-        // console.log(chargebeeCustomerData);
-        if (chargebeeCustomerData?.card) {
-          setChargebeeCustomerData(chargebeeCustomerData)
-        }
       }
     };
 
@@ -77,10 +82,19 @@ export default function Settings() {
   }, [currentUsername, navigate, refresh]);
 
   // console.log({user});
-  // console.log(chargebeeCustomerData);
+  // console.log(paymentMethods);
 
   return (
     <>
+      <AlertModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+        title={errorMsg?.title}
+        message={errorMsg?.message}
+      />
+
       <div className="max-w-[1400px] mx-auto">
         <Nav />
 
@@ -162,7 +176,7 @@ export default function Settings() {
           </div>
         </div>
 
-        {chargebeeCustomerData ?
+        {defaultPaymentMethod ?
           <div className="my-8">
             <div
               className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
@@ -180,11 +194,11 @@ export default function Settings() {
 
                 <div className="flex items-center justify-between gap-3 md:justify-end">
                   <div className="text-[#757575] flex items-center gap-3">
-                    {chargebeeCustomerData?.card?.card_type === 'visa' && <img src="/icons/visa.svg" alt="visa" className="w-[36px] h-fit" />}
-                    {chargebeeCustomerData?.card?.card_type === 'mastercard' && <img src="/icons/mastercard.svg" alt="visa" className="w-[36px] h-fit" />}
-                    {chargebeeCustomerData?.card?.card_type === 'maestro' && <img src="/icons/maestro.svg" alt="visa" className="w-[36px] h-fit" />}
-                    {!(['visa', 'mastercard', 'maestro'].includes(chargebeeCustomerData?.card?.card_type)) && <>({chargebeeCustomerData?.card?.card_type})</>}
-                    <span className="">{t("card ending with")} {chargebeeCustomerData?.card?.last4}</span>
+                    {defaultPaymentMethod?.card?.brand === 'visa' && <img src="/icons/visa.svg" alt="visa" className="w-[36px] h-fit" />}
+                    {defaultPaymentMethod?.card?.brand === 'mastercard' && <img src="/icons/mastercard.svg" alt="visa" className="w-[36px] h-fit" />}
+                    {defaultPaymentMethod?.card?.brand === 'maestro' && <img src="/icons/maestro.svg" alt="visa" className="w-[36px] h-fit" />}
+                    {!(['visa', 'mastercard', 'maestro'].includes(defaultPaymentMethod?.card?.brand)) && <>({defaultPaymentMethod?.card?.brand})</>}
+                    <span className="">{t("card ending with")} {defaultPaymentMethod?.card?.last4}</span>
                   </div>
                   <div className="text-[#b16cea] cursor-pointer"
                     onClick={() => {
@@ -253,7 +267,7 @@ export default function Settings() {
           user={user}
           setRefresh={setRefresh}
           refresh={refresh}
-          chargebeeCustomerData={chargebeeCustomerData}
+          paymentMethods={paymentMethods}
         />
 
         <div className={`${cancelModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} fixed top-0 left-0 w-full h-screen grid place-items-center`} style={{
@@ -269,7 +283,7 @@ export default function Settings() {
             <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold text-[#333]">{t("cancel_sub_title")}</h1>
             <div className="text-[.8rem] md:text-base">
               <p className="text-center">
-                {t("cancel_sub_text1a")} <a href="mailto:support@propulse.me" className="text-blue-500">support@propulse.me</a>. 
+                {t("cancel_sub_text1a")} <a href="mailto:support@propulse.me" className="text-blue-500">support@propulse.me</a>.
                 {t("cancel_sub_text1b")}
               </p>
               <br />

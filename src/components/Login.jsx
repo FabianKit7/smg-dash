@@ -6,6 +6,7 @@ import { supabase } from "../supabaseClient";
 import AlertModal from "./AlertModal";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown } from "react-icons/fa";
+import i18next from "i18next";
 // import { BsFacebook } from "react-icons/bs";
 
 export default function Login() {
@@ -243,13 +244,23 @@ export const LangSwitcher = () => {
     if (lng) {
       const selectedLang = languages.find(l => l.value === lng)
       setLang(selectedLang?.value)
+    }else{
+      const lng = localStorage.getItem('lng') || 'fr';
+      const el = document.getElementsByTagName('html')[0]
+      el.lang = lng
+      setLang(lng)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = lng => {
     setLang(lng);
-    window.location = `?lng=${lng}`;
+    i18next.changeLanguage(lng)
+    localStorage.setItem('lng', lng);
+    const el = document.getElementsByTagName('html')[0]
+    el.lang = lng
+    // window.location = `?lng=${lng}`;
+    // window.location.reload();
     setShowLangOptions(false)
   }
 

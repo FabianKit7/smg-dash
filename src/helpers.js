@@ -3,7 +3,7 @@ import axios from "axios"
 import _ from 'lodash';
 // import { slackClient } from "./slackClient";
 import { supabase } from "./supabaseClient"
-import { SCRAPER_API_URL, X_RAPID_API_HOST, X_RAPID_API_KEY } from "./config";
+import { BACKEND_URL, SCRAPER_API_URL, X_RAPID_API_HOST, X_RAPID_API_KEY } from "./config";
 
 export const numFormatter = (num = 0) => {
   if (num > 999 && num <= 999949) {
@@ -301,7 +301,7 @@ export const getUser = async (uid) => {
 }
 
 export const messageSlack = async (message) => {
-  const baseUrl = process.env.REACT_APP_BASE_URL
+  const baseUrl = BACKEND_URL
   // const baseUrl = 'http://localhost:8000'
 
   // console.log({ message });

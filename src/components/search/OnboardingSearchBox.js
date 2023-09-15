@@ -12,7 +12,7 @@ import AlertModal from '../AlertModal';
 import axios from 'axios';
 import { getStartingDay } from '../Subscriptions';
 import { useTranslation } from 'react-i18next';
-import { X_RAPID_API_HOST, X_RAPID_API_KEY } from '../../config';
+import { BACKEND_URL, X_RAPID_API_HOST, X_RAPID_API_KEY } from '../../config';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -156,7 +156,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
           return;
         }
       } else {        
-        if (!user?.chargebee_customer_id) {
+        if (!user?.customer_id) {
           setIsModalOpen(true);
           setErrorMsg({ title: 'Alert', message: 'No CB_ID found' })
           setProcessing(false);
@@ -164,10 +164,10 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
         }
         
         let data = {
-          customer_id: user?.chargebee_customer_id,
+          customer_id: user?.customer_id,
           plan_id: "Monthly-Plan-7-Day-Free-Trial-USD-Monthly"
         }
-        let createSubscription = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/create_subscription`,
+        let createSubscription = await axios.post(`${BACKEND_URL}/api/create_subscription`,
           urlEncode(data))
           .then((response) => response.data).catch((err) => {
             // console.log(err);

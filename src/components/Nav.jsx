@@ -9,6 +9,12 @@ import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import { LOGO } from "../config";
+import i18next from "i18next";
+
+export const locales = [
+  { value: 'fr', text: "French", flag: '/french_flag.png' },
+  { value: 'en', text: "English", flag: '/british_flag.svg' },
+]
 
 export default function Nav({ setShowWelcomeModal, userD, admin }) {
   let { username } = useParams();
@@ -58,28 +64,23 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
     getData();
   }, [currentUsername, userD]);
 
-  const languages = [
-    { value: 'fr', text: "French", flag: '/french_flag.png' },
-    { value: 'en', text: "English", flag: '/british_flag.svg' },
-  ]
-
   const [lng, setLang] = useState({ value: 'fr', text: "French", flag: '/french_flag.png' });
   const [showLangOptions, setShowLangOptions] = useState(false)
 
   useEffect(() => {
-    var urlParams = new URLSearchParams(window.location.search);
-    var lng = urlParams.get('lng');
-    if (lng) {
-      const selectedLang = languages.find(l => l.value === lng)
-      setLang(selectedLang)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const lng = localStorage.getItem('lng') || 'fr';
+    const selectedLang = locales.find(l => l.value === lng)
+    setLang(selectedLang)
   }, [])
 
 
   const handleChange = e => {
+    const el = document.getElementsByTagName('html')[0]
     setLang(e);
-    window.location = `?lng=${e.value}`;
+    i18next.changeLanguage(e.value)
+    localStorage.setItem('lng', e.value);
+    el.lang = e.value;
+    // window.location.reload();
     setShowLangOptions(false)
   }
 
@@ -121,7 +122,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
             </div>
 
             <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 mt-3`}>
-              {languages.map(item => {
+              {locales.map(item => {
                 return (<div
                   key={`lng-${item.value}`}
                   value={item.value}

@@ -56,7 +56,7 @@ export default function Dashboard() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
-      if (authUserRes.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/login")
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]
@@ -354,7 +354,7 @@ export default function Dashboard() {
         <div className="flex flex-col items-center mb-5 lg:hidden">
           <div className="flex items-center gap-[8px]">
             <img alt="" src="/ic_summary.svg" className="bg-black p-[8px] rounded-[8px]" />
-            <h3 className="text-[22px] font-bold font-MontserratBold text-black-r"> Account Summary </h3>
+            <h3 className="text-[22px] font-bold font-MontserratBold text-black-r"> {t("Account Summary")} </h3>
           </div>
 
           <div className="relative rounded-[10px] w-fit text-[#ff5e69] text-lg font-bold">
@@ -653,7 +653,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center">
                     <div className="font-semibold font-MontserratSemiBold text-[#ff5e69] capitalize">
-                      {userData?.userMode}
+                      {t(userData?.userMode)}
                     </div>
 
                     <span className="hidden lg:block ml-[8px] cursor-pointer group relative">
@@ -784,7 +784,7 @@ export default function Dashboard() {
             {/* sdf */}
 
             <div className="flex justify-center itcen mt-[8px]">
-              <h3 className="flex items-center gap-1 text-[#757575] font-bold font-MontserratBold w-fit cursor-pointer" onClick={() => setShowMobileManager(!showMobileManager)}>Show more
+              <h3 className="flex items-center gap-1 text-[#757575] font-bold font-MontserratBold w-fit cursor-pointer" onClick={() => setShowMobileManager(!showMobileManager)}>{t("Show more")}
                 {showMobileManager ? <FaCaretUp className="w-[12] h-[12]" /> : <FaCaretDown className="w-[12] h-[12]" />}
               </h3>
             </div>
@@ -1416,7 +1416,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
           <button className={`button-gradient text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
-            Add New Source
+            {t("Add New Source")}
           </button>
           <button className="button-gradient w-fit text-white font-bold font-MontserratBold text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             <img alt="" className="" src="/ic_filters.svg" />

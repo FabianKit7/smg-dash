@@ -5,7 +5,7 @@ import { supabase } from '../../supabaseClient'
 import { Link, useNavigate } from 'react-router-dom'
 import copy from 'copy-to-clipboard';
 import axios from 'axios'
-import { ACTIVE_TEMPLATE, CHECKING_TEMPLATE, INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
+import { ACTIVE_TEMPLATE, BACKEND_URL, CHECKING_TEMPLATE, INCORRECT_PASSWORD_TEMPLATE, TWO_FACTOR_TEMPLATE } from '../../config'
 
 export const calculateLast7DaysGrowth = (sessionData) => {
   if (!sessionData) return
@@ -44,7 +44,7 @@ export default function ManagePage() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
-      if (authUserRes.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/login")
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]
@@ -404,7 +404,7 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
                       htmlContent = INCORRECT_PASSWORD_TEMPLATE(user?.full_name, user?.username)
                     }
                     
-                    let sendEmail = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/send_email`,
+                    let sendEmail = await axios.post(`${BACKEND_URL}/api/send_email`,
                       {
                         email: user?.email,
                         subject,

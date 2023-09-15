@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 
 
 export default function ChangeModal(props) {
-  const { setShowModal, modalToShow, user, setRefresh, refresh, chargebeeCustomerData } = props;
+  const { setShowModal, modalToShow, user, setRefresh, refresh, paymentMethods } = props;
   const { t } = useTranslation();
 
   return (
@@ -26,12 +26,12 @@ export default function ChangeModal(props) {
       {modalToShow === 'email' && <Email t={t} setShowModal={setShowModal} user={user} setRefresh={setRefresh} refresh={refresh} />}
       {modalToShow === 'password' && <Password t={t} setShowModal={setShowModal} user={user} setRefresh={setRefresh} refresh={refresh} />}
       {modalToShow === 'phone' && <Phone t={t} setShowModal={setShowModal} user={user} setRefresh={setRefresh} refresh={refresh} />}
-      {modalToShow === 'updatePayment' && <UpdatePayment t={t} setShowModal={setShowModal} user={user} setRefresh={setRefresh} refresh={refresh} chargebeeCustomerData={chargebeeCustomerData} />}
+      {modalToShow === 'updatePayment' && <UpdatePayment t={t} setShowModal={setShowModal} user={user} setRefresh={setRefresh} refresh={refresh} paymentMethods={paymentMethods} />}
     </Modal>
   );
 }
 
-const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCustomerData, t }) => {
+const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, paymentMethods, t }) => {
   const [loading, setLoading] = useState(false)
   const [showCardPage, setShowCardPage] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
@@ -88,9 +88,9 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
       <div className={`${showCardPage ? "opacity-0 pointer-events-none hidden" : "opacity-100 pointer-events-all"} transition-all`}>
         <form className="flex flex-col mt-5">
           <div className="flex flex-col gap-4 max-h-[220px] overflow-y-auto pr-4">
-            {chargebeeCustomerData?.paymentSources?.result?.list.map(data => {
-              // console.log(data);
-              const card = data.payment_source.card;
+            {paymentMethods?.map(pm => {
+              // console.log(pm);
+              const card = pm?.card;
               return (
                 <div key={`billing_card_${card?.last4}`} className={`bg-[#f8f8f8] h-[52px] w-full border p-3 rounded-[10px] outline-none`}>
                   <div className="text-[#000] flex items-center justify-center gap-3">
@@ -107,10 +107,10 @@ const UpdatePayment = ({ setShowModal, user, setRefresh, refresh, chargebeeCusto
 
           <div className={`mt-2 text-[#ff5e69] font-bold font-MontserratBold flex items-center justify-center gap-2 rounded-[10px] h-[52px] w-full cursor-pointer`} onClick={() => {
             // show card page
-            // setShowCardPage(true)
+            setShowCardPage(true)
 
-            setIsModalOpen(true);
-            setErrorMsg({ title: 'Alert', message: t('Not available yet!') })
+            // setIsModalOpen(true);
+            // setErrorMsg({ title: 'Alert', message: t('Not available yet!') })
           }}>
             <span>+ {t("Add a new payment method")}</span>
           </div>

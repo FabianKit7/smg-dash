@@ -10,6 +10,10 @@ import "bootstrap/dist/css/bootstrap.min.css"; */
 import "./index.css";
 import { ThemeProvider } from "@material-tailwind/react";
 import './i18n.js';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -18,7 +22,9 @@ root.render(
   <Suspense fallback="Loading...">
     <BrowserRouter>
       <ThemeProvider>
-        <App />
+        <Elements stripe={stripePromise}>
+          <App />
+        </Elements>
       </ThemeProvider>
     </BrowserRouter>
   </Suspense>

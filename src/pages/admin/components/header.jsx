@@ -18,7 +18,7 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
         } else if (searchString.includes("@")){
             column = 'email'
         }else {
-            column = 'chargebee_customer_id'
+            column = 'customer_id'
         }
         
         const res = await supabase

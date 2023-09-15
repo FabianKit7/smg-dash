@@ -15,7 +15,7 @@ export default function Admin() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
-      if (authUserRes.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/login")
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]

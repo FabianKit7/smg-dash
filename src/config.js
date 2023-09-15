@@ -5,6 +5,14 @@ export const SCRAPER_API_URL = process.env.REACT_APP_SCRAPER_API_URL
 export const X_RAPID_API_KEY = process.env.REACT_APP_X_RAPID_API_KEY
 export const X_RAPID_API_HOST = process.env.REACT_APP_X_RAPID_API_HOST
 
+export const BACKEND_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL : 'http://localhost:8000'
+
+export const SUBSCRIPTION_PLANS = [
+    { planId: 'price_1NoYJZFl4zfP5z2zdDBGKlts', name: 'Weekly' },
+    { planId: 'price_1NoYJZFl4zfP5z2zdDBGKlts', name: 'Monthly' },
+    { planId: 'price_1NoYJZFl4zfP5z2zdDBGKlts', name: 'Yearly' }
+]
+
 
 // email templates
 export const INCORRECT_PASSWORD_TEMPLATE = (full_name, username) => {

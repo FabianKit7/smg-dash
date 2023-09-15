@@ -24,11 +24,13 @@ export default function Retention() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
-      if (authUserRes.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/login")
+      console.log(authUserRes?.error);
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]
-      if (!superUser || !superUser?.admin) return navigate("/login")
+      // console.log((!superUser || !superUser?.admin));
+      // if (!superUser || !superUser?.admin) return navigate("/login")
       setFetchingUser(false)
     };
 
