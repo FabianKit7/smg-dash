@@ -107,7 +107,7 @@ export const getRateDiff = (currRate, prevRate) => {
   }
 }
 
-export const countDays = (day) => {
+export const countDays = (day, t) => {
   var today = new Date()
   var dd = String(today.getDate()).padStart(2, "0")
   var mm = String(today.getMonth() + 1).padStart(2, "0") //January is 0!
@@ -123,8 +123,8 @@ export const countDays = (day) => {
   var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
 
   return Difference_In_Days === 1
-    ? "one day ago"
-    : Difference_In_Days + " days ago"
+    ? t("one day ago")
+    : Difference_In_Days + ' ' + t("days ago")
 }
 
 export const getAccount = async (account) => {

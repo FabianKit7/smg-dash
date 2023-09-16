@@ -162,7 +162,9 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                   transition: "opacity .15s ease-in"
                 }}
               >
-                <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">Accounts</div>
+                <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">
+                  {t("Accounts")}
+                </div>
 
                 <div className="max-h-[360px] overflow-auto pb-4 flex flex-col">
                   {accounts.map(account => {

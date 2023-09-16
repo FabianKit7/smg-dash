@@ -1182,7 +1182,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
   </>)
 }
 
-const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
+const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
   const [confirm, setConfirm] = useState({ title: '', description: '' })
 
   return (<>
@@ -1239,7 +1239,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from }) => {
         {numFormatter(account?.followers)}
       </div>
       <div className="w-[21%] hidden md:flex items-center justify-end text-[12px]">
-        {countDays(account?.created_at)}
+        {countDays(account?.created_at, t)}
       </div>
       <div className="w-[4%] md:w-[4%] ml-2 md:ml-0 flex items-center justify-end">
         <FaTrash className="cursor-pointer" onClick={async () => {
@@ -1350,7 +1350,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
         <div className="lg:hidden mt-[30px] mb-[12px]">
           <div className="flex items-center justify-center gap-[8px]">
             <img alt="" src="/ic_targeting.svg" className="button-gradient p-[8px] rounded-[8px]" />
-            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> Targeting </h3>
+            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {t("Targeting")} </h3>
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <span
@@ -1376,7 +1376,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
           <div className="mt-[30px] flex items-center">
             <div className="flex justify-center w-full text-black bg-white">
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-6">
-                Targeting
+                {t("Targeting")}
                 <span className="button-gradient2 text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                   {targetingAccounts.length}
                 </span>
@@ -1407,6 +1407,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
                 addSuccess={addSuccess}
                 setAddSuccess={setAddSuccess}
                 from={'targeting'}
+                t={t}
               />
             })}
           </div>
@@ -1595,7 +1596,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
           <div className="mt-[30px] flex items-center">
             <div className={`${pageProp.title === "Whitelist" && "bg-white text-black"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
-                Whitelist
+                {t("Whitelist")}
                 <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                   {total.whitelist}
                 </span>
@@ -1603,7 +1604,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
             </div>
             <div className={`${pageProp.title === "Blacklist" && "bg-white text-black"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
-                Blacklist
+                {t("Blacklist")}
                 <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                   {total.blacklist}
                 </span>
@@ -1634,6 +1635,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                 addSuccess={addSuccess}
                 setAddSuccess={setAddSuccess}
                 from={(pageProp.title).toLowerCase()}
+                t={t}
               />
             })}
           </div>
@@ -1643,7 +1645,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
           <button className={`button-gradient text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
-            {pageProp.title} Account
+            {t(`${pageProp.title} Account`)}
           </button>
         </div>
 
