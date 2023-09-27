@@ -478,8 +478,8 @@ export default function Dashboard() {
               <RiUserSettingsFill size={30} />
             </div>
             <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
-              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">Your password is incorrect</div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
+              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">{t("incorrect_title")}</div>
+              <p className="font-MontserratSemiBold text-[1.125rem] text-black">{t("incorrect_desc")}</p>
             </div>
             <button
               onClick={() => { setIsOpen(true) }}
@@ -491,7 +491,7 @@ export default function Dashboard() {
                 color: 'white',
                 // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
               }}
-            >change password</button>
+            >{t("change password")}</button>
           </div>}
 
           {userData?.status === 'twofactor' && <div className="flex items-center h-[170px] xl:h-[150px] rounded-[10px] overflow-hidden my-5">
@@ -500,17 +500,17 @@ export default function Dashboard() {
             </div>
             <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
               <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">
-                Two-Factor Authentication Enabled
+                {t("two_factor_title")}
               </div>
               <p className="font-MontserratSemiBold text-[1.125rem] text-black">
-                Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code or accept our login request to get your account started.
+                {t('two_factor_desc')}
               </p>
             </div>
             <div className="bg-[#fcede0] px-3 grid place-items-center h-full w-2/5 ">
               {/* <textarea name="" className="px-2 py-1 rounded-[10px] flex items-center w-full h-[50px] resize-none" id=""
                 value={backupCode}
                 onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea> */}
-              <input type="text" className="px-2 py-4 rounded-[10px] w-full" placeholder="Enter backup code"
+              <input type="text" className="px-2 py-4 rounded-[10px] w-full" placeholder={t('bcode_plh')}
                 value={backupCode}
                 onChange={(e) => setBackupCode(e.target.value)} />
             </div>
@@ -545,7 +545,7 @@ export default function Dashboard() {
                 color: 'white',
                 // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
               }}
-            >Logging in</button>
+            >{t("logged in")}</button>
           </div>}
 
           {userData?.status === 'pending' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
@@ -577,10 +577,10 @@ export default function Dashboard() {
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
               <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
                 <RiUserSettingsFill size={30} />
-                {t("Your password is incorrect")}
+                {t("incorrect_title")}
               </div>
               <div className="bg-[#fcede0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">{t("The password you entered for your instagram account is incorrect. Please try again by clicking the button below")}</p>
+                <p className="font-MontserratSemiBold">{t("incorrect_desc")}</p>
 
                 <button
                   onClick={() => { setIsOpen(true) }}
@@ -601,13 +601,13 @@ export default function Dashboard() {
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
               <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
                 <RiUserSettingsFill size={30} />
-                Two-Factor Authentication Enabled
+                {t("two_factor_title")}
               </div>
               <div className="bg-[#fcede0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">Two-factor authentication is currently enabled on your account. In order to log in directly to your Instagram account, please provide us with a backup code or accept our login request to get your account started.</p>
+                <p className="font-MontserratSemiBold">{t('two_factor_desc')}</p>
                 <textarea name="" className="px-2 py-1 rounded-[10px] mt-3 w-full resize-none" id="" rows="3"
                   value={backupCode}
-                  onChange={(e) => setBackupCode(e.target.value)} placeholder="Enter backup code"></textarea>
+                  onChange={(e) => setBackupCode(e.target.value)} placeholder={t('bcode_plh')}></textarea>
 
                 <button onClick={() => storeBackupCode()}
                   // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
@@ -638,7 +638,7 @@ export default function Dashboard() {
                     color: 'white',
                     boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                   }}
-                >Logging in</button>
+                >{t("logged in")}</button>
               </div>
             </div>
           </div>}

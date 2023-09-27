@@ -129,7 +129,7 @@ export default function ManagePage() {
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
-            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#242424] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#1C1A26] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
               <div className="flex items-center justify-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
                 {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white button-gradient select-none ml-5">{sectionTotal}</span>}
               </div>
@@ -164,7 +164,7 @@ export default function ManagePage() {
             }
 
             return (
-              <tr key={`${user?.username}_row`} className='rounded-[10px] button-gradient h-[64px] w-full'>
+              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#1C1A26] text-white h-[64px] w-full'>
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
@@ -293,7 +293,7 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
       <div className="fixed top-0 left-0 w-full h-screen bg-black/20 z-[2] cursor-pointer" onClick={() => { setShowAddTagModal(false) }}>
       </div>
 
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-[#242424] rounded-[10px] pb-2 px-4">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-[#1C1A26] rounded-[10px] pb-2 px-4">
         {processing && <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full text-white bg-black/20">
           <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}

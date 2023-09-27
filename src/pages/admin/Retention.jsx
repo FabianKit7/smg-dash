@@ -6,8 +6,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { countDays } from '../../helpers'
 import copy from 'copy-to-clipboard';
 import { ChangeStatusModal, calculateLast7DaysGrowth, statuses } from './ManagePage'
+import { useTranslation } from 'react-i18next'
 
 export default function Retention() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [fetchingUser, setFetchingUser] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -24,13 +26,12 @@ export default function Retention() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
+      // console.log(authUserRes?.error);
       if (authUserRes?.error) return navigate("/login")
-      console.log(authUserRes?.error);
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
-      const superUser = getSuperUser?.data?.[0]
-      // console.log((!superUser || !superUser?.admin));
-      // if (!superUser || !superUser?.admin) return navigate("/login")
+      const superUserFirstAccount = getSuperUser?.data?.find(user => user.first_account)
+      if (!superUserFirstAccount || !superUserFirstAccount?.admin) return navigate("/login")
       setFetchingUser(false)
     };
 
@@ -106,7 +107,7 @@ export default function Retention() {
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
-            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#242424] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#1C1A26] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
               <div className="flex items-center justify-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
                 {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white button-gradient select-none ml-5">{sectionTotal}</span>}
               </div>
@@ -142,7 +143,7 @@ export default function Retention() {
             }
 
             return (
-              <tr key={`${user?.username}_row`} className='rounded-[10px] button-gradient h-[64px] w-full'>
+              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#1C1A26] text-white h-[64px] w-full'>
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
@@ -171,7 +172,7 @@ export default function Retention() {
                   <div id={`last_7_days_growth_${user?.username}`}>N/A
                   </div>
                 </td>
-                <td>{user?.session_updated_at ? countDays(user?.session_updated_at) : "N/A"}</td>
+                <td>{user?.session_updated_at ? countDays(user?.session_updated_at, t) : "N/A"}</td>
                 <td>
                   <div className="w-[35px] h-[35px] grid place-items-center rounded-[10px] bg-black cursor-pointer" onClick={() => {
                     setSelectedUser(user)
