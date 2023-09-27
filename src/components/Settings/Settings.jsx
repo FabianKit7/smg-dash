@@ -13,15 +13,15 @@ import AlertModal from "../AlertModal";
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-const urlEncode = function (data) {
-  var str = [];
-  for (var p in data) {
-    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
-      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
-    }
-  }
-  return str.join("&");
-}
+// const urlEncode = function (data) {
+//   var str = [];
+//   for (var p in data) {
+//     if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+//       str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+//     }
+//   }
+//   return str.join("&");
+// }
 
 export default function Settings() {
   let { username } = useParams();

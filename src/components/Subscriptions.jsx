@@ -9,7 +9,7 @@ import { MdLogout } from "react-icons/md";
 import { useClickOutside } from "react-click-outside-hook";
 // import { FaAngleLeft } from "react-icons/fa";
 import AlertModal from './AlertModal'
-import { useRef } from "react";
+// import { useRef } from "react";
 // import { CardComponent, CardNumber, CardExpiry, CardCVV } from "@chargebee/chargebee-js-react-wrapper"
 // import { getRefCode, uploadImageFromURL } from "../helpers";
 import { getRefCode } from "../helpers";
@@ -21,15 +21,15 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-const urlEncode = function (data) {
-  var str = [];
-  for (var p in data) {
-    if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
-      str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
-    }
-  }
-  return str.join("&");
-}
+// const urlEncode = function (data) {
+//   var str = [];
+//   for (var p in data) {
+//     if (data.hasOwnProperty(p) && (!(data[p] === undefined || data[p] == null))) {
+//       str.push(encodeURIComponent(p) + "=" + (data[p] ? encodeURIComponent(data[p]) : ""));
+//     }
+//   }
+//   return str.join("&");
+// }
 
 export default function Subscriptions() {
   const { t } = useTranslation()
@@ -873,7 +873,7 @@ export const getStartingDay = () => {
 export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModalOpen, setErrorMsg, mobile, Loading, setLoading, setRefresh, refresh, selectedPlan }) => {
   const { t } = useTranslation()
   const navigate = useNavigate();
-  const cardRef = useRef();
+  // const cardRef = useRef();
   const [nameOnCard, setNameOnCard] = useState('')
   const stripe = useStripe();
   const elements = useElements();
