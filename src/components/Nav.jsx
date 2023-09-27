@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 // import sproutyLogo from "../images/sprouty.svg";
 import { useClickOutside } from "react-click-outside-hook";
-import { FaAngleDown } from "react-icons/fa";
+import { FaAngleDown, FaBars } from "react-icons/fa";
 import { FiGrid, FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
@@ -28,6 +28,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
   const [accounts, setAccounts] = useState([])
   const langModalRef = useRef(null)
   const [showLangOptions, setShowLangOptions] = useState(false)
+  const [openMobileMenu, setOpenMobileMenu] = useState(false)
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
 
   const { t } = useTranslation();
@@ -119,6 +120,17 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
           </div>
         </Link>
 
+        <div className="hidden lg:block">
+          <ul className="flex items-center gap-3 -mb-2 font-[600]">
+            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/prospector" target="_blank" rel="noreferrer">{t("Prospector")}</a></li>
+            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Temoignages" target="_blank" rel="noreferrer">{t("Testimonials")}</a></li>
+            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Process" target="_blank" rel="noreferrer">{t("Process")}</a></li>
+            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/equipe" target="_blank" rel="noreferrer">{t("The Team")}</a></li>
+            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#FAQ" target="_blank" rel="noreferrer">{t("FAQ")}</a></li>
+            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Prix" target="_blank" rel="noreferrer">{t("Price")}</a></li>
+          </ul>
+        </div>
+
         <div className="flex items-center">
           {/* {'1' === '1' && */}
           {setShowWelcomeModal && pending &&
@@ -134,14 +146,9 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
             <FiGrid size={30} className="w-[30px] h-[30px]" />
           </Link>}
 
-          <div ref={langModalRef} className="relative text-sm transition-all bg-[#1C1A26] rounded-lg">
+          <div id="languageSwitcher" ref={langModalRef} className="relative text-sm transition-all bg-[#1C1A26] rounded-lg">
             <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => {
               setShowLangOptions(!showLangOptions)
-              // if (showLangOptions){
-              //   // setShowLangOptions(false)
-              // }else{
-              //   setShowLangOptions(true)
-              // }
             }}>
               <img src={lng.flag} alt={lng.value} className="w-[20px] h-[20px]" />
               <span className="font-bold capitalize">{lng.value}</span>
@@ -166,14 +173,6 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               })}
             </div>
           </div>
-
-          {/* <select value={lng} onChange={handleChange} className="bg-[#242424] text-white">
-            {languages.map(item => {
-              return (<option key={`lng-${item.value}`} value={item.value} className="flex items-center gap-3">
-                {item.text}
-              </option>);
-            })}
-          </select> */}
 
           {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
@@ -289,8 +288,28 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               </ul>
             </div>
           </div>}
+          <FaBars className="lg:hidden cursor-pointer" onClick={() => setOpenMobileMenu(!openMobileMenu)} />
+          <div className="lg:hidden">
+            {openMobileMenu && <MobileMenu t={t} />}
+          </div>
         </div>
       </div>
     </nav>
   );
+}
+
+
+const MobileMenu = ({ t }) => {
+  return (<>
+    <div className="absolute z-50 top-[100px] left-0 w-full h-[calc(100vh-100px)] bg-white text-black">
+      <ul className="flex flex-col gap-3 font-[600] p-5">
+        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/prospector" target="_blank" rel="noreferrer">{t("Prospector")}</a></li>
+        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#Temoignages" target="_blank" rel="noreferrer">{t("Testimonials")}</a></li>
+        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#Process" target="_blank" rel="noreferrer">{t("Process")}</a></li>
+        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/equipe" target="_blank" rel="noreferrer">{t("The Team")}</a></li>
+        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#FAQ" target="_blank" rel="noreferrer">{t("FAQ")}</a></li>
+        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#Prix" target="_blank" rel="noreferrer">{t("Price")}</a></li>
+      </ul>
+    </div>
+  </>)
 }
