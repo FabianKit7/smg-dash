@@ -127,7 +127,7 @@ const SettingsModal = (props) => {
             <div className="flex flex-col gap-5">
               <div className="xl:mb-[10px] mt-4 xl:mt-0 text-[18px] xl:font-bold xl:font-MontserratBold">{t("Interaction settings")}</div>
 
-              <div className={`${mode === "auto" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "auto" ? "border-[4px] border-[#b16cea] h-[340px] sm:h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#1C1A2640] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("auto")}>
                 <img className={`${mode === "auto" ? "w-[60px] h-[60px] lg:w-[100px] lg:h-[100px]" : "w-[20px] h-[20px] lg:w-[30px] lg:h-[30px]"}`} src={flashImg} alt="" style={{
@@ -143,7 +143,7 @@ const SettingsModal = (props) => {
                 </div>
               </div>
 
-              <div className={`${mode === "unfollow" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "unfollow" ? "border-[4px] border-[#b16cea] h-[300px] sm:h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#1C1A2640] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("unfollow")}>
                 <span className={`${mode === "unfollow" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{
@@ -163,7 +163,7 @@ const SettingsModal = (props) => {
                 </div>
               </div>
 
-              <div className={`${mode === "off" ? "border-[4px] border-[#b16cea] h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#ffffff40] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
+              <div className={`${mode === "off" ? "border-[4px] border-[#b16cea] h-[270px] sm:h-[230px] md:h-[110px] lg:h-[200px]" : "h-[52px]"} overflow-hidden py-[14px] md:py-5 px-[14px] md:px-10 cursor-pointer shadow-[0_0_3px_#1C1A2640] rounded-[10px] flex items-center gap-2 md:gap-5`} style={{
                 transition: 'all .3s ease-in,border .1s ease-in'
               }} onClick={() => toggleValue("off")}>
                 <span className={`${mode === "off" ? "min-w-[40px] lg:min-w-[100px] h-[40px] lg:h-[100px]" : "min-w-[20px] lg:min-w-[30px] h-[20px] lg:h-[30px]"} fill-black font-[none] ng-tns-c112-40`} style={{

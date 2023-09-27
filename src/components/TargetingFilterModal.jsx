@@ -178,8 +178,8 @@ export default function TargetingFilterModal(props, { min, max }) {
 
             <Col>
               <div>
-                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">{t("confidentiality")}</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label={t("confidentiality")}
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2 capitalize">{t("confidentiality")}</label>
+                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 border-[#1C1A26] bg-[#1C1A26] text-white font-MontserratRegular" aria-label={t("confidentiality")}
                   value={privacy}
                   // defaultValue={privacy}
                   onChange={(e) => {
@@ -193,8 +193,8 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div>
-                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">{t("gender")}</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 font-MontserratRegular" aria-label={t("gender")}
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2 capitalize">{t("gender")}</label>
+                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 border-[#1C1A26] bg-[#1C1A26] text-white font-MontserratRegular" aria-label={t("gender")}
                   value={gender}
                   onChange={(e) => {
                     setGender(e.target.value);
@@ -207,8 +207,8 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <div>
-                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2">{t("language")}</label>
-                <Form.Select className="shadow-filter rounded-[10px] pl-5" aria-label="Privacy"
+                <label className="font-medium font-MontserratSemiBold text-[15px] mb-2 capitalize">{t("language")}</label>
+                <Form.Select className="shadow-filter rounded-[10px] pl-5 border-[#1C1A26] bg-[#1C1A26] text-white" aria-label="Privacy"
                   value={lang}
                   onChange={(e) => {
                     setLang(e.target.value);

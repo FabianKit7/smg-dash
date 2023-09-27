@@ -256,7 +256,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
             <div className="flex flex-col justify-between mt-3 lg:block">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
                 <div className={`w-full lg:w-[411px] ${selected ? 'h-[100px]' : 'h-[62px]'} transition-all duration-300 ease-in`}>
-                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#ffffff40] bg-[#f8f8f8] text-black`}>
+                  {selected && <div className={`py-[30px] px-5 lg:px-7 h-full flex items-center justify-between border rounded-[10px] shadow-[0_0_4px_#1C1A2640] bg-[#f8f8f8] text-black`}>
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <img src={selectedAccount?.profile_pic_url} alt="" className='w-[60px] h-[60px] rounded-full' />

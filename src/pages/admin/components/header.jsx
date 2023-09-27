@@ -54,8 +54,8 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
                 </Link>
 
                 <div className="flex justify-end items-center text-[18px] font-semibold font-MontserratSemiBold tracking-[-0.36px]">
-                    <button className="rounded-[10px] bg-black-r text-white-r bg-white text-black w-[203px] h-[59px]" onClick={() => setOpenRefreshModal(!openRefreshModal)}>Refresh Account</button>
-                    <button className="rounded-[10px] bg-black-r text-white-r bg-white text-black w-[203px] h-[59px] ml-5" onClick={async () => {
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#1C1A26] text-white w-[203px] h-[59px]" onClick={() => setOpenRefreshModal(!openRefreshModal)}>Refresh Account</button>
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#1C1A26] text-white w-[203px] h-[59px] ml-5" onClick={async () => {
                         await supabase.auth.signOut();
                         window.onbeforeunload = function () {
                             localStorage.clear();

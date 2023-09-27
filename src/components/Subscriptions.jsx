@@ -1154,8 +1154,8 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         e.preventDefault();
         if (Loading) {
           // alert('Please wait');
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Processing...', message: 'Please wait' })
+          setIsModalOpen(true);          
+          setErrorMsg({ title: `${t("processing")}...`, message: t('Please wait') })
           return
         }
         // await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
@@ -1205,19 +1205,19 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         onClick={() => {
           if (Loading) {
             setIsModalOpen(true);
-            setErrorMsg({ title: 'Processing...', message: 'Please wait' })
+            setErrorMsg({ title: `${t("processing")}...`, message: t('Please wait') })
             return
           }
           // await handleCardPay(setLoading, userResults, setIsModalOpen, setErrorMsg, user, cardRef, username, navigate, nameOnCard);
           handleCardPay();
         }}>
-        <span> {Loading ? "Processing..." : `${addCard ? t("Add Payment Method") : t("Finalize registration")}`}  </span>
+        <span> {Loading ? `${t("Processing")}...` : `${addCard ? t("Add Payment Method") : t("Finalize registration")}`}  </span>
       </button>
       {/* {showCardComponent && <></>} */}
       {Loading && <div className="flex items-center justify-center gap-2 py-3">
         <AiOutlineLoading3Quarters className="animate-spin" />
         <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#757575] animate-pulse">
-          We're processing your request, please wait...
+          {t("We're processing your request, please wait")}...
         </p>
       </div>}
     </div>

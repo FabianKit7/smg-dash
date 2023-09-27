@@ -24,7 +24,7 @@ module.exports = withMT({
         btnred: "#EB6402",
         bgicongreen: "#E2FBD7",
         bgiconred: "#FFE5D3",
-        activelink: "#ECECEC",
+        activelink: "#000",
       },
     },
     fontFamily: {

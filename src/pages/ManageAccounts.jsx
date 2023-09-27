@@ -119,7 +119,7 @@ export default function ManageAccounts() {
                     <div
                         className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
                         style={{
-                            boxShadow: '0 0 3px #ffffff40',
+                            boxShadow: '0 0 3px #1C1A2640',
                         }}
                     >
                         <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Select an account")}</h1>
@@ -134,13 +134,13 @@ export default function ManageAccounts() {
                 <div className="relative grid items-center grid-cols-1 m-5 mt-0 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10">
                     {accounts.map(account => {
                         return (
-                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black cursor-pointer z-[5]" onClick={() => {
+                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white cursor-pointer z-[5]" onClick={() => {
                                 // navigate("/dashboard/" + account?.username)
                             }}>
                                 <div className="flex w-full lg:flex-col">
                                     <div className="items-center justify-center hidden gap-2 lg:flex">
                                         <img src="/icons/instagram.svg" alt="ig" className="w-[20px] h-[20px] rounded-full" />
-                                        <div className="text-[18px] font-bold">Instagram Account</div>
+                                        <div className="text-[18px] font-bold">{t("Instagram Account")}</div>
                                     </div>
 
                                     <div className="flex items-center justify-between w-full lg:justify-center">
@@ -152,7 +152,7 @@ export default function ManageAccounts() {
                                             <div className="lg:text-center">
                                                 <div className="flex items-center justify-center gap-2 lg:hidden">
                                                     <img src="/icons/instagram.svg" alt="ig" className="w-[20px] h-[20px] rounded-full" />
-                                                    <div className="text-[12px] lg:text-[18px] font-bold">Instagram Account</div>
+                                                    <div className="text-[12px] lg:text-[18px] font-bold">{t("Instagram Account")}</div>
                                                 </div>
                                                 <div className="lg:mt-5 text-[16px] lg:text-[24px] font-bold">{account?.full_name}</div>
                                                 <div className="text-[#b16cea] text-[12px] lg:text-[18px] leading-[0.8] font-bold">@{account?.username}</div>
@@ -174,12 +174,12 @@ export default function ManageAccounts() {
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
-                                        <div className="text-[14px] lg:text-[16px]">{t("Following")}</div>
+                                        <div className="text-[14px] lg:text-[16px] capitalize">{t("following")}</div>
                                         <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.following)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
-                                        <div className="text-[14px] lg:text-[16px]">{t("Interactions")}</div>
+                                        <div className="text-[14px] lg:text-[16px] capitalize">{t("interactions")}</div>
                                         <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold" id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
                                     </div>
                                 </div>
@@ -187,14 +187,14 @@ export default function ManageAccounts() {
                         )
                     })}
 
-                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#ffffff40] bg-white text-black">
+                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white">
                         <div className="relative w-[80px] h-[80px] lg:w-[160px] lg:h-[160px] mx-auto">
                             <div className="grid w-full h-full text-white bg-black rounded-full bg-black-r text-white-r place-items-center">
                                 <AiOutlinePlus size={50} className="w-[24px] h-[24px] lg:w-[50px] lg:h-[50px]" />
                             </div>
                             <div className="w-[20px] h-[20px] lg:w-[36px] lg:h-[36px] rounded-full border-2 lg:border-4 absolute right-0 bottom-0 lg:right-1 lg:bottom-1 button-gradient"></div>
                         </div>
-                        <div className="mt-2 lg:mt-[32px] text-[16px] lg:text-[24px] font-bold text-center">{t("Add Account")}</div>
+                        <div className="mt-2 lg:mt-[32px] text-[16px] lg:text-[24px] font-bold text-center">{t("Add Accounts")}</div>
                     </Link>
                 </div>
 

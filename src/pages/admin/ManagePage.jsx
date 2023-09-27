@@ -222,7 +222,7 @@ export default function ManagePage() {
                 <td>
                   <div className="relative group">
                     {user?.tag?.tag1 && <div className="absolute top-0 left-0 hidden w-full h-full bg-black/20 group-hover:grid place-items-center">
-                      <div className="w-[30px] h-[30px] grid place-items-center rounded-lg bg-black-r text-white-r bg-white text-black cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
+                      <div className="w-[30px] h-[30px] grid place-items-center rounded-lg bg-black-r text-white-r bg-[#1C1A26] text-white cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
                         <FaPen />
                       </div>
                     </div>}

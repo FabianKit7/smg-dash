@@ -70,7 +70,7 @@ body {
     bottom: 180%;
     left: 50%;
     margin-left: -200px;
-    box-shadow: 0 0 3px #ffffff40;
+    box-shadow: 0 0 3px #1C1A2640;
     font-size: 14px;
 }
 
@@ -98,7 +98,7 @@ body {
     top: -200%;
     left: -415px;
     z-index: 2;
-    box-shadow: 0 0 3px #ffffff40;
+    box-shadow: 0 0 3px #1C1A2640;
     font-size: 14px;
 }
 

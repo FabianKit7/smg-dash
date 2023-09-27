@@ -40,6 +40,7 @@ export default function Dashboard() {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [sessionsData, setSessionsData] = useState([])
   const [showDateOptions, setShowDateOptions] = useState(false)
+  const [showMobileDateOptions, setShowMobileDateOptions] = useState(false)
   const [selectedDate, setSelectedDate] = useState({ title: t('Last 7 days'), value: 7 })
   const [showMobileManager, setShowMobileManager] = useState(false)
   const [mobileAdd, setMobileAdd] = useState({ show: false, pageProp: {} })
@@ -52,6 +53,8 @@ export default function Dashboard() {
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [admin, setAdmin] = useState(false)
+  const destopDateRageRef = useRef(null)
+  const mobileDateRageRef = useRef(null)
 
   useEffect(() => {
     const getData = async () => {
@@ -147,6 +150,43 @@ export default function Dashboard() {
       fetch()
     }
   }, [currentUsername])
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (destopDateRageRef.current && !destopDateRageRef.current.contains(event.target)) {
+        setShowDateOptions(false);
+      }
+    }
+
+    if (showDateOptions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDateOptions]);
+
+// for mobile
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (mobileDateRageRef.current && !mobileDateRageRef.current.contains(event.target)) {
+        setShowMobileDateOptions(false);
+      }
+    }
+
+    if (showMobileDateOptions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMobileDateOptions]);
 
   const [backupCode, setBackupCode] = useState('')
   const storeBackupCode = async () => {
@@ -258,7 +298,7 @@ export default function Dashboard() {
           <div
             className="flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
             style={{
-              boxShadow: '0 0 3px #ffffff40',
+              boxShadow: '0 0 3px #1C1A2640',
             }}
           >
             <div className="ml-3 flex items-center gap-[10px]">
@@ -286,7 +326,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-white text-black text-lg font-bold">
+              <div ref={destopDateRageRef} className="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-[#1C1A26] text-white text-lg font-bold">
                 <div
                   className="flex items-center justify-center h-[52px] cursor-pointer"
                   onClick={() => setShowDateOptions(!showDateOptions)}
@@ -301,16 +341,16 @@ export default function Dashboard() {
                   <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
                 </div>
                 <div
-                  className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black-r bg-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
+                  className={`absolute w-full top-full left-0 rounded-[10px] overflow-hidden z-[2] text-black-r bg-[#1C1A26] text-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
                     }`}
                   style={{
-                    boxShadow: '0 0 3px #ffffff40',
+                    boxShadow: '0 0 3px #1C1A2640',
                     transform: 'translteY(8px)',
                     transition: 'opacity .15s ease-in',
                   }}
                 >
                   <div
-                    className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 7 days'), value: 7 });
                       setShowDateOptions(false);
@@ -319,7 +359,7 @@ export default function Dashboard() {
                     {t('Last 7 days')}
                   </div>
                   <div
-                    className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 30 days'), value: 30 });
                       setShowDateOptions(false);
@@ -328,7 +368,7 @@ export default function Dashboard() {
                     {t('Last 30 days')}
                   </div>
                   <div
-                    className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 60 days'), value: 60 });
                       setShowDateOptions(false);
@@ -337,7 +377,7 @@ export default function Dashboard() {
                     {t('Last 60 days')}
                   </div>
                   <div
-                    className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 90 days'), value: 90 });
                       setShowDateOptions(false);
@@ -357,10 +397,10 @@ export default function Dashboard() {
             <h3 className="text-[22px] font-bold font-MontserratBold text-black-r"> {t("Account Summary")} </h3>
           </div>
 
-          <div className="relative rounded-[10px] w-fit text-[#ff5e69] text-lg font-bold">
+          <div ref={mobileDateRageRef} className="relative rounded-[10px] w-fit text-[#ff5e69] text-lg font-bold">
             <div
               className="flex items-center justify-center h-[52px] cursor-pointer"
-              onClick={() => setShowDateOptions(!showDateOptions)}
+              onClick={() => setShowMobileDateOptions(!showMobileDateOptions)}
             >
               <AiOutlineClockCircle
                 size={15}
@@ -373,46 +413,46 @@ export default function Dashboard() {
             </div>
 
             <div
-              className={`absolute w-full top-full left-0 rounded-[10px] z-[2] text-black-r bg-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
+              className={`absolute w-full top-full left-0 rounded-[10px] overflow-hidden z-[2] text-black-r bg-[#1C1A26] text-white ${showMobileDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
                 }`}
               style={{
-                boxShadow: '0 0 3px #ffffff40',
+                boxShadow: '0 0 3px #1C1A2640',
                 transform: 'translteY(8px)',
                 transition: 'opacity .15s ease-in',
               }}
             >
               <div
-                className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 7 days'), value: 7 });
-                  setShowDateOptions(false);
+                  setShowMobileDateOptions(false);
                 }}
               >
                 {t('Last 7 days')}
               </div>
               <div
-                className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 30 days'), value: 30 });
-                  setShowDateOptions(false);
+                  setShowMobileDateOptions(false);
                 }}
               >
                 {t('Last 30 days')}
               </div>
               <div
-                className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 60 days'), value: 60 });
-                  setShowDateOptions(false);
+                  setShowMobileDateOptions(false);
                 }}
               >
                 {t('Last 60 days')}
               </div>
               <div
-                className="py-4 px-[30px] hover:bg-white text-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 90 days'), value: 90 });
-                  setShowDateOptions(false);
+                  setShowMobileDateOptions(false);
                 }}
               >
                 {t('Last 90 days')}
@@ -484,7 +524,7 @@ export default function Dashboard() {
                 color: 'white',
                 // boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
               }}
-            >{processing ? <span className="animate-pulse">processing...</span> : 'confirm'}</button>
+            >{processing ? <span className="animate-pulse">{t("processing")}...</span> : t('confirm')}</button>
           </div>}
 
           {userData?.status === 'checking' && <div className="flex items-center h-[100px] rounded-[10px] overflow-hidden my-5">
@@ -537,10 +577,10 @@ export default function Dashboard() {
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
               <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
                 <RiUserSettingsFill size={30} />
-                Your password is incorrect
+                {t("Your password is incorrect")}
               </div>
               <div className="bg-[#fcede0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">The password you entered for your instagram account is incorrect. Please try again by clicking the button below</p>
+                <p className="font-MontserratSemiBold">{t("The password you entered for your instagram account is incorrect. Please try again by clicking the button below")}</p>
 
                 <button
                   onClick={() => { setIsOpen(true) }}
@@ -552,7 +592,7 @@ export default function Dashboard() {
                     color: 'white',
                     boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                   }}
-                >change password</button>
+                >{t("change password")}</button>
               </div>
             </div>
           </div>}
@@ -577,7 +617,7 @@ export default function Dashboard() {
                     color: 'white',
                     boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                   }}
-                >{processing ? <span className="animate-pulse">processing...</span> : 'confirm'}</button>
+                >{processing ? <span className="animate-pulse">{t("processing")}...</span> : t('confirm')}</button>
               </div>
             </div>
           </div>}
@@ -671,7 +711,7 @@ export default function Dashboard() {
                           >
                             <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                           </svg>
-                          <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                          <span className="font-medium leading-5 bg-[#1C1A26] text-white opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                             transition: 'all .5s ease-in-out',
                           }}>{t('interaction-settings')}</span>
                         </span>
@@ -720,7 +760,7 @@ export default function Dashboard() {
           </div>
 
           <div className="w-full lg:hidden">
-            <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
+            <div className="shadow-[0_0_3px_#1C1A2640] rounded-[10px] p-5 relative">
               <span className="absolute cursor-pointer top-5 right-5 group">
                 <div className="flex items-center">
                   <span
@@ -736,7 +776,7 @@ export default function Dashboard() {
                     >
                       <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                     </svg>
-                    <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
+                    <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
                       transition: 'all .5s ease-in-out',
                     }}>{t('analyst_into_popup')}</span>
                   </span>
@@ -765,7 +805,7 @@ export default function Dashboard() {
             </div>
 
             {showMobileManager && <div className="">
-              <div className="shadow-[0_0_3px_#ffffff40] rounded-[10px] p-5 relative">
+              <div className="shadow-[0_0_3px_#1C1A2640] rounded-[10px] p-5 relative">
                 <div className="text-sm font-normal text-black-r font-MontserratRegular">
                   {t('analyst_greetings')}
                 </div>
@@ -794,7 +834,7 @@ export default function Dashboard() {
             <div>
               <div
                 className="p-[35px] relative rounded-[10px] w-[450px]"
-                style={{ boxShadow: '0 0 3px #ffffff40' }}
+                style={{ boxShadow: '0 0 3px #1C1A2640' }}
               >
 
                 <span className="absolute top-[25px] right-[20px] ml-[8px] group cursor-pointer">
@@ -812,7 +852,7 @@ export default function Dashboard() {
                       >
                         <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                       </svg>
-                      <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
+                      <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
                         transition: 'all .5s ease-in-out',
                       }}>{t('analyst_into_popup')}</span>
                     </span>
@@ -870,7 +910,7 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
     <div className="mt-4 text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
       <div className="flex items-center justify-between w-full gap-1 text-center lg:gap-4">
         <div
-          className={`${chart === 1 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
+          className={`${chart === 1 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(1)}
           style={{
             transition: 'all .15s ease-in',
@@ -888,7 +928,7 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
         </div>
 
         <div
-          className={`${chart === 2 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
+          className={`${chart === 2 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(2)}
           style={{
             transition: 'all .15s ease-in',
@@ -903,7 +943,7 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
         </div>
 
         <div
-          className={`${chart === 3 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#ffffff40]`}
+          className={`${chart === 3 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(3)}
           style={{
             transition: 'all .15s ease-in',
@@ -1044,7 +1084,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
         </div>
 
         <div className="relative mt-5" ref={parentRef}>
-          <div className="flex items-center text-base font-medium text-black-r border border-[#ffffff40] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
+          <div className="flex items-center text-base font-medium text-black-r border border-[#1C1A2640] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
             <input
               type="text"
               placeholder={`@${t('accountname')}`}
@@ -1067,7 +1107,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
           <div className={`${!selectedData.username && "hidden"} -top-2 opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white border-2 border-[#ff5e69]`}
             style={{
               pointerEvents: 'all',
-              // boxShadow: '0 0 3px #ffffff40',
+              // boxShadow: '0 0 3px #1C1A2640',
               transition: 'opacity .15s ease-in',
             }}
           >
@@ -1104,10 +1144,10 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
             </div>
           </div>
 
-          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white text-black`}
+          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-[#1C1A26] text-white`}
             style={{
               pointerEvents: 'all',
-              boxShadow: '0 0 3px #ffffff40',
+              boxShadow: '0 0 3px #1C1A2640',
               transition: 'opacity .15s ease-in',
             }}
           >
@@ -1123,7 +1163,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
               <div className="p-3 text-white bg-black rounded-full bg-black-r text-white-r">
                 <FaUser size={14} color="white w-[46px] h-[46px]" />
               </div>
-              <div className="text-black">
+              <div className="">
                 <div className="">{debouncedQuery}</div>
                 <div className="mt-1 opacity-90 text-[.9rem]">click here to select account</div>
               </div>
@@ -1170,7 +1210,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
         </div>
 
         <button
-          className={`${selected ? "button-gradient" : "bg-gray-400"} text-white font-medium text-base mt-7 absolute bottom-0 font-MontserratSemiBold w-full rounded-[10px] h-[52px] max-h-[52px] border-none cursor-pointer`}
+          className={`${selected ? "button-gradient" : "bg-gray-700"} text-white font-medium text-base mt-7 absolute bottom-0 font-MontserratSemiBold w-full rounded-[10px] h-[52px] max-h-[52px] border-none cursor-pointer`}
           // disabled={selected ? true : false}
           style={{ transition: 'background-color .15s ease-in' }}
           onClick={() => add()}
@@ -1221,7 +1261,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
     </div>}
 
     <div
-      className="bg-white text-black flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
+      className="bg-[#1C1A26] text-white flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
       style={{ transition: 'all .1s ease-in' }}
     >
       <div className="w-[60%] flex items-center whitespace-nowrap overflow-hidden text-ellipsis justify-start md:pl-5">
@@ -1307,11 +1347,11 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
       <div>
         <div className="hidden lg:flex justify-between items-center rounded-[10px] h-[84px] px-4 lg:px-10 mb-10"
           style={{
-            boxShadow: '0 0 3px #ffffff40',
+            boxShadow: '0 0 3px #1C1A2640',
           }}
         >
           <div className="flex items-center">
-            <div className="bg-white text-black font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
+            <div className="bg-[#1C1A26] text-white font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
               {t("Targeting")}
               <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                 {targetingAccounts.length}
@@ -1333,7 +1373,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{t('targetting_info')}</span>
                 </span>
@@ -1366,7 +1406,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{t('targetting_info')}</span>
                 </span>
@@ -1497,12 +1537,12 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
       <div>
         <div className="hidden lg:flex justify-between items-center rounded-[10px] h-[84px] px-4 mb-10"
           style={{
-            boxShadow: '0 0 3px #ffffff40',
+            boxShadow: '0 0 3px #1C1A2640',
           }}
         >
           <div className="flex items-center">
             <div className="relative">
-              <div className="bg-white text-black font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
+              <div className="bg-[#1C1A26] text-white font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
                 onClick={() => setShowPageModal(true)}
               >
                 {t(pageProp.title)}
@@ -1511,12 +1551,12 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                 </span>
                 <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
               </div>
-              <div className={`${showPageModal ? 'opacity-100 z-10' : 'opacity-0 -z-10'} absolute top-0 left-0 w-full bg-white rounded-[10px]`} style={{
-                boxShadow: "0 0 3px #ffffff40",
+              <div className={`${showPageModal ? 'opacity-100 z-10' : 'opacity-0 -z-10'} absolute top-0 left-0 w-full bg-[#1C1A26] text-white rounded-[10px]`} style={{
+                boxShadow: "0 0 3px #1C1A2640",
                 transform: 'translteY(8px)',
                 transition: 'opacity .15s ease-in',
               }}>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-white text-black hover:bg-black hover:text-white border-b"
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-[#1C1A26] text-white hover:bg-[#2b2b2b] hover:text-white border-b"
                   onClick={() => {
                     setPageProp({ id: 2, title: "Whitelist", addDescription: t('whitelist_text') })
                     setShowPageModal(false)
@@ -1527,7 +1567,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                   </span>
                   <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
                 </div>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-white text-black hover:bg-black hover:text-white"
+                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-[#1C1A26] text-white hover:bg-[#2b2b2b] hover:text-white"
                   onClick={() => {
                     setPageProp({
                       id: 3, title: "Blacklist", addDescription: t('Blacklist_text'),
@@ -1557,7 +1597,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{pageProp.title === "Whitelist" ? t('whitelist_info') : t('Blacklist_info')}</span>
                 </span>
@@ -1585,7 +1625,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{pageProp.title === "Whitelist" ? t('whitelist_info') : t('Blacklist_info')}</span>
                 </span>
@@ -1594,7 +1634,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
           </div>
 
           <div className="mt-[30px] flex items-center">
-            <div className={`${pageProp.title === "Whitelist" && "bg-white text-black"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
+            <div className={`${pageProp.title === "Whitelist" && "bg-[#1C1A26] text-white"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
                 {t("Whitelist")}
                 <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
@@ -1602,7 +1642,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                 </span>
               </div>
             </div>
-            <div className={`${pageProp.title === "Blacklist" && "bg-white text-black"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
+            <div className={`${pageProp.title === "Blacklist" && "bg-[#1C1A26] text-white"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
                 {t("Blacklist")}
                 <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">

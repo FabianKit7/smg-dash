@@ -102,7 +102,7 @@ export default function Settings() {
           <div
             className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
             style={{
-              boxShadow: '0 0 3px #ffffff40',
+              boxShadow: '0 0 3px #1C1A2640',
             }}
           >
             <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Profile settings")}</h1>
@@ -181,7 +181,7 @@ export default function Settings() {
             <div
               className="flex justify-between items-center rounded-[10px] h-[84px] px-5 md:px-[30px] mb-10"
               style={{
-                boxShadow: '0 0 3px #ffffff40',
+                boxShadow: '0 0 3px #1C1A2640',
               }}
             >
               <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Payment and Billing Settings")}</h1>
@@ -219,7 +219,7 @@ export default function Settings() {
           <div
             className="flex flex-col md:flex-row justify-between items-center rounded-[10px] md:h-[84px] py-3 md:py-0 px-5 md:px-[30px] mb-10"
             style={{
-              boxShadow: '0 0 3px #ffffff40',
+              boxShadow: '0 0 3px #1C1A2640',
             }}
           >
             <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Accounts")}</h1>

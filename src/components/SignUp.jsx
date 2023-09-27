@@ -194,14 +194,14 @@ export default function SignUp() {
 
         {/* <div className="relative items-center justify-center hidden my-8 del-flex">
           <hr className="w-full" />
-          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-white text-black-r">OR</div>
+          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-[#1C1A26] text-white-r">OR</div>
         </div>
 
         <div className="flex items-center justify-center mt-8 mb-[12px]">
           <button
             onClick={() => handleOAuthSignIn('google')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black-r"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-[#1C1A26] text-white-r"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',
@@ -217,7 +217,7 @@ export default function SignUp() {
           <button
             onClick={() => handleOAuthSignIn('facebook')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-white text-black-r"
+            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-[#1C1A26] text-white-r"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',

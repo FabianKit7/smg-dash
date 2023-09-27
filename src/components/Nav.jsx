@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 // import sproutyLogo from "../images/sprouty.svg";
@@ -26,6 +26,8 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
   const [error, setError] = useState(false);
   const [pending] = useState(false)
   const [accounts, setAccounts] = useState([])
+  const langModalRef = useRef(null)
+  const [showLangOptions, setShowLangOptions] = useState(false)
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
 
   const { t } = useTranslation();
@@ -35,6 +37,25 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
       setIsOpen(false)
     };
   }, [isClickedOutside]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (langModalRef.current && !langModalRef.current.contains(event.target)) {
+        setShowLangOptions(false);
+      }
+    }
+
+    if (showLangOptions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showLangOptions]);
+
 
   useEffect(() => {
     const getData = async () => {
@@ -65,7 +86,6 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
   }, [currentUsername, userD]);
 
   const [lng, setLang] = useState({ value: 'fr', text: "French", flag: '/french_flag.png' });
-  const [showLangOptions, setShowLangOptions] = useState(false)
 
   useEffect(() => {
     const lng = localStorage.getItem('lng') || 'fr';
@@ -114,24 +134,34 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
             <FiGrid size={30} className="w-[30px] h-[30px]" />
           </Link>}
 
-          <div className="relative text-sm transition-all bg-gray-600 rounded-lg">
-            <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => setShowLangOptions(!showLangOptions)}>
+          <div ref={langModalRef} className="relative text-sm transition-all bg-[#1C1A26] rounded-lg">
+            <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => {
+              setShowLangOptions(!showLangOptions)
+              // if (showLangOptions){
+              //   // setShowLangOptions(false)
+              // }else{
+              //   setShowLangOptions(true)
+              // }
+            }}>
               <img src={lng.flag} alt={lng.value} className="w-[20px] h-[20px]" />
               <span className="font-bold capitalize">{lng.value}</span>
               <FaAngleDown />
             </div>
 
-            <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 mt-3`}>
+            <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 absolute top-[calc(100%-3px)] pt-3 left-0 w-full z-10 transition-all bg-[#1C1A26] text-white rounded-b-lg overflow-hidden`}>
               {locales.map(item => {
                 return (<div
                   key={`lng-${item.value}`}
                   value={item.value}
-                  className="flex items-center gap-3 p-1 cursor-pointer hover:bg-gray-700"
+                  className="flex items-center gap-3 p-1 cursor-pointer hover:bg-black"
                   onClick={() => {
                     handleChange(item)
-                    setShowLangOptions(!showLangOptions);
+                    setShowLangOptions(false);
                   }}>
-                  {item.text}
+                  <div className="flex items-center gap-2">
+                    <img src={item.flag} alt={item.value} className="w-[20px] h-[20px]" />
+                    <span className="uppercase">{item.value}</span>
+                  </div>
                 </div>);
               })}
             </div>
@@ -157,7 +187,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden text-lg lg:inline font-MontserratSemiBold">@{data?.username}</span></p>
               <FaAngleDown className="hidden lg:block" />
 
-              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-white text-black py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#ffffff40] rounded-[10px] font-MontserratBold`}
+              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-[#1C1A26] text-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#1C1A2640] rounded-[10px] font-MontserratBold`}
                 style={{
                   transition: "opacity .15s ease-in"
                 }}
@@ -169,7 +199,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                 <div className="max-h-[360px] overflow-auto pb-4 flex flex-col">
                   {accounts.map(account => {
                     return (
-                      <Link key={`account_nav_${account?.username}`} className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/dashboard/" + account?.username}
+                      <Link key={`account_nav_${account?.username}`} className="font-normal text-sm hover:bg-black" to={"/dashboard/" + account?.username}
                         onClick={() => {
                           setIsOpen(!isOpen);
                           setActiveLink("Profile");
@@ -192,7 +222,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                 {!admin && <div className="">
                   <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">Options</div>
 
-                  <Link className="font-normal text-sm hover:bg-[#f8f8f8] cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
+                  <Link className="font-normal text-sm cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
                     onClick={() => {
                       setIsOpen(!isOpen);
                       setActiveLink("Profile");
@@ -204,7 +234,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                     </li>
                   </Link>
 
-                  <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/search/?username=add_account"}
+                  <Link className="font-normal text-sm" to={"/search/?username=add_account"}
                     onClick={() => {
                       setIsOpen(!isOpen);
                       setActiveLink("Profile");
@@ -216,7 +246,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                     </li>
                   </Link>
 
-                  <Link to={`/${data?.username}/settings`} className="font-normal text-sm hover:bg-[#f8f8f8]"
+                  <Link to={`/${data?.username}/settings`} className="font-normal text-sm"
                     onClick={() => {
                       setIsOpen(!isOpen);
                       setActiveLink("Settings");
@@ -228,7 +258,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                     </li>
                   </Link>
 
-                  {data?.admin && <Link className="font-normal text-sm hover:bg-[#f8f8f8]" to={"/admin"}
+                  {data?.admin && <Link className="font-normal text-sm" to={"/admin"}
                     onClick={() => {
                       setIsOpen(!isOpen);
                       setActiveLink("Admin");
@@ -240,7 +270,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                     </li>
                   </Link>}
 
-                  <li className="py-2 px-6 cursor-pointer hover:bg-[#f8f8f8] flex items-center gap-3"
+                  <li className="py-2 px-6 cursor-pointer flex items-center gap-3 hover:bg-black"
                     onClick={async () => {
                       setIsOpen(!isOpen);
                       await supabase.auth.signOut();
