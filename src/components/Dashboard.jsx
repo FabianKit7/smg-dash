@@ -760,7 +760,7 @@ export default function Dashboard() {
           </div>
 
           <div className="w-full lg:hidden">
-            <div className="shadow-[0_0_3px_#1C1A2640] rounded-[10px] p-5 relative">
+            <div className="shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] rounded-[10px] p-5 relative">
               <span className="absolute cursor-pointer top-5 right-5 group">
                 <div className="flex items-center">
                   <span
@@ -787,7 +787,7 @@ export default function Dashboard() {
                 <img
                   alt=""
                   className="mr-5 w-[42px] h-[42px] rounded-full"
-                  src="/mike-transparente.png"
+                  src="/mythyl_e.jpeg"
                 ></img>
                 <div>
                   <div
@@ -1414,7 +1414,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             </span>
           </div>
           <div className="mt-[30px] flex items-center">
-            <div className="flex justify-center w-full text-black bg-white">
+            <div className="flex justify-center w-full bg-[#1C1A26] text-white">
               <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-6">
                 {t("Targeting")}
                 <span className="button-gradient2 text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
