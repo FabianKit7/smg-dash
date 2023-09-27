@@ -794,7 +794,7 @@ export default function Dashboard() {
                     _ngcontent-cuk-c74=""
                     className="flex items-center gap-1 text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
                   >
-                    Mathieu P
+                    Mythyl E
                     <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
                   </div>
                   <div className="text-base font-normal">
@@ -863,7 +863,7 @@ export default function Dashboard() {
                   <img
                     alt=""
                     className="mr-5 w-[87px] h-[87px] rounded-full"
-                    src="/mike-transparente.png"
+                    src="/mythyl_e.jpeg"
                   ></img>
                   <div>
                     <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
@@ -871,7 +871,7 @@ export default function Dashboard() {
                       _ngcontent-cuk-c74=""
                       className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
                     >
-                      Mathieu P
+                      Mythyl E
                     </div>
                     <div className="text-base font-normal">
                       {t("Personal Account Analyst")}

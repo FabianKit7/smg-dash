@@ -29,6 +29,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
   const langModalRef = useRef(null)
   const [showLangOptions, setShowLangOptions] = useState(false)
   const [openMobileMenu, setOpenMobileMenu] = useState(false)
+  const mobileMenuRef = useRef(null)
   error && console.log("🚀 ~ file: Nav.jsx:9 ~ Nav ~ error", error);
 
   const { t } = useTranslation();
@@ -39,10 +40,12 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
     };
   }, [isClickedOutside]);
 
+  // langModalRef
   useEffect(() => {
     function handleClickOutside(event) {
       if (langModalRef.current && !langModalRef.current.contains(event.target)) {
         setShowLangOptions(false);
+        setOpenMobileMenu(false);
       }
     }
 
@@ -56,6 +59,26 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showLangOptions]);
+
+  // mobileMenuRef
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+        setOpenMobileMenu(false);
+        setIsOpen(false)
+      }
+    }
+
+    if (openMobileMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openMobileMenu]);
 
 
   useEffect(() => {
@@ -149,6 +172,8 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
           <div id="languageSwitcher" ref={langModalRef} className="relative text-sm transition-all bg-[#1C1A26] rounded-lg">
             <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => {
               setShowLangOptions(!showLangOptions)
+              setIsOpen(false)
+              setOpenMobileMenu(false);
             }}>
               <img src={lng.flag} alt={lng.value} className="w-[20px] h-[20px]" />
               <span className="font-bold capitalize">{lng.value}</span>
@@ -288,9 +313,15 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               </ul>
             </div>
           </div>}
-          <FaBars className="lg:hidden cursor-pointer" onClick={() => setOpenMobileMenu(!openMobileMenu)} />
-          <div className="lg:hidden">
-            {openMobileMenu && <MobileMenu t={t} />}
+
+          <div ref={mobileMenuRef} className="">
+            <FaBars className="lg:hidden cursor-pointer" onClick={() => {
+              setIsOpen(false)
+              setOpenMobileMenu(!openMobileMenu)
+              }} />
+            <div className="lg:hidden">
+              {openMobileMenu && <MobileMenu t={t} />}
+            </div>
           </div>
         </div>
       </div>
