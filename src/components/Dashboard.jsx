@@ -760,7 +760,7 @@ export default function Dashboard() {
           </div>
 
           <div className="w-full lg:hidden">
-            <div className="shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] rounded-[10px] p-5 relative">
+            <div className="shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white rounded-[10px] p-5 relative">
               <span className="absolute cursor-pointer top-5 right-5 group">
                 <div className="flex items-center">
                   <span
@@ -805,7 +805,7 @@ export default function Dashboard() {
             </div>
 
             {showMobileManager && <div className="">
-              <div className="shadow-[0_0_3px_#1C1A2640] rounded-[10px] p-5 relative">
+              <div className="shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white rounded-[10px] p-5 relative">
                 <div className="text-sm font-normal text-black-r font-MontserratRegular">
                   {t('analyst_greetings')}
                 </div>
@@ -833,7 +833,7 @@ export default function Dashboard() {
           <div className="hidden my-10 lg:block">
             <div>
               <div
-                className="p-[35px] relative rounded-[10px] w-[450px]"
+                className="p-[35px] relative rounded-[10px] w-[450px] bg-[#1C1A26] text-white"
                 style={{ boxShadow: '0 0 3px #1C1A2640' }}
               >
 
@@ -910,7 +910,7 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
     <div className="mt-4 text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
       <div className="flex items-center justify-between w-full gap-1 text-center lg:gap-4">
         <div
-          className={`${chart === 1 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
+          className={`${chart === 1 ? "button-gradient" : "bg-[#1C1A26] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(1)}
           style={{
             transition: 'all .15s ease-in',
@@ -928,7 +928,7 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
         </div>
 
         <div
-          className={`${chart === 2 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
+          className={`${chart === 2 ? "button-gradient" : "bg-[#1C1A26] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(2)}
           style={{
             transition: 'all .15s ease-in',
@@ -943,7 +943,7 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
         </div>
 
         <div
-          className={`${chart === 3 ? "button-gradient" : "bg-[#242424] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
+          className={`${chart === 3 ? "button-gradient" : "bg-[#1C1A26] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(3)}
           style={{
             transition: 'all .15s ease-in',
