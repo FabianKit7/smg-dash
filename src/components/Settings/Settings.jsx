@@ -275,15 +275,15 @@ export default function Settings() {
         }}
         >
           <div className="fixed top-0 left-0 grid w-full h-screen bg-black/40 place-items-center" onClick={() => setCancelModal(false)}></div>
-          <div className="bg-white to-black py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular rounded-[10px]">
+          <div className="bg-[#242424] text-white py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular rounded-[10px]">
             <FaTimesCircle className="absolute flex flex-col items-center top-3 right-3"
               onClick={() => {
                 setCancelModal(false)
               }} />
-            <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold text-[#333]">{t("cancel_sub_title")}</h1>
+            <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold">{t("cancel_sub_title")}</h1>
             <div className="text-[.8rem] md:text-base">
               <p className="text-center">
-                {t("cancel_sub_text1a")} <a href="mailto:support@propulse.me" className="text-blue-500">support@propulse.me</a>.
+                {t("cancel_sub_text1a")} <a href="mailto:support@propulse.me" className="text-blue-500">support@propulse.me</a>.{" "}
                 {t("cancel_sub_text1b")}
               </p>
               <br />
@@ -293,7 +293,7 @@ export default function Settings() {
             </div>
             <a href="mailto:support@propulse.me" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
               <BsFillEnvelopeFill />
-              Send an email
+              {t("Send an email")}
             </a>
           </div>
         </div>

@@ -222,7 +222,7 @@ export default function Subscriptions() {
                         className="w-[38px] h-[38px] rounded-full border-2 border-white"
                       />
                       <div className="flex flex-col">
-                        <div className="text-[12px] -mb-1">Account:</div>
+                        <div className="text-[12px] -mb-1">{t("Account")}:</div>
                         <div className="text-[14px] text-black-r font-bold font-MontserratSemiBold">
                           @{userResults?.username}
                         </div>
@@ -399,7 +399,7 @@ export default function Subscriptions() {
                 </div>
 
                 <div
-                  className="border-t border-white flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-blue-gray-100"
+                  className="border-t border-white flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-[#333333]"
                   onClick={async () => {
                     setShowMenu(!showMenu);
                     await supabase.auth.signOut();
@@ -409,7 +409,7 @@ export default function Subscriptions() {
                     window.location.pathname = '/login';
                   }}
                 >
-                  <MdLogout size={22} /> <span className="">Logout</span>
+                  <MdLogout size={22} /> <span className="">{t("Logout")}</span>
                 </div>
               </div>
             </div>

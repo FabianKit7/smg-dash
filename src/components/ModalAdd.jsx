@@ -9,10 +9,12 @@ import { TiTimes } from 'react-icons/ti';
 import { useRef } from 'react';
 import { useClickOutside } from 'react-click-outside-hook';
 import { FaUser } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 Modal.setAppElement('#root');
 
 const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle, user, userId, setAddSuccess, addSuccess }) => {
+  const { t } = useTranslation();
   const [parentRef, isClickedOutside] = useClickOutside();
   const [showResultModal, setShowResultModal] = useState(false)
   const [selected, setSelected] = useState()
@@ -162,7 +164,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                   </div>
                   <div className="">
                     <div className="">{debouncedQuery}</div>
-                    <div className="mt-1 opacity-40 text-[.9rem]">click here to open account profile</div>
+                    <div className="mt-1 opacity-40 text-[.9rem]">{t("click here to open account profile")}</div>
                   </div>
                 </div>}
                 {searchedAccounts.map((data, index) => {
@@ -202,13 +204,8 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
                   boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                 }}
                 onClick={() => { !processing && add() }}
-              >{processing ? <span className="animate-pulse">Processing your account…</span> : 'Select Account'}</button>
+              >{processing ? <span className="animate-pulse">{t("Processing your account")}…</span> : t('Select Account')}</button>
             </div>
-
-
-            {/* <button className='bg-black w-32 md:w-40 py-[25px] font-semibold rounded text-white'
-              onClick={() => add()}
-            >{Processing ? "Processing..." : "Add"}</button> */}
           </div>
           <p className='font-bold font-MontserratRegular text-sm text-center lg:px-[120px] pt-8 pb-5'>{extraSubtitle}</p>
         </div>

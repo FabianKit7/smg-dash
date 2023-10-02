@@ -10,8 +10,10 @@ import { useState } from "react";
 import { MdLogout } from "react-icons/md";
 import { useClickOutside } from "react-click-outside-hook";
 import { LangSwitcher } from "./Login";
+import { useTranslation } from "react-i18next";
 
 export default function Search() {
+  const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
   const currentUsername = urlParams.get("username");
   const [user, setUser] = useState(null)
@@ -97,7 +99,7 @@ export default function Search() {
               </div>
             </div>
 
-            <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-blue-gray-100" onClick={async () => {
+            <div className="border-t border-[#f8f8f8] flex items-center gap-3 h-[53px] text-black-r px-5 cursor-pointer hover:bg-[#333333]" onClick={async () => {
               setShowMenu(!showMenu)
               await supabase.auth.signOut();
               window.onbeforeunload = function () {
@@ -105,7 +107,7 @@ export default function Search() {
               }
               window.location.pathname = "/login";
             }}>
-              <MdLogout size={22} /> <span className="">Logout</span>
+              <MdLogout size={22} /> <span className="">{t("Logout")}</span>
             </div>
           </div>
         </div>

@@ -166,7 +166,7 @@ const FullName = ({ setShowModal, user, setRefresh, refresh, t }) => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button type="submit" className={`${value ? "button-gradient" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-full rounded-[10px] min-w-[132px] w-[132px] cursor-pointer`} onClick={(e) => {
+        <button type="submit" className={`${value ? "button-gradient" : "bg-[#c4c4c4]"} text-white font-bold font-MontserratBold flex items-center justify-center gap-2 h-full rounded-[10px] min-w-[152px] w-[152px] cursor-pointer`} onClick={(e) => {
           e.preventDefault()
           handleSaveAndClose('full_name')
         }}>

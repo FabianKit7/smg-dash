@@ -115,7 +115,7 @@ export const countDays = (day, t) => {
 
   today = yyyy + "-" + mm + "-" + dd
 
-  if (today === day) return "today"
+  if (today === day) return t("today")
 
   var date1 = new Date(day)
   var date2 = new Date(today)

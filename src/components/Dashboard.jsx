@@ -1165,7 +1165,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
               </div>
               <div className="">
                 <div className="">{debouncedQuery}</div>
-                <div className="mt-1 opacity-90 text-[.9rem]">click here to select account</div>
+                <div className="mt-1 opacity-90 text-[.9rem]">{t("click here to select account")}</div>
               </div>
             </div>}
 
@@ -1215,7 +1215,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
           style={{ transition: 'background-color .15s ease-in' }}
           onClick={() => add()}
         >
-          {processing ? <span className="animate-pulse">Processing…</span> : t(buttonText)}
+          {processing ? <span className="animate-pulse">{t("Processing")}…</span> : t(buttonText)}
         </button>
       </div>
     </div>
@@ -1248,8 +1248,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
                 setAddSuccess(!addSuccess)
                 setConfirm({ title: "", description: "" })
               }}
-            >Delete
-              Account</button>
+            >{t("Delete Account")}</button>
             <button className="block w-full px-4 py-3 mt-4 text-sm font-semibold bg-gray-200 rounded-lg md:inline-block md:w-auto md:py-2 md:mt-0 md:order-1"
               onClick={() => {
                 setConfirm({ title: "", description: "" })
