@@ -25,7 +25,11 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    navigate(`/dashboard/${username}`)
+    let u = username;
+    if (username.startsWith('@')){
+      u = username.replace(/@/g, '');
+    }
+    navigate(`/dashboard/${u}`)
   }
 
   return (<>
