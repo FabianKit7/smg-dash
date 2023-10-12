@@ -24,14 +24,14 @@
   }
   
   .slider__range {
-    background-color: #ff5e69;
+    background-color: #dbc8be;
     z-index: 2;
     position: relative;
   }
   
   .slider__left-value,
   .slider__right-value {
-    color: #ff5e69;
+    color: #dbc8be;
     font-size: 12px;
     margin-top: 8px;
     margin-bottom: 24px;
@@ -74,10 +74,10 @@
   
   /* For Chrome browsers */
   .thumb::-webkit-slider-thumb {
-    background-color: #ff5e69;
+    background-color: #dbc8be;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #ff5e69;
+    box-shadow: 0 0 1px 1px #dbc8be;
     cursor: pointer;
     height: 18px;
     width: 18px;
@@ -88,10 +88,10 @@
   
   /* For Firefox browsers */
   .thumb::-moz-range-thumb {
-    background-color: #ff5e69;
+    background-color: #dbc8be;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #ff5e69;
+    box-shadow: 0 0 1px 1px #dbc8be;
     cursor: pointer;
     height: 18px;
     width: 18px;

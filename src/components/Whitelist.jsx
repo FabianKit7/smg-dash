@@ -79,9 +79,9 @@ export default function Whitelist({ user, userId, page }) {
         {/* nav */}
         <div className="flex justify-between px-8 pt-8">
           <div className="flex items-center gap-3">
-            <h3 className="font-bold text-[28px] font-MontserratBold">Whitelist</h3>
+            <h3 className="font-bold text-[28px] ">Whitelist</h3>
             <div className="bg-gray20 rounded w-8 h-8 flex justify-center items-center">
-              <h2 className="text-white font-MontserratSemiBold">{whitelistAccounts.length}</h2>
+              <h2 className="text-white ">{whitelistAccounts.length}</h2>
             </div>
             {loadingSpinner && (<Spinner animation="border" />)}
           </div>

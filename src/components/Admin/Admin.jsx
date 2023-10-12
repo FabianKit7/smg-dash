@@ -15,11 +15,11 @@ export default function Admin() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
-      if (authUserRes?.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/search")
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]
-      if (!superUser || !superUser?.admin) return navigate("/login")
+      if (!superUser || !superUser?.admin) return navigate("/search")
       setFetchingUser(false)
     };
 

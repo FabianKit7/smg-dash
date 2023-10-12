@@ -9,9 +9,9 @@ export default function UserCard({ item, addSuccess, setAddSuccess, from, page }
             <div className="flex gap-3">
                 <img src={item.avatar || avatarImg} className="h-11 w-11 rounded-full self-center" alt={item.account}  />
                 <div className="flex flex-col">
-                    <h1 className="font-bold font-MontserratBold">@{item.account}</h1>
-                    <p className="font-MontserratRegular">{numFormatter(item.followers)} Followers</p>
-                    <p className="md:hidden font-MontserratLight">{countDays(item.created_at)}</p>
+                    <h1 className="font-bold ">@{item.account}</h1>
+                    <p className="">{numFormatter(item.followers)} Followers</p>
+                    <p className="md:hidden ">{countDays(item.created_at)}</p>
                 </div>
             </div>
             <div className="flex gap-3 items-center">

@@ -240,8 +240,8 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
 
     <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[60px] 2xl:py-[100px] lg:px-[100px] bg-black">
       <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] my-auto 2xl:grid max-h-full lg:mx-auto relative rounded-[20px] shadow-[0_5px_10px_#0a17530d] bg-[#242424]">
-        <div className="absolute -top-10 left-0 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
-          <div className="text-[#b16cea]">{t("Select Your Account")}</div>
+        <div className="absolute -top-10 left-0 hidden lg:flex items-center gap-2 font-[600] ">
+          <div className="text-[#3d3d3d]">{t("Select Your Account")}</div>
           <div className="">{`>`}</div>
           <div className="">{t("Complete registration")}</div>
           <div className="">{`>`}</div>
@@ -250,8 +250,8 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
 
         <div className="flex flex-col justify-between h-full px-5 pb-4 lg:justify-center lg:items-center text-start lg:text-center lg:px-0">
           <div className="block lg:flex flex-col lg:justify-center lg:items-center pt-6 md:pt-0 pb-[80px]">
-            <h1 className='font-bold text-black-r font-MontserratBold text-[26px] pb-3'>{t("Search your account")}</h1>
-            <p className='text-[0.875rem] font-MontserratRegular lg:px-[100px]'>{t("search_acc_text")} <br className='hidden lg:block' /> Propulse</p>
+            <h1 className='font-bold text-black-r  text-[26px] pb-3'>{t("Search your account")}</h1>
+            <p className='text-[0.875rem]  lg:px-[100px]'>{t("search_acc_text")} <br className='hidden lg:block' />SocialMediaGains</p>
 
             <div className="flex flex-col justify-between mt-3 lg:block">
               <div className="flex flex-col items-center justify-between h-full w-full lg:h-fit lg:w-[411px] relative" ref={parentRef}>
@@ -263,7 +263,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                         <img src="/icons/instagram.svg" alt="" className='absolute -bottom-1 -right-1 border-2 w-[22px] h-[22px] rounded-full' />
                       </div>
                       <div className="">
-                        <h3 className='font-bold text-black-r font-MontserratSemiBold'>{selectedAccount?.username}</h3>
+                        <h3 className='font-bold text-black-r '>{selectedAccount?.username}</h3>
                         <h3 className=''>{selectedAccount?.full_name}</h3>
                       </div>
                     </div>
@@ -300,7 +300,7 @@ export default function OnboardingSearchBox({ user, currentUsername }) {
                   </div>}
                 </div>
 
-                {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border borderD-[#ff5e69] rounded-md bg-black py-3 px-4 flex flex-col gap-4">
+                {showResultModal && !selected && !processing && <div className="absolute top-[64px] z-50 w-full min-h-[150px] max-h-[300px] overflow-auto shadow-md border borderD-[#dbc8be] rounded-md bg-black py-3 px-4 flex flex-col gap-4">
                   {debouncedQuery && <div className="flex items-center gap-2 pb-2 border-b cursor-pointer"
                     onClick={async () => {
                       setProcessing(true)

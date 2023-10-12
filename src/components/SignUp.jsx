@@ -123,10 +123,10 @@ export default function SignUp() {
       <div className="p-5 md:p-10 md:shadow-lg rounded-[10px] w-full md:w-[458px]">
         <div className="flex flex-col items-center justify-center">
           {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
-          <div className="font-MADEOKINESANSPERSONALUSE text-[28px]">
+          <div className=" text-[28px]">
             <div className="items-center hidden gap-2 md:flex">
               <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
-              <b className="text-[32px]">Propulse</b>
+              <b className="text-[32px]">SocialMediaGains</b>
             </div>
             {/* <img src="/sproutysocial-light.svg" alt="" className="w-[220px]" /> */}
             {/* <img src="/LogoSprouty2.svg" alt="" className="w-[220px]" /> */}
@@ -134,10 +134,10 @@ export default function SignUp() {
           </div>
           {/* <hr className="mb-7 w-full border-[#ef5f3c]" /> */}
 
-          <h5 className="font-semibold text-[2rem] text-center text-black-r font-MontserratSemiBold mt-[30px]">{t("Partner With Us")}</h5>
-          {/* <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
-          {/* <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">Join more than <span className="font-bold">25,000</span> users that trust SproutySocial to grow on Instagram. <br className="md:hidden" /> Create an account.</p> */}
-          <p className="text-center text-[0.8rem] mt-2 mb-6 font-MontserratRegular text-black-r max-w-[320px]">{t('reg_desc')}</p>
+          <h5 className="font-semibold text-[2rem] text-center text-black-r  mt-[30px]">{t("Partner With Us")}</h5>
+          {/* <p className="text-center text-[0.75rem]  text-[#333]">Start growing <span className="font-bold">~1-10k</span> real and targeted Instagram <br /><span className="font-bold">followers</span> every month.</p> */}
+          {/* <p className="text-center text-[0.8rem] mt-2 mb-6  text-black-r max-w-[320px]">Join more than <span className="font-bold">25,000</span> users that trust SproutySocial to grow on Instagram. <br className="md:hidden" /> Create an account.</p> */}
+          <p className="text-center text-[0.8rem] mt-2 mb-6  text-black-r max-w-[320px]">{t('reg_desc')}</p>
         </div>
 
         <form action="" className="flex flex-col items-center justify-start" onSubmit={handleSignUp}>
@@ -175,7 +175,7 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="button-gradient2 text-white font-MontserratSemiBold text-[16px] mt-6 mb-2 rounded-[5px] h-[52px] px-4 w-72 md:w-80 font-semibold"
+            className="button-gradient2 text-white  text-[16px] mt-6 mb-2 rounded-[5px] h-[52px] px-4 w-72 md:w-80 font-semibold"
             style={{
               boxShadow: '0 10px 30px -12px rgb(255 132 102 / 47%)'
             }}
@@ -185,8 +185,8 @@ export default function SignUp() {
         </form>
 
         <div className="text-center">
-          <p className="text-sm text-black-r font-MontserratRegular">
-            {t("Already have an account?")} <Link to="/login"><span className="font-MontserratSemiBold text-[#b16cea]">{t("Sign in")}</span></Link>
+          <p className="text-sm text-black-r ">
+            {t("Already have an account?")} <Link to="/search"><span className=" text-[#3d3d3d]">{t("Sign in")}</span></Link>
           </p>
         </div>
 
@@ -194,14 +194,14 @@ export default function SignUp() {
 
         {/* <div className="relative items-center justify-center hidden my-8 del-flex">
           <hr className="w-full" />
-          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-[#1C1A26] text-white-r">OR</div>
+          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 bg-[#DBC8BE] text-white-r">OR</div>
         </div>
 
         <div className="flex items-center justify-center mt-8 mb-[12px]">
           <button
             onClick={() => handleOAuthSignIn('google')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-[#1C1A26] text-white-r"
+            className="flex items-center justify-center gap-2  text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-[#DBC8BE] text-white-r"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',
@@ -217,7 +217,7 @@ export default function SignUp() {
           <button
             onClick={() => handleOAuthSignIn('facebook')}
             type="button"
-            className="flex items-center justify-center gap-2 font-MontserratSemiBold text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-[#1C1A26] text-white-r"
+            className="flex items-center justify-center gap-2  text-[16px] rounded-[5px] h-[52px] px-6 w-72 md:w-80 font-semibold bg-[#DBC8BE] text-white-r"
             style={{
               border: '1px solid #ef5f3c',
               color: 'white',

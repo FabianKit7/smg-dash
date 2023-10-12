@@ -125,8 +125,8 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
           />
         </div>
         <div className="grid grid-cols-1 justify-center items-center">
-          <h1 className='font-bold text-black-r text-[36px] md:text-[40px] text-center pb-3 font-MADEOKINESANSPERSONALUSE'>{title}</h1>
-          <p className='font-bold font-MontserratSemiBold text-[#333] text-sm text-center lg:px-[100px]'>{subtitle}</p>
+          <h1 className='font-bold text-black-r text-[36px] md:text-[40px] text-center pb-3 '>{title}</h1>
+          <p className='font-bold  text-[#333] text-sm text-center lg:px-[100px]'>{subtitle}</p>
           <div className="flex items-center justify-center w-full mt-4">
 
             <div className="flex flex-col items-center w-[320px] relative" ref={parentRef}>
@@ -207,7 +207,7 @@ const ModalAdd = ({ from, modalIsOpen, setIsOpen, title, subtitle, extraSubtitle
               >{processing ? <span className="animate-pulse">{t("Processing your account")}…</span> : t('Select Account')}</button>
             </div>
           </div>
-          <p className='font-bold font-MontserratRegular text-sm text-center lg:px-[120px] pt-8 pb-5'>{extraSubtitle}</p>
+          <p className='font-bold  text-sm text-center lg:px-[120px] pt-8 pb-5'>{extraSubtitle}</p>
         </div>
       </div>
     </Modal>

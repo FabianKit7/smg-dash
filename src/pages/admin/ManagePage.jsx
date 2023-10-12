@@ -44,11 +44,11 @@ export default function ManagePage() {
   useEffect(() => {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
-      if (authUserRes?.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/search")
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUser = getSuperUser?.data?.[0]
-      if (!superUser || !superUser?.admin) return navigate("/login")
+      if (!superUser || !superUser?.admin) return navigate("/search")
       setFetchingUser(false)
     };
 
@@ -92,7 +92,7 @@ export default function ManagePage() {
         var v;
         if (growthDifference) {
           v = `
-          <div class="${growthDifference > 0 ? "text-[#ff5e69]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
+          <div class="${growthDifference > 0 ? "text-[#dbc8be]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
           `
         } else {
           v = `
@@ -118,7 +118,7 @@ export default function ManagePage() {
       setRefreshUsers={setRefreshUsers}
     />}
 
-    <div className="font-MontserratRegular max-w-[1600px] mx-auto">
+    <div className=" max-w-[1600px] mx-auto">
       <Header
         setUsers={setUsers}
         searchTerm={searchTerm}
@@ -129,7 +129,7 @@ export default function ManagePage() {
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
-            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#1C1A26] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#DBC8BE] text-[25px] font-bold  text-black-r px-4 flex justify-center items-center relative">
               <div className="flex items-center justify-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
                 {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white button-gradient select-none ml-5">{sectionTotal}</span>}
               </div>
@@ -164,7 +164,7 @@ export default function ManagePage() {
             }
 
             return (
-              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#1C1A26] text-white h-[64px] w-full'>
+              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#DBC8BE] text-white h-[64px] w-full'>
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>
@@ -222,7 +222,7 @@ export default function ManagePage() {
                 <td>
                   <div className="relative group">
                     {user?.tag?.tag1 && <div className="absolute top-0 left-0 hidden w-full h-full bg-black/20 group-hover:grid place-items-center">
-                      <div className="w-[30px] h-[30px] grid place-items-center rounded-lg bg-black-r text-white-r bg-[#1C1A26] text-white cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
+                      <div className="w-[30px] h-[30px] grid place-items-center rounded-lg bg-black-r text-white-r bg-[#DBC8BE] text-white cursor-pointer" onClick={() => { setShowAddTagModal(true); setUserToAddTagFor(user) }}>
                         <FaPen />
                       </div>
                     </div>}
@@ -289,11 +289,11 @@ const TagModal = ({ setShowAddTagModal, userToAddTagFor, refreshUsers, setRefres
   }
 
   return (<>
-    <div className="fixed top-0 left-0 z-20 w-full h-screen font-MontserratRegular bg-black/20">
+    <div className="fixed top-0 left-0 z-20 w-full h-screen  bg-black/20">
       <div className="fixed top-0 left-0 w-full h-screen bg-black/20 z-[2] cursor-pointer" onClick={() => { setShowAddTagModal(false) }}>
       </div>
 
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-[#1C1A26] rounded-[10px] pb-2 px-4">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-[300px] bg-[#DBC8BE] rounded-[10px] pb-2 px-4">
         {processing && <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full text-white bg-black/20">
           <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}
@@ -368,10 +368,10 @@ export const ChangeStatusModal = ({ user, refreshUsers, setRefreshUsers }) => {
           <img src="/logo.png" alt="Loading" className="w-10 h-10 animate-spin" />
         </div>}
 
-        <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#000] text-[25px] font-bold font-MontserratBold text-black-r min-h-[100px] flex flex-col gap-3`}>
+        <div className={`${showModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} transition-all absolute right-0 z-10 mt-2 border border-[#bbbbbb] rounded-[10px] bg-[#000] text-[25px] font-bold  text-black-r min-h-[100px] flex flex-col gap-3`}>
           {statuses.map(status => {
             return (
-              <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] text-black hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] hover:text-black bg-[#242424]"} h-[59px] rounded-[10px] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex items-center capitalize cursor-pointer`}
+              <div key={`status-${status}`} className={`${user?.status === status ? "bg-[#cdcdcd] text-black hover:bg-[#dfdfdf]" : "hover:bg-[#cdcdcd] hover:text-black bg-[#242424]"} h-[59px] rounded-[10px] text-[25px] font-bold  text-black-r px-4 flex items-center capitalize cursor-pointer`}
                 onClick={async () => {
                   setProcessing(true)
                   const res = await supabase

@@ -66,7 +66,7 @@ export default function Search() {
           </div>
         </div>
 
-        <div className="lg:hidden bg-black fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]" onClick={() => {
+        <div className="lg:hidden bg-black fixed top-0 left-0 z-[5] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600]  shadow-[0_2px_4px_#00000026]" onClick={() => {
           showMenu && setShowMenu(false);
         }}>
           <div className="flex">
@@ -94,7 +94,7 @@ export default function Search() {
                 <span className="text-[22px] pointer-events-none select-none font-[400] uppercase">{user?.full_name && (user?.full_name)?.charAt(0)}</span>
               </div>
               <div className="">
-                <div className="text-black-r font-bold font-MontserratSemiBold text-[14px]">{user?.full_name}</div>
+                <div className="text-black-r font-bold  text-[14px]">{user?.full_name}</div>
                 <div className="text-[12px]">{user?.email}</div>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function Search() {
               window.onbeforeunload = function () {
                 localStorage.clear();
               }
-              window.location.pathname = "/login";
+              window.location.pathname = "/search";
             }}>
               <MdLogout size={22} /> <span className="">{t("Logout")}</span>
             </div>

@@ -1,35 +1,11 @@
-@font-face {
-    font-family: MADEOKINESANSPERSONALUSE;
-    src: url('./fonts/okine/MADEOkineSansPERSONALUSE-Bold.otf');
-}
-
-@font-face {
-    font-family: Montserrat-Regular;
-    src: url('./fonts/Montserrat/Montserrat-Regular.ttf');
-}
-
-@font-face {
-    font-family: Montserrat-Light;
-    src: url('./fonts/Montserrat/Montserrat-Light.ttf');
-}
-
-@font-face {
-    font-family: Montserrat-SemiBold;
-    src: url('./fonts/Montserrat/Montserrat-SemiBold.ttf');
-}
-
-@font-face {
-    font-family: Montserrat-Bold;
-    src: url('./fonts/Montserrat/Montserrat-Bold.ttf');
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 body {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .modal-content {
@@ -38,13 +14,15 @@ body {
 }
 
 .button-gradient {
-    background-color: #f3f3f3;
-    background-image: linear-gradient(90deg, #b16cea 20%, #ff5e69 60%, #ff8a56 80%, #ffa84b);
+    color: white;
+    background-color: #DBC8BE;
+    /* background-image: linear-gradient(90deg, #3d3d3d 20%, #dbc8be 60%, #ff8a56 80%, #ffa84b); */
 }
 
 .button-gradient2 {
-    background-color: #b16cea;
-    background-image: linear-gradient(150deg, #b16cea 20%, #ff5e69 60%, #ff8a56 80%, #ffa84b);
+    color: white;
+    background-color: black;
+    /* background-image: linear-gradient(150deg, #3d3d3d 20%, #dbc8be 60%, #ff8a56 80%, #ffa84b); */
 }
 
 .apexcharts-tooltip.apexcharts-theme-light,

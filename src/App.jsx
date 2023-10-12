@@ -61,7 +61,7 @@ function App() {
 
   useEffect(() => {
     const el = document.getElementsByTagName('html')[0]
-    const lng = localStorage.getItem('lng') || 'fr';    
+    const lng = localStorage.getItem('lng') || 'de';    
     el.lang = lng;
     i18next.changeLanguage(lng)
   }, [])
@@ -69,23 +69,23 @@ function App() {
 
   return (
     <>
-      {/* <div className="max-w-[1600px] mx-auto p-5 font-MontserratRegular"> */}
+      {/* <div className="max-w-[1600px] mx-auto p-5 "> */}
 
-      <div className={`${addPadding ? 'p-5 max-w-[1400px] mx-auto' : 'p-0'} font-MontserratRegular`}>
+      <div className={`${addPadding ? 'p-5 max-w-[1400px] mx-auto' : 'p-0'}  bg-white text-black font-poppins`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
           <Route index element={<Login />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/login" exact element={<Login />} />
-          <Route path="/signUp" exact element={<SignUp />} />
-          <Route path="/forget-password" exact element={<ForgetPassword />} />
-          <Route path="/reset-password" exact element={<ResetPassword />} />
-          <Route path="/subscriptions/:username" element={
+          {/* <Route path="/search" element={<Search />} /> */}
+          <Route path="/search" exact element={<Login />} />
+          {/* <Route path="/signUp" exact element={<SignUp />} /> */}
+          {/* <Route path="/forget-password" exact element={<ForgetPassword />} />
+          <Route path="/reset-password" exact element={<ResetPassword />} /> */}
+          {/* <Route path="/subscriptions/:username" element={
             // <Elements stripe={stripePromise}>
             <Subscriptions />
             // </Elements>
-          } />
+          } /> */}
           <Route path="/:username/settings" exact element={<Settings />} />
           <Route path="/thankyou" exact element={<Thankyou />} />
           <Route path="/dashboard/:username" exact element={<Dashboard />} />

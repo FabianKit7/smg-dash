@@ -91,8 +91,8 @@ const MultiRangeSlider = ({ min, max, onChange, margic, setMargic }) => {
         </div>
         <div className="slider__track" />
         <div ref={range} className={`slider__range ${margic ? "button-gradient" : "bg-gray-600"}`}></div>
-        <div className={`slider__left-value ${margic ? "text-[#ff5e69]" : "text-gray-600"}`}>{minVal}</div>
-        <div className={`slider__right-value ${margic ? "text-[#ff5e69]" : "text-gray-600"}`}>{maxVal}</div>
+        <div className={`slider__left-value ${margic ? "text-[#dbc8be]" : "text-gray-600"}`}>{minVal}</div>
+        <div className={`slider__right-value ${margic ? "text-[#dbc8be]" : "text-gray-600"}`}>{maxVal}</div>
       </div>
     </div>
   );

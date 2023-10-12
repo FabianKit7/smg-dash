@@ -35,7 +35,7 @@
 	box-shadow: none;
 }
 .multi-range-slider .bar-inner {
-	background-color: #ff5e69;
+	background-color: #dbc8be;
 	display: flex;
 	flex-grow: 1;
 	flex-shrink: 1;
@@ -52,7 +52,7 @@
 	width: 50%;
 }
 .multi-range-slider .thumb {
-	background-color: #ff5e69;
+	background-color: #dbc8be;
 	position: relative;
 	z-index: 1;
 	cursor: pointer;
@@ -101,7 +101,7 @@
 	font-size: 75%;
 	text-align: center;
 	line-height: 30px;
-	background-color: #ff5e69;
+	background-color: #dbc8be;
 	border-radius: 13px;
 	color: white;
 	box-shadow: none;

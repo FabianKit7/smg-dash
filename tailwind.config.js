@@ -28,11 +28,7 @@ module.exports = withMT({
       },
     },
     fontFamily: {
-      MADEOKINESANSPERSONALUSE: 'MADEOKINESANSPERSONALUSE, sans-serif',
-      MontserratRegular: 'Montserrat-Regular, sans-serif',
-      MontserratLight: 'Montserrat-Light, sans-serif',
-      MontserratSemiBold: 'Montserrat-SemiBold, sans-serif',
-      MontserratBold: 'Montserrat-Bold, sans-serif',
+      'poppins': ['Poppins', 'sans-serif']
     }
   },
   plugins: [],

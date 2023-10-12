@@ -27,11 +27,11 @@ export default function Retention() {
     const getData = async () => {
       const authUserRes = await supabase.auth.getUser()
       // console.log(authUserRes?.error);
-      if (authUserRes?.error) return navigate("/login")
+      if (authUserRes?.error) return navigate("/search")
       const authUser = authUserRes?.data?.user
       const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
       const superUserFirstAccount = getSuperUser?.data?.find(user => user.first_account)
-      if (!superUserFirstAccount || !superUserFirstAccount?.admin) return navigate("/login")
+      if (!superUserFirstAccount || !superUserFirstAccount?.admin) return navigate("/search")
       setFetchingUser(false)
     };
 
@@ -76,7 +76,7 @@ export default function Retention() {
         var v;
         if (growthDifference) {
           v = `
-          <div class="${growthDifference > 0 ? "text-[#ff5e69]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
+          <div class="${growthDifference > 0 ? "text-[#dbc8be]" : `${parseInt(growthDifference) === 0 ? "text-[#000]" : "text-[#E9C81B]"}`} font-black">${growthDifference}</div>
           `
         } else {
           v = `
@@ -95,7 +95,7 @@ export default function Retention() {
   }
 
   return (
-    <div className="font-MontserratRegular max-w-[1600px] mx-auto">
+    <div className=" max-w-[1600px] mx-auto">
       {showChargebee && <Chargebee k={selectedUser?.id} user={selectedUser} setShowChargebee={setShowChargebee} />}
       <Header
         setUsers={setUsers}
@@ -107,7 +107,7 @@ export default function Retention() {
       <div className="mt-[30px] h-[82px] w-full rounded-[10px] border shadow-[0px_0px_5px_0px_#E7E7E7] px-5 flex items-center gap-2">
         {statuses.map(status => {
           return (
-            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#1C1A26] text-[25px] font-bold font-MontserratBold text-black-r px-4 flex justify-center items-center relative">
+            <div key={`retention_page-${status}`} className="h-[59px] rounded-[10px] bg-[#DBC8BE] text-[25px] font-bold  text-black-r px-4 flex justify-center items-center relative">
               <div className="flex items-center justify-center capitalize cursor-pointer select-none" onClick={() => { setSectionName(status) }}>{status}
                 {status === sectionName && <span className="px-[15px] h-[37px] rounded-[10px] text-center text-white button-gradient select-none ml-5">{sectionTotal}</span>}
               </div>
@@ -143,7 +143,7 @@ export default function Retention() {
             }
 
             return (
-              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#1C1A26] text-white h-[64px] w-full'>
+              <tr key={`${user?.username}_row`} className='rounded-[10px] bg-[#DBC8BE] text-white h-[64px] w-full'>
                 <td>
                   <img src={user?.profile_pic_url} alt="" className="w-[30px] h-[30px] min-w-[30px] min-h-[30px] rounded-full bg-black ml-4" />
                 </td>

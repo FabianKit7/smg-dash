@@ -11,13 +11,13 @@ export default function Thankyou() {
         const getData = async () => {
             console.log('sdlk');
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return navigate("/login")
+            if (!user) return navigate("/search")
             const { data, error } = await supabase
             .from('users')
                 .select()
                 .eq("user_id", user.id)
                 .eq('first_account', true)
-            if (error) return navigate("/login")
+            if (error) return navigate("/search")
             if (!data[0]?.subscribed) {
                 window.location.pathname = `subscriptions/${data[0].username}`;
                 return;

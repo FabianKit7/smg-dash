@@ -143,18 +143,18 @@ export default function Edit() {
 
                 <div className="flex items-center justify-center gap-6 mt-6 mb-4 lg:justify-start lg:gap-14 md:mb-8">
                     <div className="flex flex-col items-center justify-center">
-                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(user?.followers ? user?.followers : 0)}</h2>
-                        <p className="text-sm font-normal opacity-90 font-MontserratLight">Followers</p>
+                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 ">{numFormatter(user?.followers ? user?.followers : 0)}</h2>
+                        <p className="text-sm font-normal opacity-90 ">Followers</p>
                     </div>
 
                     <div className="flex flex-col items-center justify-center">
-                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(user?.following ? user?.following : 0)}</h2>
-                        <p className="text-sm font-normal opacity-90 font-MontserratLight">Following</p>
+                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 ">{numFormatter(user?.following ? user?.following : 0)}</h2>
+                        <p className="text-sm font-normal opacity-90 ">Following</p>
                     </div>
 
                     <div className="flex flex-col items-center justify-center">
-                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 font-MontserratBold">{numFormatter(user?.posts ? user?.posts : 0)}</h2>
-                        <p className="text-sm font-normal opacity-90 font-MontserratLight">Posts</p>
+                        <h2 className="font-semibold text-[20px] md:text-[28px] text-gray20 ">{numFormatter(user?.posts ? user?.posts : 0)}</h2>
+                        <p className="text-sm font-normal opacity-90 ">Posts</p>
                     </div>
                 </div>
 

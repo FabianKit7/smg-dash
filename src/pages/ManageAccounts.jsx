@@ -23,7 +23,7 @@ export default function ManageAccounts() {
     useEffect(() => {
         const getData = async () => {
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return navigate("/login")
+            if (!user) return navigate("/search")
             const getAllAccounts = await supabase.from('users').select().eq('email', user.email)
             setAccounts(getAllAccounts?.data)
         };
@@ -122,7 +122,7 @@ export default function ManageAccounts() {
                             boxShadow: '0 0 3px #1C1A2640',
                         }}
                     >
-                        <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Select an account")}</h1>
+                        <h1 className="font-black  text-[18px] md:text-[26px] text-black-r">{t("Select an account")}</h1>
 
                         <div className="flex items-center gap-2 text-base">
                             <BsClock size={25} className="w-[25px] h-[25px]" />
@@ -134,7 +134,7 @@ export default function ManageAccounts() {
                 <div className="relative grid items-center grid-cols-1 m-5 mt-0 lg:grid-cols-2 xl:grid-cols-3 auto-rows-fr lg:gap-x-5 lg:gap-y-10">
                     {accounts.map(account => {
                         return (
-                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white cursor-pointer z-[5]" onClick={() => {
+                            <div to={"/dashboard/" + account?.username} key={"manage_" + account.username} className="items-center w-full lg:w-[360px] relative rounded-[10px] p-[24px] pb-0 lg:p-[26px] lg:min-h-full flex flex-col justify-between overflow-hidden shadow-[0_0_3px_#1C1A2640] bg-[#DBC8BE] text-white cursor-pointer z-[5]" onClick={() => {
                                 // navigate("/dashboard/" + account?.username)
                             }}>
                                 <div className="flex w-full lg:flex-col">
@@ -155,10 +155,10 @@ export default function ManageAccounts() {
                                                     <div className="text-[12px] lg:text-[18px] font-bold">{t("Instagram Account")}</div>
                                                 </div>
                                                 <div className="lg:mt-5 text-[16px] lg:text-[24px] font-bold">{account?.full_name}</div>
-                                                <div className="text-[#b16cea] text-[12px] lg:text-[18px] leading-[0.8] font-bold">@{account?.username}</div>
+                                                <div className="text-[#3d3d3d] text-[12px] lg:text-[18px] leading-[0.8] font-bold">@{account?.username}</div>
                                             </div>
                                         </div>
-                                        <div className="lg:hidden w-[32px] h-[32px] rounded-lg bg-[#b16cea] grid place-items-center cursor-pointer relative z-10" onClick={() => {
+                                        <div className="lg:hidden w-[32px] h-[32px] rounded-lg bg-[#3d3d3d] grid place-items-center cursor-pointer relative z-10" onClick={() => {
                                             setAccountToSet(account)
                                             setShowSettingsModal(true);
                                         }}>
@@ -170,24 +170,24 @@ export default function ManageAccounts() {
                                 <div className="flex items-center justify-between w-full mt-5 text-center">
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px]">{t("Followers")}</div>
-                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.followers)}</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] ">{numFormatter(account.followers)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px] capitalize">{t("following")}</div>
-                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold">{numFormatter(account.following)}</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] ">{numFormatter(account.following)}</div>
                                     </div>
                                     <div className="w-[2px] h-[47px] border bg-[#c4c4c4]"></div>
                                     <div className="">
                                         <div className="text-[14px] lg:text-[16px] capitalize">{t("interactions")}</div>
-                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] font-MontserratBold" id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
+                                        <div className="pb-1 text-[24px] lg:text-[32px] font-bold leading-[0.8] " id={`interaction_${account.username}`}>{getTotalInteractions(account.username)}0</div>
                                     </div>
                                 </div>
                             </div>
                         )
                     })}
 
-                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white">
+                    <Link to={"/search/?username=add_account"} className="mt-5 lg:mt-0 items-center w-full lg:w-[360px] h-full relative rounded-[10px] p-[26px] min-h-full flex flex-col justify-center overflow-hidden shadow-[0_0_3px_#1C1A2640] bg-[#DBC8BE] text-white">
                         <div className="relative w-[80px] h-[80px] lg:w-[160px] lg:h-[160px] mx-auto">
                             <div className="grid w-full h-full text-white bg-black rounded-full bg-black-r text-white-r place-items-center">
                                 <AiOutlinePlus size={50} className="w-[24px] h-[24px] lg:w-[50px] lg:h-[50px]" />

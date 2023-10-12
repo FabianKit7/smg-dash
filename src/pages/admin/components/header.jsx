@@ -44,23 +44,23 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
 
             <nav className="flex items-center justify-between">
                 <Link to={"/"} className="navbar-brand" href="#">
-                    <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
+                    <div className=" text-[20px] md:text-[25px]">
                         <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
                         <div className="items-center hidden gap-2 md:flex">
                             <img src="/logo.png" alt="" className="w-[38px] h-[34.26px]" />
-                            <b className="text-[32px]">Propulse</b>
+                            <b className="text-[32px]">SocialMediaGains</b>
                         </div>
                     </div>
                 </Link>
 
-                <div className="flex justify-end items-center text-[18px] font-semibold font-MontserratSemiBold tracking-[-0.36px]">
-                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#1C1A26] text-white w-[203px] h-[59px]" onClick={() => setOpenRefreshModal(!openRefreshModal)}>Refresh Account</button>
-                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#1C1A26] text-white w-[203px] h-[59px] ml-5" onClick={async () => {
+                <div className="flex justify-end items-center text-[18px] font-semibold  tracking-[-0.36px]">
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#DBC8BE] text-white w-[203px] h-[59px]" onClick={() => setOpenRefreshModal(!openRefreshModal)}>Refresh Account</button>
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#DBC8BE] text-white w-[203px] h-[59px] ml-5" onClick={async () => {
                         await supabase.auth.signOut();
                         window.onbeforeunload = function () {
                             localStorage.clear();
                         }
-                        window.location.pathname = "/login";
+                        window.location.pathname = "/search";
                     }}>Log Out</button>
                 </div>
             </nav>

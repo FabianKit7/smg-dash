@@ -55,7 +55,7 @@ export default function ColumnChart({ type, sessionsData, days }) {
   }, [sessionsData, days, type]);
 
 
-  var colors = ["#FA5F71"]
+  var colors = ["#dbc8be"]
 
   var options = {
     // series: [{

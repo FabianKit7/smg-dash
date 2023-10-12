@@ -27,11 +27,11 @@ export default function ResetPassword() {
             <div className="p-5 rounded-lg shadow-lg">
                 <div className="flex flex-col items-center justify-center pb-10">
                     {/* <img className="w-48 h-40 mt-10 lg:mt-14" src={sproutyLogo} alt="sprouty social" /> */}
-                    <div className="font-MADEOKINESANSPERSONALUSE text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
+                    <div className=" text-[28px]"><strong className="text-[25px] text-left">SPROUTYSOCIAL</strong></div>
                     <hr className="mb-7 w-full border-[#ef5f3c]" />
 
-                    <h5 className="font-bold text-[2.625rem] text-black-r font-MADEOKINESANSPERSONALUSE">Forgot Password?</h5>
-                    <p className="text-center text-[0.75rem] font-MontserratRegular text-[#333] max-w-[320px]">Enter your new password below to reset your password.</p>
+                    <h5 className="font-bold text-[2.625rem] text-black-r ">Forgot Password?</h5>
+                    <p className="text-center text-[0.75rem]  text-[#333] max-w-[320px]">Enter your new password below to reset your password.</p>
                 </div>
                 <form action="" className="flex flex-col items-center justify-start" onSubmit={handleResetPassword}>
                     <div className="mb-4 form-outline">
@@ -59,7 +59,7 @@ export default function ResetPassword() {
 
                     <button
                         type="submit"
-                        className="button-gradient2 text-white font-MontserratSemiBold text-[16px] mt-[14px] mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-80 font-semibold"
+                        className="button-gradient2 text-white  text-[16px] mt-[14px] mb-[12px] rounded-[5px] py-2 px-6 h-[52px] w-80 font-semibold"
                         style={{
                             boxShadow: '0 20px 30px -12px rgb(255 132 102 / 47%)'
                         }}
@@ -68,9 +68,9 @@ export default function ResetPassword() {
                     </button>
                 </form>
 
-                <div className="text-center font-MontserratSemiBold">
+                <div className="text-center ">
                     <p className="font-bold text-sm text-[#333]">
-                        Go back to <Link to="/SignUp"><span className="text-[#b16cea]">Sign Up</span></Link>
+                        Go back to <Link to="/SignUp"><span className="text-[#3d3d3d]">Sign Up</span></Link>
                     </p>
                 </div>
                 <br /><br />

@@ -42,40 +42,37 @@ export default function Settings() {
 
   useEffect(() => {
     const getData = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return navigate("/login")
-      const { data, error } = await supabase.from('users').select().eq('username', currentUsername).eq('email', user.email)
+      if (!currentUsername) return navigate("/search")
+      const { data, error } = await supabase.from('users').select().eq('username', currentUsername)
+
       if (error) {
         error && console.log(error)
         alert("An error occurred, reloading the page or contact support.")
         return;
       }
+
       const currentUser = data?.[0];
-      const getAllAccounts = await supabase.from('users').select().eq('email', user.email)
+      const getAllAccounts = await supabase.from('users').select().eq('username', currentUsername)
       setAccounts(getAllAccounts?.data)
-      if (!currentUser?.subscribed) {
-        window.location.pathname = `subscriptions/${data[0].username}`;
-      } else {
-        setUser(data[0])
 
-        if (!currentUser?.customer_id) return;
+      setUser(data[0])
 
-        setShowRangeSlider(true)
-        try {
-          let customer_payment_methods = await axios.post(`${BACKEND_URL}/api/stripe/list_payment_methods`,{ customer_id: currentUser?.customer_id })
-            .then((response) => response.data).catch(err => err)
+      if (!currentUser?.customer_id) return;
 
-          let stripeCustomer = await axios.post(`${BACKEND_URL}/api/stripe/retrieve_customer`, { customer_id: currentUser?.customer_id }).then((response) => response.data).catch(err => err)
-          const defaultPaymentMethodId = stripeCustomer?.invoice_settings?.default_payment_method
-          setDefaultPaymentMethod(customer_payment_methods?.data?.find(pm => pm.id === defaultPaymentMethodId))
-          setPaymentMethods(customer_payment_methods?.data)
-        } catch (error) {
-          setIsModalOpen(true);
-          setErrorMsg({ title: 'Failed to create subscription', message: `An error occured: ${error.message}` })
-        }
-        setShowRangeSlider(false)
+      setShowRangeSlider(true)
+      try {
+        let customer_payment_methods = await axios.post(`${BACKEND_URL}/api/stripe/list_payment_methods`, { customer_id: currentUser?.customer_id })
+          .then((response) => response.data).catch(err => err)
 
+        let stripeCustomer = await axios.post(`${BACKEND_URL}/api/stripe/retrieve_customer`, { customer_id: currentUser?.customer_id }).then((response) => response.data).catch(err => err)
+        const defaultPaymentMethodId = stripeCustomer?.invoice_settings?.default_payment_method
+        setDefaultPaymentMethod(customer_payment_methods?.data?.find(pm => pm.id === defaultPaymentMethodId))
+        setPaymentMethods(customer_payment_methods?.data)
+      } catch (error) {
+        setIsModalOpen(true);
+        setErrorMsg({ title: 'Failed to create subscription', message: `An error occured: ${error.message}` })
       }
+      setShowRangeSlider(false)
     };
 
     getData();
@@ -105,7 +102,7 @@ export default function Settings() {
               boxShadow: '0 0 3px #1C1A2640',
             }}
           >
-            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Profile settings")}</h1>
+            <h1 className="font-black  text-[18px] md:text-[26px] text-black-r">{t("Profile settings")}</h1>
 
             <div className="flex items-center gap-2 text-base cursor-pointer" onClick={() => navigate(-1)}>
               <h3>{t("Close")}</h3>
@@ -118,7 +115,7 @@ export default function Settings() {
               <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Full Name")}</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">{user?.full_name}</div>
-                <div className="text-[#b16cea] cursor-pointer"
+                <div className="text-[#3d3d3d] cursor-pointer"
                   onClick={() => {
                     setShowModal(true);
                     setRefresh(!refresh)
@@ -131,7 +128,7 @@ export default function Settings() {
               <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Email")}</div>
               <div className="flex flex-col md:flex-row md:items-center md:gap-3">
                 <div className="text-[#757575]">{user?.email}</div>
-                <div className="text-[#b16cea] cursor-pointer"
+                <div className="text-[#3d3d3d] cursor-pointer"
                   onClick={() => {
                     setShowModal(true);
                     setRefresh(!refresh)
@@ -144,7 +141,7 @@ export default function Settings() {
               <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Password")}</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">************</div>
-                <div className="text-[#b16cea] cursor-pointer"
+                <div className="text-[#3d3d3d] cursor-pointer"
                   onClick={() => {
                     setShowModal(true);
                     setRefresh(!refresh)
@@ -157,7 +154,7 @@ export default function Settings() {
               <div className="mb-2 border-b md:mb-0 md:border-b-0">{t("Phone number")}</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">{user?.phone}</div>
-                <div className="text-[#b16cea] cursor-pointer"
+                <div className="text-[#3d3d3d] cursor-pointer"
                   onClick={() => {
                     setShowModal(true);
                     setRefresh(!refresh)
@@ -170,7 +167,7 @@ export default function Settings() {
               <div className="mb-2 border-b md:mb-0 md:border-b-0">Subscription</div>
               <div className="flex items-center justify-between gap-3 md:justify-end">
                 <div className="text-[#757575]">Active</div>
-                <div className="text-[#b16cea] cursor-pointer" onClick={() => setCancelModal(true)}>Cancel</div>
+                <div className="text-[#3d3d3d] cursor-pointer" onClick={() => setCancelModal(true)}>Cancel</div>
               </div>
             </div> */}
           </div>
@@ -184,7 +181,7 @@ export default function Settings() {
                 boxShadow: '0 0 3px #1C1A2640',
               }}
             >
-              <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Payment and Billing Settings")}</h1>
+              <h1 className="font-black  text-[18px] md:text-[26px] text-black-r">{t("Payment and Billing Settings")}</h1>
             </div>
 
             {/* payment and billing settings */}
@@ -200,7 +197,7 @@ export default function Settings() {
                     {!(['visa', 'mastercard', 'maestro'].includes(defaultPaymentMethod?.card?.brand)) && <>({defaultPaymentMethod?.card?.brand})</>}
                     <span className="">{t("card ending with")} {defaultPaymentMethod?.card?.last4}</span>
                   </div>
-                  <div className="text-[#b16cea] cursor-pointer"
+                  <div className="text-[#3d3d3d] cursor-pointer"
                     onClick={() => {
                       setShowModal(true);
                       setRefresh(!refresh)
@@ -222,7 +219,7 @@ export default function Settings() {
               boxShadow: '0 0 3px #1C1A2640',
             }}
           >
-            <h1 className="font-black font-MontserratBold text-[18px] md:text-[26px] text-black-r">{t("Accounts")}</h1>
+            <h1 className="font-black  text-[18px] md:text-[26px] text-black-r">{t("Accounts")}</h1>
             <Link to={`/search/?username=add_account`}
               className="px-[32px] md:h-[52px] py-2 md:py-0 text-sm md:text-base mt-2 md:mt-0 w-full md:w-fit grid place-items-center whitespace-nowrap rounded-[10px] button-gradient text-white font-bold"
             >{t("Add Account")}</Link>
@@ -241,7 +238,7 @@ export default function Settings() {
                       <div className="hidden lg:block absolute -bottom-[2px] -right-[2px] border-[5px] w-[32px] h-[32px] rounded-full bg-green-600"></div>
                     </div>
                     <div className="lg:text-[24px] w-full">
-                      <div className="flex justify-between w-full gap-1 md:justify-start">@{account?.username} <span className="font-bold text-[#ff5e69]">Active</span></div>
+                      <div className="flex justify-between w-full gap-1 md:justify-start">@{account?.username} <span className="font-bold text-[#dbc8be]">Active</span></div>
                       <div className="">
                         <img src="/instagram.svg" alt="" className="my-[3px] md:my-[5px] lg:my-[7px] mr-[8px] w-[16px] h-[16px] lg:w-[28px] lg:h-[28px] rounded-full" />
                       </div>
@@ -275,15 +272,15 @@ export default function Settings() {
         }}
         >
           <div className="fixed top-0 left-0 grid w-full h-screen bg-black/40 place-items-center" onClick={() => setCancelModal(false)}></div>
-          <div className="bg-[#242424] text-white py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px] font-MontserratRegular rounded-[10px]">
+          <div className="bg-[#242424] text-white py-4 md:py-7 md:pt-12 px-5 md:px-10 relative max-w-[300px] md:max-w-[500px] lg:max-w-[600px]  rounded-[10px]">
             <FaTimesCircle className="absolute flex flex-col items-center top-3 right-3"
               onClick={() => {
                 setCancelModal(false)
               }} />
-            <h1 className="text-[1rem] md:text-lg font-bold text-center font-MontserratSemiBold">{t("cancel_sub_title")}</h1>
+            <h1 className="text-[1rem] md:text-lg font-bold text-center ">{t("cancel_sub_title")}</h1>
             <div className="text-[.8rem] md:text-base">
               <p className="text-center">
-                {t("cancel_sub_text1a")} <a href="mailto:support@propulse.me" className="text-blue-500">support@propulse.me</a>.{" "}
+                {t("cancel_sub_text1a")} <a href="mailto:support@socialmediagains.com" className="text-blue-500">support@socialmediagains.com</a>.{" "}
                 {t("cancel_sub_text1b")}
               </p>
               <br />
@@ -291,7 +288,7 @@ export default function Settings() {
                 {t("cancel_sub_text2")}
               </p>
             </div>
-            <a href="mailto:support@propulse.me" className="mt-8 m-auto w-fit py-3 rounded-[10px] font-MontserratRegular px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
+            <a href="mailto:support@socialmediagains.com" className="mt-8 m-auto w-fit py-3 rounded-[10px]  px-10 bg-blue-500 text-white flex justify-center items-center text-[1rem] md:text-lg gap-3">
               <BsFillEnvelopeFill />
               {t("Send an email")}
             </a>

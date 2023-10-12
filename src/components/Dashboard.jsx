@@ -58,17 +58,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     const getData = async () => {
-      const authUserRes = await supabase.auth.getUser()
-      if (authUserRes?.error) return navigate("/login")
-      const authUser = authUserRes?.data?.user
-      const getSuperUser = await supabase.from('users').select().eq("email", authUser.email)
-      const superUser = getSuperUser?.data?.[0]
-      const url = new URL(window.location.href);
-      const uuid = url.searchParams.get('uuid');
-      var cuser
-      superUser && uuid && setAdmin(superUser?.admin)
-      const { data, error } = await supabase.from('users').select().eq("user_id", (superUser.admin && uuid) ? uuid : authUser?.id).eq("username", currentUsername).single()
-      cuser = data
+      const { data, error } = await supabase.from('users').select().eq("username", currentUsername).single()
+
+      console.log("data", data);
+
+      var cuser = data
+      // if (!cuser) return navigate("/search")
 
       if (error) {
         console.log(error);
@@ -78,48 +73,14 @@ export default function Dashboard() {
         return;
       }
 
-      // check if the user email match the AuthUser email
-      if ((!cuser || authUser?.email !== cuser?.email) && !superUser.admin) {
-        if (window.confirm(`You've not registered this account yet, do you want to resiter it now?`)) {
-          // window.location.pathname = `search/?username=${currentUsername}`;
-          navigate(`/search/?username=${currentUsername}`)
-          return;
-        } else {
-          navigate("/login")
-        }
-      }
-      
-      if (!cuser?.subscribed) {
-        // alert('Please finish your registration')
-        setIsModalOpen(true);
-        setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
-        // if (cuser?.username) {
-        //   window.location.pathname = `subscriptions/${cuser?.username}`;
-        // } else {
-        //   window.location.pathname = `search`;
-        // }
-        setErrorMsg({ title: 'Alert', message: 'Please finish your registration' })
-        // if (data[0]?.username) {
-        //   window.location.pathname = `subscriptions/${data[0]?.username}`;
-        // } else {
-        //   window.location.pathname = `search`;
-        // }
-        return;
-      }
-
       if (cuser) {
         setUserData(cuser)
-        // if (cuser.status === "pending") {
-        //   setShowWelcomeModal(true)
-        // }
       }
       setError(error)
       setLoading(false)
     };
 
     getData();
-    // if (refreshUser) {
-    // }
     setRefreshUser(false)
   }, [currentUsername, navigate, refreshUser]);
 
@@ -309,12 +270,12 @@ export default function Dashboard() {
                 width="28px"
                 height="28px"
               />
-              <div className="text-base font-black capitalize lg:text-2xl text-black-r font-MontserratBold">
+              <div className="text-base font-black capitalize lg:text-2xl text-black-r ">
                 {userData?.username}
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-[52px] h-[52px] rounded-[10px] flex items-center justify-center cursor-pointer bg-black"
+              <div className="w-[52px] h-[52px] rounded-[10px] flex items-center justify-center cursor-pointer bg-[#333]"
                 onClick={() => setIsOpen(true)}
               >
                 <img
@@ -326,7 +287,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div ref={destopDateRageRef} className="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-[#1C1A26] text-white text-lg font-bold">
+              <div ref={destopDateRageRef} className="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-[#333] text-white text-lg font-bold">
                 <div
                   className="flex items-center justify-center h-[52px] cursor-pointer"
                   onClick={() => setShowDateOptions(!showDateOptions)}
@@ -341,7 +302,7 @@ export default function Dashboard() {
                   <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
                 </div>
                 <div
-                  className={`absolute w-full top-full left-0 rounded-[10px] overflow-hidden z-[2] text-black-r bg-[#1C1A26] text-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
+                  className={`absolute w-full top-full left-0 rounded-[10px] overflow-hidden z-[2] text-black-r bg-[#333] text-white ${showDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
                     }`}
                   style={{
                     boxShadow: '0 0 3px #1C1A2640',
@@ -359,7 +320,7 @@ export default function Dashboard() {
                     {t('Last 7 days')}
                   </div>
                   <div
-                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 30 days'), value: 30 });
                       setShowDateOptions(false);
@@ -368,7 +329,7 @@ export default function Dashboard() {
                     {t('Last 30 days')}
                   </div>
                   <div
-                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 60 days'), value: 60 });
                       setShowDateOptions(false);
@@ -377,7 +338,7 @@ export default function Dashboard() {
                     {t('Last 60 days')}
                   </div>
                   <div
-                    className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                    className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                     onClick={() => {
                       setSelectedDate({ title: t('Last 90 days'), value: 90 });
                       setShowDateOptions(false);
@@ -394,10 +355,10 @@ export default function Dashboard() {
         <div className="flex flex-col items-center mb-5 lg:hidden">
           <div className="flex items-center gap-[8px]">
             <img alt="" src="/ic_summary.svg" className="bg-black p-[8px] rounded-[8px]" />
-            <h3 className="text-[22px] font-bold font-MontserratBold text-black-r"> {t("Account Summary")} </h3>
+            <h3 className="text-[22px] font-bold  text-black-r"> {t("Account Summary")} </h3>
           </div>
 
-          <div ref={mobileDateRageRef} className="relative rounded-[10px] w-fit text-[#ff5e69] text-lg font-bold">
+          <div ref={mobileDateRageRef} className="relative rounded-[10px] w-fit text-[#dbc8be] text-lg font-bold">
             <div
               className="flex items-center justify-center h-[52px] cursor-pointer"
               onClick={() => setShowMobileDateOptions(!showMobileDateOptions)}
@@ -413,7 +374,7 @@ export default function Dashboard() {
             </div>
 
             <div
-              className={`absolute w-full top-full left-0 rounded-[10px] overflow-hidden z-[2] text-black-r bg-[#1C1A26] text-white ${showMobileDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
+              className={`absolute w-full top-full left-0 rounded-[10px] overflow-hidden z-[2] text-black-r bg-[#DBC8BE] text-white ${showMobileDateOptions ? 'opacity-100 block' : 'opacity-0 hidden'
                 }`}
               style={{
                 boxShadow: '0 0 3px #1C1A2640',
@@ -422,7 +383,7 @@ export default function Dashboard() {
               }}
             >
               <div
-                className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 7 days'), value: 7 });
                   setShowMobileDateOptions(false);
@@ -431,7 +392,7 @@ export default function Dashboard() {
                 {t('Last 7 days')}
               </div>
               <div
-                className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 30 days'), value: 30 });
                   setShowMobileDateOptions(false);
@@ -440,7 +401,7 @@ export default function Dashboard() {
                 {t('Last 30 days')}
               </div>
               <div
-                className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 60 days'), value: 60 });
                   setShowMobileDateOptions(false);
@@ -449,7 +410,7 @@ export default function Dashboard() {
                 {t('Last 60 days')}
               </div>
               <div
-                className="py-4 px-[30px] hover:bg-black cursor-pointer"
+                className="py-4 px-[30px] hover:bg-black transition-all cursor-pointer"
                 onClick={() => {
                   setSelectedDate({ title: t('Last 90 days'), value: 90 });
                   setShowMobileDateOptions(false);
@@ -478,14 +439,14 @@ export default function Dashboard() {
               <RiUserSettingsFill size={30} />
             </div>
             <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
-              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">{t("incorrect_title")}</div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">{t("incorrect_desc")}</p>
+              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize ">{t("incorrect_title")}</div>
+              <p className=" text-[1.125rem] text-black">{t("incorrect_desc")}</p>
             </div>
             <button
               onClick={() => { setIsOpen(true) }}
               // onClick={() => setOpenCA(true)}
               // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
+              className=" text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
               style={{
                 backgroundColor: '#ff8c00',
                 color: 'white',
@@ -499,10 +460,10 @@ export default function Dashboard() {
               <RiUserSettingsFill size={30} />
             </div>
             <div className="py-2 px-3 bg-[#fcede0] h-full w-full">
-              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize font-MontserratBold">
+              <div className="font-bold text-[.8rem] text-[#ff8c00] md:text-[1.3rem] capitalize ">
                 {t("two_factor_title")}
               </div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">
+              <p className=" text-[1.125rem] text-black">
                 {t('two_factor_desc')}
               </p>
             </div>
@@ -518,7 +479,7 @@ export default function Dashboard() {
               onClick={() => storeBackupCode()}
               // onClick={() => setOpenCA(true)}
               // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
+              className=" text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize"
               style={{
                 backgroundColor: '#ff8c00',
                 color: 'white',
@@ -532,14 +493,14 @@ export default function Dashboard() {
               <RiUserSettingsFill size={30} />
             </div>
             <div className="py-2 px-3 bg-[#fffbeb] h-full w-full">
-              <div className="font-bold text-[.8rem] text-[#ffd12c] md:text-[1.3rem] capitalize font-MontserratBold">
+              <div className="font-bold text-[.8rem] text-[#ffd12c] md:text-[1.3rem] capitalize ">
                 {t('Connecting Your Account')}
               </div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">{t('connect_your_acc_string1')}</p>
+              <p className=" text-[1.125rem] text-black">{t('connect_your_acc_string1')}</p>
             </div>
             <button
               // className="mt-3 bg-[#ffd12c] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize cursor-text"
+              className=" text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize cursor-text"
               style={{
                 backgroundColor: '#ff8c00',
                 color: 'white',
@@ -553,15 +514,15 @@ export default function Dashboard() {
               <RiUserSettingsFill size={30} />
             </div>
             <div className="py-2 px-3 bg-[#ffebf0] h-full w-full">
-              <div className="font-bold text-[.8rem] text-[#ff2c55] md:text-[1.3rem] capitalize font-MontserratBold">
+              <div className="font-bold text-[.8rem] text-[#ff2c55] md:text-[1.3rem] capitalize ">
                 {t('Connect Your Account')}
               </div>
-              <p className="font-MontserratSemiBold text-[1.125rem] text-black">{t('connect_your_acc_string2')}</p>
+              <p className=" text-[1.125rem] text-black">{t('connect_your_acc_string2')}</p>
             </div>
             <button
               onClick={() => setIsOpen(true)}
               // className="mt-3 bg-[#ff2c55] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-              className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize relative"
+              className=" text-[.8rem] md:text-[1.125rem] h-full w-[260px] rounded-r-[10px] font-[600] false capitalize relative"
               style={{
                 backgroundColor: '#ff8c00',
                 color: 'white',
@@ -575,18 +536,18 @@ export default function Dashboard() {
         <div className="lg:hidden">
           {userData?.status === 'incorrect' && <div className="flex justify-center my-6">
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
-              <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+              <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px]  capitalize">
                 <RiUserSettingsFill size={30} />
                 {t("incorrect_title")}
               </div>
               <div className="bg-[#fcede0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">{t("incorrect_desc")}</p>
+                <p className="">{t("incorrect_desc")}</p>
 
                 <button
                   onClick={() => { setIsOpen(true) }}
                   // onClick={() => setOpenCA(true)}
                   // className="mt-3 bg-[#ff8c00] text-white rounded-md py-3 text-center w-full font-bold capitalize"
-                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+                  className=" text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
                   style={{
                     backgroundColor: '#ff8c00',
                     color: 'white',
@@ -599,19 +560,19 @@ export default function Dashboard() {
 
           {userData?.status === 'twofactor' && <div className="flex justify-center my-6">
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
-              <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+              <div className="bg-[#ff8c00] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px]  capitalize">
                 <RiUserSettingsFill size={30} />
                 {t("two_factor_title")}
               </div>
               <div className="bg-[#fcede0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">{t('two_factor_desc')}</p>
+                <p className="">{t('two_factor_desc')}</p>
                 <textarea name="" className="px-2 py-1 rounded-[10px] mt-3 w-full resize-none" id="" rows="3"
                   value={backupCode}
                   onChange={(e) => setBackupCode(e.target.value)} placeholder={t('bcode_plh')}></textarea>
 
                 <button onClick={() => storeBackupCode()}
                   // className="mt-3 bg-[#ff8c00] text-white rounded-[10px] py-3 text-center w-full font-bold capitalize"
-                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
+                  className=" text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize"
                   style={{
                     backgroundColor: '#ff8c00',
                     color: 'white',
@@ -624,15 +585,15 @@ export default function Dashboard() {
 
           {(userData?.status === 'checking' || userData?.status === 'new') && <div className="flex justify-center my-6">
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
-              <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+              <div className="bg-[#ffd12c] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px]  capitalize">
                 <RiUserSettingsFill />
                 {t('Connecting Your Account')}
               </div>
               <div className="bg-[#fffbeb] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">{t('connect_your_acc_string1')}</p>
+                <p className="">{t('connect_your_acc_string1')}</p>
                 <button
                   // className="mt-3 bg-[#ffd12c] text-white rounded-[10px] py-3 text-center w-full"
-                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize cursor-text"
+                  className=" text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize cursor-text"
                   style={{
                     backgroundColor: '#ffd12c',
                     color: 'white',
@@ -645,15 +606,15 @@ export default function Dashboard() {
 
           {userData?.status === 'pending' && <div className="flex justify-center my-6">
             <div className="w-[320px] md:w-[350px] rounded-[10px]">
-              <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px] font-MontserratBold capitalize">
+              <div className="bg-[#ff2c55] text-white font-bold px-4 py-2 flex items-center gap-2 text-[.8rem] md:text-[1.125rem] rounded-t-[10px]  capitalize">
                 <RiUserSettingsFill />
                 {t('Connect Your Account')}
               </div>
               <div className="bg-[#ffebf0] text-black px-4 py-3 rounded-b-[10px] text-sm">
-                <p className="font-MontserratSemiBold">{t('connect_your_acc_string2')}</p>
+                <p className="">{t('connect_your_acc_string2')}</p>
                 <button
                   // className="mt-3 bg-[#ff2c55] text-white rounded-[10px] py-3 text-center w-full capitalize"
-                  className="font-MontserratSemiBold text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize relative"
+                  className=" text-[.8rem] md:text-[1.125rem] mt-5 w-full py-4 rounded-[10px] font-[600] false capitalize relative"
                   style={{
                     backgroundColor: '#ff2c55',
                     color: 'white',
@@ -670,7 +631,7 @@ export default function Dashboard() {
         </div>
 
         <div>
-          <div className="lg:mx-[40px] flex flex-col lg:flex-row justify-between items-center font-MontserratRegular">
+          <div className="lg:mx-[40px] flex flex-col lg:flex-row justify-between items-center ">
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center">
                 <img
@@ -692,14 +653,14 @@ export default function Dashboard() {
                     @{userData?.username}
                   </div>
                   <div className="flex items-center">
-                    <div className="font-semibold font-MontserratSemiBold text-[#ff5e69] capitalize">
+                    <div className="font-semibold  text-[#dbc8be] capitalize">
                       {t(userData?.userMode)}
                     </div>
 
                     <span className="hidden lg:block ml-[8px] cursor-pointer group relative">
                       <div className="flex items-center">
                         <span
-                          className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                          className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[#DBC8BE]"
                           style={{
                             transition: 'all .1s ease-in',
                           }}
@@ -711,7 +672,7 @@ export default function Dashboard() {
                           >
                             <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                           </svg>
-                          <span className="font-medium leading-5 bg-[#1C1A26] text-white opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                          <span className="font-medium leading-5 bg-[#DBC8BE] text-white opacity-0  tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                             transition: 'all .5s ease-in-out',
                           }}>{t('interaction-settings')}</span>
                         </span>
@@ -758,142 +719,6 @@ export default function Dashboard() {
               type="total_interactions"
             />}
           </div>
-
-          <div className="w-full lg:hidden">
-            <div className="shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white rounded-[10px] p-5 relative">
-              <span className="absolute cursor-pointer top-5 right-5 group">
-                <div className="flex items-center">
-                  <span
-                    className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
-                    style={{
-                      transition: 'all .1s ease-in',
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                    >
-                      <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
-                    </svg>
-                    <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
-                      transition: 'all .5s ease-in-out',
-                    }}>{t('analyst_into_popup')}</span>
-                  </span>
-                </div>
-              </span>
-
-              <div className="flex items-center">
-                <img
-                  alt=""
-                  className="mr-5 w-[42px] h-[42px] rounded-full"
-                  src="/mythyl_e.jpeg"
-                ></img>
-                <div>
-                  <div
-                    _ngcontent-cuk-c74=""
-                    className="flex items-center gap-1 text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
-                  >
-                    Mythyl E
-                    <img alt="" className="w-[20px] h-[20px]" src="/logo.png" />
-                  </div>
-                  <div className="text-base font-normal">
-                    {t("Personal Account Analyst")}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {showMobileManager && <div className="">
-              <div className="shadow-[0_0_3px_#1C1A2640] bg-[#1C1A26] text-white rounded-[10px] p-5 relative">
-                <div className="text-sm font-normal text-black-r font-MontserratRegular">
-                  {t('analyst_greetings')}
-                </div>
-              </div>
-              <div className="mt-[10px] gap-[10px] flex flex-col items-center">
-                <Link to="https://calendly.com/sproutysocial/30min" className="bg-[#b16cea] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
-                  <BsHeadset size={18} className="mr-1" />
-                  <span>{t("Schedule A Call")}</span>
-                </Link>
-                <a href="mailto:analyst@sproutysocial.com" className="button-gradient text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
-                  <BiMessageSquareDots size={18} className="mr-1" />
-                  <span>{t("Send An Email")}</span>
-                </a>
-              </div>
-            </div>}
-            {/* sdf */}
-
-            <div className="flex justify-center itcen mt-[8px]">
-              <h3 className="flex items-center gap-1 text-[#757575] font-bold font-MontserratBold w-fit cursor-pointer" onClick={() => setShowMobileManager(!showMobileManager)}>{t("Show more")}
-                {showMobileManager ? <FaCaretUp className="w-[12] h-[12]" /> : <FaCaretDown className="w-[12] h-[12]" />}
-              </h3>
-            </div>
-          </div>
-
-          <div className="hidden my-10 lg:block">
-            <div>
-              <div
-                className="p-[35px] relative rounded-[10px] w-[450px] bg-[#1C1A26] text-white"
-                style={{ boxShadow: '0 0 3px #1C1A2640' }}
-              >
-
-                <span className="absolute top-[25px] right-[20px] ml-[8px] group cursor-pointer">
-                  <div className="flex items-center">
-                    <span
-                      className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
-                      style={{
-                        transition: 'all .1s ease-in',
-                      }}
-                    >
-                      <svg
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
-                      </svg>
-                      <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext2 group-hover:opacity-100 group-hover:visible" style={{
-                        transition: 'all .5s ease-in-out',
-                      }}>{t('analyst_into_popup')}</span>
-                    </span>
-                  </div>
-                </span>
-
-                <div className="flex items-center">
-                  <img
-                    alt=""
-                    className="mr-5 w-[87px] h-[87px] rounded-full"
-                    src="/mythyl_e.jpeg"
-                  ></img>
-                  <div>
-                    <img alt="" className="w-[28px] h-[28px]" src="/logo.png" />
-                    <div
-                      _ngcontent-cuk-c74=""
-                      className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r"
-                    >
-                      Mythyl E
-                    </div>
-                    <div className="text-base font-normal">
-                      {t("Personal Account Analyst")}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-5 text-sm font-normal text-black-r">
-                  {t('analyst_greetings')}
-                </div>
-              </div>
-              <div className="mt-[10px] gap-[10px] flex items-center">
-                <Link to="https://calendly.com/sproutysocial/30min" className="bg-[#b16cea] text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
-                  <BsHeadset size={18} className="mr-1" />
-                  <span>{t("Schedule A Call")}</span>
-                </Link>
-                <a href="mailto:analyst@sproutysocial.com" className="button-gradient text-white w-full flex items-center justify-center text-sm font-semibold rounded-[10px] h-[52px] min-h-[52px] cursor-pointer">
-                  <BiMessageSquareDots size={18} className="mr-1" />
-                  <span>{t("Send An Email")}</span>
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
 
         <TargetingCompt user={userData} setMobileAdd={setMobileAdd} t={t} />
@@ -910,49 +735,49 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
     <div className="mt-4 text-black text-[#757575]-r md:text-black-r md:bg-transparent lg:mt-0 w-full rounded-[10px]">
       <div className="flex items-center justify-between w-full gap-1 text-center lg:gap-4">
         <div
-          className={`${chart === 1 ? "button-gradient" : "bg-[#1C1A26] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
+          className={`${chart === 1 ? "bg-[#333] text-white" : "md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(1)}
           style={{
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 1 && ""}`}>{t('Followers')}</div>
+          <div className={`text-[12px]  lg:text-[16px] font-[500] ${chart !== 1 && ""}`}>{t('Followers')}</div>
           <div className="relative flex flex-col items-center justify-between text-center lg:flex-row">
-            <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold w-full text-center">
+            <div className="text-[24px] lg:text-4xl lg:leading-[54px]  font-bold w-full text-center">
               {numFormatter(user.followers)}
             </div>
-            {/* <div className="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#ff5e69] mt-1 flex items-center gap-1 text-[10px] lg:text-[12px] font-bold font-MontserratBold lg:mr-[-32px] xl:mr-0">
-              123 <FaCaretUp color="#ff5e69" size={12} />
+            {/* <div className="absolute lg:static top-[calc(100%-10px)] left-[50%] translate-x-[-50%] py-1 px-2 rounded-[7px] bg-[#c8f7e1] text-[#dbc8be] mt-1 flex items-center gap-1 text-[10px] lg:text-[12px] font-bold  lg:mr-[-32px] xl:mr-0">
+              123 <FaCaretUp color="#dbc8be" size={12} />
             </div> */}
           </div>
         </div>
 
         <div
-          className={`${chart === 2 ? "button-gradient" : "bg-[#1C1A26] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
+          className={`${chart === 2 ? "bg-[#333] text-white" : "md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(2)}
           style={{
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 2 && ""}`}>
+          <div className={`text-[12px]  lg:text-[16px] font-[500] ${chart !== 2 && ""}`}>
             {t('Followings')}
           </div>
-          <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
+          <div className="text-[24px] lg:text-4xl lg:leading-[54px]  font-bold">
             {numFormatter(user.following)}
           </div>
         </div>
 
         <div
-          className={`${chart === 3 ? "button-gradient" : "bg-[#1C1A26] md:text-black-r"} text-white md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
+          className={`${chart === 3 ? "bg-[#333] text-white" : "md:text-black-r"} md:w-[220px] lg:w-[180px] xl:w-[220px] cursor-pointer rounded-[10px] flex flex-col justify-center itext-center p-2 lg:pt-3 xl:pr-4 lg:pb-[2px] lg:pl-5 lg:shadow-[0_0_3px_#1C1A2640]`}
           onClick={() => setChart(3)}
           style={{
             transition: 'all .15s ease-in',
           }}
         >
-          <div className={`text-[12px] font-MontserratSemiBold lg:text-[16px] font-[500] ${chart !== 3 && ""}`}>
+          <div className={`text-[12px]  lg:text-[16px] font-[500] ${chart !== 3 && ""}`}>
             {t("Interactions")}
           </div>
-          <div className="text-[24px] lg:text-4xl lg:leading-[54px] font-MontserratBold font-bold">
+          <div className="text-[24px] lg:text-4xl lg:leading-[54px]  font-bold">
             {numFormatter(totalInteractions)}
           </div>
         </div>
@@ -1071,7 +896,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
               {pageProp.title === "blacklist" && <img alt="" src="/ic_blacklist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
             </div>
             <div className="">
-              <div className="text-base font-bold font-MontserratBold lg:text-2xl text-black-r">
+              <div className="text-base font-bold  lg:text-2xl text-black-r">
                 {pageProp.title !== t("Add Targeting") && t(`Add ${pageProp.title} Accounts`)}
               </div>
               <div className="font-normal text-[14px]">
@@ -1104,7 +929,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
             </div>
           </div>
 
-          <div className={`${!selectedData.username && "hidden"} -top-2 opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white border-2 border-[#ff5e69]`}
+          <div className={`${!selectedData.username && "hidden"} -top-2 opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white border-2 border-[#dbc8be]`}
             style={{
               pointerEvents: 'all',
               // boxShadow: '0 0 3px #1C1A2640',
@@ -1131,7 +956,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                       size={18}
                     />}
                   </div>
-                  <div className="text-[#757575] text-base font-semibold font-MontserratSemiBold">
+                  <div className="text-[#757575] text-base font-semibold ">
                     @{selectedData?.username}
                   </div>
                 </div>
@@ -1144,7 +969,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
             </div>
           </div>
 
-          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-[#1C1A26] text-white`}
+          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-[#DBC8BE] text-white`}
             style={{
               pointerEvents: 'all',
               boxShadow: '0 0 3px #1C1A2640',
@@ -1197,7 +1022,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
                             size={18}
                           />}
                         </div>
-                        <div className="text-[#757575] text-base font-semibold font-MontserratSemiBold">
+                        <div className="text-[#757575] text-base font-semibold ">
                           @{account?.username}
                         </div>
                       </div>
@@ -1210,7 +1035,7 @@ const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobil
         </div>
 
         <button
-          className={`${selected ? "button-gradient" : "bg-gray-700"} text-white font-medium text-base mt-7 absolute bottom-0 font-MontserratSemiBold w-full rounded-[10px] h-[52px] max-h-[52px] border-none cursor-pointer`}
+          className={`${selected ? "button-gradient" : "bg-[#333]"} text-white font-medium text-base mt-7 absolute bottom-0  w-full rounded-[10px] h-[52px] max-h-[52px] border-none cursor-pointer`}
           // disabled={selected ? true : false}
           style={{ transition: 'background-color .15s ease-in' }}
           onClick={() => add()}
@@ -1237,7 +1062,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
             </div>
             <div className="mt-4 text-center md:mt-0 md:ml-6 md:text-left">
               <p className="font-bold">{confirm.title}</p>
-              <p className="mt-1 text-sm text-gray-700">{confirm.description}
+              <p className="mt-1 text-sm text-[#333]">{confirm.description}
               </p>
             </div>
           </div>
@@ -1260,7 +1085,7 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
     </div>}
 
     <div
-      className="bg-[#1C1A26] text-white flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium font-MontserratSemiBold px-[5px] md:px-[10px]"
+      className="bg-[#F8F8F8] flex rounded-[10px] items-center w-full h-[64px] min-h-[64px] text-[14px] font-medium  px-[5px] md:px-[10px]"
       style={{ transition: 'all .1s ease-in' }}
     >
       <div className="w-[60%] flex items-center whitespace-nowrap overflow-hidden text-ellipsis justify-start md:pl-5">
@@ -1350,7 +1175,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
           }}
         >
           <div className="flex items-center">
-            <div className="bg-[#1C1A26] text-white font-bold font-MontserratBold text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
+            <div className="bg-[#F8F8F8] font-bold  text-[26px] flex items-center relatve h-[60px] rounded-[10px] px-6">
               {t("Targeting")}
               <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                 {targetingAccounts.length}
@@ -1360,7 +1185,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <span
-                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[#DBC8BE]"
                   style={{
                     transition: 'all .1s ease-in',
                   }}
@@ -1372,7 +1197,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0  tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{t('targetting_info')}</span>
                 </span>
@@ -1380,7 +1205,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             </span>
           </div>
 
-          <button className="button-gradient text-white font-bold font-MontserratBold text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
+          <button className="button-gradient text-white font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             {t('Targeting Filters')}
             <img alt="" className="ml-2" src="/ic_filters.svg" />
           </button>
@@ -1389,11 +1214,11 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
         <div className="lg:hidden mt-[30px] mb-[12px]">
           <div className="flex items-center justify-center gap-[8px]">
             <img alt="" src="/ic_targeting.svg" className="button-gradient p-[8px] rounded-[8px]" />
-            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {t("Targeting")} </h3>
+            <h3 className="text-[24px] font-bold  text-black-r"> {t("Targeting")} </h3>
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <span
-                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[#DBC8BE]"
                   style={{
                     transition: 'all .1s ease-in',
                   }}
@@ -1405,7 +1230,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0  tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{t('targetting_info')}</span>
                 </span>
@@ -1413,8 +1238,8 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             </span>
           </div>
           <div className="mt-[30px] flex items-center">
-            <div className="flex justify-center w-full bg-[#1C1A26] text-white">
-              <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-6">
+            <div className="flex justify-center w-full bg-[#DBC8BE] text-white">
+              <div className="font-bold  text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-6">
                 {t("Targeting")}
                 <span className="button-gradient2 text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                   {targetingAccounts.length}
@@ -1427,7 +1252,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
 
       <div className="flex flex-col items-center mt-0 lg:m-10 lg:flex-row">
         <div className="w-full grow lg:w-auto">
-          <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[16px] pr-base">
+          <div className="flex items-center justify-between w-full h-[50px] text-[14px] font-medium  md:pr-[16px] pr-base">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">{t("Account")}</span>
             </div>
@@ -1453,12 +1278,12 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
         </div>
 
         <div className="flex items-center w-full gap-2 mt-4 lg:hidden">
-          <button className={`button-gradient text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
+          <button className={`button-gradient text-white font-medium text-base  w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
             {t("Add New Source")}
           </button>
-          <button className="button-gradient w-fit text-white font-bold font-MontserratBold text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
+          <button className="button-gradient w-fit text-white font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             <img alt="" className="" src="/ic_filters.svg" />
           </button>
         </div>
@@ -1541,7 +1366,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
         >
           <div className="flex items-center">
             <div className="relative">
-              <div className="bg-[#1C1A26] text-white font-bold font-MontserratBold text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
+              <div className="bg-[#F8F8F8] font-bold  text-[26px] flex items-center h-[60px] rounded-[10px] px-6 cursor-pointer relative z-[2]"
                 onClick={() => setShowPageModal(true)}
               >
                 {t(pageProp.title)}
@@ -1550,12 +1375,12 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                 </span>
                 <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
               </div>
-              <div className={`${showPageModal ? 'opacity-100 z-10' : 'opacity-0 -z-10'} absolute top-0 left-0 w-full bg-[#1C1A26] text-white rounded-[10px]`} style={{
+              <div className={`${showPageModal ? 'opacity-100 z-10' : 'opacity-0 -z-10'} absolute top-0 left-0 w-full bg-[#F8F8F8] rounded-[10px]`} style={{
                 boxShadow: "0 0 3px #1C1A2640",
                 transform: 'translteY(8px)',
                 transition: 'opacity .15s ease-in',
               }}>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-[#1C1A26] text-white hover:bg-[#2b2b2b] hover:text-white border-b"
+                <div className="font-bold  text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-[#DBC8BE] text-white hover:bg-[#2b2b2b] hover:text-white border-b"
                   onClick={() => {
                     setPageProp({ id: 2, title: "Whitelist", addDescription: t('whitelist_text') })
                     setShowPageModal(false)
@@ -1566,7 +1391,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                   </span>
                   <FaCaretDown className="w-[30px] h-[26px] ml-2" color="#C4C4C4" />
                 </div>
-                <div className="font-bold font-MontserratBold text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-[#1C1A26] text-white hover:bg-[#2b2b2b] hover:text-white"
+                <div className="font-bold  text-[26px] flex items-center cursor-pointer h-[60px] rounded-[10px] px-6 bg-[#DBC8BE] text-white hover:bg-[#2b2b2b] hover:text-white"
                   onClick={() => {
                     setPageProp({
                       id: 3, title: "Blacklist", addDescription: t('Blacklist_text'),
@@ -1584,7 +1409,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <span
-                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[#DBC8BE]"
                   style={{
                     transition: 'all .1s ease-in',
                   }}
@@ -1596,7 +1421,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0  tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{pageProp.title === "Whitelist" ? t('whitelist_info') : t('Blacklist_info')}</span>
                 </span>
@@ -1608,11 +1433,11 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
         <div className="lg:hidden mt-[30px] mb-[12px]">
           <div className="flex items-center justify-center gap-[8px]">
             <img alt="" src={`/ic_${(pageProp.title).toLowerCase()}.svg`} className="rounded-[8px]" />
-            <h3 className="text-[24px] font-bold font-MontserratBold text-black-r"> {t(pageProp.title)} </h3>
+            <h3 className="text-[24px] font-bold  text-black-r"> {t(pageProp.title)} </h3>
             <span className="ml-[8px] cursor-pointer group relative">
               <div className="flex items-center">
                 <span
-                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[orange]"
+                  className="w-[20px] h-[20px] cursor-pointer fill-[#c4c4c4] group-hover:fill-[#DBC8BE]"
                   style={{
                     transition: 'all .1s ease-in',
                   }}
@@ -1624,7 +1449,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
                   >
                     <path d="M10 0.625C4.8225 0.625 0.625 4.8225 0.625 10C0.625 15.1775 4.8225 19.375 10 19.375C15.1775 19.375 19.375 15.1775 19.375 10C19.375 4.8225 15.1775 0.625 10 0.625ZM11.5625 16.1719H8.4375V8.67188H11.5625V16.1719ZM10 6.95312C9.5856 6.95312 9.18817 6.78851 8.89515 6.49548C8.60212 6.20245 8.4375 5.80503 8.4375 5.39062C8.4375 4.97622 8.60212 4.5788 8.89515 4.28577C9.18817 3.99275 9.5856 3.82812 10 3.82812C10.4144 3.82812 10.8118 3.99275 11.1049 4.28577C11.3979 4.5788 11.5625 4.97622 11.5625 5.39062C11.5625 5.80503 11.3979 6.20245 11.1049 6.49548C10.8118 6.78851 10.4144 6.95312 10 6.95312Z" />
                   </svg>
-                  <span className="font-medium bg-[#1C1A26] text-white leading-5 opacity-0 font-MontserratSemiBold tooltiptext group-hover:opacity-100 group-hover:visible" style={{
+                  <span className="font-medium leading-5 opacity-0  tooltiptext group-hover:opacity-100 group-hover:visible" style={{
                     transition: 'all .5s ease-in-out',
                   }}>{pageProp.title === "Whitelist" ? t('whitelist_info') : t('Blacklist_info')}</span>
                 </span>
@@ -1633,16 +1458,16 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
           </div>
 
           <div className="mt-[30px] flex items-center">
-            <div className={`${pageProp.title === "Whitelist" && "bg-[#1C1A26] text-white"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
-              <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
+            <div className={`${pageProp.title === "Whitelist" && "bg-[#DBC8BE] text-white"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Whitelist" })}>
+              <div className="font-bold  text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
                 {t("Whitelist")}
                 <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                   {total.whitelist}
                 </span>
               </div>
             </div>
-            <div className={`${pageProp.title === "Blacklist" && "bg-[#1C1A26] text-white"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
-              <div className="font-bold font-MontserratBold text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
+            <div className={`${pageProp.title === "Blacklist" && "bg-[#DBC8BE] text-white"} w-full flex justify-center cursor-pointer`} onClick={() => setPageProp({ ...pageProp, title: "Blacklist" })}>
+              <div className="font-bold  text-[16px] flex items-center relatve h-[60px] rounded-[10px] px-2 md:px-6">
                 {t("Blacklist")}
                 <span className="button-gradient text-white rounded-[10px] h-9 leading-9 px-[10px] ml-[12px]">
                   {total.blacklist}
@@ -1655,7 +1480,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
 
       <div className="flex flex-col items-center mt-0 lg:m-10 lg:flex-row">
         <div className="w-full grow lg:w-auto">
-          <div className="text-white flex items-center justify-between w-full h-[50px] text-[14px] font-medium font-MontserratSemiBold md:pr-[16px] pr-base">
+          <div className="flex items-center justify-between w-full h-[50px] text-[14px] font-medium  md:pr-[16px] pr-base">
             <div className="w-[60%] flex items-center justify-start md:pl-5">
               <span className="ml-[60px]">{t("Account")}</span>
             </div>
@@ -1681,7 +1506,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
         </div>
 
         <div className="flex items-center w-full gap-2 my-4 lg:hidden">
-          <button className={`button-gradient text-white font-medium text-base font-MontserratSemiBold w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
+          <button className={`button-gradient text-white font-medium text-base  w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
             {t(`${pageProp.title} Account`)}

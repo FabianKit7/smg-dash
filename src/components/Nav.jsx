@@ -4,15 +4,14 @@ import { supabase } from "../supabaseClient";
 // import sproutyLogo from "../images/sprouty.svg";
 import { useClickOutside } from "react-click-outside-hook";
 import { FaAngleDown, FaBars } from "react-icons/fa";
-import { FiGrid, FiLogOut } from "react-icons/fi";
-import { AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
+import { FiLogOut } from "react-icons/fi";
+import { AiOutlineSetting } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { useTranslation } from "react-i18next";
-import { LOGO } from "../config";
 import i18next from "i18next";
 
 export const locales = [
-  { value: 'fr', text: "French", flag: '/french_flag.png' },
+  { value: 'de', text: "French", flag: '/flag_de-DE.png' },
   { value: 'en', text: "English", flag: '/british_flag.svg' },
 ]
 
@@ -83,14 +82,9 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
 
   useEffect(() => {
     const getData = async () => {
-      var uEmail;
       if (!userD) {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        uEmail = user.email
+        const { data, error } = await supabase.from("users").select().eq('username', currentUsername).single();
 
-        const { data, error } = await supabase.from("users").select().eq("user_id", user.id).eq('username', currentUsername).single();
         if (error) {
           console.log(error);
           setError(error);
@@ -99,20 +93,19 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
         setData(data);
       } else {
         setData(userD);
-        uEmail = userD?.email
       }
 
-      const getAllAccounts = await supabase.from('users').select().eq('email', uEmail).order('created_at', { ascending: true })
+      const getAllAccounts = await supabase.from('users').select().eq('username', currentUsername).order('created_at', { ascending: true })
       setAccounts(getAllAccounts?.data)
     };
 
     getData();
   }, [currentUsername, userD]);
 
-  const [lng, setLang] = useState({ value: 'fr', text: "French", flag: '/french_flag.png' });
+  const [lng, setLang] = useState({ value: 'de', text: "French", flag: '/french_flag.png' });
 
   useEffect(() => {
-    const lng = localStorage.getItem('lng') || 'fr';
+    const lng = localStorage.getItem('lng') || 'de';
     const selectedLang = locales.find(l => l.value === lng)
     setLang(selectedLang)
   }, [])
@@ -134,23 +127,19 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
         className="flex justify-between items-center mt-2 md:mt-[20px]"
       >
         <Link to={`${data?.username ? `/dashboard/${data?.username}` : "/"}`} className="navbar-brand" href="#">
-          <div className="font-MADEOKINESANSPERSONALUSE text-[20px] md:text-[25px]">
+          <div className=" text-[20px] md:text-[25px]">
             <img alt="" className="md:hidden w-[36px] h-[36px]" src="/logo.png" />
             <div className="items-center hidden gap-2 md:flex">
-              <img src={LOGO} alt="" className="w-[38px] h-[34.26px]" />
-              <b className="text-[32px]">Propulse</b>
+              <img src={'/Socialmediagains-Logo-r.png'} alt="" className="w-[102px] h-[40px]" />
+              {/* <img src={LOGO} alt="" className="w-[38px] h-[34.26px]" /> */}
+              {/* <b className="text-[32px]">SMG</b> */}
             </div>
           </div>
         </Link>
 
         <div className="hidden lg:block">
-          <ul className="flex items-center gap-3 -mb-2 font-[600]">
-            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/prospector" target="_blank" rel="noreferrer">{t("Prospector")}</a></li>
-            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Temoignages" target="_blank" rel="noreferrer">{t("Testimonials")}</a></li>
-            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Process" target="_blank" rel="noreferrer">{t("Process")}</a></li>
-            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/equipe" target="_blank" rel="noreferrer">{t("The Team")}</a></li>
-            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#FAQ" target="_blank" rel="noreferrer">{t("FAQ")}</a></li>
-            <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Prix" target="_blank" rel="noreferrer">{t("Price")}</a></li>
+          <ul className="flex items-center gap-3 -mb-2 font-[600] uppercase">
+            <NewMenuItems t={t} />
           </ul>
         </div>
 
@@ -165,11 +154,11 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               </svg>
             </span>
           }
-          {!admin && <Link className="w-[50px] h-[50px] p-[10px]" to={"/dashboard/" + data?.username + "/manage"}>
+          {/* {!admin && <Link className="w-[50px] h-[50px] p-[10px]" to={"/dashboard/" + data?.username + "/manage"}>
             <FiGrid size={30} className="w-[30px] h-[30px]" />
-          </Link>}
+          </Link>} */}
 
-          <div id="languageSwitcher" ref={langModalRef} className="relative text-sm transition-all bg-[#1C1A26] rounded-lg">
+          <div id="languageSwitcher" ref={langModalRef} className="relative text-sm transition-all bg-[#DBC8BE] rounded-lg">
             <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => {
               setShowLangOptions(!showLangOptions)
               setIsOpen(false)
@@ -180,7 +169,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               <FaAngleDown />
             </div>
 
-            <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 absolute top-[calc(100%-3px)] pt-3 left-0 w-full z-10 transition-all bg-[#1C1A26] text-white rounded-b-lg overflow-hidden`}>
+            <div className={`${showLangOptions ? 'flex' : 'hidden'} flex-col gap-1 absolute top-[calc(100%-3px)] pt-3 left-0 w-full z-10 transition-all bg-[#DBC8BE] text-white rounded-b-lg overflow-hidden`}>
               {locales.map(item => {
                 return (<div
                   key={`lng-${item.value}`}
@@ -207,11 +196,11 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
               loading="lazy"
             />
 
-            <div className="relative flex items-center gap-2 text-lg font-MontserratRegular">
-              <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden text-lg lg:inline font-MontserratSemiBold">@{data?.username}</span></p>
+            <div className="relative flex items-center gap-2 text-lg ">
+              <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden text-lg lg:inline ">@{data?.username}</span></p>
               <FaAngleDown className="hidden lg:block" />
 
-              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-[#1C1A26] text-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#1C1A2640] rounded-[10px] font-MontserratBold`}
+              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-[#DBC8BE] text-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#1C1A2640] rounded-[10px] `}
                 style={{
                   transition: "opacity .15s ease-in"
                 }}
@@ -246,7 +235,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                 {!admin && <div className="">
                   <div className="text-[#757575] px-6 mb-2 text-[16px] font-semibold">Options</div>
 
-                  <Link className="font-normal text-sm cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
+                  {/* <Link className="font-normal text-sm cursor-pointer" to={"/dashboard/" + data?.username + "/manage"}
                     onClick={() => {
                       setIsOpen(!isOpen);
                       setActiveLink("Profile");
@@ -256,9 +245,9 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                       <FiGrid size={32} className="w-[32px] h-[32px]" />
                       {t('Manage Accounts')}
                     </li>
-                  </Link>
+                  </Link> */}
 
-                  <Link className="font-normal text-sm" to={"/search/?username=add_account"}
+                  {/* <Link className="font-normal text-sm" to={"/search/?username=add_account"}
                     onClick={() => {
                       setIsOpen(!isOpen);
                       setActiveLink("Profile");
@@ -268,7 +257,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                       <AiOutlinePlus size={32} className="rounded-full w-[32px] h-[32px]" />
                       {t('Add Account')}
                     </li>
-                  </Link>
+                  </Link> */}
 
                   <Link to={`/${data?.username}/settings`} className="font-normal text-sm"
                     onClick={() => {
@@ -301,7 +290,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                       window.onbeforeunload = function () {
                         localStorage.clear();
                       }
-                      window.location.pathname = "/login";
+                      window.location.pathname = "/search";
                     }}
                   >
                     <FiLogOut size={32} className="rounded-full w-[32px] h-[32px]" />
@@ -329,17 +318,23 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
   );
 }
 
+const NewMenuItems = ({ t }) => {
+  return (<>  
+    <li className="hover:border-b pb-2"><a href="https://www.propulse.me/prospector" target="_blank" rel="noreferrer">{t("Home")}</a></li>
+    <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Temoignages" target="_blank" rel="noreferrer">{t("PACKAGES & PRICES")}</a></li>
+    <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#FAQ" target="_blank" rel="noreferrer">{t("FAQ")}</a></li>
+    <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Process" target="_blank" rel="noreferrer">{t("About Us")}</a></li>
+    <li className="hover:border-b pb-2"><a href="https://www.propulse.me/equipe" target="_blank" rel="noreferrer">{t("Ghost Analysis")}</a></li>
+    <li className="hover:border-b pb-2"><a href="https://www.propulse.me/#Prix" target="_blank" rel="noreferrer">{t("Affiliate")}</a></li>
+  </>)
+}
+
 
 const MobileMenu = ({ t }) => {
   return (<>
     <div className="absolute z-50 top-[100px] left-0 w-full h-[calc(100vh-100px)] bg-white text-black">
       <ul className="flex flex-col gap-3 font-[600] p-5">
-        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/prospector" target="_blank" rel="noreferrer">{t("Prospector")}</a></li>
-        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#Temoignages" target="_blank" rel="noreferrer">{t("Testimonials")}</a></li>
-        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#Process" target="_blank" rel="noreferrer">{t("Process")}</a></li>
-        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/equipe" target="_blank" rel="noreferrer">{t("The Team")}</a></li>
-        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#FAQ" target="_blank" rel="noreferrer">{t("FAQ")}</a></li>
-        <li className="hover:border-b pt-5 pb-3 w-fit"><a href="https://www.propulse.me/#Prix" target="_blank" rel="noreferrer">{t("Price")}</a></li>
+        <NewMenuItems t={t} />
       </ul>
     </div>
   </>)

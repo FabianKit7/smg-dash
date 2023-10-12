@@ -181,7 +181,7 @@ export default function Subscriptions() {
           {/* mobile start */}
           <div className="lg:hidden">
             <div
-              className="fixed h-[65px] top-0 left-0 z-[50] bg-[#242424] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600] font-MontserratRegular shadow-[0_2px_4px_#00000026]"
+              className="fixed h-[65px] top-0 left-0 z-[50] bg-[#242424] flex items-center justify-between w-full px-5 py-4 gap-2 font-[600]  shadow-[0_2px_4px_#00000026]"
               onClick={() => {
                 showMenu && setShowMenu(false);
               }}
@@ -214,7 +214,7 @@ export default function Subscriptions() {
             <div className="mt-[65px] mb-[150px]">
               <div className="bg-white lg:hidden">
                 <div className="flex flex-col gap-[1px]">
-                  <div className="border-l-8 border-l-[#ff5e69] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
+                  <div className="border-l-8 border-l-[#dbc8be] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
                     <div className="flex items-center gap-[10px]">
                       <img
                         src={userResults?.profile_pic_url}
@@ -223,7 +223,7 @@ export default function Subscriptions() {
                       />
                       <div className="flex flex-col">
                         <div className="text-[12px] -mb-1">{t("Account")}:</div>
-                        <div className="text-[14px] text-black-r font-bold font-MontserratSemiBold">
+                        <div className="text-[14px] text-black-r font-bold ">
                           @{userResults?.username}
                         </div>
                       </div>
@@ -232,14 +232,14 @@ export default function Subscriptions() {
                     <TbRefresh className="cursor-pointer" onClick={() => { navigate(`/search`) }} />
                   </div>
 
-                  <div className="border-l-8 border-l-[#ff5e69] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
+                  <div className="border-l-8 border-l-[#dbc8be] border-b h-[54px] pr-[20px] pl-3 flex items-center justify-between w-full bg-black">
                     <div className="flex items-center gap-[10px]">
                       <div className="flex items-center gap-3">
                         <div className="text-[12px] -mb-1">Plan:</div>
-                        <div className="text-[14px] text-black-r font-bold font-MontserratSemiBold">
+                        <div className="text-[14px] text-black-r font-bold ">
                           <div className="flex items-center justify-between gap-4">
                             {SUBSCRIPTION_PLANS.map(plan => (
-                              <div key={`sub_plan-${plan.name}`} className={`w-[33%] h-[40px] cursor-pointer px-1 text-sm shadow-2xl rounded-lg grid place-items-center ${plan.name === selectedPlan.name ? "bg-[#B16CEA]" : "bg-gray-600"}`} onClick={() => {
+                              <div key={`sub_plan-${plan.name}`} className={`w-[33%] h-[40px] cursor-pointer px-1 text-sm shadow-2xl rounded-lg grid place-items-center ${plan.name === selectedPlan.name ? "bg-[#3d3d3d]" : "bg-gray-600"}`} onClick={() => {
                                 setSelectedPlan(plan)
                               }}>
                                 {plan.name}
@@ -254,7 +254,7 @@ export default function Subscriptions() {
               </div>
 
               <div className="px-5 pt-4 bg-black">
-                <h1 className="text-black-r text-[20px] font-bold font-MontserratSemiBold">
+                <h1 className="text-black-r text-[20px] font-bold ">
                   {' '}
                   Start Your Free 7-Day Trial
                 </h1>
@@ -266,12 +266,12 @@ export default function Subscriptions() {
                 </p>
 
                 {/* <div className="mb-[11px] flex gap-[10px] h-[80px] items-center">
-                  <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'card' && "border-[#b16cea] border-2"}`}
+                  <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'card' && "border-[#3d3d3d] border-2"}`}
                     onClick={() => { setPaymentMethod({ id: 1, name: 'card' }) }}
                   >
                     <span
                       className={`${paymentMethod.name === 'card' ? 'top-[13px] left-[10px] w-[22px] h-[18px] translate-x-0 translate-y-0' : 'h-[25.5px] w-[32px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
-                        absolute transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
+                        absolute transition-all duration-200 ease-in fill-[#3d3d3d] font-[none]`}
                     >
                       <svg
                         viewBox="0 0 28 28"
@@ -286,26 +286,26 @@ export default function Subscriptions() {
                     </span>
 
                     <div
-                      className={`${paymentMethod.name === 'card' ? "opacity-100 translate-y-0 text-[#b16cea]" : 'opacity-0 translate-y-full'}
-                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
+                      className={`${paymentMethod.name === 'card' ? "opacity-100 translate-y-0 text-[#3d3d3d]" : 'opacity-0 translate-y-full'}
+                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#3d3d3d] font-[none]`}
                     >
                       Card
                     </div>
                   </div>
 
-                  <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'paypal' && "border-[#b16cea] border-2"}`}
+                  <div className={`flex-1 bg-[#242424] rounded-[6px] cursor-pointer h-full relative transition-all duration-100 ease-in ${paymentMethod.name === 'paypal' && "border-[#3d3d3d] border-2"}`}
                     onClick={() => { setPaymentMethod({ id: 1, name: 'paypal' }) }}
                   >
                     <span
                       className={`${paymentMethod.name === 'paypal' ? 'top-[13px] left-[10px] translate-x-0 translate-y-0' : 'top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'}
-                        absolute transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
+                        absolute transition-all duration-200 ease-in fill-[#3d3d3d] font-[none]`}
                     >
                       <img src={'/icons/paypal-icon.svg'} alt="" className={`${paymentMethod.name === 'paypal' ? "h-[23.7px]" : "h-[37px]"}`} />
                     </span>
 
                     <div
-                      className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#b16cea]" : 'opacity-0 translate-y-full'}
-                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#b16cea] font-[none]`}
+                      className={`${paymentMethod.name === 'paypal' ? "opacity-100 translate-y-0 text-[#3d3d3d]" : 'opacity-0 translate-y-full'}
+                        absolute bottom-[10px] left-[10px] w-[22px] h-[18px] text-[14px] font-[500] transition-all duration-200 ease-in fill-[#3d3d3d] font-[none]`}
                     >
                       PayPal
                     </div>
@@ -332,7 +332,7 @@ export default function Subscriptions() {
               {paymentMethod.name === 'card' ?
                 <div className="">
                   <button
-                    className={`${Loading ? 'button-gradient cursor-wait' : 'bg-[#b16cea] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
+                    className={`${Loading ? 'button-gradient cursor-wait' : 'bg-[#3d3d3d] cursor-pointer'} w-full h-[50px] rounded-[10px] text-white flex items-center justify-center gap-2`}
                     type="submit"
                     form="cardForm"
                   // onClick={() => { }}
@@ -391,7 +391,7 @@ export default function Subscriptions() {
                     </span>
                   </div>
                   <div className="">
-                    <div className="text-black-r font-bold font-MontserratSemiBold text-[14px]">
+                    <div className="text-black-r font-bold  text-[14px]">
                       {user?.full_name}
                     </div>
                     <div className="text-[12px]">{user?.email}</div>
@@ -406,7 +406,7 @@ export default function Subscriptions() {
                     window.onbeforeunload = function () {
                       localStorage.clear();
                     };
-                    window.location.pathname = '/login';
+                    window.location.pathname = '/search';
                   }}
                 >
                   <MdLogout size={22} /> <span className="">{t("Logout")}</span>
@@ -458,10 +458,10 @@ const Content =
       <>
         <div className="h-[calc(100vh-75px)] lg:h-screen mt-[75px] lg:mt-0 lg:py-[20px] lg:px-[100px] bg-black">
           <div className="w-full max-w-full lg:max-w-[960px] xl:max-w-[1070px] h-[789px] overflow-auto my-auto 2xl:grid max-h-full lg:mx-auto relative">
-            <div className="mb-4 hidden lg:flex items-center gap-2 font-[600] font-MontserratRegular">
+            <div className="mb-4 hidden lg:flex items-center gap-2 font-[600] ">
               <div className="">{t('Select Your Account')}</div>
               <div className="">{`>`}</div>
-              <div className="text-[#b16cea]">{t('Complete registration')}</div>
+              <div className="text-[#3d3d3d]">{t('Complete registration')}</div>
               <div className="">{`>`}</div>
               <div className="">{t('Go to your dashboard')}</div>
             </div>
@@ -507,7 +507,7 @@ const Content =
                       <div className="flex text-[12px]">Select plan</div>
                       <div className="flex items-center justify-between gap-4">
                         {SUBSCRIPTION_PLANS.map(plan => (
-                          <div key={`sub_plan-${plan.name}`} className={`w-[33%] h-[50px] cursor-pointer shadow-2xl rounded-lg grid place-items-center ${plan.name === selectedPlan.name ? "bg-[#B16CEA]" : "bg-gray-600"}`} onClick={() => {
+                          <div key={`sub_plan-${plan.name}`} className={`w-[33%] h-[50px] cursor-pointer shadow-2xl rounded-lg grid place-items-center ${plan.name === selectedPlan.name ? "bg-[#3d3d3d]" : "bg-gray-600"}`} onClick={() => {
                             setSelectedPlan(plan)
                           }}>
                             {plan.name}
@@ -523,16 +523,16 @@ const Content =
                     {showCreaditCardInput && <div className="w-[32px] h-[32px] rounded-full grid place-items-center shadow-[0_3px_8px_#0000001a] cursor-pointer bg-white text-[#242424]" onClick={() => { setShowCreaditCardInput(false) }}>
                       <FaAngleLeft className="font-semibold" />
                     </div>}
-                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black-r font-MontserratBold">{t("Payment method")}</h1>
+                    <h1 className="text-[20px] lg:text-[20px] font-bold text-black-r ">{t("Payment method")}</h1>
                   </div> */}
-                      <p className="pt-2 pb-4 text-sm font-MontserratRegular text-start">
+                      <p className="pt-2 pb-4 text-sm  text-start">
                         {t('payment_method_text')}
                       </p>
 
                       {!showCreaditCardInput && (
                         <div className="flex flex-col gap-4 mb-4">
                           <div
-                            className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#b16cea] text-white flex items-center justify-center gap-2"
+                            className="cursor-pointer w-full h-[60px] rounded-[8px] bg-[#3d3d3d] text-white flex items-center justify-center gap-2"
                             onClick={() => {
                               setShowCreaditCardInput(true);
                             }}
@@ -592,10 +592,10 @@ const Content =
 
                 <div className="basis-[60%] grow-[4] rounded-[20px] shadow-[0_5px_10px_#0a17530d] p-4 lg:p-[50px_50px_50px] bg-[#242424] relative">
                   <div className="w-full h-full overflow-auto">
-                    <span className="text-[14px] py-[5px] px-3 mb-3 rounded-[8px] text-[#ff5e69] bg-[#ff5e6933]">
+                    <span className="text-[14px] py-[5px] px-3 mb-3 rounded-[8px] text-[#dbc8be] bg-[#dbc8be33]">
                       7-Days Free Trial
                     </span>
-                    <div className="text-[20px] lg:text-[26px] font-bold text-black-r font-MontserratBold">
+                    <div className="text-[20px] lg:text-[26px] font-bold text-black-r ">
                       Start Your 7-Days Trial
                     </div>
                     <p className="text-[14px] mt-2 mb-5">
@@ -603,7 +603,7 @@ const Content =
                       After signing up, you will be introduced to your personal
                       account manager and start growing in under 2 minutes.
                     </p>
-                    <div className="text-[72px] leading-[70px] text-black-r font-bold font-MontserratBold">
+                    <div className="text-[72px] leading-[70px] text-black-r font-bold ">
                       Free
                     </div>
                     <p className="text-[14px] mb-5">
@@ -612,7 +612,7 @@ const Content =
 
                     <div className="flex flex-col gap-4 text-base text-black-r">
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -641,7 +641,7 @@ const Content =
                         <p className="">Grow ~1-10k Real Monthly Followers</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -667,7 +667,7 @@ const Content =
                         <p>Target Followers Relevant To You</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -693,7 +693,7 @@ const Content =
                         <p>Detailed Analytics & Results Tracking</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -719,7 +719,7 @@ const Content =
                         <p>Automated 24/7 Growth, Set & Forget</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -745,7 +745,7 @@ const Content =
                         <p>No Fakes Or Bots, 100% Real People</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -771,7 +771,7 @@ const Content =
                         <p>Personal Account Manager</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -797,7 +797,7 @@ const Content =
                         <p>Boost Likes, Comments & DMs</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -823,7 +823,7 @@ const Content =
                         <p>Safest Instagram Growth Service</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="w-[20px] h-[20px] green-checkbox fill-[#ff5e69] sroke-green font-[none]">
+                        <span className="w-[20px] h-[20px] green-checkbox fill-[#dbc8be] sroke-green font-[none]">
                           <svg
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -1162,46 +1162,11 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
         await handleCardPay();
       }}
       id="cardForm">
-      {/* <style>
-        {`
-          .InputElement {
-            color: #fff;
-          }
-        `}
-      </style> */}
       <CardElement options={elementOptions} />
-      {/* <button disabled={!stripe}>Pay</button> */}
-
-      {/* <CardComponent
-        ref={cardRef}
-        className="fieldset field"
-        onChange={() => { }}
-        styles={styles}
-        locale={'en'}
-        placeholder={'placeholder'}
-        fonts={fonts}
-      >
-        <div className="ex1-field shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease mb-5" id='num'>
-          <CardNumber className="ex1-input"
-            onChange={(e) => { }} />
-        </div>
-
-        <div className="flex items-center gap-4 mb-5 ex1-fields">
-          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease">
-            <CardExpiry className="ex1-input"
-              onChange={(e) => { }} />
-          </div>
-
-          <div className="ex1-field w-full shadow-[0_2px_4px_#00000026] rounded-[8px] px-5 py-6 text-sm bg-white font-[500] transition-all duration-280 ease">
-            <CardCVV className="ex1-input"
-              onChange={(e) => { }} />
-          </div>
-        </div>
-      </CardComponent> */}
     </form>
 
     <div className={`${addCard ? "block" : "hidden lg:block"}`}>
-      <button className={`${Loading ? 'button-gradient cursor-wait' : 'bg-[#b16cea] cursor-pointer'} text-white font-MontserratSemiBold text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]" : "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
+      <button className={`${Loading ? 'button-gradient cursor-wait' : 'bg-[#3d3d3d] cursor-pointer'} text-white  text-[.8rem] xl:text-[1.125rem] ${addCard ? "mt-[65px]" : "mt-5"} w-full py-4 rounded-[10px] font-[600] mb-4`}
         onClick={() => {
           if (Loading) {
             setIsModalOpen(true);
@@ -1216,7 +1181,7 @@ export const ChargeBeeCard = ({ user, userResults, addCard, username, setIsModal
       {/* {showCardComponent && <></>} */}
       {Loading && <div className="flex items-center justify-center gap-2 py-3">
         <AiOutlineLoading3Quarters className="animate-spin" />
-        <p className="font-[500] text-xs md:text-sm font-MontserratSemiBold text-[#757575] animate-pulse">
+        <p className="font-[500] text-xs md:text-sm  text-[#757575] animate-pulse">
           {t("We're processing your request, please wait")}...
         </p>
       </div>}
