@@ -198,9 +198,9 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
 
             <div className="relative flex items-center gap-2 text-lg ">
               <p className="font-semibold cursor-pointer text-sm after:ml-[2px] after:text-lg"><span className="hidden text-lg lg:inline ">@{data?.username}</span></p>
-              <FaAngleDown className="hidden lg:block" />
+              {/* <FaAngleDown className="hidden lg:block" /> */}
 
-              <ul className={`${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-[#DBC8BE] text-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#1C1A2640] rounded-[10px] `}
+              <ul className={`hidden ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} absolute z-10 bg-[#DBC8BE] text-white py-2 w-[250px] top-[130%] right-[5%] shadow-[0_0_3px_#1C1A2640] rounded-[10px] `}
                 style={{
                   transition: "opacity .15s ease-in"
                 }}

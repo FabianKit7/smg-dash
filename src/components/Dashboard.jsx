@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { useClickOutside } from "react-click-outside-hook";
 import { AiOutlineClockCircle } from "react-icons/ai";
-import { BiMessageSquareDots } from "react-icons/bi";
 import { CgDanger } from "react-icons/cg";
-import { BsHeadset } from "react-icons/bs";
-import { FaAngleDown, FaCaretDown, FaCaretUp, FaTimes, FaTrash, FaUser } from "react-icons/fa";
+import { FaAngleDown, FaCaretDown, FaTimes, FaTrash, FaUser } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { TiTimes } from "react-icons/ti";
 import { Spinner } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { countDays, deleteAccount, getAccount, numFormatter, searchAccount, sumTotalInteractions, updateUserProfilePicUrl, uploadImageFromURL } from "../helpers";
 import { supabase } from "../supabaseClient";
 import Nav from "./Nav";
@@ -42,7 +40,7 @@ export default function Dashboard() {
   const [showDateOptions, setShowDateOptions] = useState(false)
   const [showMobileDateOptions, setShowMobileDateOptions] = useState(false)
   const [selectedDate, setSelectedDate] = useState({ title: t('Last 7 days'), value: 7 })
-  const [showMobileManager, setShowMobileManager] = useState(false)
+  // const [showMobileManager, setShowMobileManager] = useState(false)
   const [mobileAdd, setMobileAdd] = useState({ show: false, pageProp: {} })
   const [chart, setChart] = useState(1)
   const [processing, setProcessing] = useState(false)
@@ -52,7 +50,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [admin, setAdmin] = useState(false)
+  const [admin] = useState(false)
   const destopDateRageRef = useRef(null)
   const mobileDateRageRef = useRef(null)
 
@@ -60,7 +58,7 @@ export default function Dashboard() {
     const getData = async () => {
       const { data, error } = await supabase.from('users').select().eq("username", currentUsername).single()
 
-      console.log("data", data);
+      // console.log("data", data);
 
       var cuser = data
       // if (!cuser) return navigate("/search")
@@ -297,7 +295,7 @@ export default function Dashboard() {
                     className="mr-[10px] ml-[16px]"
                   />
                   <span className="flex items-center p-0">
-                    {selectedDate?.title}
+                    {t(selectedDate?.title)}
                   </span>
                   <FaAngleDown className="w-[12px] mr-[16px] ml-[7px]" />
                 </div>

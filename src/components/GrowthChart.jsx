@@ -28,8 +28,6 @@ export default function GrowthChart({ isPrivate, sessionsData, days }) {
     setFollowersData(followersData);
   }, [sessionsData, days]);
 
-  
-
   const options = {
     dataLabels: {
       enabled: false,

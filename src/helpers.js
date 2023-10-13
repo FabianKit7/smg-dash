@@ -122,9 +122,10 @@ export const countDays = (day, t) => {
   var Difference_In_Time = date2.getTime() - date1.getTime()
   var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
 
+    // : Difference_In_Days + ' ' + t("days ago") + t('timeAgo.daysAgo_plural', { Difference_In_Days });
   return Difference_In_Days === 1
-    ? t("one day ago")
-    : Difference_In_Days + ' ' + t("days ago")
+    ? t("1 day ago")
+    : Difference_In_Days + ' ' + t('timeAgo.daysAgo_plural', { count: Difference_In_Days });
 }
 
 export const getAccount = async (account) => {
