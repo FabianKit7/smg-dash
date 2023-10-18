@@ -73,7 +73,7 @@ export const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
 
   return (
     <div className="fixed top-0 left-0 z-50 grid w-full h-screen place-items-center bg-black/70">
-      <div className="bg-[#242424] pb-4 w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
+      <div className="bg-[#dad9d9] text-black pb-4 w-[300px] max-h-[80%] my-auto overflow-y-auto md:min-w-[400px] py-4 rounded-xl" ref={parentRef}>
         <div className="flex justify-between px-6 py-2 border-b">
           <div className="text-green-400">{message}</div>
           <FaTimes className='cursor-pointer' onClick={() => setOpenRefreshModal(false)} />
@@ -82,8 +82,8 @@ export const RefreshModal = ({ openRefreshModal, setOpenRefreshModal }) => {
           <div className="w-[60px] h-[60px] rounded-full button-gradient2">
             <img src={profilePicture} className="w-full h-full rounded-full" alt="" />
           </div>
-          <input type="text" className="p-3 bg-transparent border border-black rounded-lg w-52" placeholder='enter username' onChange={(e) => setUsername(e.target.value)} />
-          <button onClick={() => { !loading && handleRefresh() }} className="w-[200px] py-2 mb-4 button-gradient text-white">{loading ? 'refreshing...' : 'refresh'}</button>
+          <input type="text" className="p-3 bg-transparent border border-black rounded-lg w-52" placeholder='Enter Username' onChange={(e) => setUsername(e.target.value)} />
+          <button onClick={() => { !loading && handleRefresh() }} className="w-[200px] py-2 mb-4 button-gradient text-white rounded-sm">{loading ? 'refreshing...' : 'refresh'}</button>
         </div>
       </div>
     </div>

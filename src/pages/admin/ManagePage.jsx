@@ -9,8 +9,8 @@ import { ACTIVE_TEMPLATE, BACKEND_URL, CHECKING_TEMPLATE, INCORRECT_PASSWORD_TEM
 
 export const calculateLast7DaysGrowth = (sessionData) => {
   if (!sessionData) return
-  const previous7DaysGrowth = sessionData[sessionData.length - 7].profile.followers;
-  const last7DaysGrowth = sessionData[sessionData.length - 1].profile.followers;
+  const previous7DaysGrowth = sessionData[sessionData?.length - 7].profile.followers;
+  const last7DaysGrowth = sessionData[sessionData?.length - 1].profile.followers;
 
   // Calculate the growth difference and determine if it's positive, negative, or zero
   let growthDifference;
@@ -80,7 +80,7 @@ export default function ManagePage() {
   }, [sectionName, refreshUsers])
 
   useEffect(() => {
-    if (users.length > 0) {
+    if (users?.length > 0) {
       users.forEach(async user => {
         const resData = await supabase
           .from('sessions')
@@ -211,7 +211,7 @@ export default function ManagePage() {
                     setTimeout(() => {
                       setMessage({ sectionName: '', value: '' })
                     }, 1000);
-                  }}>{user?.backupcode.length > 7 ? user?.backupcode.substring(0, 6) + "..." : user?.backupcode || "N/A"}
+                  }}>{user?.backupcode?.length > 7 ? user?.backupcode.substring(0, 6) + "..." : user?.backupcode || "N/A"}
                     {message.sectionName === `backupcode-${user?.username}` && <div className="absolute font-bold text-black-r">{message.value}</div>}
                   </div>
                 </td>

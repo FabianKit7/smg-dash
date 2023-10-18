@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { RefreshModal } from '../../../dashboard'
 import { supabase } from '../../../supabaseClient'
 
 export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading }) {
+    const navigate = useNavigate()
     const [openRefreshModal, setOpenRefreshModal] = useState(false)
 
     const hangleSearch = async () => {
@@ -54,8 +55,10 @@ export default function Header({ setUsers, searchTerm, setSearchTerm, setLoading
                 </Link>
 
                 <div className="flex justify-end items-center text-[18px] font-semibold  tracking-[-0.36px]">
-                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#DBC8BE] text-white w-[203px] h-[59px]" onClick={() => setOpenRefreshModal(!openRefreshModal)}>Refresh Account</button>
-                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#DBC8BE] text-white w-[203px] h-[59px] ml-5" onClick={async () => {
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#d6b8a8] text-white w-[203px] h-[59px] ml-5" onClick={() => navigate('/upload-session')}>Upload Session</button>
+
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#d6b8a8] text-white w-[203px] h-[59px] ml-5" onClick={() => setOpenRefreshModal(!openRefreshModal)}>Refresh Account</button>
+                    <button className="rounded-[10px] bg-black-r text-white-r bg-[#d6b8a8] text-white w-[203px] h-[59px] ml-5" onClick={async () => {
                         await supabase.auth.signOut();
                         window.onbeforeunload = function () {
                             localStorage.clear();

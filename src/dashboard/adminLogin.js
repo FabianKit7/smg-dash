@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
-import sproutyLogo from "../images/sprouty.svg"
+// import sproutyLogo from "../images/sprouty.svg"
 
 export default function AdminLogin() {
     //   const [loading, setLoading] = useState(false);
@@ -29,16 +29,16 @@ export default function AdminLogin() {
                 .from('users')
                 .select()
                 .eq("user_id", data.user.id)
-                .eq('first_account', true)
+                // .eq('first_account', true)
 
             dbUser.error && console.console.log(error);
             if (!dbUser.data[0]?.admin) {
                 alert("You are not an admin!")
-                window.location = `/dashboard/${data.user?.id}`;
+                window.location = `/}`;
                 return;
             }
             // window.location = `/dashboard`;
-            navigate(`/dashboard`)
+            navigate(`/admin/manage`)
         }
         if (error) console.log(error.message);
         if (error.message === 'Invalid login credentials') {

@@ -56,11 +56,21 @@ export default function Dashboard() {
 
   useEffect(() => {
     const getData = async () => {
-      const { data, error } = await supabase.from('users').select().eq("username", currentUsername).single()
+      const { data, error } = await supabase.from('users').select().eq("username", currentUsername)
 
       // console.log("data", data);
 
-      var cuser = data
+      if (!data || !data.length > 0) {
+        setIsModalOpen(true);
+        setErrorMsg({ title: '404', message: "User not found!" })
+
+        setTimeout(() => {
+          return navigate('/search');
+        }, 5000);
+        return;
+      }
+
+      var cuser = data[0]
       // if (!cuser) return navigate("/search")
 
       if (error) {
@@ -128,7 +138,7 @@ export default function Dashboard() {
     };
   }, [showDateOptions]);
 
-// for mobile
+  // for mobile
   useEffect(() => {
     function handleClickOutside(event) {
       if (mobileDateRageRef.current && !mobileDateRageRef.current.contains(event.target)) {
@@ -201,6 +211,10 @@ export default function Dashboard() {
       isOpen={isModalOpen}
       onClose={() => {
         setIsModalOpen(false)
+        if (errorMsg?.message === "User not found!") {
+          navigate('/search')
+        }
+
         if (errorMsg?.message === "Please finish your registration") {
           if (userData?.username) {
             window.location.pathname = `subscriptions/${userData?.username}`

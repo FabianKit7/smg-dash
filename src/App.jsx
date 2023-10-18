@@ -1,10 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Search from "./components/Search";
 import Dashboard from "./components/Dashboard";
-import Subscriptions from "./components/Subscriptions";
 import Login from "./components/Login";
-import SignUp from "./components/SignUp";
 // import Home from "./components/Home";
 import Settings from "./components/Settings/Settings";
 import Admin from "./components/Admin/Admin";
@@ -13,8 +10,6 @@ import { useEffect } from "react";
 import DashboardApp from "./dashboard";
 import Edit from "./dashboard/edit";
 import AdminLogin from "./dashboard/adminLogin";
-import ForgetPassword from "./pages/forgetPassword";
-import ResetPassword from "./pages/resetPassword";
 import Chat from "./pages/chat";
 import Tap from "@tapfiliate/tapfiliate-js";
 import Thankyou from "./pages/Thankyou";
@@ -91,6 +86,7 @@ function App() {
           <Route path="/dashboard/:username" exact element={<Dashboard />} />
           <Route path="/dashboard/:username/manage" exact element={<ManageAccounts />} />
 
+          <Route path="/upload-session" exact element={<Admin />} />
           <Route path="/admin" exact element={<Admin />} />
           <Route path="/admin/manage" exact element={<ManagePage />} />
           <Route path="/admin/retention" exact element={<Retention />} />
@@ -98,7 +94,7 @@ function App() {
           <Route path="/chat/:username" exact element={<Chat />} />
           <Route path="/dashboard" exact element={<DashboardApp />} />
           <Route path="/dashboard/edit/:username" exact element={<Edit />} />
-          <Route path="/dashboard/login" exact element={<AdminLogin />} />
+          <Route path="/login" exact element={<AdminLogin />} />
 
           <Route path="*" exact element={<Login />} />
         </Routes>
