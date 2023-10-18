@@ -125,7 +125,7 @@ export const LangSwitcher = () => {
 
       {showLangOptions && <div className="absolute top-0 flex flex-col right-full bg-[#242424] text-white">
         <button className="p-3 border-b border-gray20 hover:bg-[#242424]" onClick={() => handleChange('en')}>EN</button>
-        <button className="p-3 hover:bg-[#242424]" onClick={() => handleChange('de')}>FR</button>
+        <button className="p-3 hover:bg-[#242424]" onClick={() => handleChange('de')}>DE</button>
       </div>}
     </div>
   )
