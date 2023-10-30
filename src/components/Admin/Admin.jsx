@@ -4,6 +4,8 @@ import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
 import { useNavigate } from "react-router-dom";
 import { uploadImageFromURL } from "../../helpers";
+import { BACKEND_URL } from "../../config";
+import axios from "axios";
 
 const defaultData = {
   "start_time": new Date(),
@@ -102,10 +104,20 @@ export default function Admin() {
           // auth user
           const email = `${username}@gmail.com`;
           const password = generateRandomPassword(6);
-          const { data: { user: authUser }, error: SignupError } = await supabase.auth.signUp({
-            email,
-            password,
-          });
+
+          // const { data: { user: authUser }, error: SignupError } = await supabase.auth.signUp({
+          //   email,
+          //   password,
+          // });
+          const { data: authUser, error: SignupError } = await axios.post(`${BACKEND_URL}/api/auth_user`,
+            { email, password })
+            .then((response) => response.data).catch(error => {
+              console.log("auth_user error");
+              console.log(error);
+              return error
+            })
+
+          // Create in backend
 
           if (!SignupError && authUser) {
             console.log(`created authUserData for ${authUser.email}`);
