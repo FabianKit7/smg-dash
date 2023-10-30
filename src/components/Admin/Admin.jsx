@@ -3,6 +3,17 @@ import { Spinner } from "react-bootstrap";
 import { supabase } from "../../supabaseClient";
 import Nav from "../Nav";
 import { useNavigate } from "react-router-dom";
+import { uploadImageFromURL } from "../../helpers";
+
+const defaultData = {
+  "start_time": new Date(),
+  "is_verified": true,
+  "biography": "",
+  "status": "active",
+  "userMode": "auto",
+  "messageSender": "{\"sms\":false,\"code\":\"\",\"admin\":\"\",\"method\":\"\",\"approve\":false}",
+  "first_account": true,
+}
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -60,6 +71,16 @@ export default function Admin() {
     readNextReceipt();
   };
 
+  function generateRandomPassword(length) {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+    return password;
+  }
+
   const handleUploadSessionFile = async () => {
     setLoading(true);
     await files.reduce(async (ref, file) => {
@@ -73,6 +94,52 @@ export default function Admin() {
         const month = currentDate.getMonth() + 1;
         const day = currentDate.getDate();
 
+        // check if user already exists
+        const userAlreadyExists = await supabase.from('users').select().eq("username", username).single()
+        if (userAlreadyExists.error) {
+          console.log(`${username} does not exist`);
+          // if user does not exist: 
+          // auth user
+          const email = `${username}@gmail.com`;
+          const password = generateRandomPassword(6);
+          const { data: { user: authUser }, error: SignupError } = await supabase.auth.signUp({
+            email,
+            password,
+          });
+
+          if (!SignupError && authUser) {
+            console.log(`created authUserData for ${authUser.email}`);
+            // upload profile picture
+            let profile_pic_url = '';
+            const uploadImageFromURLRes = await uploadImageFromURL(username)
+
+            if (uploadImageFromURLRes?.status === 'success') {
+              profile_pic_url = uploadImageFromURLRes?.data ?? ''
+            }
+
+            profile_pic_url ? console.log(` profile picture for ${username} has been uploaded`) : console.log(` profile picture for ${username} was not uploaded`);
+            // todo: create user profile
+            const { error } = await supabase
+              .from("users")
+              .upsert({
+                ...defaultData,
+                username,
+                full_name: username,
+                profile_pic_url,
+                user_id: authUser.id,
+                email: authUser.email,
+                password,
+              })
+            !error && console.log(`user profile createed successfully for ${username}`);
+            error && console.error(`error creating profile for: ${username}`);
+            error && console.error(error);
+          } else {
+            console.log(`failed to create authUserData for ${username}: ${SignupError}`);
+            SignupError && console.error(SignupError);
+          }
+        }
+
+        // continue to update the user' profile
         const updateUser = await supabase
           .from("users")
           .update({
@@ -83,7 +150,9 @@ export default function Admin() {
             session_updated_at: `${year}-${month}-${day}`
           }).eq('username', username);
 
-        updateUser.error && console.log(updateUser.error);
+        !updateUser.error && console.log(`user profile updated successfully for ${username}`);
+        updateUser.error && console.error(updateUser.error);
+
       } catch (error) {
         console.log(error);
       }
@@ -94,7 +163,8 @@ export default function Admin() {
           username,
           data: file.data
         })
-      error && console.log(error);
+      !error && console.log(`user session data updated successfully for ${username}`);
+      error && console.error(error);
       console.log(username);
       // console.log(file);
     }, Promise.resolve());
