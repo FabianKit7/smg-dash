@@ -81,6 +81,7 @@ function App() {
             <Subscriptions />
             // </Elements>
           } /> */}
+          <Route path="/:username" exact element={<Dashboard />} />
           <Route path="/:username/settings" exact element={<Settings />} />
           <Route path="/thankyou" exact element={<Thankyou />} />
           <Route path="/dashboard/:username" exact element={<Dashboard />} />
