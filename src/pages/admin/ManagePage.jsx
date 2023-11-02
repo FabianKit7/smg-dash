@@ -31,7 +31,7 @@ export default function ManagePage() {
   const navigate = useNavigate();
   const [fetchingUser, setFetchingUser] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [sectionName, setSectionName] = useState('new')
+  const [sectionName, setSectionName] = useState('active')
   const [sectionTotal, setSectionTotal] = useState(0)
   const [users, setUsers] = useState([])
   const [refreshUsers, setRefreshUsers] = useState(false)
