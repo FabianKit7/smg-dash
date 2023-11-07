@@ -84,9 +84,11 @@ export default function TargetingFilterModal(props, { min, max }) {
     >
       <Modal.Header id="custom-header" closeButton={false}>
         <div className="flex flex-col">
-          <Modal.Title className="font-bold text-[20px] mb-2 ">{t("Targeting Filters (beta)")}</Modal.Title>
+          <Modal.Title className="font-bold text-[20px] mb-2 ">
+            {t('Targeting Filters (beta)')}
+          </Modal.Title>
           <p className="w-full text-sm font-bold ">
-            {t("targeting_filters_text")}
+            {t('targeting_filters_text')}
           </p>
         </div>
         <div className="flex justify-end cursor-pointer">
@@ -102,9 +104,18 @@ export default function TargetingFilterModal(props, { min, max }) {
           <div className="grid w-full grid-cols-1 gap-12 p-3 lg:grid-cols-2 ">
             <div className="flex flex-col justify-content-between">
               <div className="flex flex-col w-[80%] relative">
-                <label className="text-base font-semibold ">{t("Followers")}</label>
+                <label className="text-base font-semibold ">
+                  {t('Followers')}
+                </label>
                 <div className="relative mrslider">
-                  <div className={`${margic ? "button-gradient" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
+                  <div
+                    className={`${
+                      margic ? 'button-gradient' : 'bg-gray-600'
+                    } rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`}
+                    onClick={() => {
+                      setMargic(!margic);
+                    }}
+                  >
                     <FaMagic className="text-white" />
                   </div>
                   <MultiRangeSlider
@@ -121,14 +132,22 @@ export default function TargetingFilterModal(props, { min, max }) {
                     label={true}
                     ruler={false}
                   />
-
                 </div>
               </div>
 
               <div className="flex flex-col w-[80%]">
-                <label className="mt-4 text-base font-semibold ">{t("Followings")}</label>
+                <label className="mt-4 text-base font-semibold ">
+                  {t('Followings (Abonnierte)')}
+                </label>
                 <div className="relative mrslider">
-                  <div className={`${margic ? "button-gradient" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
+                  <div
+                    className={`${
+                      margic ? 'button-gradient' : 'bg-gray-600'
+                    } rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`}
+                    onClick={() => {
+                      setMargic(!margic);
+                    }}
+                  >
                     <FaMagic className="text-white" />
                   </div>
                   <MultiRangeSlider
@@ -148,9 +167,18 @@ export default function TargetingFilterModal(props, { min, max }) {
                 </div>
               </div>
               <div className="flex flex-col w-[80%]">
-                <label className="mt-4 text-base font-semibold ">Media</label>
+                <label className="mt-4 text-base font-semibold ">
+                  {t('Media')}
+                </label>
                 <div className="relative mrslider">
-                  <div className={`${margic ? "button-gradient" : "bg-gray-600"} rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`} onClick={() => { setMargic(!margic) }}>
+                  <div
+                    className={`${
+                      margic ? 'button-gradient' : 'bg-gray-600'
+                    } rounded-[10px]  p-2 w-8 h-8 cursor-pointer absolute top-[12%] -right-[23%]`}
+                    onClick={() => {
+                      setMargic(!margic);
+                    }}
+                  >
                     <FaMagic className="text-white" />
                   </div>
                   <MultiRangeSlider
@@ -171,61 +199,80 @@ export default function TargetingFilterModal(props, { min, max }) {
               </div>
 
               <button
-                className={`${margic ? "button-gradient" : "bg-gray-600"}  w-full mt-5 rounded-[10px] py-4 text-base text-white font-bold`}
-                onClick={() => { setMargic(!margic) }}
-              >{t("Magic filters")}: {margic ? 'ON' : 'OFF'}</button>
+                className={`${
+                  margic ? 'button-gradient' : 'bg-gray-600'
+                }  w-full mt-5 rounded-[10px] py-4 text-base text-black font-bold`}
+                onClick={() => {
+                  setMargic(!margic);
+                }}
+              >
+                {t('Magic filters')}: {margic ? 'ON' : 'OFF'}
+              </button>
             </div>
 
             <Col>
               <div>
-                <label className="font-medium  text-[15px] mb-2 capitalize">{t("confidentiality")}</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 border-[#DBC8BE] bg-[#DBC8BE] text-white " aria-label={t("confidentiality")}
+                <label className="font-medium  text-[15px] mb-2 capitalize">
+                  {t('confidentiality')}
+                </label>
+                <Form.Select
+                  className="shadow-filter mb-6 rounded-[10px] pl-5 border-[#DBC8BE] bg-[#DBC8BE] text-black "
+                  aria-label={t('confidentiality')}
                   value={privacy}
                   // defaultValue={privacy}
                   onChange={(e) => {
                     setPrivacy(e.target.value);
                   }}
                 >
-                  <option value={t("Indifferent")}>{t("Indifferent")}</option>
-                  <option value={t("public")}>{t("public")}</option>
-                  <option value={t("Private")}>{t("Private")}</option>
+                  <option value={t('Indifferent')}>{t('Indifferent')}</option>
+                  <option value={t('public')}>{t('public')}</option>
+                  <option value={t('Private')}>{t('Private')}</option>
                 </Form.Select>
               </div>
 
               <div>
-                <label className="font-medium  text-[15px] mb-2 capitalize">{t("gender")}</label>
-                <Form.Select className="shadow-filter mb-6 rounded-[10px] pl-5 border-[#DBC8BE] bg-[#DBC8BE] text-white " aria-label={t("gender")}
+                <label className="font-medium  text-[15px] mb-2 capitalize">
+                  {t('gender')}
+                </label>
+                <Form.Select
+                  className="shadow-filter mb-6 rounded-[10px] pl-5 border-[#DBC8BE] bg-[#DBC8BE] text-black "
+                  aria-label={t('gender')}
                   value={gender}
                   onChange={(e) => {
                     setGender(e.target.value);
                   }}
                 >
-                  <option value={t("Indifferent")}>{t("Indifferent")}</option>
-                  <option value={t("Man")}>{t("Man")}</option>
-                  <option value={t("Women")}>{t("Women")}</option>
+                  <option value={t('Indifferent')}>{t('Indifferent')}</option>
+                  <option value={t('Man')}>{t('Man')}</option>
+                  <option value={t('Women')}>{t('Women')}</option>
                 </Form.Select>
               </div>
 
               <div>
-                <label className="font-medium  text-[15px] mb-2 capitalize">{t("language")}</label>
-                <Form.Select className="shadow-filter rounded-[10px] pl-5 border-[#DBC8BE] bg-[#DBC8BE] text-white" aria-label="Privacy"
+                <label className="font-medium  text-[15px] mb-2 capitalize">
+                  {t('language')}
+                </label>
+                <Form.Select
+                  className="shadow-filter rounded-[10px] pl-5 border-[#DBC8BE] bg-[#DBC8BE] text-black"
+                  aria-label="Privacy"
                   value={lang}
                   onChange={(e) => {
                     setLang(e.target.value);
                   }}
                 >
                   {/* <option>Open this select menu</option> */}
-                  <option value={t("Indifferent")}>{t("Indifferent")}</option>
-                  <option value={t("English")}>{t("English")}</option>
-                  <option value={t("French")}>{t("French")}</option>
+                  <option value={t('Indifferent')}>{t('Indifferent')}</option>
+                  <option value={t('English')}>{t('English')}</option>
+                  <option value={t('Deutsch')}>{t('Deutsch')}</option>
                 </Form.Select>
               </div>
 
               <div>
-                <button className="bg-secondaryblue  w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold"
+                <button
+                  className="bg-secondaryblue  w-full mt-10 rounded-[10px] py-4 text-base text-white font-bold"
                   onClick={handleSaveAndClose}
                 >
-                  {t("Save and Close")}
+                  {t('Save and Close')}
                 </button>
               </div>
             </Col>

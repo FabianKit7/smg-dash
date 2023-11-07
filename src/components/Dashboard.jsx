@@ -1217,7 +1217,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             </span>
           </div>
 
-          <button className="button-gradient text-white font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
+          <button className="button-gradient text-black font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             {t('Targeting Filters')}
             <img alt="" className="ml-2" src="/ic_filters.svg" />
           </button>

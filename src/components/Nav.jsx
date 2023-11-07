@@ -322,11 +322,11 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
 const NewMenuItems = ({ t }) => {
   return (<>  
     <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/" target="_blank" rel="noreferrer">{t("Home")}</a></li>
-    <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/pakete/" target="_blank" rel="noreferrer">{t("PACKAGES & PRICES")}</a></li>
+    {/* <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/pakete/" target="_blank" rel="noreferrer">{t("PACKAGES & PRICES")}</a></li>
     <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/faq/" target="_blank" rel="noreferrer">{t("FAQ")}</a></li>
     <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/uberuns/" target="_blank" rel="noreferrer">{t("About Us")}</a></li>
     <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/ghost-follower-analyse/" target="_blank" rel="noreferrer">{t("Ghost Analysis")}</a></li>
-    <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/affiliate/" target="_blank" rel="noreferrer">{t("Affiliate")}</a></li>
+    <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/affiliate/" target="_blank" rel="noreferrer">{t("Affiliate")}</a></li> */}
     <li className="hover:border-b pb-2"><a href="https://socialmediagains.com/membership/" target="_blank" rel="noreferrer">{t("Membership")}</a></li>
   </>)
 }
