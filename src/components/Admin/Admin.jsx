@@ -88,6 +88,8 @@ export default function Admin() {
     await files.reduce(async (ref, file) => {
       await ref;
       const username = file?.username
+      console.log("username: ");
+      console.log(username);
       try {
         const data = file?.data
         let lastItem = data[data?.length - 1];
@@ -99,7 +101,7 @@ export default function Admin() {
         // check if user already exists
         const userAlreadyExists = await supabase.from('users').select().eq("username", username).single()
         if (userAlreadyExists.error) {
-          console.log(`${username} does not exist`);
+          console.log(`${username} does not exist yet`);
           // if user does not exist: 
           // auth user
           const email = `${username}@gmail.com`;
@@ -195,23 +197,42 @@ export default function Admin() {
     </>)
   }
 
-  return (<>
-    <Nav />
-    <div className="flex flex-col h-screen">
-      <div className="w-[250px]">
-        <h1 className="mb-5">Upload session file (Json)</h1>
+  return (
+    <>
+      <Nav />
+      <div className="flex flex-col h-screen">
+        <div className="w-[250px]">
+          <h1 className="mb-5">Upload session file (Json)</h1>
 
-        <div className="flex items-center gap-5">
-          <input type="file" id="input" onChange={handleChange} multiple accept="application/JSON" />
-          {reading && (<Spinner animation="border" />)}
+          <div className="flex items-center gap-5">
+            <input
+              type="file"
+              id="input"
+              onChange={handleChange}
+              multiple
+              accept="application/JSON"
+            />
+            {reading && <Spinner animation="border" />}
+          </div>
+
+          <button
+            className={`${
+              files.length > 0
+                ? Loading
+                  ? 'bg-[rgb(25,59,167)]'
+                  : 'bg-secondaryblue'
+                : 'bg-gray-600'
+            } w-full mt-4 rounded-[10px] py-4 text-base text-white font-bold`}
+            onClick={handleUploadSessionFile}
+          >
+            {Loading ? (
+              <span className="animate-pulse">processing...</span>
+            ) : (
+              'Upload'
+            )}
+          </button>
         </div>
-
-        <button className={`${files.length > 0 ? 'bg-secondaryblue' : 'bg-gray-600'} w-full mt-4 rounded-[10px] py-4 text-base text-white font-bold`}
-          onClick={handleUploadSessionFile}
-        >
-          {Loading ? "Loading " : "Upload"}
-        </button>
       </div>
-    </div>
-  </>);
+    </>
+  );
 }

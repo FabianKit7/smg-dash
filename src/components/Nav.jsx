@@ -158,7 +158,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
             <FiGrid size={30} className="w-[30px] h-[30px]" />
           </Link>} */}
 
-          <div id="languageSwitcher" ref={langModalRef} className="relative text-sm transition-all bg-[#DBC8BE] rounded-lg">
+          {process.env.NODE_ENV !== 'production' && <div id="languageSwitcher" ref={langModalRef} className="relative text-sm transition-all bg-[#DBC8BE] rounded-lg">
             <div className="flex items-center gap-2 p-1 cursor-pointer" onClick={() => {
               setShowLangOptions(!showLangOptions)
               setIsOpen(false)
@@ -186,7 +186,7 @@ export default function Nav({ setShowWelcomeModal, userD, admin }) {
                 </div>);
               })}
             </div>
-          </div>
+          </div>}
 
           {data?.full_name && <div className="flex justify-center items-center md:gap-[10px] p-[10px] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <img
