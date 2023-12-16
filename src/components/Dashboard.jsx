@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
-import { useClickOutside } from "react-click-outside-hook";
+// import { useClickOutside } from "react-click-outside-hook";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { CgDanger } from "react-icons/cg";
-import { FaAngleDown, FaCaretDown, FaTimes, FaTrash, FaUser } from "react-icons/fa";
-import { MdVerified } from "react-icons/md";
+import { FaAngleDown, FaCaretDown, FaTrash} from "react-icons/fa";
+// import { MdVerified } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
-import { TiTimes } from "react-icons/ti";
-import { Spinner } from 'react-bootstrap';
+// import { TiTimes } from "react-icons/ti";
+// import { Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from "react-router-dom";
-import { countDays, deleteAccount, getAccount, numFormatter, searchAccount, sumTotalInteractions, updateUserProfilePicUrl, uploadImageFromURL } from "../helpers";
+import { countDays, deleteAccount, numFormatter, sumTotalInteractions, updateUserProfilePicUrl } from "../helpers";
 import { supabase } from "../supabaseClient";
 import Nav from "./Nav";
 import TargetingFilterModal from './TargetingFilterModal'
@@ -50,7 +50,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState({ title: 'Alert', message: 'something went wrong' })
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [admin] = useState(false)
+  // const [admin] = useState(false)
   const destopDateRageRef = useRef(null)
   const mobileDateRageRef = useRef(null)
 
@@ -110,6 +110,7 @@ export default function Dashboard() {
       } catch (error) {
         // console.log(error);
       }
+      // console.log("session data; d: ");
       // console.log(d);
       setSessionsData(d)
       setTotalInteractions(sumTotalInteractions(d))
@@ -255,7 +256,7 @@ export default function Dashboard() {
         showWelcomeModal={showWelcomeModal}
       /> */}
 
-      {mobileAdd.show &&
+      {/* {mobileAdd.show &&
         <AddOthers
           pageProp={mobileAdd.pageProp}
           userId={userData.user_id}
@@ -264,7 +265,7 @@ export default function Dashboard() {
           admin={admin}
           t={t}
         />
-      }
+      } */}
 
       {!mobileAdd.show && <>
         <div className="hidden lg:block">
@@ -798,266 +799,266 @@ const Starts = ({ user, setChart, chart, totalInteractions, t }) => {
   </>)
 }
 
-const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobileAdd, t }) => {
-  const buttonText = pageProp.title === 'Targeting' ? t('Add Target') : pageProp.title === 'Blacklist' ? "Blacklist Account" : "Whitelist Account"
-  const from = (pageProp.title).toLowerCase();
-  const [parentRef, isClickedOutside] = useClickOutside();
-  const [showResultModal, setShowResultModal] = useState(false)
-  const [selected, setSelected] = useState()
-  const [selectedData, setSelectedData] = useState({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
-  const [searchedAccounts, setSearchedAccounts] = useState([])
-  const [input, setInput] = useState('')
-  const [debouncedQuery, setDebouncedQuery] = useState(input)
+// const AddOthers = ({ pageProp, userId, user, addSuccess, setAddSuccess, setMobileAdd, t }) => {
+//   const buttonText = pageProp.title === 'Targeting' ? t('Add Target') : pageProp.title === 'Blacklist' ? "Blacklist Account" : "Whitelist Account"
+//   const from = (pageProp.title).toLowerCase();
+//   const [parentRef, isClickedOutside] = useClickOutside();
+//   const [showResultModal, setShowResultModal] = useState(false)
+//   const [selected, setSelected] = useState()
+//   const [selectedData, setSelectedData] = useState({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
+//   const [searchedAccounts, setSearchedAccounts] = useState([])
+//   const [input, setInput] = useState('')
+//   const [debouncedQuery, setDebouncedQuery] = useState(input)
 
-  const [loadingSpinner, setLoadingSpinner] = useState(false)
-  const [processing, setProcessing] = useState(false);
-  const inputRef = useRef()
+//   const [loadingSpinner, setLoadingSpinner] = useState(false)
+//   const [processing, setProcessing] = useState(false);
+//   const inputRef = useRef()
 
-  useEffect(() => {
-    if (isClickedOutside) {
-      setShowResultModal(false)
-    };
-  }, [isClickedOutside]);
+//   useEffect(() => {
+//     if (isClickedOutside) {
+//       setShowResultModal(false)
+//     };
+//   }, [isClickedOutside]);
 
-  useEffect(() => {
-    var i = debouncedQuery;
-    if (debouncedQuery.startsWith('@')) {
-      i = debouncedQuery.substring(1)
-    }
-    const timer = setTimeout(() => setInput(i), 1000);
-    return () => clearTimeout(timer)
-  }, [debouncedQuery]);
+//   useEffect(() => {
+//     var i = debouncedQuery;
+//     if (debouncedQuery.startsWith('@')) {
+//       i = debouncedQuery.substring(1)
+//     }
+//     const timer = setTimeout(() => setInput(i), 1000);
+//     return () => clearTimeout(timer)
+//   }, [debouncedQuery]);
 
-  useEffect(() => {
-    const fetch = async () => {
-      setLoadingSpinner(true)
-      const data = await searchAccount(input);
-      const users = data?.users;
-      if (users?.length > 0) {
-        const filtered = users?.filter(user => {
-          var x = (user?.username)?.toLowerCase()
-          var y = input?.toLowerCase()
-          return x?.startsWith(y)
-        })
-        // console.log(filtered);
-        setSearchedAccounts(filtered)
-        setShowResultModal(true)
-      }
-      setLoadingSpinner(false)
-    }
-    setSearchedAccounts([])
-    fetch()
-  }, [input])
+//   useEffect(() => {
+//     const fetch = async () => {
+//       setLoadingSpinner(true)
+//       const data = await searchAccount(input);
+//       const users = data?.users;
+//       if (users?.length > 0) {
+//         const filtered = users?.filter(user => {
+//           var x = (user?.username)?.toLowerCase()
+//           var y = input?.toLowerCase()
+//           return x?.startsWith(y)
+//         })
+//         // console.log(filtered);
+//         setSearchedAccounts(filtered)
+//         setShowResultModal(true)
+//       }
+//       setLoadingSpinner(false)
+//     }
+//     setSearchedAccounts([])
+//     fetch()
+//   }, [input])
 
-  const add = async () => {
-    if (!selected) return;
-    var filteredSelected = selected;
-    if (filteredSelected.startsWith('@')) {
-      filteredSelected = filteredSelected.substring(1)
-    }
-    if (filteredSelected) {
-      setProcessing(true);
-      setLoadingSpinner(true)
-      const theAccount = await getAccount(filteredSelected);
-      // console.log(theAccount);
-      var profile_pic_url = '';
-      const uploadImageFromURLRes = await uploadImageFromURL(filteredSelected, theAccount?.data?.[0]?.profile_pic_url)
-      if (uploadImageFromURLRes?.status === 'success') {
-        profile_pic_url = uploadImageFromURLRes?.data
-      }
+//   const add = async () => {
+//     if (!selected) return;
+//     var filteredSelected = selected;
+//     if (filteredSelected.startsWith('@')) {
+//       filteredSelected = filteredSelected.substring(1)
+//     }
+//     if (filteredSelected) {
+//       setProcessing(true);
+//       setLoadingSpinner(true)
+//       const theAccount = await getAccount(filteredSelected);
+//       // console.log(theAccount);
+//       var profile_pic_url = '';
+//       const uploadImageFromURLRes = await uploadImageFromURL(filteredSelected, theAccount?.data?.[0]?.profile_pic_url)
+//       if (uploadImageFromURLRes?.status === 'success') {
+//         profile_pic_url = uploadImageFromURLRes?.data
+//       }
 
-      const data = {
-        account: filteredSelected,
-        followers: theAccount.data[0].follower_count,
-        avatar: profile_pic_url,
-        user_id: userId,
-        main_user_username: user.username
-      }
+//       const data = {
+//         account: filteredSelected,
+//         followers: theAccount.data[0].follower_count,
+//         avatar: profile_pic_url,
+//         user_id: userId,
+//         main_user_username: user.username
+//       }
 
-      if (user?.first_account) {
-        delete data.main_user_username
-      }
+//       if (user?.first_account) {
+//         delete data.main_user_username
+//       }
 
-      const res = await supabase.from(from).insert(data);
-      res?.error && console.log(
-        "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
-        res.error
-      );
+//       const res = await supabase.from(from).insert(data);
+//       res?.error && console.log(
+//         "🚀 ~ file: Whitelist.jsx:33 ~ const{error}=awaitsupabase.from ~ error",
+//         res.error
+//       );
 
-      setSelected("");
-      setDebouncedQuery('')
-      setSelectedData({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
-      setProcessing(false);
-      setLoadingSpinner(false)
-      setAddSuccess && setAddSuccess(!addSuccess);
-      setMobileAdd && setMobileAdd({ show: false, pageProp: {} })
-    }
-  };
+//       setSelected("");
+//       setDebouncedQuery('')
+//       setSelectedData({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
+//       setProcessing(false);
+//       setLoadingSpinner(false)
+//       setAddSuccess && setAddSuccess(!addSuccess);
+//       setMobileAdd && setMobileAdd({ show: false, pageProp: {} })
+//     }
+//   };
 
-  return (<>
-    <div key={pageProp.id} className="w-full lg:w-[430px] mt-8 lg:mt-[50px] pl-4 h-[380px] relative">
-      <div
-        className="relative h-full"
-        style={{ transition: 'opacity .25s ease-in' }}
-      >
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center">
-            <div className="lg:hidden mr-[12px]">
-              {pageProp.title === "Targeting" && <img alt="" src="/ic_targeting.svg" className="button-gradient p-[8px] rounded-[8px]" />}
-              {pageProp.title === "Whitelist" && <img alt="" src="/ic_whitelist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
-              {pageProp.title === "blacklist" && <img alt="" src="/ic_blacklist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
-            </div>
-            <div className="">
-              <div className="text-base font-bold  lg:text-2xl text-black-r">
-                {pageProp.title !== t("Add Targeting") && t(`Add ${pageProp.title} Accounts`)}
-              </div>
-              <div className="font-normal text-[14px]">
-                {t(pageProp.addDescription)}
-              </div>
-            </div>
-          </div>
+//   return (<>
+//     <div key={pageProp.id} className="w-full lg:w-[430px] mt-8 lg:mt-[50px] pl-4 h-[380px] relative">
+//       <div
+//         className="relative h-full"
+//         style={{ transition: 'opacity .25s ease-in' }}
+//       >
+//         <div className="flex items-center justify-between gap-3">
+//           <div className="flex items-center">
+//             <div className="lg:hidden mr-[12px]">
+//               {pageProp.title === "Targeting" && <img alt="" src="/ic_targeting.svg" className="button-gradient p-[8px] rounded-[8px]" />}
+//               {pageProp.title === "Whitelist" && <img alt="" src="/ic_whitelist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
+//               {pageProp.title === "blacklist" && <img alt="" src="/ic_blacklist.svg" width="40px" height="40px" className="w-10 h-10 rounded-[8px]" />}
+//             </div>
+//             <div className="">
+//               <div className="text-base font-bold  lg:text-2xl text-black-r">
+//                 {pageProp.title !== t("Add Targeting") && t(`Add ${pageProp.title} Accounts`)}
+//               </div>
+//               <div className="font-normal text-[14px]">
+//                 {t(pageProp.addDescription)}
+//               </div>
+//             </div>
+//           </div>
 
-          <FaTimes className="lg:hidden w-7 h-7 text-[#757575] cursor-pointer" onClick={() => setMobileAdd({ show: false, pageProp: {} })} />
-        </div>
+//           <FaTimes className="lg:hidden w-7 h-7 text-[#757575] cursor-pointer" onClick={() => setMobileAdd({ show: false, pageProp: {} })} />
+//         </div>
 
-        <div className="relative mt-5" ref={parentRef}>
-          <div className="flex items-center text-base font-medium text-black-r border border-[#1C1A2640] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
-            <input
-              type="text"
-              placeholder={`@${t('accountname')}`}
-              className="w-full bg-transparent border-none outline-none"
-              value={debouncedQuery}
-              ref={inputRef}
-              onChange={(e) => {
-                setDebouncedQuery(e.target.value);
-              }}
-              onFocus={() => {
-                setShowResultModal(true)
-              }}
-            />
-            <div className="relative flex items-center justify-center">
-              <span className="absolute z-10">{loadingSpinner && (<Spinner animation="border" />)}</span>
-              {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
-            </div>
-          </div>
+//         <div className="relative mt-5" ref={parentRef}>
+//           <div className="flex items-center text-base font-medium text-black-r border border-[#1C1A2640] h-[60px] p-[18px] rounded-[10px] w-full outline-none box-border">
+//             <input
+//               type="text"
+//               placeholder={`@${t('accountname')}`}
+//               className="w-full bg-transparent border-none outline-none"
+//               value={debouncedQuery}
+//               ref={inputRef}
+//               onChange={(e) => {
+//                 setDebouncedQuery(e.target.value);
+//               }}
+//               onFocus={() => {
+//                 setShowResultModal(true)
+//               }}
+//             />
+//             <div className="relative flex items-center justify-center">
+//               <span className="absolute z-10">{loadingSpinner && (<Spinner animation="border" />)}</span>
+//               {input && <TiTimes className='cursor-pointer' onClick={() => { setDebouncedQuery('') }} />}
+//             </div>
+//           </div>
 
-          <div className={`${!selectedData.username && "hidden"} -top-2 opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white border-2 border-[#dbc8be]`}
-            style={{
-              pointerEvents: 'all',
-              // boxShadow: '0 0 3px #1C1A2640',
-              transition: 'opacity .15s ease-in',
-            }}
-          >
-            <div className="cursor-pointer hover:bg-[#c4c4c4]/20 py-5 px-[30px] flex items-center justify-between text-black">
-              <div className="flex items-center">
-                {selectedData.profile_pic_url !== "default" ? <img
-                  alt=""
-                  className="w-[46px] h-[46px] bg-[#c4c4c4] rounded-full mr-[12px]"
-                  src={selectedData?.profile_pic_url}
-                /> : <div className="p-3 rounded-full bg-black-r text-white-r bg-black text-white mr-[12px]">
-                  <FaUser size={14} color="white w-[46px] h-[46px]" />
-                </div>}
-                <div className="flex flex-col">
-                  <div className="flex items-center">
-                    <div className="text-base font-medium text-black-r ">
-                      {selectedData?.full_name}
-                    </div>
-                    {selectedData?.is_verified && <MdVerified
-                      className="ml-[5px] w-[18px] h-[18px]"
-                      color="#458EFF"
-                      size={18}
-                    />}
-                  </div>
-                  <div className="text-[#757575] text-base font-semibold ">
-                    @{selectedData?.username}
-                  </div>
-                </div>
-              </div>
-              <FaTimes className="w-8 h-8 cursor-pointer" onClick={() => {
-                setSelected('');
-                setDebouncedQuery('')
-                setSelectedData({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
-              }} />
-            </div>
-          </div>
+//           <div className={`${!selectedData.username && "hidden"} -top-2 opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-white border-2 border-[#dbc8be]`}
+//             style={{
+//               pointerEvents: 'all',
+//               // boxShadow: '0 0 3px #1C1A2640',
+//               transition: 'opacity .15s ease-in',
+//             }}
+//           >
+//             <div className="cursor-pointer hover:bg-[#c4c4c4]/20 py-5 px-[30px] flex items-center justify-between text-black">
+//               <div className="flex items-center">
+//                 {selectedData.profile_pic_url !== "default" ? <img
+//                   alt=""
+//                   className="w-[46px] h-[46px] bg-[#c4c4c4] rounded-full mr-[12px]"
+//                   src={selectedData?.profile_pic_url}
+//                 /> : <div className="p-3 rounded-full bg-black-r text-white-r bg-black text-white mr-[12px]">
+//                   <FaUser size={14} color="white w-[46px] h-[46px]" />
+//                 </div>}
+//                 <div className="flex flex-col">
+//                   <div className="flex items-center">
+//                     <div className="text-base font-medium text-black-r ">
+//                       {selectedData?.full_name}
+//                     </div>
+//                     {selectedData?.is_verified && <MdVerified
+//                       className="ml-[5px] w-[18px] h-[18px]"
+//                       color="#458EFF"
+//                       size={18}
+//                     />}
+//                   </div>
+//                   <div className="text-[#757575] text-base font-semibold ">
+//                     @{selectedData?.username}
+//                   </div>
+//                 </div>
+//               </div>
+//               <FaTimes className="w-8 h-8 cursor-pointer" onClick={() => {
+//                 setSelected('');
+//                 setDebouncedQuery('')
+//                 setSelectedData({ username: '', full_name: '', profile_pic_url: '', is_verified: false })
+//               }} />
+//             </div>
+//           </div>
 
-          <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-[#DBC8BE] text-white`}
-            style={{
-              pointerEvents: 'all',
-              boxShadow: '0 0 3px #1C1A2640',
-              transition: 'opacity .15s ease-in',
-            }}
-          >
-            {debouncedQuery && <div className="flex items-center gap-[12px] border-b hover:bg-[#c4c4c4]/20 py-5 px-[30px] pb-2 cursor-pointer"
-              onClick={() => {
-                setSelected(debouncedQuery);
-                setSelectedData({ username: debouncedQuery, full_name: debouncedQuery, profile_pic_url: 'default', is_verified: false })
-                // setInput(debouncedQuery)
-                setLoadingSpinner(false)
-                setShowResultModal(false);
-              }}
-            >
-              <div className="p-3 text-white bg-black rounded-full bg-black-r text-white-r">
-                <FaUser size={14} color="white w-[46px] h-[46px]" />
-              </div>
-              <div className="">
-                <div className="">{debouncedQuery}</div>
-                <div className="mt-1 opacity-90 text-[.9rem]">{t("click here to select account")}</div>
-              </div>
-            </div>}
+//           <div className={`${(selectedData.username || !showResultModal) && 'hidden'} ${pageProp.title === 'Targeting' ? "top-[calc(100%-7px)]" : "top-[calc(100%-7px)]"} opacity-100 max-h-[400px] overflow-y-auto absolute w-full left-0 translate-y-2 rounded-[10px] z-10 bg-[#DBC8BE] text-white`}
+//             style={{
+//               pointerEvents: 'all',
+//               boxShadow: '0 0 3px #1C1A2640',
+//               transition: 'opacity .15s ease-in',
+//             }}
+//           >
+//             {debouncedQuery && <div className="flex items-center gap-[12px] border-b hover:bg-[#c4c4c4]/20 py-5 px-[30px] pb-2 cursor-pointer"
+//               onClick={() => {
+//                 setSelected(debouncedQuery);
+//                 setSelectedData({ username: debouncedQuery, full_name: debouncedQuery, profile_pic_url: 'default', is_verified: false })
+//                 // setInput(debouncedQuery)
+//                 setLoadingSpinner(false)
+//                 setShowResultModal(false);
+//               }}
+//             >
+//               <div className="p-3 text-white bg-black rounded-full bg-black-r text-white-r">
+//                 <FaUser size={14} color="white w-[46px] h-[46px]" />
+//               </div>
+//               <div className="">
+//                 <div className="">{debouncedQuery}</div>
+//                 <div className="mt-1 opacity-90 text-[.9rem]">{t("click here to select account")}</div>
+//               </div>
+//             </div>}
 
-            {searchedAccounts?.map(account => {
-              return <div key={account?.pk}>
-                <div>
-                  <div className="cursor-pointer hover:bg-[#c4c4c4]/20 py-5 px-[30px] flex items-center justify-between" onClick={() => {
-                    setDebouncedQuery(account?.username)
-                    setSelected(account?.username);
-                    setSelectedData({ username: account.username, full_name: account.full_name, profile_pic_url: account.profile_pic_url, is_verified: account.is_verified })
-                    // setInput(data?.username)
-                    setLoadingSpinner(false)
-                    setShowResultModal(false);
-                  }}>
-                    <div className="flex items-center">
-                      <img
-                        alt=""
-                        className="w-[46px] h-[46px] bg-[#c4c4c4] rounded-full mr-[12px]"
-                        src={account?.profile_pic_url}
-                      />
-                      <div className="flex flex-col">
-                        <div className="flex items-center">
-                          <div className="text-base font-medium text-black-r ">
-                            {account?.full_name}
-                          </div>
-                          {account?.is_verified && <MdVerified
-                            className="ml-[5px] w-[18px] h-[18px]"
-                            color="#458EFF"
-                            size={18}
-                          />}
-                        </div>
-                        <div className="text-[#757575] text-base font-semibold ">
-                          @{account?.username}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            })}
-          </div>
-        </div>
+//             {searchedAccounts?.map(account => {
+//               return <div key={account?.pk}>
+//                 <div>
+//                   <div className="cursor-pointer hover:bg-[#c4c4c4]/20 py-5 px-[30px] flex items-center justify-between" onClick={() => {
+//                     setDebouncedQuery(account?.username)
+//                     setSelected(account?.username);
+//                     setSelectedData({ username: account.username, full_name: account.full_name, profile_pic_url: account.profile_pic_url, is_verified: account.is_verified })
+//                     // setInput(data?.username)
+//                     setLoadingSpinner(false)
+//                     setShowResultModal(false);
+//                   }}>
+//                     <div className="flex items-center">
+//                       <img
+//                         alt=""
+//                         className="w-[46px] h-[46px] bg-[#c4c4c4] rounded-full mr-[12px]"
+//                         src={account?.profile_pic_url}
+//                       />
+//                       <div className="flex flex-col">
+//                         <div className="flex items-center">
+//                           <div className="text-base font-medium text-black-r ">
+//                             {account?.full_name}
+//                           </div>
+//                           {account?.is_verified && <MdVerified
+//                             className="ml-[5px] w-[18px] h-[18px]"
+//                             color="#458EFF"
+//                             size={18}
+//                           />}
+//                         </div>
+//                         <div className="text-[#757575] text-base font-semibold ">
+//                           @{account?.username}
+//                         </div>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             })}
+//           </div>
+//         </div>
 
-        <button
-          className={`${selected ? "button-gradient" : "bg-[#333]"} text-white font-medium text-base mt-7 absolute bottom-0  w-full rounded-[10px] h-[52px] max-h-[52px] border-none cursor-pointer`}
-          // disabled={selected ? true : false}
-          style={{ transition: 'background-color .15s ease-in' }}
-          onClick={() => add()}
-        >
-          {processing ? <span className="animate-pulse">{t("Processing")}…</span> : t(buttonText)}
-        </button>
-      </div>
-    </div>
-  </>)
-}
+//         <button
+//           className={`${selected ? "button-gradient" : "bg-[#333]"} text-white font-medium text-base mt-7 absolute bottom-0  w-full rounded-[10px] h-[52px] max-h-[52px] border-none cursor-pointer`}
+//           // disabled={selected ? true : false}
+//           style={{ transition: 'background-color .15s ease-in' }}
+//           onClick={() => add()}
+//         >
+//           {processing ? <span className="animate-pulse">{t("Processing")}…</span> : t(buttonText)}
+//         </button>
+//       </div>
+//     </div>
+//   </>)
+// }
 
 const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
   const [confirm, setConfirm] = useState({ title: '', description: '' })
@@ -1300,7 +1301,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
           </button>
         </div>
 
-        <div className="hidden lg:block">
+        {/* <div className="hidden lg:block">
           <AddOthers
             pageProp={pageProp}
             userId={userId}
@@ -1309,7 +1310,7 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             setAddSuccess={setAddSuccess}
             t={t}
           />
-        </div>
+        </div> */}
       </div>
     </div>
 
@@ -1525,7 +1526,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
           </button>
         </div>
 
-        <div className="hidden lg:block">
+        {/* <div className="hidden lg:block">
           <AddOthers
             pageProp={pageProp}
             userId={userId}
@@ -1534,7 +1535,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
             setAddSuccess={setAddSuccess}
             t={t}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   </>)
