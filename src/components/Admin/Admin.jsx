@@ -132,7 +132,7 @@ export default function Admin() {
             }
 
             profile_pic_url ? console.log(` profile picture for ${username} has been uploaded`) : console.log(` profile picture for ${username} was not uploaded`);
-            // todo: create user profile
+            // create user profile
             const { error } = await supabase
               .from("users")
               .upsert({

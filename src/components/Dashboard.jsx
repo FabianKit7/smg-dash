@@ -1119,9 +1119,9 @@ const OtherUsers = ({ account, addSuccess, setAddSuccess, from, t }) => {
         {countDays(account?.created_at, t)}
       </div>
       <div className="w-[4%] md:w-[4%] ml-2 md:ml-0 flex items-center justify-end">
-        <FaTrash className="cursor-pointer" onClick={async () => {
+      {/* <FaTrash className="cursor-pointer" onClick={async () => {
           setConfirm({ title: "Delete account", description: `Do you want to remove ${account.account}?` })
-        }} />
+        }} /> */}
       </div>
     </div>
   </>)
