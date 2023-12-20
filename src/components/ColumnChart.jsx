@@ -5,8 +5,8 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function ColumnChart({ type, sessionsData, days }) {
-  const [followersData, setFollowersData] = useState([])
-  const [categories, setCategories] = useState([])
+  const [followersData, setFollowersData] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   // useEffect(() => {
   //   let followersData = []
@@ -26,12 +26,55 @@ export default function ColumnChart({ type, sessionsData, days }) {
   //   setFollowersData(followersData)
 
   // }, [sessionsData, days, type])
-  
+
   useEffect(() => {
+    // Function to merge objects based on the same day of start_time
+    function mergeObjectsByDay(data) {
+      const mergedData = data.reduce((acc, obj) => {
+        const day = obj.start_time.split(" ")[0]; // Extracting the day portion from start_time
+
+        if (!acc[day]) {
+          acc[day] = { ...obj }; // Create a new entry for the day
+        } else {
+          acc[day] = { ...acc[day], ...obj }; // Merge the properties if day entry exists
+        }
+
+        return acc;
+      }, {});
+
+      return Object.values(mergedData);
+    }
+
+    function mergeObjectsByDayWithTotalInteractions(data) {
+      const mergedData = data.reduce((acc, obj) => {
+        const day = obj.start_time.split(" ")[0]; // Extracting the day portion from start_time
+
+        if (!acc[day]) {
+          acc[day] = { ...obj }; // Create a new entry for the day
+        } else {
+          // Merge the properties if day entry exists
+          acc[day] = {
+            ...acc[day],
+            total_interactions:
+              (acc[day].total_interactions || 0) + obj.total_interactions,
+          };
+        }
+
+        return acc;
+      }, {});
+      return Object.values(mergedData);
+    }
+
     let followersData = [];
     let categories = [];
-    sessionsData?.slice(-days).forEach(items => {
-      const dateParts = (items?.start_time)?.split(/[- :]/); // Split date string into parts
+    var mSessionsData = sessionsData;
+    if (type === "following") {
+      mSessionsData = mergeObjectsByDay(sessionsData);
+    } else {
+      mSessionsData = mergeObjectsByDayWithTotalInteractions(sessionsData);
+    }
+    mSessionsData?.slice(-days).forEach((items) => {
+      const dateParts = items?.start_time?.split(/[- :]/); // Split date string into parts
       // const year = parseInt(dateParts[0]);
       const month = parseInt(dateParts[1]) - 1; // Adjust month (zero-based index)
       const day = parseInt(dateParts[2]);
@@ -54,8 +97,7 @@ export default function ColumnChart({ type, sessionsData, days }) {
     setFollowersData(followersData);
   }, [sessionsData, days, type]);
 
-
-  var colors = ["#dbc8be"]
+  var colors = ["#dbc8be"];
 
   var options = {
     // series: [{
@@ -73,21 +115,21 @@ export default function ColumnChart({ type, sessionsData, days }) {
     colors: colors,
     plotOptions: {
       bar: {
-        columnWidth: '45%',
+        columnWidth: "45%",
         distributed: true,
-      }
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     legend: {
-      show: false
+      show: false,
     },
     grid: {
       xaxis: {
         lines: {
-          show: true
-        }
+          show: true,
+        },
       },
       show: true,
       padding: {
@@ -109,13 +151,13 @@ export default function ColumnChart({ type, sessionsData, days }) {
     },
     yaxis: {
       axisTicks: {
-        show: true
+        show: true,
       },
       labels: {
         offsetX: -15,
         offsetY: 0,
         formatter: function (val, index) {
-          return val.toLocaleString('en-US', { maximumFractionDigits: 2 });
+          return val.toLocaleString("en-US", { maximumFractionDigits: 2 });
         },
       },
     },
@@ -145,12 +187,13 @@ export default function ColumnChart({ type, sessionsData, days }) {
         <div className="md:px-3">
           <Chart
             options={options}
-
-            series={[{
-              name: type === "total_interactions" ? "Interactions" : "Following",
-              data: followersData
-            }]}
-
+            series={[
+              {
+                name:
+                  type === "total_interactions" ? "Interactions" : "Following",
+                data: followersData,
+              },
+            ]}
             type="bar"
             height="400"
           />
