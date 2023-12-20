@@ -1291,12 +1291,12 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
         </div>
 
         <div className="flex items-center w-full gap-2 mt-4 lg:hidden">
-          <button className={`button-gradient text-white font-medium text-base  w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
+          <button className={`hidden button-gradient text-white font-medium text-base  w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
             {t("Add New Source")}
           </button>
-          <button className="button-gradient w-fit text-white font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
+          <button className="button-gradient w-full text-white font-bold  text-[12px] lg:text-[16px] flex items-center justify-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             <img alt="" className="" src="/ic_filters.svg" />
           </button>
         </div>
@@ -1519,7 +1519,7 @@ const WhiteListCompt = ({ user, userId, setMobileAdd, t }) => {
         </div>
 
         <div className="flex items-center w-full gap-2 my-4 lg:hidden">
-          <button className={`button-gradient text-white font-medium text-base  w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
+          <button className={`hidden button-gradient text-white font-medium text-base  w-full rounded-[10px] h-[50px] max-h-[50px] border-none cursor-pointer`}
             onClick={() => setMobileAdd({ show: true, pageProp })}
           >
             {t(`${pageProp.title} Account`)}
