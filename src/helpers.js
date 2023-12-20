@@ -21,9 +21,8 @@ export const numFormatter = (num = 0) => {
   }
 }
 
-export const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+// export const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const monthNames = ["Januar"," Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
 const months = [
   { month: "Jan", days: 31 },

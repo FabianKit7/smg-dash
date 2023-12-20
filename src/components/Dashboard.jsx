@@ -62,7 +62,9 @@ export default function Dashboard() {
 
       if (!data || !data.length > 0) {
         setIsModalOpen(true);
-        setErrorMsg({ title: '404', message: "User not found!" })
+        setErrorMsg({ title: '404', message: `Account (noch) nicht gefunden!
+        Bei Neukunden kann es einige Zeit dauern, bis das Wachstum verfügbar ist.
+        Sollte dein Link nicht funktionieren, kontaktiere bitte unser Technik-Team unter premium@socialmediagains.com` })
 
         setTimeout(() => {
           return navigate('/search');
@@ -212,7 +214,9 @@ export default function Dashboard() {
       isOpen={isModalOpen}
       onClose={() => {
         setIsModalOpen(false)
-        if (errorMsg?.message === "User not found!") {
+        if (errorMsg?.message === `Account (noch) nicht gefunden!
+        Bei Neukunden kann es einige Zeit dauern, bis das Wachstum verfügbar ist.
+        Sollte dein Link nicht funktionieren, kontaktiere bitte unser Technik-Team unter premium@socialmediagains.com`) {
           navigate('/search')
         }
 
