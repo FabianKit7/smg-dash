@@ -47,19 +47,89 @@ export default function ColumnChart({ type, sessionsData, days }) {
 
     function mergeObjectsByDayWithTotalInteractions(data) {
       const mergedData = data.reduce((acc, obj) => {
+        // console.log("dfsdata");
+        // console.log(data, '\n');
+
+        console.log("acc, obj");
+        console.log(acc, obj, "\n");
         const day = obj.start_time.split(" ")[0]; // Extracting the day portion from start_time
+        console.log(day, "\n");
 
         if (!acc[day]) {
           acc[day] = { ...obj }; // Create a new entry for the day
         } else {
           // Merge the properties if day entry exists
+          // console.log('acc', acc[day], '\n');
+          // console.log('obj', obj, '\n');
+
+          const gsgx =
+            (acc[day].total_interactions || 0) + obj.total_interactions;
+          // console.log(gsgx);
+          const gsg1 = (acc[day].total_followed || 0) + obj.total_followed;
+          const gsg2 = (acc[day].total_likes || 0) + obj.total_likes;
+          const gsg3 = (acc[day].total_comments || 0) + obj.total_comments;
+          const gsg4 = (acc[day].total_pm || 0) + obj.total_pm;
+          const gsg5 = (acc[day].total_watched || 0) + obj.total_watched;
+          const gsg6 = (acc[day].total_unfollowed || 0) + obj.total_unfollowed;
+          const gsg = gsg1 + gsg2 + gsg3 + gsg4 + gsg5 + gsg6;
+          acc[day] = {
+            ...acc[day],
+            total_interactions: gsgx,
+          };
+        }
+
+        return acc;
+      }, {});
+      return Object.values(mergedData);
+    }
+
+    function mergeObjectsByDayWithTotalInteractions2(data) {
+      const mergedData = data.reduce((acc, obj) => {
+        const day = obj.start_time.split(" ")[0]; // Extracting the day portion from start_time
+        // day === "2024-01-01" && console.log(day);
+        // day === "2024-01-01" && console.log("acc, obj");
+        // day === "2024-01-01" && console.log(acc, obj);
+
+        if (!acc[day]) {
+          acc[day] = { ...obj }; // Create a new entry for the day
+        } else {
+          // Merge the properties if day entry exists
+          // day === "2024-01-01" && console.log("acc", acc[day], "\n");
+          // day === "2024-01-01" && console.log("obj", obj, "\n");
+
+          // const gsgx =
+          //   (acc[day].total_interactions || 0) + obj.total_interactions;
+          // // day==='2024-01-01' && console.log(gsgx);
+          // const gsg1 = (acc[day].total_followed || 0) + obj.total_followed;
+          // const gsg2 = (acc[day].total_likes || 0) + obj.total_likes;
+          // const gsg3 = (acc[day].total_comments || 0) + obj.total_comments;
+          // const gsg4 = (acc[day].total_pm || 0) + obj.total_pm;
+          // const gsg5 = (acc[day].total_watched || 0) + obj.total_watched;
+          // const gsg6 = (acc[day].total_unfollowed || 0) + obj.total_unfollowed;
+          // const gsg = gsg1 + gsg2 + gsg3 + gsg4 + gsg5 + gsg6;
+
           acc[day] = {
             ...acc[day],
             total_interactions:
               (acc[day].total_interactions || 0) + obj.total_interactions,
+            total_followed: (acc[day].total_followed || 0) + obj.total_followed,
+            total_likes: (acc[day].total_likes || 0) + obj.total_likes,
+            total_comments: (acc[day].total_comments || 0) + obj.total_comments,
+            total_pm: (acc[day].total_pm || 0) + obj.total_pm,
+            total_watched: (acc[day].total_watched || 0) + obj.total_watched,
+            total_unfollowed:
+              (acc[day].total_unfollowed || 0) + obj.total_unfollowed,
           };
+          // day === "2024-01-01" && console.log("__");
+          // day === "2024-01-01" && console.log("semi_final acc");
+          // day === "2024-01-01" && console.log(acc);
+          // day === "2024-01-01" && console.log("__");
         }
-
+        // day === "2024-01-01" && console.log("final acc");
+        // day === "2024-01-01" && console.log(acc);
+        // day === "2024-01-01" && console.log(" =====");
+        // day === "2024-01-01" && console.log(" =====");
+        // day === "2024-01-01" && console.log(" =====");
         return acc;
       }, {});
       return Object.values(mergedData);
@@ -71,7 +141,7 @@ export default function ColumnChart({ type, sessionsData, days }) {
     if (type === "following") {
       mSessionsData = mergeObjectsByDay(sessionsData);
     } else {
-      mSessionsData = mergeObjectsByDayWithTotalInteractions(sessionsData);
+      mSessionsData = mergeObjectsByDayWithTotalInteractions2(sessionsData);
     }
     mSessionsData?.slice(-days).forEach((items) => {
       const dateParts = items?.start_time?.split(/[- :]/); // Split date string into parts
@@ -86,7 +156,14 @@ export default function ColumnChart({ type, sessionsData, days }) {
 
       let followerValue;
       if (type === "total_interactions") {
-        followerValue = items.total_interactions;
+        // followerValue = items.total_interactions;
+        followerValue =
+          items.total_followed +
+          items.total_likes +
+          items.total_comments +
+          items.total_pm +
+          items.total_watched +
+          items.total_unfollowed;
       } else {
         followerValue = items.profile[type];
       }
