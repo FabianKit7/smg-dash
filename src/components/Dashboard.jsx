@@ -67,7 +67,8 @@ export default function Dashboard() {
         Sollte dein Link nicht funktionieren, kontaktiere bitte unser Technik-Team unter premium@socialmediagains.com` })
 
         setTimeout(() => {
-          return navigate('/search');
+          // return navigate('/search');
+          return window.location = 'https://www.socialmediagains.com';
         }, 5000);
         return;
       }
@@ -217,7 +218,11 @@ export default function Dashboard() {
         if (errorMsg?.message === `Account (noch) nicht gefunden!
         Bei Neukunden kann es einige Zeit dauern, bis das Wachstum verfügbar ist.
         Sollte dein Link nicht funktionieren, kontaktiere bitte unser Technik-Team unter premium@socialmediagains.com`) {
-          navigate('/search')
+          // navigate('/search')
+          setTimeout(() => {
+            // return navigate('/search');
+            return window.location = 'https://www.socialmediagains.com';
+          }, 5000);
         }
 
         if (errorMsg?.message === "Please finish your registration") {
@@ -292,7 +297,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-[52px] h-[52px] rounded-[10px] flex items-center justify-center cursor-pointer bg-[#333]"
+              {/* <div className="w-[52px] h-[52px] rounded-[10px] flex items-center justify-center cursor-pointer bg-[#333]"
                 onClick={() => setIsOpen(true)}
               >
                 <img
@@ -302,7 +307,7 @@ export default function Dashboard() {
                   width="31px"
                   height="31px"
                 />
-              </div>
+              </div> */}
 
               <div ref={destopDateRageRef} className="hidden lg:block relative rounded-[10px] bg-black-r text-white-r bg-[#333] text-white text-lg font-bold">
                 <div
@@ -699,7 +704,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="lg:hidden w-[32px] h-[32px] rounded-[10px] flex items-center justify-center cursor-pointer bg-black"
+              {/* <div className="lg:hidden w-[32px] h-[32px] rounded-[10px] flex items-center justify-center cursor-pointer bg-black"
                 onClick={() => setIsOpen(true)}
               >
                 <img
@@ -709,7 +714,7 @@ export default function Dashboard() {
                   width="19px"
                   height="19px"
                 />
-              </div>
+              </div> */}
             </div>
 
             <Starts user={userData} chart={chart} setChart={setChart} totalInteractions={totalInteractions} t={t} />
@@ -1222,10 +1227,10 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
             </span>
           </div>
 
-          <button className="button-gradient text-black font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
+          {/* <button className="button-gradient text-black font-bold  text-[12px] lg:text-[16px] flex items-center px-6 rounded-[10px] h-[52px] min-h-[52px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             {t('Targeting Filters')}
             <img alt="" className="ml-2" src="/ic_filters.svg" />
-          </button>
+          </button> */}
         </div>
 
         <div className="lg:hidden mt-[30px] mb-[12px]">
@@ -1300,9 +1305,9 @@ const TargetingCompt = ({ user, setMobileAdd, t }) => {
           >
             {t("Add New Source")}
           </button>
-          <button className="button-gradient w-full text-white font-bold  text-[12px] lg:text-[16px] flex items-center justify-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
+          {/* <button className="button-gradient w-full text-white font-bold  text-[12px] lg:text-[16px] flex items-center justify-center px-6 rounded-[10px] h-[50px] min-h-[50px] border-none cursor-pointer" onClick={() => setFilterModal(true)}>
             <img alt="" className="" src="/ic_filters.svg" />
-          </button>
+          </button> */}
         </div>
 
         {/* <div className="hidden lg:block">

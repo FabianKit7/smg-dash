@@ -406,7 +406,8 @@ export default function Subscriptions() {
                     window.onbeforeunload = function () {
                       localStorage.clear();
                     };
-                    window.location.pathname = '/search';
+                    // window.location.pathname = '/search';
+                    window.location.pathname = '/';
                   }}
                 >
                   <MdLogout size={22} /> <span className="">{t("Logout")}</span>
