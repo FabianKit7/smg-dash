@@ -305,8 +305,8 @@ export default function Dashboard() {
         ).innerHTML = `<p class="text-green-700">Welcome back, @${data?.username}!</p>`;
         const jwtToken = generateToken();
         localStorage.setItem("jwt", jwtToken);
-        // const expirationTime = 24 * 60 * 60 * 1000;
-        const expirationTime = 1 * 60 * 1000; // 1 minute in milliseconds
+        const expirationTime = 24 * 60 * 60 * 1000;
+        // const expirationTime = 1 * 60 * 1000; // 1 minute in milliseconds
         localStorage.setItem("jwtExpiration", Date.now() + expirationTime);
         setTimeout(() => {
           window.location.reload();
