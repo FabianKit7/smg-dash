@@ -66,7 +66,7 @@ function App() {
     <>
       {/* <div className="max-w-[1600px] mx-auto p-5 "> */}
 
-      <div className={`${addPadding ? 'p-5 max-w-[1400px] mx-auto' : 'p-0'}  bg-white text-black font-poppins`}>
+      <div className={`${addPadding ? 'max-w-[1400px] mx-auto' : ''}  bg-white text-black font-poppins`}>
         {/* <nav>slkdfjl</nav> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
