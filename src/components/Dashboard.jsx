@@ -70,23 +70,23 @@ export default function Dashboard() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const jwtExpiration = localStorage.getItem("jwtExpiration");
+    // const jwtExpiration = localStorage.getItem("jwtExpiration");
     const jwtToken = localStorage.getItem("jwt");
-    if (!jwtToken || !jwtExpiration) {
+    if (!jwtToken) {
       // Token is not present or expiration timestamp is not present
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("jwtExpiration");
+      // localStorage.removeItem("jwt");
+      // localStorage.removeItem("jwtExpiration");
       setIsAuth(false);
       return;
     }
-    const expirationTime = parseInt(jwtExpiration, 10);
-    if (isNaN(expirationTime) || Date.now() >= expirationTime) {
-      // Token is expired or expiration timestamp is not a valid number
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("jwtExpiration");
-      setIsAuth(false);
-      return;
-    }
+    // const expirationTime = parseInt(jwtExpiration, 10);
+    // if (isNaN(expirationTime) || Date.now() >= expirationTime) {
+    //   // Token is expired or expiration timestamp is not a valid number
+    //   localStorage.removeItem("jwt");
+    //   localStorage.removeItem("jwtExpiration");
+    //   setIsAuth(false);
+    //   return;
+    // }
     if (jwtToken) {
       setIsAuth(true);
       return;
@@ -305,9 +305,9 @@ export default function Dashboard() {
         ).innerHTML = `<p class="text-green-700">Welcome back, @${data?.username}!</p>`;
         const jwtToken = generateToken();
         localStorage.setItem("jwt", jwtToken);
-        const expirationTime = 7 * 24 * 60 * 60 * 1000; //7 days
+        // const expirationTime = 7 * 24 * 60 * 60 * 1000; //7 days
         // const expirationTime = 1 * 60 * 1000; // 1 minute in milliseconds
-        localStorage.setItem("jwtExpiration", Date.now() + expirationTime);
+        // localStorage.setItem("jwtExpiration", Date.now() + expirationTime);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
