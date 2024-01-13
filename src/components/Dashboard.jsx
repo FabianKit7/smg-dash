@@ -324,8 +324,8 @@ export default function Dashboard() {
   if (!isAuth) {
     return (
       <>
-        <div className="fixed w-full h-screen bg-[#f9f9f9] grid place-items-center">
-          <div className="w-full max-w-[700px] h-fit py-10 px-5 md:py-20 md:px-20 rounded-[15px] shadow-2xl bg-white text-base md:text-xl">
+        <div className="fixed top-0 left-0 w-screen h-screen bg-[#f9f9f9] grid place-items-center">
+          <div className="w-full max-w-[700px] mx-auto h-fit py-10 px-5 md:py-20 md:px-20 rounded-[15px] shadow-2xl bg-white text-base md:text-xl">
             <div className="flex items-center justify-center">
               <img
                 src="/Socialmediagains-Logo-r.png"
